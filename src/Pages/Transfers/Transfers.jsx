@@ -129,7 +129,10 @@ export const Transfers = () => {
 
                                 <Stack w={'75%'}>
                                     <Text>Amount</Text>
-                                    <Input bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Enter amount" _placeholder={{fontSize: '16px', color: '#667085'}}></Input>
+                                    <InputGroup>
+                                        <InputLeftElement pointerEvents='none' color='#667085' fontSize='16px'><TbCurrencyNaira /></InputLeftElement>
+                                        <Input bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Enter amount" _placeholder={{fontSize: '16px', color: '#667085'}} />
+                                    </InputGroup>
                                 </Stack>
 
                                 <HStack w={'75%'} justifyContent={'space-between'}>

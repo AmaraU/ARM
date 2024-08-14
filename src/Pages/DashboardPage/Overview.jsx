@@ -1,26 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Stack, Grid, GridItem, Text, Box, Button, HStack, Circle, Divider } from "@chakra-ui/react";
-import { BiShow, BiHide } from "react-icons/bi";
+import { Stack, Grid, GridItem, Text, Box, Button, HStack, Circle, Flex, Divider } from "@chakra-ui/react";
+import { BiShow, BiHide, BiCopy } from "react-icons/bi";
 import { TbCurrencyNaira } from "react-icons/tb";
 import styles from "./Overview.module.css";
 import { getImageUrl } from "../../../utils";
 
 export const Overview = () => {
 
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [totalBalanceVisible, setTotalBalanceVisible] = useState(true);
-    const [ display, setDisplay ] = useState('flex')
+    const [ showComplete, setShowComplete ] = useState(true);
+    const [ infoPopup, setInfoPopup ] = useState(false);
 
-    function closeComplete() {
-        setDisplay('none');
-    }
-
-    const hideBalance = () => {
-        return "****************";
-    }
-
-    const handleToggleVisibility = () => {
-        setTotalBalanceVisible(!totalBalanceVisible);
-    }
 
     const transactions = [
         {
@@ -73,33 +64,24 @@ export const Overview = () => {
         }
     ]
 
-    const delay = 2500;
-    const [index, setIndex] = useState(0);
-    const timeoutRef = useRef(null);
+    const currentItem = accounts[currentIndex];
 
-    function resetTimeout() {
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
+
+    function closeComplete() {
+        setShowComplete(false);
     }
 
-    useEffect(() => {
-        resetTimeout();
-        timeoutRef.current = setTimeout(
-            () =>
-                setIndex(prevIndex =>
-                    prevIndex === accounts.length - 1 ? 0 : prevIndex + 1
-                ),
-            delay
-        );
+    function infoPop() {
+        setInfoPopup(false);
+    }
 
-        return () => {
-            resetTimeout();
-        };
-    }, [index]);
+    const hideBalance = () => {
+        return "****************";
+    }
 
-
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const handleToggleVisibility = () => {
+        setTotalBalanceVisible(!totalBalanceVisible);
+    }
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % accounts.length);
@@ -109,7 +91,12 @@ export const Overview = () => {
         setCurrentIndex((prevIndex) => (prevIndex - 1 + accounts.length) % accounts.length);
     };
 
-    const currentItem = accounts[currentIndex];
+    function copyToClipboard() {
+        navigator.clipboard.writeText(currentItem.number);
+    };
+
+
+
 
 
 
@@ -120,48 +107,71 @@ export const Overview = () => {
 
                 <Text fontSize={'24px'} fontWeight={700} color={'#101828'} mb={'4px'} >Good Morning, Adeola Obasanjo</Text>
 
-                <HStack className={styles.complete} id='complete' display={display} justifyContent={'space-between'} backgroundColor={'#EFDAE3'} borderRadius={'12px'} px={'23px'} py={'11px'}>
+                {showComplete && <HStack className={styles.complete} id='complete' display={'flex'} justifyContent={'space-between'} backgroundColor={'#EFDAE3'} borderRadius={'12px'} px={'23px'} py={'11px'}>
                     <Box>
                         <Text fontSize={'18px'} fontWeight={700} color={'#A41857'}>Complete Your Account Setup</Text>
                         <Text fontSize={'12px'} fontWeight={400} color={'#A41857'}>You need to complete your account setup to enjoy more services</Text>
                         <Button fontSize={'12px'} fontWeight={700} color={'#A41857'} padding={0} gap={'4px'} bg={'transparent'} _hover={{bg: 'transparent'}}>Complete Now <img src={getImageUrl("icons/redRightArrow.png")} /></Button>
                     </Box>
-                    <Button alignSelf={'start'} bg={'transparent'} _hover={{bg: 'transparent'}} p={0}><img src={getImageUrl('icons/redClose.png')} alt="X" onClick={closeComplete} /></Button>
-                </HStack>
+                    <Button alignSelf={'start'} bg={'transparent'} _hover={{bg: 'transparent'}} p={0} onClick={() => setShowComplete(false)}><img src={getImageUrl('icons/redClose.png')} alt="X" /></Button>
+                </HStack>}
                             
+                <Flex flexDirection={'column'} alignItems={'center'} justifyItems={'center'} backgroundColor={'#000000'} backgroundImage={getImageUrl('backgroundGrey.png')} bgSize={'100% 100%'} borderRadius={'12px'} px={'11px'} py={'40px'}>
+                    <HStack w={'100%'} justifyContent={'space-between'}>
+                
+                        <Button onClick={handlePrevious} pointerEvents={currentIndex === 0 ? 'none' : ''} p={0} borderRadius={'75px'} bg={'#2C323A'} _hover={{bg: '#2C323A'}}><img className={styles.arrow} src={getImageUrl('icons/whiteLeftAngle.png')} /></Button>
+
+                        <HStack justifyContent={'space-between'} w={'100%'} px={'8px'}>
+                            <Box>
+                                <Text fontSize={'18px'} fontWeight={400} color={'#FFFFFF'}>Total Available Balance</Text>
+                                <HStack ml={"-5px"} spacing={0} alignItems={'center'} mb={'12px'}>
+                                    <Box fontSize={"36px"} color={"#FFFFFF"}><TbCurrencyNaira /></Box>
+                                    <Text fontSize={"32px"} fontWeight={600} color={"#FFFFFF"}>{totalBalanceVisible ? currentItem.balance : hideBalance()}</Text>
+                                    <Box borderRadius={'500px'} bg={'#2F2F30'} ml={'8px'} p={'4px'} cursor={"pointer"}>
+                                        { !totalBalanceVisible && <BiShow fontSize={"lg"} color={"#667085"} onClick={handleToggleVisibility} /> }
+                                        { totalBalanceVisible && <BiHide fontSize={"lg"} color={"#667085"} onClick={handleToggleVisibility} /> }
+                                    </Box>
+                                </HStack>
+
+                                <Text fontSize={'14px'} fontWeight={400} color={'#FFFFFF'}>Account Number</Text>
+                                <HStack spacing={0} alignItems={'center'} mb={'12px'}>
+                                    <Text fontSize={'20px'} fontWeight={700} color={'#FFFFFF'}>{currentItem.number}</Text>
+                                    <Box borderRadius={'500px'} bg={'#2F2F30'} ml={'8px'} p={'5px'} cursor={"pointer"} onClick={copyToClipboard}><img className={styles.copy} src={getImageUrl('icons/copy.png')} /></Box>
+                                </HStack>
+                            </Box>
+
+                            <Box alignSelf={'start'} >
+                                <Box w={'fit-content'} borderRadius={'36px'} px={'12px'} py={'8px'} bg={'#2C323A'} color={'#FFFFFF'} fontSize={'12px'} fontWeight={500} cursor={'pointer'} onClick={() => setInfoPopup(true)}>{currentItem.type}</Box>
+                                {infoPopup && <Box className={styles.theBox}>
+                                    <div className={styles.header}>
+                                        <h3>{currentItem.type}</h3>
+                                        <img onClick={infoPop} src={getImageUrl('icons/greyClose.png')} />
+                                    </div>
+                                    <Divider />
+                                    <Box py={'18px'} px={'24px'}>
+                                        <Box className={styles.limitInfo} bg={'#F7F7F7'} borderRadius={'4px'} border={'1px solid #EAECF0'} p={'9px'} >
+                                            <h4>TRANSACTION LIMIT</h4>
+                                            <div className={styles.info}><img src={getImageUrl('icons/orangeTick.png')} />Maximum amount for to spend per transaction - <span>N100,000</span></div>
+                                            <div className={styles.info}><img src={getImageUrl('icons/orangeTick.png')} />Maximum amount for to receive per transaction - <span>N50,000</span></div>
+                                            <div className={styles.info}><img src={getImageUrl('icons/orangeTick.png')} />Total amount to spend per day - <span>N300,000</span></div>
+                                            <div className={styles.info}><img src={getImageUrl('icons/orangeTick.png')} />Total amount to receive per day - <span>N300,000</span></div>
+                                            <div className={styles.info}><img src={getImageUrl('icons/orangeTick.png')} />Balance limit - <span>N300,000</span></div>
+                                        </Box>
+                                    </Box>
+                                </Box>}
+                            </Box>
                             
-                <HStack backgroundColor={'#000000'} backgroundImage={getImageUrl('backgroundGrey.png')} bgSize={'100% 100%'} borderRadius={'12px'} px={'11px'} py={'40px'} justifyContent={'space-between'}>
-            
-                    <Button onClick={handlePrevious} isDisabled={currentIndex === 0} borderRadius={'75px'} bg={'#2C323A'} _hover={{bg: '#2C323A'}}><img src={getImageUrl('icons/whiteLeftAngle.png')} /></Button>
-
-                    <HStack justifyContent={'space-between'} w={'100%'} px={'8px'}>
-                        <Box>
-                            <Text fontSize={'18px'} fontWeight={400} color={'#FFFFFF'}>Total Available Balance</Text>
-                            <HStack ml={"-1px"} spacing={0}>
-                                <Box fontSize={"36px"} color={"#FFFFFF"}><TbCurrencyNaira /></Box>
-                                <Text fontSize={"32px"} fontWeight={600} color={"#FFFFFF"}>{totalBalanceVisible ? currentItem.balance : hideBalance()}</Text>
-                                <Box pl={3} cursor={"pointer"}>
-                                    { totalBalanceVisible && <BiShow fontSize={"lg"} color={"#FFFFFF"} onClick={handleToggleVisibility} /> }
-                                    { !totalBalanceVisible && <BiHide fontSize={"lg"} color={"#FFFFFF"} onClick={handleToggleVisibility} /> }
-                                </Box>
-                            </HStack>
-
-                            <Text fontSize={'14px'} fontWeight={400} color={'#FFFFFF'}>Account Number</Text>
-                            <Text fontSize={'20px'} fontWeight={700} color={'#FFFFFF'}>{currentItem.number}</Text>
-                        </Box>
-
-                        <Box bg={'#2C323A'} borderRadius={'12px'} p={'8px'} alignSelf={'end'} mb={'-12px'} display={'flex'} gap={'4px'}>
-                            {accounts.map((_, idx) => (
-                                <Box key={idx} borderRadius={'500px'} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} w={'8px'} h={'8px'}></Box>
-                                // <Box key={idx} className={`${styles.slideDot} ${index === idx ? styles.active : ""}`} onClick={() => setIndex(idx)}></Box>
-                            ))}
-                        </Box>
-
-                        <Box alignSelf={'start'} borderRadius={'36px'} px={'12px'} py={'8px'} bg={'#2C323A'} color={'#FFFFFF'} fontSize={'12px'} fontWeight={500}>{currentItem.type}</Box>
+                        </HStack>
+                        
+                        <Button onClick={handleNext} pointerEvents={currentIndex === accounts.length - 1 ? 'none' : ''} p={0} borderRadius={'75px'} bg={'#2C323A'} _hover={{bg: '#2C323A'}}><img className={styles.arrow} src={getImageUrl('icons/whiteRightAngle.png')} /></Button>
                     </HStack>
-                    
-                    <Button onClick={handleNext} isDisabled={currentIndex === accounts.length - 1} borderRadius={'75px'} bg={'#2C323A'} _hover={{bg: '#2C323A'}}><img src={getImageUrl('icons/whiteRightAngle.png')} /></Button>
-                </HStack>
+
+                    <Box w={'fit-content'} bg={'#2C323A'} borderRadius={'12px'} p={'8px'} mb={'-12px'} display={'flex'} gap={'4px'}>
+                        {accounts.map((_, idx) => (
+                            <Box key={idx} borderRadius={'500px'} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} w={'8px'} h={'8px'}></Box>
+                        ))}
+                    </Box>
+                </Flex>
 
 
                 <Grid gridTemplateColumns={{ lg: "1fr 1fr", md: "auto" }} gap={"24px"}>
@@ -179,9 +189,9 @@ export const Overview = () => {
                         </Box>
 
                         <Box className={styles.advert} mt={'24px'} p={'30px'}>
-                            <Box bg={'#2C323A'} fontSize={'6px'} fontWeight={600} color={'#FFFFFF'} w={'fit-content'} py={'4px'} px={'6px'} borderRadius={'19px'} >Investments</Box>
-                            <Text lineHeight={'33px'} w={'60%'} fontSize={'32px'} fontWeight={700} color={'#FFFFFF'}>Best in Market Investments!</Text>
-                            <Text w={'60%'} fontSize={'12px'} fontWeight={400} color={'#FFFFFF'}>We have the best investments for everyone</Text>
+                            <Box bg={'#2C323A'} fontSize={'6px'} fontWeight={600} color={'#FFFFFF'} w={'fit-content'} py={'4px'} px={'6px'} borderRadius={'19px'} mb={'5px'}>Investments</Box>
+                            <Text lineHeight={'33px'} w={'60%'} fontSize={'32px'} fontWeight={700} color={'#FFFFFF'} mb={'5px'}>Best in Market Investments!</Text>
+                            <Text w={'60%'} fontSize={'12px'} fontWeight={400} color={'#FFFFFF'} mb={'24px'}>We have the best investments for everyone</Text>
                             <img className={styles.dotss} src={getImageUrl('dotss.png')} alt="" />
                         </Box>
                     </GridItem>
