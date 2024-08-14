@@ -1,0 +1,10 @@
+
+.withNav {
+    display: flex;
+    justify-content: space-between;
+}
+
+Input:focus,
+Select:focus {
+    border-color: aliceblue;
+}

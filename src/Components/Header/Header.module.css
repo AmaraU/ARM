@@ -1,0 +1,49 @@
+.header,
+.widerHeader {
+    height: 70px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    background: #FFF;
+    z-index: 10;
+}
+
+
+
+.whole {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    padding: 18px 40px;
+    align-items: center;
+    border-bottom: 1px solid #EAECF0;
+    justify-content: right;
+    margin-left: 272px;
+}
+
+.whole .buttons {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-right: 28px;
+}
+.whole .buttons img {
+    width: 24px;
+    height: 24px;
+}
+
+.whole .profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-left: 1px solid #EAECF0;
+    padding-left: 28px;
+    color: #101828;
+    font-size: 14px;
+}
+.whole .profile img {
+    width: 32px;
+    height: 32px;
+}

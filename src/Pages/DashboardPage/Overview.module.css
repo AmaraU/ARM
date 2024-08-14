@@ -1,0 +1,50 @@
+.whole {
+    padding: 38px 44px;
+    margin-top: 70px;
+    margin-left: 272px;
+}
+
+Button img {
+    width: 24px;
+    height: 24px;
+}
+
+.complete {
+    background-image: url('assets/arrowSquiggle.png'), url('assets/whiteRoof.png');
+    background-size: 20% auto, 25% auto;
+    background-repeat: no-repeat;
+    background-position: bottom right 20%, bottom right 45%;
+}
+
+
+.slideshowDot {
+    display: inline-block;
+    height: 9px;
+    width: 60px;
+    border-radius: 24px;
+    cursor: pointer;
+    margin: 15px 7px 0px;
+    background-color: #E8E8E8;
+    margin-top: 97px;
+    margin-bottom: 50px;
+}
+
+.slideshowDot.active {
+    background-color: #211F54;
+}
+
+.credDeb {
+    width: 32px;
+    height: 32px;
+}
+
+.advert {
+    /* background: linear-gradient(270deg, rgba(12, 17, 29, 0) 0%, #0C111D 100%); */
+    background-image: url('assets/advertImage.png');
+    background-size: 100% 100%;
+    border-radius: 16px;
+}
+.advert img {
+    width: 10%;
+    height: 50%;
+}
