@@ -47,23 +47,31 @@ export default function Signin() {
 
 
 
+    const backgrounds = [
+        'url(assets/signin1.png)',
+        'url(assets/signin2.png)',
+        'url(assets/signin3.png)',
+        'url(assets/signin4.png)'
+    ];
 
-    function changingBg() {
+    var current = 0;
+    var background = document.getElementById("changing-image");
 
-        const backgrounds = [
-            'url(assets/signin1.png)',
-            'url(assets/signin2.png)',
-            'url(assets/signin3.png)',
-            'url(assets/signin4.png)'
-        ];
-
-        var background = document.getElementById("changing-image");
-
-        const bg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-
+    function changingBackground() {
+        current++;
+        current = current % backgrounds.length;
+        // const bg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        const bg = backgrounds[current];
         background.style.backgroundImage = bg;
+
+        // setTimeout(changingBg, 100000);
+
+
     }
-    setInterval(changingBg, 1000);
+    // setTimeout(changingBg, 100000);
+    setInterval(changingBackground, 10000);
+    // background.style.backgroundImage = ;
+
     
 
     return (
