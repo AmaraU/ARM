@@ -15,11 +15,13 @@ import {
     TabList,
     Tab,
     TabPanels,
-    TabPanel
+    TabPanel,
+    HStack,
+    Select
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import EmailValidator from "email-validator";
 import { getImageUrl } from '../../../utils';
 import styles from './Onboarding.module.css';
@@ -39,45 +41,55 @@ export default function Signin() {
         else {
             setEmailIsError(false);
         }
+        // changingBackground();
     }, [email]);
 
     const processForm = async (e) => {
         console.log("Processed");
+        Navigate('/overview');
     }
 
 
 
-    const backgrounds = [
-        'url(assets/signin1.png)',
-        'url(assets/signin2.png)',
-        'url(assets/signin3.png)',
-        'url(assets/signin4.png)'
+    const changingText = [
+        {
+            image: 'assets/signin1.png',
+            header: "Bank smarter, live better with ARM MFB",
+            subheading: "Managing your money is what we do and we are really good at it."
+        },
+        {
+            image: 'assets/signin2.png',
+            header: "Manage your money anywhere, anytime",
+            subheading: "Gain access to your account with a tap"
+        },
+        {
+            image: 'assets/signin3.png',
+            header: "Stay on top of your money",
+            subheading: "ARM MFB provides you the ability to maintain control over your finances"
+        }
     ];
+    const [ currentIndex, setCurrentIndex ] = useState(0);
+    const [ visible, setVisible ] = useState(true);
 
-    var current = 0;
-    var background = document.getElementById("changing-image");
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setVisible(false);
+            
+            setTimeout(() => {
+                setCurrentIndex((prevIndex) => (prevIndex + 1) % changingText.length);
+                setVisible(true);
+            }, 1000);
+        }, 10000);
 
-    function changingBackground() {
-        current++;
-        current = current % backgrounds.length;
-        // const bg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-        const bg = backgrounds[current];
-        background.style.backgroundImage = bg;
-
-        // setTimeout(changingBg, 100000);
-
-
-    }
-    // setTimeout(changingBg, 100000);
-    setInterval(changingBackground, 10000);
-    // background.style.backgroundImage = ;
+        return () => clearInterval(interval);
+    }, []);
 
     
 
     return (
         <Stack className={styles.whole} minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
 
-            <div id='changing-image' className={styles.image} >
+            <div className={styles.image} style={{backgroundImage: `url(${changingText[currentIndex].image})`}} >
                 <Flex className={styles.image} p={'50px'} display={{ base: 'none', md: 'flex' }} flex={'40%'} background={'linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)'} backgroundSize={'100% 100%'} borderRadius={'0 56px 56px 0'}>
                     <Stack spacing={10}>
                         <Box p={8} as='button' onClick={() => navigate('/')}>
@@ -85,11 +97,18 @@ export default function Signin() {
                         </Box>
                         
                         <Flex flexDirection={'column'} gap={'12px'} h={'100%'} justifyContent={'end'} mb={'24px'}>
-                            <Text fontSize={"40px"} fontWeight={700} color={'white'} w={'90%'}>Bank smarter, live better with ARM MFB</Text>
-                            <Text fontSize={"16px"} color={'white'} w={'90%'}>Managing your money is what we do and we are really good at it.</Text>
+                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={"40px"} fontWeight={700} color={'white'} w={'90%'}>{changingText[currentIndex].header}</Text>
+                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={"16px"} color={'white'} w={'90%'}>{changingText[currentIndex].subheading}</Text>
+
+                            <Flex gap={'4px'}>
+                                {changingText.map((_, idx) => (
+                                    <Box key={idx} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} className='circle' borderRadius={'500px'} w={idx === currentIndex ? '28px' : '8px'} h={'8px'}></Box>
+                                ))}
+                            </Flex>
+
                             <Flex mt={24} bottom={'20%'} alignItems={'center'} justifyContent={'space-between'}>
                                 <Text fontSize={"14px"} color={'#EFECE9'}>© 2024 ARM MFB by ARM Group. All rights reserved.</Text>
-                                <Text fontSize={"14px"} color={'#EFECE9'}>Help Center</Text>
+                                <Text fontSize={"14px"} color={'#EFECE9'} cursor={'pointer'} _hover={{textDecoration: 'underline'}}>Help Center</Text>
                             </Flex>
                         </Flex>
                     </Stack>
@@ -160,10 +179,14 @@ export default function Signin() {
                         
                         <TabPanel>
                             <Stack spacing={'16px'} w={{ base: 'md', md: 'lg' }} maxW={'lg'} as='form' onSubmit={processForm}>
-                                <FormControl isInvalid={emailIsError} isRequired>
+                                <FormControl isRequired>
                                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Phone Number</FormLabel>
-                                    <Input type='text' placeholder='Enter your phone number' _placeholder={{ fontSize: "sm" }} value={email} onChange={(e) => setEmail(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
-                                    {emailIsError && <FormErrorMessage>Please enter a valid email address.</FormErrorMessage>}
+                                    <HStack spacing={2}>
+                                        <Select flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
+                                            <option value="">+234 (NG)</option>
+                                        </Select>
+                                        <Input type='tel' placeholder='Enter your phone number' _placeholder={{ fontSize: "sm" }} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                                    </HStack>
                                 </FormControl>
                                 <FormControl isRequired>
                                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Password</FormLabel>

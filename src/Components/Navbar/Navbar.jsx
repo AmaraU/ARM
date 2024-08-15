@@ -10,7 +10,7 @@ export const Navbar = () => {
     <div className={styles.theWhole}>
 
       <div className={styles.logo} >
-          <a href="/overview"><img src={getImageUrl("logos/arm_logo.png")} alt="ARM" /></a>
+        <a href="/overview"><img src={getImageUrl("logos/arm_logo.png")} alt="ARM" /></a>
       </div>
 
       <div className={styles.linkList}>

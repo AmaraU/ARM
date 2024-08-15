@@ -8,6 +8,7 @@ import { DashboardLayout } from './Pages/DashboardLayout';
 import { Overview } from './Pages/DashboardPage/Overview';
 import { BlankPage } from './Pages/BlankPage';
 import { Transfers } from './Pages/Transfers/Transfers';
+import { VerifyNumber } from './Pages/Onboarding/VerifyNumber';
 
 
 
@@ -17,14 +18,13 @@ function App() {
     { path: '/', element: <Navigate to='overview' /> },
     { path: '/signin', element: <Signin /> },
     { path: '/signup', element: <Signup /> },
+    { path: '/verify-number', element: <VerifyNumber /> },
     {
       path: '/overview', element: <DashboardLayout />,
       children: [
 
         { path: '/overview', element: <Navigate to="dashboard" /> },
         { path: 'dashboard', element: <Overview /> },
-        { path: 'signin', element: <Signin /> },
-        { path: 'signup', element: <Signup /> },
         { path: 'transfers', element: <Transfers /> },
         { path: 'airtime', element: <BlankPage /> },
         { path: 'loans', element: <BlankPage /> },

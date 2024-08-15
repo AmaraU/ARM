@@ -107,8 +107,8 @@ export const Overview = () => {
 
                 <Text fontSize={'24px'} fontWeight={700} color={'#101828'} mb={'4px'} >Good Morning, Adeola Obasanjo</Text>
 
-                {showComplete && <Box id='complete' backgroundColor={'#EFDAE3'} borderRadius={'12px'} backgroundImage={getImageUrl('whiteRoof.png')} bgSize={'25% auto'} bgRepeat={'no-repeat'} backgroundPosition={'bottom right 45%'}>
-                    <HStack display={'flex'} justifyContent={'space-between'} backgroundImage={getImageUrl('arrowSquiggle.png')} bgSize={'20% auto'} bgRepeat={'no-repeat'} backgroundPosition={'bottom right 20%'} px={'23px'} py={'11px'}>
+                {showComplete && <Box id='complete' backgroundColor={'#EFDAE3'} borderRadius={'12px'} backgroundImage={getImageUrl('whiteRoof.png')} bgSize={'25% auto'} bgRepeat={'no-repeat'} backgroundPosition={'bottom right 200px'}>
+                    <HStack display={'flex'} justifyContent={'space-between'} backgroundImage={getImageUrl('arrowSquiggle.png')} bgSize={'20% auto'} bgRepeat={'no-repeat'} backgroundPosition={'bottom right 80px'} px={'23px'} py={'11px'}>
                         <Box>
                             <Text fontSize={'18px'} fontWeight={700} color={'#A41857'}>Complete Your Account Setup</Text>
                             <Text fontSize={'12px'} fontWeight={400} color={'#A41857'}>You need to complete your account setup to enjoy more services</Text>
