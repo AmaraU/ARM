@@ -14,19 +14,24 @@ import { Transfers } from './Pages/Transfers/Transfers';
 function App() {
 
   const router = createBrowserRouter([
-    // { path: '/', element: <Signin /> },
-    // { path: '/signin', element: <Signin /> },
-    // { path: '/signup', element: <Signup /> },
+    { path: '/', element: <Signin /> },
+    { path: '/signin', element: <Signin /> },
+    { path: '/signup', element: <Signup /> },
     {
-      path: '/', element: <DashboardLayout />,
+      path: '/overview', element: <DashboardLayout />,
       children: [
 
-        { path: '/', element: <Navigate to="dashboard" /> },
+        { path: '/overview', element: <Navigate to="dashboard" /> },
         { path: 'dashboard', element: <Overview /> },
         { path: 'signin', element: <Signin /> },
         { path: 'signup', element: <Signup /> },
         { path: 'transfers', element: <Transfers /> },
         { path: 'airtime', element: <BlankPage /> },
+        { path: 'loans', element: <BlankPage /> },
+        { path: 'savings', element: <BlankPage /> },
+        { path: 'cards', element: <BlankPage /> },
+        { path: 'accounts', element: <BlankPage /> },
+        { path: 'profile', element: <BlankPage /> }
       ]
     },
   ]);

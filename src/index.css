@@ -1,6 +1,27 @@
 @font-face {
-  font-family: 'WorkSans';
-  src: url('../fonts/Work-Sans/WorkSans-VariableFont_wght.ttf');
+  font-family: 'FixelText';
+  src: url('../fonts/FixelAll/FixelVariable/FixelVariable.ttf');
   font-weight: normal;
   font-style: normal;
+}
+
+/* @font-face {
+  font-family: 'FixelText';
+  src: url('../fonts/FixelAll/FixelText/FixelText-SemiBold.woff2');
+  font-weight: 500;
+  font-style: normal;
+} */
+
+@font-face {
+  font-family: 'FixelText';
+  src: url('../fonts/FixelAll/FixelDisplay/FixelDisplay-Bold.woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'FixelText', Arial, Helvetica, sans-serif;
 }

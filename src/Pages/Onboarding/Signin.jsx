@@ -10,7 +10,12 @@ import {
     InputRightElement,
     FormErrorMessage,
     Text,
-    Box
+    Box,
+    Tabs,
+    TabList,
+    Tab,
+    TabPanels,
+    TabPanel
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
@@ -24,8 +29,6 @@ export default function Signin() {
     const [isLoading, setIsloading] = useState(false);
     const [password, setPassword] = useState();
     const [email, setEmail] = useState("");
-    const [remember, setRemember] = useState(false);
-    const [btnText, setBtnText] = useState("Sign in");
     const [emailIsError, setEmailIsError] = useState(false);
     const navigate = useNavigate();
 
@@ -42,100 +45,164 @@ export default function Signin() {
         console.log("Processed");
     }
 
+
+
+
+    function changingBg() {
+
+        const backgrounds = [
+            'url(assets/signin1.png)',
+            'url(assets/signin2.png)',
+            'url(assets/signin3.png)',
+            'url(assets/signin4.png)'
+        ];
+
+        var background = document.getElementById("changing-image");
+
+        const bg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+
+        background.style.backgroundImage = bg;
+    }
+    setInterval(changingBg, 1000);
     
 
     return (
         <Stack className={styles.whole} minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
-            <Flex display={{ base: 'none', md: 'flex' }} flex={{ base: 1.5, '2xl': 1 }} bg={"linear-gradient(180deg, #D2042D 0%, #210101 61%)"}>
-                <Stack spacing={10}>
-                    <Box p={8} as='button' onClick={() => navigate('/')}>
-                        <Image src={getImageUrl("logos/allWhiteLogo.png")} w={"200px"} />
-                    </Box>
-                    <Text pl={8} fontSize={"28px"} color={'white'} w={'90%'}>
-                        The ultimate financial management solution. Seize control, gain insightful data.
-                    </Text>
-                    <Box objectFit={'contain'} pt={2}>
-                        <Image
-                            alt={'Dashboard image'}
-                            src={getImageUrl('dashboard.png')}
-                            w={'80%'} h={'auto'}
-                        />
-                    </Box>
-                </Stack>
-            </Flex>
 
-            <Flex flex={{ base: 0.8, md: 3 }} display={'flex'} flexDirection={'column'} p={'24px'}>
-                
-                <Stack direction={'row'}  display={'flex'} justifyContent={'space-between'} w={'100%'} top={0} position={'relative'}>
-                    <a href="/"><h3>Back <b>Home</b></h3></a>
-                    <h3>No Account Yet? <a href="/signup">Sign Up</a></h3>
-                </Stack>
-
-                <Flex align={'center'} justify={'center'} mt={24}>
-                    
+            <div id='changing-image' className={styles.image} >
+                <Flex className={styles.image} p={'50px'} display={{ base: 'none', md: 'flex' }} flex={'40%'} background={'linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)'} backgroundSize={'100% 100%'} borderRadius={'0 56px 56px 0'}>
                     <Stack spacing={10}>
-                        <Stack align={'center'}>
-                            <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight={700} color={'#343434'}>Log in to your account</Text>
-                        </Stack>
-                        <Stack spacing={5} w={{ base: 'md', md: 'lg' }} maxW={'lg'} as='form' onSubmit={processForm}>
-                            <FormControl isInvalid={emailIsError} isRequired>
-                                <FormLabel>Work Email</FormLabel>
-                                <Input type='text' placeholder='Enter your work email' _placeholder={{ fontSize: "sm" }} value={email} onChange={(e) => setEmail(e.target.value)} border={'2px solid #CFCFCF'} />
-                                {emailIsError && <FormErrorMessage>Please enter a valid email address.</FormErrorMessage>}
-                            </FormControl>
-                            <FormControl isRequired>
-                                <FormLabel>Password</FormLabel>
-                                <InputGroup>
-                                    <Input placeholder='Enter your password' _placeholder={{ fontSize: "sm" }} type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} border={'2px solid #CFCFCF'} />
-                                    <InputRightElement h={'full'}>
-                                        <Button
-                                            variant={'ghost'}
-                                            onClick={() =>
-                                                setShowPassword((showPassword) => !showPassword)
-                                            }>
-                                            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                                        </Button>
-                                    </InputRightElement>
-                                </InputGroup>
-                            </FormControl>
-
-                            <div className={styles.rememberForgot}>
-                                <div className={styles.remember}>
-                                    <input type="checkbox" name="remember"  value={remember} onChange={e => setRemember(e.target.value)} />
-                                    <label htmlFor="remember">Remember Me</label>
-                                </div>
-
-                                <a href='/forgot-password' style={{color:'#D2042D', fontSize: "14px",  fontWeight: 500}} _hover={{textDecor: 'underline',}}>Forgot Password?</a>
-                            </div>
-
-                            <Stack pt={4}>
-                                <Button
-                                    disabled={isLoading}
-                                    isLoading={isLoading}
-                                    rounded={620}
-                                    py={'26px'}
-                                    px={'16px'}
-                                    type="submit"
-                                    size="md"
-                                    bg={'#0E0E0E'}
-                                    color={'white'}
-                                    _hover={{
-                                        bg: '#0E0E0ECC',
-                                    }}>
-                                    {btnText}
-                                </Button>
-                            </Stack>
-                            <Stack pt={1} direction={'row'} justify={'center'} spacing={1} fontWeight={500}>
-                                <Text fontSize={'18px'} color={"#626262"}>
-                                    Forgot your password?
-                                </Text>
-                                <Text color={'#626262'} fontSize={'18px'} fontWeight={700} textDecor={'underline'}>
-                                    <Link to='/signup'>Request Reset</Link>
-                                </Text>
-                            </Stack>
-                        </Stack>
+                        <Box p={8} as='button' onClick={() => navigate('/')}>
+                            <Image src={getImageUrl("logos/arm_logo.png")} w={"140px"} h={'auto'} />
+                        </Box>
+                        
+                        <Flex flexDirection={'column'} gap={'12px'} h={'100%'} justifyContent={'end'} mb={'24px'}>
+                            <Text fontSize={"40px"} fontWeight={700} color={'white'} w={'90%'}>Bank smarter, live better with ARM MFB</Text>
+                            <Text fontSize={"16px"} color={'white'} w={'90%'}>Managing your money is what we do and we are really good at it.</Text>
+                            <Flex mt={24} bottom={'20%'} alignItems={'center'} justifyContent={'space-between'}>
+                                <Text fontSize={"14px"} color={'#EFECE9'}>© 2024 ARM MFB by ARM Group. All rights reserved.</Text>
+                                <Text fontSize={"14px"} color={'#EFECE9'}>Help Center</Text>
+                            </Flex>
+                        </Flex>
                     </Stack>
                 </Flex>
+            </div>
+
+            <Flex flex={'50%'} display={'flex'} flexDirection={'column'} py={'94px'} px={'71px'}>
+                
+                <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Welcome back 👋</Text>
+                <Text fontSize={'18px'} fontWeight={400} color={'#667085'}>Login with your email or phone number</Text>
+
+                <Tabs>
+                    <TabList borderBottom={'none'} gap={'5px'} mb={'24px'} mt={'48px'}>
+                        <Tab rounded={'50px'} fontSize={'13px'} color={'#667085'} fontWeight={500} border={'1px solid #EAECF0'} py={'12px'} px={'14px'}  _selected={{ color: '#FFFFFF', bg: '#667085', border: '1px solid transparent', boxShadow: '0px 0px 1px 0px #00000066'}}>Email address</Tab>
+                        <Tab rounded={'50px'} fontSize={'13px'} color={'#667085'} fontWeight={500} border={'1px solid #EAECF0'} py={'12px'} px={'14px'}  _selected={{ color: '#FFFFFF', bg: '#667085', border: '1px solid transparent', boxShadow: '0px 0px 1px 0px #00000066'}}>Phone number</Tab>
+                    </TabList>
+
+                    <TabPanels>
+                        <TabPanel>
+                            <Stack spacing={'16px'} w={{ base: 'md', md: 'lg' }} maxW={'lg'} as='form' onSubmit={processForm}>
+                                <FormControl isInvalid={emailIsError} isRequired>
+                                    <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Email Address</FormLabel>
+                                    <Input type='text' placeholder='Enter your work email' _placeholder={{ fontSize: "sm" }} value={email} onChange={(e) => setEmail(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                                    {emailIsError && <FormErrorMessage>Please enter a valid email address.</FormErrorMessage>}
+                                </FormControl>
+                                <FormControl isRequired>
+                                    <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Password</FormLabel>
+                                    <InputGroup>
+                                        <Input placeholder='Enter your password' _placeholder={{ fontSize: "sm" }} type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                                        <InputRightElement h={'full'}>
+                                            <Button
+                                                variant={'ghost'}
+                                                onClick={() =>
+                                                    setShowPassword((showPassword) => !showPassword)
+                                                }>
+                                                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                                            </Button>
+                                        </InputRightElement>
+                                    </InputGroup>
+                                </FormControl>
+
+                                <a className={styles.forgot} href='/forgot-password'>Forgot Password?</a>
+
+                                <Stack pt={4}>
+                                    <Button
+                                        disabled={isLoading}
+                                        isLoading={isLoading}
+                                        rounded={'8px'}
+                                        py={'26px'}
+                                        px={'16px'}
+                                        type="submit"
+                                        size="md"
+                                        bg={'#A41857'}
+                                        color={'white'}
+                                        _hover={{
+                                            bg: '#0E0E0ECC',
+                                        }}>
+                                        Continue
+                                    </Button>
+                                </Stack>
+                                <div className={styles.signUp}>
+                                    <div className={styles.line}></div>
+                                    Don't have an account? <a href="/signup">Sign up now</a>
+                                    <div className={styles.line}></div>
+                                </div>
+                            </Stack>
+                        </TabPanel>
+                        
+                        <TabPanel>
+                            <Stack spacing={'16px'} w={{ base: 'md', md: 'lg' }} maxW={'lg'} as='form' onSubmit={processForm}>
+                                <FormControl isInvalid={emailIsError} isRequired>
+                                    <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Phone Number</FormLabel>
+                                    <Input type='text' placeholder='Enter your phone number' _placeholder={{ fontSize: "sm" }} value={email} onChange={(e) => setEmail(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                                    {emailIsError && <FormErrorMessage>Please enter a valid email address.</FormErrorMessage>}
+                                </FormControl>
+                                <FormControl isRequired>
+                                    <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Password</FormLabel>
+                                    <InputGroup>
+                                        <Input placeholder='Enter your password' _placeholder={{ fontSize: "sm" }} type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                                        <InputRightElement h={'full'}>
+                                            <Button
+                                                variant={'ghost'}
+                                                _hover={'transparent'}
+                                                onClick={() =>
+                                                    setShowPassword((showPassword) => !showPassword)
+                                                }>
+                                                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                                            </Button>
+                                        </InputRightElement>
+                                    </InputGroup>
+                                </FormControl>
+
+                                <a className={styles.forgot} href='/forgot-password'>Forgot Password?</a>
+
+                                <Stack pt={4}>
+                                    <Button
+                                        disabled={isLoading}
+                                        isLoading={isLoading}
+                                        rounded={'8px'}
+                                        py={'26px'}
+                                        px={'16px'}
+                                        type="submit"
+                                        size="md"
+                                        bg={'#A41857'}
+                                        color={'white'}
+                                        _hover={{
+                                            bg: '#0E0E0ECC',
+                                        }}>
+                                        Continue
+                                    </Button>
+                                </Stack>
+                                <div className={styles.signUp}>
+                                    <div className={styles.line}></div>
+                                    Don't have an account? <a href="/signup">Sign up now</a>
+                                    <div className={styles.line}></div>
+                                </div>
+                            </Stack>
+                            
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
             </Flex>
         </Stack>
     );

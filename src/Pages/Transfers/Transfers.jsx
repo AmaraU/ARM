@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Divider, HStack, Input, Select, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, HStack, Input, InputGroup, InputLeftElement, Select, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { BiShow, BiHide } from "react-icons/bi";
 import { TbCurrencyNaira } from "react-icons/tb";
 import styles from './Transfers.module.css';
@@ -178,7 +178,3 @@ export const Transfers = () => {
         </div>
     )
 }
-
-;
-
-// box-shadow: 0px 6px 6px -6px #00000029;

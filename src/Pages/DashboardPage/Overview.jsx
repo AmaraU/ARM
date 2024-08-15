@@ -107,14 +107,16 @@ export const Overview = () => {
 
                 <Text fontSize={'24px'} fontWeight={700} color={'#101828'} mb={'4px'} >Good Morning, Adeola Obasanjo</Text>
 
-                {showComplete && <HStack className={styles.complete} id='complete' display={'flex'} justifyContent={'space-between'} backgroundColor={'#EFDAE3'} borderRadius={'12px'} px={'23px'} py={'11px'}>
-                    <Box>
-                        <Text fontSize={'18px'} fontWeight={700} color={'#A41857'}>Complete Your Account Setup</Text>
-                        <Text fontSize={'12px'} fontWeight={400} color={'#A41857'}>You need to complete your account setup to enjoy more services</Text>
-                        <Button fontSize={'12px'} fontWeight={700} color={'#A41857'} padding={0} gap={'4px'} bg={'transparent'} _hover={{bg: 'transparent'}}>Complete Now <img src={getImageUrl("icons/redRightArrow.png")} /></Button>
-                    </Box>
-                    <Button alignSelf={'start'} bg={'transparent'} _hover={{bg: 'transparent'}} p={0} onClick={() => setShowComplete(false)}><img src={getImageUrl('icons/redClose.png')} alt="X" /></Button>
-                </HStack>}
+                {showComplete && <Box id='complete' backgroundColor={'#EFDAE3'} borderRadius={'12px'} backgroundImage={getImageUrl('whiteRoof.png')} bgSize={'25% auto'} bgRepeat={'no-repeat'} backgroundPosition={'bottom right 45%'}>
+                    <HStack display={'flex'} justifyContent={'space-between'} backgroundImage={getImageUrl('arrowSquiggle.png')} bgSize={'20% auto'} bgRepeat={'no-repeat'} backgroundPosition={'bottom right 20%'} px={'23px'} py={'11px'}>
+                        <Box>
+                            <Text fontSize={'18px'} fontWeight={700} color={'#A41857'}>Complete Your Account Setup</Text>
+                            <Text fontSize={'12px'} fontWeight={400} color={'#A41857'}>You need to complete your account setup to enjoy more services</Text>
+                            <Button fontSize={'12px'} fontWeight={700} color={'#A41857'} padding={0} gap={'4px'} bg={'transparent'} _hover={{bg: 'transparent'}}>Complete Now <img src={getImageUrl("icons/redRightArrow.png")} /></Button>
+                        </Box>
+                        <Button alignSelf={'start'} bg={'transparent'} _hover={{bg: 'transparent'}} p={0} onClick={() => setShowComplete(false)}><img src={getImageUrl('icons/redClose.png')} alt="X" /></Button>
+                    </HStack>
+                </Box>}
                             
                 <Flex flexDirection={'column'} alignItems={'center'} justifyItems={'center'} backgroundColor={'#000000'} backgroundImage={getImageUrl('backgroundGrey.png')} bgSize={'100% 100%'} borderRadius={'12px'} px={'11px'} py={'40px'}>
                     <HStack w={'100%'} justifyContent={'space-between'}>
@@ -124,9 +126,9 @@ export const Overview = () => {
                         <HStack justifyContent={'space-between'} w={'100%'} px={'8px'}>
                             <Box>
                                 <Text fontSize={'18px'} fontWeight={400} color={'#FFFFFF'}>Total Available Balance</Text>
-                                <HStack ml={"-5px"} spacing={0} alignItems={'center'} mb={'12px'}>
-                                    <Box fontSize={"36px"} color={"#FFFFFF"}><TbCurrencyNaira /></Box>
-                                    <Text fontSize={"32px"} fontWeight={600} color={"#FFFFFF"}>{totalBalanceVisible ? currentItem.balance : hideBalance()}</Text>
+                                <HStack ml={"-5px"} spacing={1} alignItems={'center'} mb={'12px'}>
+                                    <Box fontSize={"36px"} fontWeight={500} color={"#FFFFFF"}>₦</Box>
+                                    <Text fontSize={"32px"} fontWeight={700} color={"#FFFFFF"}>{totalBalanceVisible ? currentItem.balance : hideBalance()}</Text>
                                     <Box borderRadius={'500px'} bg={'#2F2F30'} ml={'8px'} p={'4px'} cursor={"pointer"}>
                                         { !totalBalanceVisible && <BiShow fontSize={"lg"} color={"#667085"} onClick={handleToggleVisibility} /> }
                                         { totalBalanceVisible && <BiHide fontSize={"lg"} color={"#667085"} onClick={handleToggleVisibility} /> }
@@ -168,7 +170,7 @@ export const Overview = () => {
 
                     <Box w={'fit-content'} bg={'#2C323A'} borderRadius={'12px'} p={'8px'} mb={'-12px'} display={'flex'} gap={'4px'}>
                         {accounts.map((_, idx) => (
-                            <Box key={idx} borderRadius={'500px'} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} w={'8px'} h={'8px'}></Box>
+                            <Box key={idx} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} cursor={'pointer'} onClick={() => setCurrentIndex(idx)} borderRadius={'500px'} w={'8px'} h={'8px'}></Box>
                         ))}
                     </Box>
                 </Flex>
@@ -188,13 +190,14 @@ export const Overview = () => {
                             </Box>
                         </Box>
 
-                        <Box className={styles.advert} mt={'24px'} p={'30px'}>
+                        <Box p={'30px'} mt={'24px'} bgImage={getImageUrl('advertImage.png')} backgroundSize={'100% 100%'} borderRadius={'16px'}>
                             <Box bg={'#2C323A'} fontSize={'6px'} fontWeight={600} color={'#FFFFFF'} w={'fit-content'} py={'4px'} px={'6px'} borderRadius={'19px'} mb={'5px'}>Investments</Box>
                             <Text lineHeight={'33px'} w={'60%'} fontSize={'32px'} fontWeight={700} color={'#FFFFFF'} mb={'5px'}>Best in Market Investments!</Text>
                             <Text w={'60%'} fontSize={'12px'} fontWeight={400} color={'#FFFFFF'} mb={'24px'}>We have the best investments for everyone</Text>
                             <img className={styles.dotss} src={getImageUrl('dotss.png')} alt="" />
                         </Box>
                     </GridItem>
+                    
                     <GridItem colSpan={1}>
                         <Box>
                             <HStack mb={'12px'} justifyContent={'space-between'}>
