@@ -14,7 +14,7 @@ import { Transfers } from './Pages/Transfers/Transfers';
 function App() {
 
   const router = createBrowserRouter([
-    { path: '/', element: <Navigate to='dashboard' /> },
+    { path: '/', element: <Navigate to='overview' /> },
     { path: '/signin', element: <Signin /> },
     { path: '/signup', element: <Signup /> },
     {
