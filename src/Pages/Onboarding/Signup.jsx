@@ -32,17 +32,17 @@ export default function Signin() {
 
     const changingText = [
         {
-            image: 'assets/signin1.png',
+            image: 'signin1.png',
             header: "Bank smarter, live better with ARM MFB",
             subheading: "Managing your money is what we do and we are really good at it."
         },
         {
-            image: 'assets/signin2.png',
+            image: 'signin2.png',
             header: "Manage your money anywhere, anytime",
             subheading: "Gain access to your account with a tap"
         },
         {
-            image: 'assets/signin3.png',
+            image: 'signin3.png',
             header: "Stay on top of your money",
             subheading: "ARM MFB provides you the ability to maintain control over your finances"
         }
@@ -76,7 +76,7 @@ export default function Signin() {
         <>
         <Stack className={styles.whole} minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
 
-            <div className={styles.image} style={{backgroundImage: `url(${changingText[currentIndex].image})`}} >
+            <Flex className={styles.image} bgImage={getImageUrl(`${changingText[currentIndex].image}`)} >
                 <Flex className={styles.image} p={'50px'} display={{ base: 'none', md: 'flex' }} flex={'40%'} background={'linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)'} backgroundSize={'100% 100%'} borderRadius={'0 56px 56px 0'}>
                     <Stack spacing={10}>
                         <Box p={8} as='button' onClick={() => navigate('/')}>
@@ -100,7 +100,7 @@ export default function Signin() {
                         </Flex>
                     </Stack>
                 </Flex>
-            </div>
+            </Flex>
 
             <Flex flex={'50%'} display={'flex'} flexDirection={'column'} py={'94px'} px={'71px'}>
                 
