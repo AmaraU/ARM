@@ -1,0 +1,90 @@
+.theWhole {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.webcam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.close {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    z-index: 3;
+    background-color: #F3F4F6;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 4px;
+}
+.close img {
+    width: 24px;
+    height: 24px;
+
+}
+
+.text {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.frame {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 454px;
+    height: 454px;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.snap {
+    border: none;
+    background-color: transparent;
+}
+.snap img {
+    width: 68px;
+    height: 68px;
+}
+
+
+.thePic {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}

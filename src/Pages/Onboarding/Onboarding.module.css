@@ -44,3 +44,78 @@
 .forgot:hover {
     text-decoration: underline;
 }
+
+.percentage {
+    border: 3.5px solid #A41857;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    color: #000000;
+    font-size: 9px;
+    font-weight: 700;
+    align-items: center;
+    background: #667085;
+}
+
+.percentage::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background-color: rgb(255, 255, 255);
+    clip-path: polygon(0% 0%, 10% 0%, 50% 50%, 10% 100%, 0% 100%);
+}
+    
+.percentage::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(255, 255, 0);
+    border-radius: 50%;
+}
+
+.circle-wrap {
+    margin: 50px auto;
+    width: 150px;
+    height: 150px;
+    background: #e6e2e7;
+    border-radius: 50%;
+}
+
+.circle-wrap .circle .mask,
+.circle-wrap .circle .fill {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  border-radius: 50%;
+}
+.circle-wrap .circle .mask {
+    clip: rect(0px, 150px, 150px, 75px);
+}
+
+@keyframes fill {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(126deg);
+    }
+}
+
+.circle-wrap .inside-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: #fff;
+    line-height: 130px;
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 10px;
+    position: absolute;
+    z-index: 100;
+    font-weight: 700;
+    font-size: 2em;
+}

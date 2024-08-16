@@ -3,13 +3,18 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 import Signin from './Pages/Onboarding/Signin';
 import Signup from './Pages/Onboarding/Signup';
+import { VerifyNumber } from './Pages/Onboarding/VerifyNumber';
+import { TakeSelfie } from './Pages/Onboarding/TakeSelfie';
+import { ConfirmSelfie } from './Pages/Onboarding/ConfirmSelfie';
 
 import { DashboardLayout } from './Pages/DashboardLayout';
 import { Overview } from './Pages/DashboardPage/Overview';
-import { BlankPage } from './Pages/BlankPage';
 import { Transfers } from './Pages/Transfers/Transfers';
-import { VerifyNumber } from './Pages/Onboarding/VerifyNumber';
 
+import { BlankPage } from './Pages/BlankPage';
+import { UserInfo } from './Pages/Onboarding/UserInfo';
+import { CreateProfile } from './Pages/Onboarding/CreateProfile';
+import { Welcome } from './Pages/Onboarding/Welcome';
 
 
 function App() {
@@ -19,6 +24,11 @@ function App() {
     { path: '/signin', element: <Signin /> },
     { path: '/signup', element: <Signup /> },
     { path: '/verify-number', element: <VerifyNumber /> },
+    { path: '/capture', element: <TakeSelfie /> },
+    { path: '/confirm-picture', element: <ConfirmSelfie /> },
+    { path: '/user-info', element: <UserInfo /> },
+    { path: '/create-profile', element: <CreateProfile /> },
+    { path: '/welcome', element: <Welcome /> },
     {
       path: '/overview', element: <DashboardLayout />,
       children: [

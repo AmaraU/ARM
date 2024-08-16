@@ -1,11 +1,17 @@
-import { Box, Button, Flex, HStack, Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Input, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { getImageUrl } from "../../../utils";
+import { useNavigate } from "react-router-dom";
+import { VerifyIdentity } from "./VerifyIdentity";
+
 
 export const VerifyNumber = () => {
 
     const [ timeLeft, setTimeLeft ] = useState(30);
     const [ isFiled, setIsFilled ] = useState(false);
+    const navigate = useNavigate();
+    const { isOpen: isOpenConfirm, onOpen: onOpenConfirm, onClose: onCloseConfirm } = useDisclosure();
+
 
     useEffect(() => {
         const inputs = document.querySelectorAll("#password");
@@ -77,12 +83,17 @@ export const VerifyNumber = () => {
         }
     }, [timeLeft]);
 
+    const handleVerifyPopup = () => {
+        onOpenConfirm();
+    }
+
     
     return (
+        <>
         <Stack alignItems={'center'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
             <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
-                <img src={getImageUrl('icons/blackBack.png')} alt="" />
+                <a href='/signin'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
                 <Box>60%</Box>
             </Flex>
             <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Verify your phone number</Text>
@@ -100,11 +111,14 @@ export const VerifyNumber = () => {
                 </HStack>
                 <Text fontSize={'14px'} fontWeight={400} color={'#394455'}>Didn't receive OTP?</Text>
                 <HStack spacing={3}>
-                    <Text fontSize={'16px'} fontWeight={500} color={'#DB9308'}>00:{timeLeft}</Text>
-                    <Text fontSize={'16px'} fontWeight={600} color={'#667085'}>Resend</Text>
+                    <Text fontSize={'16px'} fontWeight={500} color={'#DB9308'}>00:{timeLeft < 10 ? `0` : ``}{timeLeft}</Text>
+                    <Text cursor={timeLeft === 0 ? 'pointer': ''} onClick={timeLeft === 0 ? ()=>setTimeLeft(30) : ''} fontSize={'16px'} fontWeight={600} color={timeLeft === 0 ? '#667085' : '#EAECF0'}>Resend</Text>
                 </HStack>
             </Stack>
-            <Button isDisabled={isFiled ? false : true} id="continue" bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'12px'} w={'100%'}>Continue</Button>
+            <Button onClick={handleVerifyPopup} isDisabled={isFiled ? false : true} id="continue" bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'12px'} w={'100%'}>Continue</Button>
         </Stack>
+
+        <VerifyIdentity isOpen={isOpenConfirm} onClose={onCloseConfirm} />
+        </>
     )
 }

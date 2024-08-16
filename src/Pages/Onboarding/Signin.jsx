@@ -27,11 +27,11 @@ import { getImageUrl } from '../../../utils';
 import styles from './Onboarding.module.css';
 
 export default function Signin() {
-    const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsloading] = useState(false);
-    const [password, setPassword] = useState();
-    const [email, setEmail] = useState("");
-    const [emailIsError, setEmailIsError] = useState(false);
+    const [ showPassword, setShowPassword ] = useState(false);
+    const [ isLoading, setIsloading ] = useState(false);
+    const [ password, setPassword ] = useState();
+    const [ email, setEmail ] = useState("");
+    const [ emailIsError, setEmailIsError ] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
