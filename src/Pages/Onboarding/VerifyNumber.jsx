@@ -4,41 +4,35 @@ import { getImageUrl } from "../../../utils";
 
 export const VerifyNumber = () => {
 
-    const [timeLeft, setTimeLeft] = useState(30);
+    const [ timeLeft, setTimeLeft ] = useState(30);
+    const [ isFiled, setIsFilled ] = useState(false);
 
     useEffect(() => {
-
-        var theinputs = document.querySelectorAll("#password");
-        theinputs.forEach((input) => {
-            input.value="";
-            input.setAttribute("disabled", true);
-        })
-        theinputs[0].removeAttribute("disabled");
-
-
         const inputs = document.querySelectorAll("#password");
         const button = document.querySelector("#continue");
 
-        console.log(inputs);
-        console.log(button);
-
+        inputs.forEach((input) => {
+            input.value = "";
+            input.setAttribute("disabled", true);
+        });
+        inputs[0].removeAttribute("disabled");
+    
         inputs.forEach((input, index1) => {
             input.addEventListener("keyup", (e) => {
                 const currentInput = input,
-                nextInput = input.nextElementSibling,
-                previousInput = input.previousElementSibling;
-
+                    nextInput = input.nextElementSibling,
+                    previousInput = input.previousElementSibling;
+    
                 if (currentInput.value.length > 1) {
                     currentInput.value = "";
                     return;
                 }
-
+    
                 if (nextInput && nextInput.hasAttribute("disabled") && currentInput.value !== "") {
                     nextInput.removeAttribute("disabled");
                     nextInput.focus();
                 }
-
-
+    
                 if (e.key === "Backspace") {
                     inputs.forEach((input, index2) => {
                         if (index1 <= index2 && previousInput) {
@@ -49,17 +43,28 @@ export const VerifyNumber = () => {
                         }
                     });
                 }
+    
+                if (!inputs[5].disabled && inputs[5].value !== "") {
+                    setIsFilled(true);
+                    console.log(isFiled);
 
-                if (!inputs[5].disabled && !inputs[5].value == "") {
-                    button.classList.add(`${styles.active}`);
                     return;
                 }
-                button.classList.remove(`${styles.active}`);
+                setIsFilled(false);
+                console.log(isFiled);
             });
         });
-
+    
         window.addEventListener("load", () => inputs[0].focus());
-    })
+    
+        return () => {
+            inputs.forEach((input) => {
+                input.removeEventListener("keyup", () => {});
+            });
+            window.removeEventListener("load", () => {});
+        };
+    }, []);
+        
 
     useEffect(() => {
         if (timeLeft > 0) {
@@ -99,19 +104,7 @@ export const VerifyNumber = () => {
                     <Text fontSize={'16px'} fontWeight={600} color={'#667085'}>Resend</Text>
                 </HStack>
             </Stack>
-            <Button id="continue" bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'12px'} w={'100%'}>Continue</Button>
+            <Button isDisabled={isFiled ? false : true} id="continue" bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'12px'} w={'100%'}>Continue</Button>
         </Stack>
     )
 }
-
-// <div className={styles.theModal} id="popup">
-
-//             <form className={styles.modalForm} action="">
-                
-
-//                 <a className={styles.resend} href="">Resend code now</a>
-
-//             </form>
-
-//             <a className={styles.button} id="continue" onClick={() => toggleOff()} href="">Continue</a>            
-//         </div>
