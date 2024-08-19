@@ -24,6 +24,12 @@ export default function Signin() {
     const { isOpen: isOpenConfirm, onOpen: onOpenConfirm, onClose: onCloseConfirm } = useDisclosure();
     const [isLoading, setIsloading] = useState(false);
     const [email, setEmail] = useState("");
+    const [ currentIndex, setCurrentIndex ] = useState(0);
+    const [ questOne, setQuestOne ] = useState(false);
+    const [ questTwo, setQuestTwo ] = useState(false);
+    const [ visible, setVisible ] = useState(true);
+    const [ isBVN, setIsBVN ] = useState(true);
+    const [ text, setText ] = useState('BVN');
     const navigate = useNavigate();
 
     const processForm = async (e) => {
@@ -47,8 +53,6 @@ export default function Signin() {
             subheading: "ARM MFB provides you the ability to maintain control over your finances"
         }
     ];
-    const [ currentIndex, setCurrentIndex ] = useState(0);
-    const [ visible, setVisible ] = useState(true);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -63,11 +67,13 @@ export default function Signin() {
         return () => clearInterval(interval);
     }, []);
 
-    const [ questOne, setQuestOne ] = useState(false);
-    const [ questTwo, setQuestTwo ] = useState(false);
-
     const handleConfirmNumber = () => {
         onOpenConfirm();
+    }
+
+    const changeOver = () => {
+        setIsBVN(false);
+        setText('NIN');
     }
 
     
@@ -89,7 +95,7 @@ export default function Signin() {
 
                             <Flex gap={'4px'}>
                                 {changingText.map((_, idx) => (
-                                    <Box key={idx} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} className='circle' borderRadius={'500px'} w={idx === currentIndex ? '28px' : '8px'} h={'8px'}></Box>
+                                    <Box cursor={'pointer'} onClick={()=>setCurrentIndex(idx)} key={idx} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} className='circle' borderRadius={'500px'} w={idx === currentIndex ? '28px' : '8px'} h={'8px'} transition={'width 1s ease-in-out'} />
                                 ))}
                             </Flex>
 
@@ -102,22 +108,26 @@ export default function Signin() {
                 </Flex>
             </Flex>
 
-            <Flex flex={'50%'} display={'flex'} flexDirection={'column'} py={'94px'} px={'71px'}>
+            <Flex flex={'60%'} display={'flex'} flexDirection={'column'} py={'94px'} px={'71px'}>
                 
-                <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Let's have your BVN</Text>
-                <Text fontSize={'18px'} fontWeight={400} color={'#667085'}>Kindly provide your 11-digit BVN to validate your identity</Text>
+                <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Let's have your {text}</Text>
+                <Text fontSize={'18px'} fontWeight={400} color={'#667085'}>Kindly provide your 11-digit {text} to validate your identity</Text>
 
                 <Stack spacing={'16px'} w={{ base: 'md', md: 'lg' }} maxW={'lg'} as='form' onSubmit={processForm} mt={'48px'}>
-                    <FormControl isRequired>
-                        <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter NVN</FormLabel>
+                    {isBVN && <FormControl isRequired>
+                        <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter BVN</FormLabel>
                         <Input type='text' placeholder='Enter your BVN' _placeholder={{ fontSize: "sm" }} value={email} onChange={(e) => setEmail(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
-                    </FormControl>
+                    </FormControl>}
+                    {!isBVN && <FormControl isRequired>
+                        <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter NIN</FormLabel>
+                        <Input type='text' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} value={email} onChange={(e) => setEmail(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                    </FormControl>}
                     <Box p={'12px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} borderRadius={'8px'}>
                         <Box>
                             <Flex alignItems={'center'} justifyContent={'space-between'}>
                                 <HStack>
                                     <img src={getImageUrl('icons/blackInfo.png')} />
-                                    <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Why do we need your BVN?</Text>
+                                    <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Why do we need your {text}?</Text>
                                 </HStack>
                                 <button type='button' onClick={() => setQuestOne(!questOne)}><img src={getImageUrl('icons/greyRightAngle.png')} /></button>
                             </Flex>
@@ -129,7 +139,7 @@ export default function Signin() {
                                     <Flex fontSize={'12px'} fontWeight={500} color={'#0C111D'}><img src={getImageUrl('icons/greenTick.png')} alt="" />Phone number</Flex>
                                     <Flex fontSize={'12px'} fontWeight={500} color={'#0C111D'}><img src={getImageUrl('icons/greenTick.png')} alt="" />Date of birth</Flex>
                                 </Box>
-                                <Text fontSize={'12px'} fontWeight={500} color={'#0C111D'}>Your BVN does not give us access to your bank account, transactions or any other information.</Text>
+                                <Text fontSize={'12px'} fontWeight={500} color={'#0C111D'}>Your {text} does not give us access to your bank account, transactions or any other information.</Text>
                                 <Text fontSize={'12px'} fontWeight={500} color={'#0C111D'}>Your data is safe with us and we will not share your data with anyone</Text>
 
                             </Stack>}
@@ -141,7 +151,7 @@ export default function Signin() {
                             <Flex alignItems={'center'} justifyContent={'space-between'}>
                                 <HStack>
                                     <img src={getImageUrl('icons/blackQuestion.png')} />
-                                    <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Don't know your BVN?</Text>
+                                    <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Don't know your {text}?</Text>
                                 </HStack>
                                 <button type='button' onClick={() => setQuestTwo(!questTwo)}><img src={getImageUrl('icons/greyRightAngle.png')} /></button>
                             </Flex>
@@ -158,7 +168,8 @@ export default function Signin() {
 
                         <Divider h={'2px'} mt={'12px'} mb={'12px'}/>
 
-                        <Text w={'fit-content'} fontSize={'14px'} fontWeight={500} color={'#A41857'} cursor={'pointer'} _hover={{textDecoration: 'underline'}}>Don't have a BVN?</Text>
+                        {isBVN && <Text w={'fit-content'} fontSize={'14px'} fontWeight={500} color={'#A41857'} cursor={'pointer'} onClick={()=>changeOver()} _hover={{textDecoration: 'underline'}}>Don't have a BVN?</Text>}
+                        {!isBVN && <Text w={'fit-content'} fontSize={'14px'} fontWeight={500} color={'#A41857'} cursor={'pointer'} onClick={()=>changeOver()} _hover={{textDecoration: 'underline'}}>Don't have a NIN?</Text>}
                     </Box>
                     
                     <FormControl isRequired >
@@ -177,7 +188,8 @@ export default function Signin() {
                             rounded={'8px'}
                             py={'26px'}
                             px={'16px'}
-                            type="submit"
+                            // type="submit"
+                            type={'button'}
                             size="md"
                             bg={'#A41857'}
                             color={'white'}

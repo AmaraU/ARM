@@ -1,31 +1,20 @@
-// import { Box, Button, Flex, HStack, Input, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import {
     Button,
     Flex,
-    FormControl,
-    FormLabel,
+    FormControl, FormLabel,
     Input,
-    Stack,
-    Image,
-    InputGroup,
-    InputRightElement,
-    FormErrorMessage,
+    Stack, HStack,
     Text,
-    Box,
-    Tabs,
-    TabList,
-    Tab,
-    TabPanels,
-    TabPanel,
-    HStack,
     Select,
     useDisclosure,
-    Modal, ModalOverlay, ModalContent, ModalBody,
+    Modal, ModalOverlay, ModalContent,
     Spinner
 } from '@chakra-ui/react';
 import React from "react";
 import { getImageUrl } from "../../../utils";
 import { useNavigate } from "react-router-dom";
+import styles from './Onboarding.module.css';
+
 
 
 export const UserInfo = () => {
@@ -45,8 +34,22 @@ export const UserInfo = () => {
         <Stack alignItems={'center'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
             <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
-                <a href='/signin'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
-                <Box>60%</Box>
+                <a href='/confirm-picture'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
+                
+                <div className={styles.circleWrap}>
+                    <div className={styles.circle}>
+                        <div className={`${styles.mask} ${styles.fullSix}`}>
+                            <div className={styles.fill}></div>
+                        </div>
+                        <div className={`${styles.mask} ${styles.half}`}>
+                            <div className={styles.fill}></div>
+                        </div>
+                        <div className={styles.insideCircle}>
+                            60%
+                        </div>
+                    </div>
+                </div>
+
             </Flex>
             <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Your basic information</Text>
             <Text fontSize={'18px'} fontWeight={400} color={'#667085'}>Review and update your details</Text>
@@ -100,7 +103,7 @@ export const UserInfo = () => {
                         </Select>
                 </FormControl>
             </Stack>
-            <Button onClick={openVerifying} mt={'56px'} bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'12px'} w={'100%'}>Continue</Button>
+            <Button onClick={openVerifying} mt={'56px'} bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'16px'} w={'100%'} h={'fit-content'}>Continue</Button>
         </Stack>
 
         

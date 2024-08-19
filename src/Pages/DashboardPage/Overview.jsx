@@ -218,15 +218,15 @@ export const Overview = () => {
                                                 {t.type === 'credit' ? <img className={styles.credDeb} src={getImageUrl('icons/credit.png')} /> : ''}
                                                 {t.type === 'debit' ? <img className={styles.credDeb} src={getImageUrl('icons/debit.png')} /> : ''}
                                                 <Stack gap={0}>
-                                                    <Text fontSize={"14px"} color={"#394455"} fontWeight={500}>{t.name}</Text>
-                                                    <Text fontSize={"12px"} color={"#667085"} fontWeight={500}>{t.account}</Text>
+                                                    <Text fontSize={"14px"} color={"#394455"} fontWeight={450}>{t.name}</Text>
+                                                    <Text fontSize={"12px"} color={"#667085"} fontWeight={450}>{t.account}</Text>
                                                 </Stack>
                                             </HStack>
                                             <HStack gap={0} alignItems={'center'}>
                                                 <TbCurrencyNaira color={"#394455"}/>
-                                                <Text fontSize={"14px"} color={"#394455"} fontWeight={500}>{t.amount}</Text>
+                                                <Text fontSize={"14px"} color={"#394455"} fontWeight={450}>{t.amount}</Text>
                                             </HStack>
-                                            <Text fontSize={"14px"} color={"#394455"} fontWeight={500}>{t.date}</Text>
+                                            <Text fontSize={"14px"} color={"#394455"} fontWeight={450}>{t.date}</Text>
                                         </HStack>
                                     )
                                 }

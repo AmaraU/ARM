@@ -3,7 +3,6 @@ import {
     Flex,
     Stack,
     Text,
-    Box,
     Spinner,
     FormControl, FormLabel, FormErrorMessage,
     Input, InputGroup, InputRightElement,
@@ -23,8 +22,10 @@ export const CreateProfile = () => {
     const { isOpen: isOpenVerifying, onOpen: onOpenVerifying, onClose: onCloseVerifying } = useDisclosure();
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+    const [ passwordConfirm, setPasswordConfirm ] = useState("");
     const [ emailIsError, setEmailIsError ] = useState(false);
     const [ showPassword, setShowPassword ] = useState(false);
+    const [ showPasswordConfirm, setShowPasswordConfirm ] = useState(false);
     const navigate = useNavigate();
 
     const openVerifying = () => {
@@ -39,24 +40,25 @@ export const CreateProfile = () => {
         <Stack alignItems={'center'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
             <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
-                <a href='/signin'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
-                <div className={styles.percentage} class="circle-wrap">
-                    <div class="circle"> 
-                        <div class="mask full">
-                            <div class="fill"></div>
+                <a href='/user-info'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
+                
+                <div className={styles.circleWrap}>
+                    <div className={styles.circle}>
+                        <div className={`${styles.mask} ${styles.fullSeven}`}>
+                            <div className={styles.fill}></div>
                         </div>
-                        <div class="mask half">
-                            <div class="fill"></div>
+                        <div className={`${styles.mask} ${styles.half}`}>
+                            <div className={styles.fill}></div>
                         </div>
-                        <div class="inside-circle">
+                        <div className={styles.insideCircle}>
                             70%
                         </div>
                     </div>
                 </div>
-                {/* <div className={styles.percentage}>70%</div> */}
+                
             </Flex>
-            <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Your basic information</Text>
-            <Text fontSize={'18px'} fontWeight={400} color={'#667085'}>Review and update your details</Text>
+            <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Create your profile</Text>
+            <Text fontSize={'18px'} fontWeight={400} color={'#667085'}>Enter your details to setup your profile</Text>
 
             <Stack w={'100%'} spacing={'16px'}>
                 <FormControl isInvalid={emailIsError} isRequired>
@@ -82,12 +84,12 @@ export const CreateProfile = () => {
                 <FormControl isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'8px'}>Confirm Password</FormLabel>
                     <InputGroup>
-                        <Input placeholder='Enter your password' _placeholder={{ fontSize: "sm" }} type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                        <Input placeholder='Enter your password' _placeholder={{ fontSize: "sm" }} type={showPassword ? 'text' : 'password'} value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
                         <InputRightElement h={'full'}>
                             <Button
                                 variant={'ghost'}
                                 onClick={() =>
-                                    setShowPassword((showPassword) => !showPassword)
+                                    setShowPasswordConfirm((showPasswordConfirm) => !showPasswordConfirm)
                                 }>
                                 {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                             </Button>
@@ -95,7 +97,7 @@ export const CreateProfile = () => {
                     </InputGroup>
                 </FormControl>
             </Stack>
-            <Button onClick={openVerifying} mt={'56px'} bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'12px'} w={'100%'}>Continue</Button>
+            <Button onClick={openVerifying} mt={'56px'} bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'16px'} w={'100%'} h={'fit-content'}>Continue</Button>
         </Stack>
 
         

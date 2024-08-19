@@ -4,16 +4,14 @@ import {
     Flex,
     HStack, Stack,
     Text,
-    Modal, ModalOverlay, ModalContent, ModalBody,
+    Modal, ModalOverlay, ModalContent, ModalBody, ModalHeader, ModalCloseButton, ModalFooter,
     useDisclosure,
-    Spinner,
-    ModalHeader,
-    ModalCloseButton,
-    ModalFooter
+    Spinner    
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { getImageUrl } from "../../../utils";
 import { useNavigate } from "react-router-dom";
+import styles from './Onboarding.module.css';
 
 
 export const ConfirmSelfie = () => {
@@ -49,8 +47,22 @@ export const ConfirmSelfie = () => {
         <Stack alignItems={'center'} spacing={10} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
             <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
-                <a href='/verify-number'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
-                <Box>50%</Box>
+                <a href='/capture'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
+                
+                <div className={styles.circleWrap}>
+                    <div className={styles.circle}>
+                        <div className={`${styles.mask} ${styles.fullFive}`}>
+                            <div className={styles.fill}></div>
+                        </div>
+                        <div className={`${styles.mask} ${styles.half}`}>
+                            <div className={styles.fill}></div>
+                        </div>
+                        <div className={styles.insideCircle}>
+                            50%
+                        </div>
+                    </div>
+                </div>
+
             </Flex>
             <Stack alignItems={'center'}>
                 <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Preview your photo</Text>
@@ -78,7 +90,7 @@ export const ConfirmSelfie = () => {
 
         <Modal isCentered closeOnOverlayClick={false} isOpen={isOpenResult} onClose={onCloseResult} >
             <ModalOverlay />
-            <ModalContent rounded={15}>
+            <ModalContent rounded={15} w={'700px'}>
                 <ModalHeader>
                     <Text textAlign={'center'} fontSize={'18px'}>Likeness Check</Text>
                 </ModalHeader>
@@ -88,7 +100,7 @@ export const ConfirmSelfie = () => {
                     <div style={{ overflow: 'auto', maxHeight: '60vh' }}>
                         <Stack spacing={4} alignItems={'center'} textAlign={'center'}>
                             {succeed ?
-                            <img src={getImageUrl('icons/success.png')} style={{width: '80px', height: '80px'}} />
+                            <img src={getImageUrl('icons/success.png')} style={{width: '220px', height: '86px'}} />
                             :
                             <img src={getImageUrl('icons/failure.png')} style={{width: '80px', height: '80px'}} />
                             }

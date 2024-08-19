@@ -1,21 +1,20 @@
-import { Box, Button, Flex, HStack, Input, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import { Button, Flex, HStack, Input, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { getImageUrl } from "../../../utils";
-import { useNavigate } from "react-router-dom";
 import { VerifyIdentity } from "./VerifyIdentity";
+import styles from './Onboarding.module.css';
 
 
 export const VerifyNumber = () => {
 
+    const { isOpen: isOpenConfirm, onOpen: onOpenConfirm, onClose: onCloseConfirm } = useDisclosure();
     const [ timeLeft, setTimeLeft ] = useState(30);
     const [ isFiled, setIsFilled ] = useState(false);
-    const navigate = useNavigate();
-    const { isOpen: isOpenConfirm, onOpen: onOpenConfirm, onClose: onCloseConfirm } = useDisclosure();
 
 
     useEffect(() => {
+
         const inputs = document.querySelectorAll("#password");
-        const button = document.querySelector("#continue");
 
         inputs.forEach((input) => {
             input.value = "";
@@ -93,8 +92,22 @@ export const VerifyNumber = () => {
         <Stack alignItems={'center'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
             <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
-                <a href='/signin'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
-                <Box>60%</Box>
+                <a href='/signup'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
+                
+                <div className={styles.circleWrap}>
+                    <div className={styles.circle}>
+                        <div className={`${styles.mask} ${styles.fullTHree}`}>
+                            <div className={styles.fill}></div>
+                        </div>
+                        <div className={`${styles.mask} ${styles.half}`}>
+                            <div className={styles.fill}></div>
+                        </div>
+                        <div className={styles.insideCircle}>
+                            30%
+                        </div>
+                    </div>
+                </div>
+
             </Flex>
             <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Verify your phone number</Text>
             <Text fontSize={'18px'} fontWeight={400} color={'#667085'}>Kindly enter the 6-digits OTP we sent to <b>+23490****7831</b></Text>

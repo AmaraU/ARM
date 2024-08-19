@@ -102,7 +102,7 @@ export default function Signin() {
 
                             <Flex gap={'4px'}>
                                 {changingText.map((_, idx) => (
-                                    <Box key={idx} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} className='circle' borderRadius={'500px'} w={idx === currentIndex ? '28px' : '8px'} h={'8px'}></Box>
+                                    <Box cursor={'pointer'} onClick={()=>setCurrentIndex(idx)} key={idx} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} className='circle' borderRadius={'500px'} w={idx === currentIndex ? '28px' : '8px'} h={'8px'} transition={'width 1s ease-in-out'} />
                                 ))}
                             </Flex>
 
@@ -131,7 +131,7 @@ export default function Signin() {
                             <Stack spacing={'16px'} w={{ base: 'md', md: 'lg' }} maxW={'lg'} as='form' onSubmit={processForm}>
                                 <FormControl isInvalid={emailIsError} isRequired>
                                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Email Address</FormLabel>
-                                    <Input type='text' placeholder='Enter your work email' _placeholder={{ fontSize: "sm" }} value={email} onChange={(e) => setEmail(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                                    <Input type='text' placeholder='Enter your email' _placeholder={{ fontSize: "sm" }} value={email} onChange={(e) => setEmail(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
                                     {emailIsError && <FormErrorMessage>Please enter a valid email address.</FormErrorMessage>}
                                 </FormControl>
                                 <FormControl isRequired>
@@ -150,19 +150,21 @@ export default function Signin() {
                                     </InputGroup>
                                 </FormControl>
 
-                                <a className={styles.forgot} href='/forgot-password'>Forgot Password?</a>
+                                <a className={styles.forgot}>Forgot Password?</a>
 
                                 <Stack pt={4}>
                                     <Button
+                                        onClick={()=>navigate('/overview/dashboard')}
                                         disabled={isLoading}
                                         isLoading={isLoading}
                                         rounded={'8px'}
                                         py={'26px'}
                                         px={'16px'}
-                                        type="submit"
+                                        // type="submit"
                                         size="md"
                                         bg={'#A41857'}
                                         color={'white'}
+                                        type={'button'}
                                         _hover={{
                                             bg: '#0E0E0ECC',
                                         }}>
@@ -179,13 +181,13 @@ export default function Signin() {
                         
                         <TabPanel>
                             <Stack spacing={'16px'} w={{ base: 'md', md: 'lg' }} maxW={'lg'} as='form' onSubmit={processForm}>
-                                <FormControl isRequired>
+                                <FormControl>
                                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Phone Number</FormLabel>
                                     <HStack spacing={2}>
                                         <Select flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
                                             <option value="">+234 (NG)</option>
                                         </Select>
-                                        <Input type='tel' placeholder='Enter your phone number' _placeholder={{ fontSize: "sm" }} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                                        <Input isRequired type='tel' placeholder='Enter your phone number' _placeholder={{ fontSize: "sm" }} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
                                     </HStack>
                                 </FormControl>
                                 <FormControl isRequired>
@@ -205,19 +207,21 @@ export default function Signin() {
                                     </InputGroup>
                                 </FormControl>
 
-                                <a className={styles.forgot} href='/forgot-password'>Forgot Password?</a>
+                                <a className={styles.forgot}>Forgot Password?</a>
 
                                 <Stack pt={4}>
                                     <Button
+                                        onClick={()=>navigate('/overview/dashboard')}
                                         disabled={isLoading}
                                         isLoading={isLoading}
                                         rounded={'8px'}
                                         py={'26px'}
                                         px={'16px'}
-                                        type="submit"
+                                        // type="submit"
                                         size="md"
                                         bg={'#A41857'}
                                         color={'white'}
+                                        type={'button'}
                                         _hover={{
                                             bg: '#0E0E0ECC',
                                         }}>

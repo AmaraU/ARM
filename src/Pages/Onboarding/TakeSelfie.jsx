@@ -2,6 +2,7 @@ import { Box, Button, Flex, HStack, Input, Stack, Text, useDisclosure } from "@c
 import React, { useEffect, useState } from "react";
 import { getImageUrl } from "../../../utils";
 import { useNavigate } from "react-router-dom";
+import styles from './Onboarding.module.css';
 
 
 export const TakeSelfie = () => {
@@ -19,7 +20,21 @@ export const TakeSelfie = () => {
             <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
                 <a href='/verify-number'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
-                <Box>40%</Box>
+                
+                <div className={styles.circleWrap}>
+                    <div className={styles.circle}>
+                        <div className={`${styles.mask} ${styles.fullFour}`}>
+                            <div className={styles.fill}></div>
+                        </div>
+                        <div className={`${styles.mask} ${styles.half}`}>
+                            <div className={styles.fill}></div>
+                        </div>
+                        <div className={styles.insideCircle}>
+                            40%
+                        </div>
+                    </div>
+                </div>
+
             </Flex>
 
             <Box h={'423px'} w={'100%'} bg={'#0E0E0E'} borderRadius={'12px'}></Box>

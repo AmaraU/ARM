@@ -8,7 +8,7 @@ import {
     Select,
     Input } from '@chakra-ui/react';
 import { getImageUrl } from '../../../utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -18,7 +18,12 @@ export const ConfirmNumber = ({ isOpen, onClose }) => {
     const [ isAlternate, setIsAlternate ] = useState(false);
     const navigate = useNavigate();
 
+    // useEffect(() => {
+    //     setIsAlternate(false);
+    // })
+
     const closeModal = () => {
+        setIsAlternate(false);
         onClose();
     }
 
@@ -30,9 +35,9 @@ export const ConfirmNumber = ({ isOpen, onClose }) => {
 
     return (
         <>
-            <Modal isCentered size={'lg'} closeOnOverlayClick={false} isOpen={isOpen} onClose={closeModal} maxHeight={"70%"}>
+            <Modal isCentered size={'lg'} closeOnOverlayClick={false} isOpen={isOpen} onClose={closeModal} maxHeight={"75%"}>
                 <ModalOverlay />
-                <ModalContent rounded={15}>
+                <ModalContent rounded={15} width={'700px'}>
                     <ModalHeader>
                         <Text textAlign={'center'} fontSize={'18px'}>{title}</Text>
                     </ModalHeader>

@@ -1,7 +1,14 @@
 @font-face {
   font-family: 'FixelText';
-  src: url('../fonts/FixelAll/FixelText/FixelText-Medium.woff2');
+  src: url('../fonts/FixelAll/FixelVariable/FixelVariable.ttf');
   font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FixelText';
+  src: url('../fonts/FixelAll/FixelText/FixelText-Medium.woff2');
+  font-weight: 450;
   font-style: normal;
 }
 
