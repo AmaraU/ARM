@@ -71,11 +71,14 @@ export default function Signin() {
         onOpenConfirm();
     }
 
-    const changeOver = () => {
+    const changeOverN = () => {
         setIsBVN(false);
         setText('NIN');
     }
-
+    const changeOverB = () => {
+        setIsBVN(true);
+        setText('BVN');
+    }
     
 
     return (
@@ -124,12 +127,12 @@ export default function Signin() {
                     </FormControl>}
                     <Box p={'12px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} borderRadius={'8px'}>
                         <Box>
-                            <Flex alignItems={'center'} justifyContent={'space-between'}>
+                            <Flex alignItems={'center'} justifyContent={'space-between'} onClick={() => setQuestOne(!questOne)}>
                                 <HStack>
                                     <img src={getImageUrl('icons/blackInfo.png')} />
                                     <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Why do we need your {text}?</Text>
                                 </HStack>
-                                <button type='button' onClick={() => setQuestOne(!questOne)}><img src={getImageUrl('icons/greyRightAngle.png')} /></button>
+                                <button type='button'><img src={getImageUrl('icons/greyRightAngle.png')} /></button>
                             </Flex>
                             {questOne && <Stack p={'12px'} spacing={'12px'}>
                                 <Text fontSize={'12px'} fontWeight={400} color={'#667085'}>This is how we verify that transactions are carried out by the real account owner (that’s you!) It helps us keep you safe.</Text>
@@ -148,12 +151,12 @@ export default function Signin() {
                         <Divider h={'2px'} mt={'12px'} mb={'12px'}/>
 
                         <Box>
-                            <Flex alignItems={'center'} justifyContent={'space-between'}>
+                            <Flex alignItems={'center'} justifyContent={'space-between'} onClick={() => setQuestTwo(!questTwo)}>
                                 <HStack>
                                     <img src={getImageUrl('icons/blackQuestion.png')} />
                                     <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Don't know your {text}?</Text>
                                 </HStack>
-                                <button type='button' onClick={() => setQuestTwo(!questTwo)}><img src={getImageUrl('icons/greyRightAngle.png')} /></button>
+                                <button type='button'><img src={getImageUrl('icons/greyRightAngle.png')} /></button>
                             </Flex>
                             {questTwo && <Stack p={'12px'} spacing={'12px'}>
                                 <Text fontSize={'12px'} fontWeight={400} color={'#667085'}>This will work only if you are making the request from the same phone number currently linked to your bank account.</Text>
@@ -168,8 +171,8 @@ export default function Signin() {
 
                         <Divider h={'2px'} mt={'12px'} mb={'12px'}/>
 
-                        {isBVN && <Text w={'fit-content'} fontSize={'14px'} fontWeight={500} color={'#A41857'} cursor={'pointer'} onClick={()=>changeOver()} _hover={{textDecoration: 'underline'}}>Don't have a BVN?</Text>}
-                        {!isBVN && <Text w={'fit-content'} fontSize={'14px'} fontWeight={500} color={'#A41857'} cursor={'pointer'} onClick={()=>changeOver()} _hover={{textDecoration: 'underline'}}>Don't have a NIN?</Text>}
+                        {isBVN && <Text w={'fit-content'} fontSize={'14px'} fontWeight={500} color={'#A41857'} cursor={'pointer'} onClick={()=>changeOverN()} _hover={{textDecoration: 'underline'}}>Don't have a BVN?</Text>}
+                        {!isBVN && <Text w={'fit-content'} fontSize={'14px'} fontWeight={500} color={'#A41857'} cursor={'pointer'} onClick={()=>changeOverB()} _hover={{textDecoration: 'underline'}}>Don't have a NIN?</Text>}
                     </Box>
                     
                     <FormControl isRequired >
