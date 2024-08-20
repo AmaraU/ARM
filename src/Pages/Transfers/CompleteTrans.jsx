@@ -83,7 +83,7 @@ export const CompleteTransaction = () => {
                 py={'16px'} px={'20px'}
                 bg={'#A41856'} _hover={{bg: '#A41856'}}
                 color={'#FFFFFF'} fontSize={'14px'} fontWeight={600}
-                isDisabled={isFiled ? false : true}
+                // isDisabled={isFiled ? false : true}
             >
                 Continue
             </Button>
