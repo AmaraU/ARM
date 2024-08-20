@@ -94,7 +94,7 @@ export const TransferToOthers = () => {
         </Box>}
 
 
-        {showTwo && <Box id="stepTwo">
+        {showTwo && <Box>
 
             <HStack bg={'#EAECF0'} justifyContent={'space-between'} px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
                 <Button h={'24px'} bg={'#EAECF0'} p={0} _hover={{bg: '#EAECF0'}} onClick={moveToOne}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
@@ -121,7 +121,7 @@ export const TransferToOthers = () => {
 
                 <Box w={'75%'} p={'12px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} borderRadius={'8px'}>
                     <HStack>
-                        <img src={getImageUrl('icons/greyBank.png')} />
+                        <img style={{width: '20px', height: '20px'}} src={getImageUrl('icons/greyBank.png')} />
                         <Stack gap={0}>
                             <Text fontSize={'10px'} fontWeight={500} color={'#667085'}>BENEFICIARY ACCOUNT NUMBER</Text>
                             <Text fontSize={'14px'} fontWeight={500} color={'#101828'}>Guaranty Trust Bank - 0122458754</Text>
@@ -183,26 +183,6 @@ export const TransferToOthers = () => {
             <CompleteTransaction />
 
         </Box>}
-        {/* {showThree && <Box id="stepThree">
-
-            <HStack bg={'#EAECF0'} justifyContent={'space-between'} px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
-                <Button h={'24px'} bg={'#EAECF0'} p={0} _hover={{bg: '#EAECF0'}} onClick={moveToTwo}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
-                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>Complete Transaction</Text>
-                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>3/3</Text>
-            </HStack>
-            <Stack gap={'16px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'}>                                
-                <Text fontSize={'16px'} color={'#667085'} textAlign={'center'}>Enter your 4-digit PIN to complete your transaction</Text>
-
-                <HStack w={'75%'} spacing={'16px'} justifyContent={'center'}>
-                    <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" />
-                    <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" />
-                    <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" />
-                    <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" />
-                </HStack>                
-
-                <Button mt={'16px'} w={'75%'} py={'20px'} px={'12px'} bg={'#A41856'} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} _hover={{bg: '#A41856'}}>Continue</Button>
-            </Stack>
-        </Box>} */}
         </>
     );
 }
