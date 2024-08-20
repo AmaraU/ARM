@@ -115,8 +115,8 @@ export const VerifyNumber = () => {
             <Stack>
                 <Text fontSize={'14px'} fontWeight={400} color={'#394455'}>PIN</Text>
                 <HStack>
-                    <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'}  h={'56px'} fontSize={'30px'} fontWeight={700} color={'#000000'} id="password" type="number" />
-                    <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'}  h={'56px'} fontSize={'30px'} fontWeight={700} color={'#000000'} id="password" type="number" disabled />
+                    <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'56px'} fontSize={'30px'} fontWeight={700} color={'#000000'} id="password" type="number" />
+                    <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'56px'} fontSize={'30px'} fontWeight={700} color={'#000000'} id="password" type="number" disabled />
                     <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'56px'} fontSize={'30px'} fontWeight={700} color={'#000000'} id="password" type="number" disabled />
                     <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'56px'} fontSize={'30px'} fontWeight={700} color={'#000000'} id="password" type="number" disabled />
                     <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'56px'} fontSize={'30px'} fontWeight={700} color={'#000000'} id="password" type="number" disabled />
@@ -128,7 +128,7 @@ export const VerifyNumber = () => {
                     <Text cursor={timeLeft === 0 ? 'pointer': ''} onClick={timeLeft === 0 ? ()=>setTimeLeft(30) : ''} fontSize={'16px'} fontWeight={600} color={timeLeft === 0 ? '#667085' : '#EAECF0'}>Resend</Text>
                 </HStack>
             </Stack>
-            <Button onClick={handleVerifyPopup} isDisabled={isFiled ? false : true} id="continue" bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'12px'} w={'100%'}>Continue</Button>
+            <Button onClick={handleVerifyPopup} isDisabled={isFiled ? false : true} id="continue" bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'12px'} w={'100%'} h={'fit-content'}>Continue</Button>
         </Stack>
 
         <VerifyIdentity isOpen={isOpenConfirm} onClose={onCloseConfirm} />

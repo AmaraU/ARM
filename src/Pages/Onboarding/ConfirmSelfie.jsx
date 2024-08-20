@@ -10,7 +10,8 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { getImageUrl } from "../../../utils";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import styles from './Onboarding.module.css';
 
 
@@ -21,10 +22,12 @@ export const ConfirmSelfie = () => {
     const [ header, setHeader ] = useState('Successful');
     const [ text, setText ] = useState('Your photo has been successfully submitted');
     const [ buttonText, setButtonText ] = useState('Continue');
+    const location = useLocation();
+    const { croppedImage } = location.state || {};
     const navigate = useNavigate();
 
-
     let succeed = true;
+
 
     const openVerifying = () => {
         onOpenVerifying();
@@ -38,6 +41,16 @@ export const ConfirmSelfie = () => {
             setButtonText("Retry");
         
         setTimeout(() => onOpenResult(), 10000);
+    }
+
+
+    if (!croppedImage) {
+        return (
+            <div>
+                <h1>No Image Captured</h1>
+                <button onClick={() => navigate('/capture')}>Go Back</button>
+            </div>
+        );
     }
 
 
@@ -70,7 +83,10 @@ export const ConfirmSelfie = () => {
             </Stack>
             
 
-            <Box w={'322px'} h={'322px'} bg={'#0E0E0E'} borderRadius={'500px'}></Box>
+            <Box w={'322px'} h={'322px'} bg={'#0E0E0E'} borderRadius={'500px'}>
+                <img className={styles.captured} src={croppedImage} alt="Captured" />
+            </Box>
+            
 
             <HStack spacing={2} w={'100%'} >
                 <Button onClick={() => navigate('/capture')} w={'100%'} borderRadius={'8px'} bg={'#EFECE9'} _hover={{bg: '#EFECE9'}} p={'20px'} color={'#667085'} fontSize={'14px'} fontWeight={600}>Retake</Button>

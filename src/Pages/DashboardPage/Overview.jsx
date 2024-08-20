@@ -204,7 +204,7 @@ export const Overview = () => {
                                 <Text fontSize={'16px'} fontWeight={600} color={'#A41857'} cursor={'pointer'} _hover={{textDecoration: 'underline'}}>See all</Text>
                             </HStack>
                             <Stack borderRadius={'12px'} border={'1px solid #EAECF0'} display={'flex'} justifyContent={'space-between'} gap={'4px'} >
-                                <HStack bg={'#D391AF0D'} justify={"space-between"} margin={0} p={0} px={'20px'} py={'12px'}>
+                                <HStack bg={'#D391AF0D'} justify={"space-between"} margin={0} px={'20px'} py={'12px'}>
                                     <Text fontSize={"14px"} color={"#667085"} fontWeight={600}>Beneficiary Account</Text>
                                     <Text fontSize={"14px"} color={"#667085"} fontWeight={600}>Amount</Text>
                                     <Text fontSize={"14px"} color={"#667085"} fontWeight={600}>Date</Text>
