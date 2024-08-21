@@ -15,6 +15,7 @@ import { BlankPage } from './Pages/BlankPage';
 import { UserInfo } from './Pages/Onboarding/UserInfo';
 import { CreateProfile } from './Pages/Onboarding/CreateProfile';
 import { Welcome } from './Pages/Onboarding/Welcome';
+import { AirtimeBills } from './Pages/AirtimeBills/AirtimeBills';
 
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
         { path: '/overview', element: <Navigate to="dashboard" /> },
         { path: 'dashboard', element: <Overview /> },
         { path: 'transfers', element: <Transfers /> },
-        { path: 'airtime', element: <BlankPage /> },
+        { path: 'airtime', element: <AirtimeBills /> },
         { path: 'loans', element: <BlankPage /> },
         { path: 'savings', element: <BlankPage /> },
         { path: 'cards', element: <BlankPage /> },

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Stack, Text, Box, Button, HStack, Input } from "@chakra-ui/react";
-import { getImageUrl } from "../../../utils";
+import { getImageUrl } from "../../utils";
 
 export const CompleteTransaction = () => {
 
@@ -66,7 +66,7 @@ export const CompleteTransaction = () => {
 
     return (
         <>
-        <Stack spacing={'20px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'}>                                
+        <Stack spacing={'24px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'}>                                
             <Text fontSize={'16px'} color={'#667085'} textAlign={'center'}>Enter your 4-digit PIN to complete your transaction</Text>
 
             <HStack w={'75%'} spacing={'16px'} justifyContent={'center'}>
@@ -75,6 +75,8 @@ export const CompleteTransaction = () => {
                 <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" />
                 <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" />
             </HStack>
+
+            <Text color={'#A41857'} fontSize={'14px'} fontWeight={500} cursor={'pointer'} _hover={{textDecoration: 'underline'}}>Forgotten you PIN?</Text>
             
 
             <Button

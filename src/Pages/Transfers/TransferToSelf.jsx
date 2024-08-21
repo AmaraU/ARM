@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Stack, Text, Box, Button, HStack, Input, Select, FormControl, FormLabel } from "@chakra-ui/react";
 import styles from "./Transfers.module.css";
 import { getImageUrl } from "../../../utils";
-import { CompleteTransaction } from './CompleteTrans';
+import { CompleteTransaction } from '../../Components/CompleteTrans';
 
 export const TransferToSelf = () => {
 

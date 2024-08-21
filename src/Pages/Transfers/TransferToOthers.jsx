@@ -4,7 +4,7 @@ import { BiShow, BiHide } from "react-icons/bi";
 import { TbCurrencyNaira } from "react-icons/tb";
 import styles from "./Transfers.module.css";
 import { getImageUrl } from "../../../utils";
-import { CompleteTransaction } from './CompleteTrans';
+import { CompleteTransaction } from '../../Components/CompleteTrans';
 
 export const TransferToOthers = () => {
 
