@@ -68,7 +68,7 @@ export const TakeSelfie = () => {
     return (
         <>
         <Stack alignItems={'center'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
-            <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
+            <img style={{width: '140px', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
                 <a href='/verify-number'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
                 

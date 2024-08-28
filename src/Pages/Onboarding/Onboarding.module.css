@@ -1,11 +1,3 @@
-.image {
-    display: flex;
-    flex: 50%;
-    background-size: 100% 100%;
-    border-radius: 0 56px 56px 0;
-    
-    transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
-}
 .changing {
     opacity: 0;
     transition: opacity 1s ease-in-out;
@@ -36,10 +28,12 @@
 }
 
 .forgot {
-    text-align: right;
     font-size: 18px;
     font-weight: 500;
     color: #A41857;
+    width: fit-content;
+    align-self: end;
+    cursor: pointer;
 }
 .forgot:hover {
     text-decoration: underline;

@@ -55,13 +55,15 @@ export const Navbar = () => {
           <img className={styles.red} src={getImageUrl("icons/nav/profileRed.png")} />
           Profile
         </a>
-
       </div>
-
-      <a href="" className={styles.logOut}>
-        <img src={getImageUrl("icons/nav/logout.png")} />
-        Log out
-      </a>
+      
+      <div className={styles.logOut}>
+        <a href="/signin">
+          <img src={getImageUrl("icons/nav/logout.png")} />
+          Log out
+        </a>
+      </div>
+      
     </div>
   )
 }

@@ -80,7 +80,7 @@ export const Beneficiaries = () => {
             <Stack spacing={'16px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'}>                                
 
                 <Flex justifyContent={'space-between'} alignItems={'center'} border={'1px solid #DCD6CF'} py={'10px'} px={'20px'} w={'75%'} borderRadius={'8px'} mt={'24px'}>
-                    <input id='search' type='text' onChange={handleSearch} placeholder='Search beneficiaries' style={{border:'none', outline: 'transparent', width: '100%'}}></input>
+                    <input id='search' type='text' onChange={handleSearch} placeholder='Search beneficiaries' style={{border:'none', outline: 'transparent', width: '100%'}} autoComplete='off' />
                     <img style={{width: '24px', height: '24px'}} src={getImageUrl('icons/search.png')} />
                 </Flex>
 

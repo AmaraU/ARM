@@ -17,7 +17,7 @@ export const AirtimeBills = () => {
                     <Tab rounded={'50px'} fontSize={'13px'} color={'#667085'} fontWeight={500} border={'1px solid #EAECF0'} py={'12px'} px={'14px'}  _selected={{ color: '#FFFFFF', bg: '#667085', border: '1px solid transparent', boxShadow: '0px 0px 1px 0px #00000066'}}>Bills Payment</Tab>
                 </TabList>
 
-                <TabPanels>
+                <TabPanels maxWidth={'1000px'}>
                     <TabPanel ml={-4}>
                         <BuyAirtime />
                     </TabPanel>

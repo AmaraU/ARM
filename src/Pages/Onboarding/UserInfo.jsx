@@ -32,7 +32,7 @@ export const UserInfo = () => {
     return (
         <>
         <Stack alignItems={'center'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
-            <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
+            <img style={{width: '140px', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
                 <a href='/confirm-picture'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
                 
@@ -57,7 +57,7 @@ export const UserInfo = () => {
             <Stack spacing={'16px'} w={'100%'}>
                 <FormControl isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Title</FormLabel>
-                    <Select flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
+                    <Select h={'48px'} flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
                         <option value="">Miss</option>
                         <option value="">Mrs</option>
                         <option value="">Mr</option>
@@ -66,44 +66,44 @@ export const UserInfo = () => {
                 <HStack>
                     <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'8px'}>First Name</FormLabel>
-                        <Input type='text' border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                        <Input h={'48px'} type='text' border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'8px'}>Last Name</FormLabel>
-                        <Input type='text' border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                        <Input h={'48px'} type='text' border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
                     </FormControl>
                 </HStack>
                 <FormControl isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'8px'}>Phone Number</FormLabel>
                     <HStack spacing={2}>
-                        <Select flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
+                        <Select h={'48px'} flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
                             <option value="">+234 (NG)</option>
                         </Select>
-                        <Input type='tel' placeholder='Enter your phone number' _placeholder={{ fontSize: "sm" }} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                        <Input h={'48px'} type='tel' placeholder='Enter your phone number' _placeholder={{ fontSize: "sm" }} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
                     </HStack>
                 </FormControl>
                 <HStack>
                     <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'8px'}>Occupation</FormLabel>
-                        <Select flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
+                        <Select h={'48px'} flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
                             <option value="">Banking</option>
                         </Select>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'8px'}>Source of fund</FormLabel>
-                        <Select flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
+                        <Select h={'48px'} flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
                             <option value="">Employeed</option>
                         </Select>
                     </FormControl>
                 </HStack>
                 <FormControl isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'8px'}>Country of birth</FormLabel>
-                        <Select flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
+                        <Select h={'48px'} flex={'35%'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} fontSize={'16px'}>
                             <option value="">Nigeria</option>
                         </Select>
                 </FormControl>
             </Stack>
-            <Button onClick={openVerifying} mt={'56px'} bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} py={'16px'} w={'100%'} h={'fit-content'}>Continue</Button>
+            <Button onClick={openVerifying} mt={'56px'} bg={'#A41857'} _hover={{bg: '#A41857'}} fontSize={'18px'} fontWeight={600} color={'#FFFFFF'} w={'100%'} h={'48px'}>Continue</Button>
         </Stack>
 
         

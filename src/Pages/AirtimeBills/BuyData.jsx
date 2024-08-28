@@ -1,195 +1,184 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Stack, Text, Box, Button, HStack, Input, FormControl, FormLabel, InputGroup, InputLeftElement, Select } from "@chakra-ui/react";
-import Switch from "react-switch";
+import { Stack, Text, Box, Button, HStack, Divider, Input, Select, InputGroup, InputLeftElement, FormControl, FormLabel } from "@chakra-ui/react";
+import { BiShow, BiHide } from "react-icons/bi";
+import { TbCurrencyNaira } from "react-icons/tb";
 import { getImageUrl } from "../../../utils";
-import styles from './AirtimeBills.module.css';
 import { CompleteTransaction } from '../../Components/CompleteTrans';
-
 
 export const BuyData = () => {
 
-    const [ actionsOpen, setActionsOpen ] = useState({});
-    const [ showOptions, setShowOptions ] = useState(true);
-    const [ showOne, setShowOne ] = useState(false);
+
+    const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
+    const [ showOne, setShowOne ] = useState(true);
     const [ showTwo, setShowTwo ] = useState(false);
-    const [ addFavorite, setAddFavorite ] = useState(false);
-    const popupRef = useRef(null);
+    const [ showThree, setShowThree ] = useState(false);
 
-
-    const savedData = [
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "6GB Weekly",
-            network: "MTN"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "6GB Weekly",
-            network: "Glo"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "6GB Weekly",
-            network: "9Mobile"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "6GB Weekly",
-            network: "Airtel"
-        }
-    ]
-    
-
-    const toggleAction = (index) => {
-        setActionsOpen(prevState => ({
-            ...prevState,
-            [index]: !prevState[index]
-        }));
-    };
-
-    const handleClickOutside = (event) => {
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setActionsOpen(false);
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener('click', handleClickOutside, true);
-        return () => {
-            document.removeEventListener('click', handleClickOutside, true);
-        };
-    }, []);
-
-
-    const moveToOptions = () => {
-        setShowOne(false);
-        setShowTwo(false);
-        setShowOptions(true);   
+    const hideBalance = () => {
+        return "****************";
     }
+
+    const handleToggleVisibility = () => {
+        setTotalBalanceVisible(!totalBalanceVisible);
+    }
+
     const moveToOne = () => {
         setShowOne(true);
         setShowTwo(false);
-        setShowOptions(false);
+        setShowThree(false);
     }
     const moveToTwo = () => {
         setShowOne(false);
         setShowTwo(true);
-        setShowOptions(false);
+        setShowThree(false);
+    }
+    const moveToThree = () => {
+        setShowOne(false);
+        setShowTwo(false);
+        setShowThree(true);
     }
 
-    
-
-
     return (
-        <>
-        {showOptions && <Box>
-            {savedData.length === 0 ? (
-                <Box>
-                    <HStack bg={'#EAECF0'} px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
-                        <Button h={'24px'} bg={'#EAECF0'} p={0} _hover={{bg: '#EAECF0'}}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
-                        <Text width={'90%'} textAlign={'center'} fontSize={'18px'} fontWeight={600} color={'#101828'}>Buy Data</Text>
-                    </HStack>
-                    <Stack spacing={'16px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'} pt={'48px'}>
-                        <img style={{width: '40px', height: '40px'}} src={getImageUrl('icons/blackPhone.png')} alt="" />
-                        <Text w={'50%'} textAlign={'center'} fontSize={'16px'} color={'#667085'} >You do not have any saved data purchase</Text>
-                        <Button mt={'16px'} w={'50%'} h={'fit-content'} py={'15px'} bg={'#A41856'} _hover={{bg: '#A41856'}} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} onClick={moveToOne}>Buy Data</Button>
-                    </Stack>
-                </Box>
-
-            ) : (
-                <Box>
-                    <HStack bg={'#EAECF0'} px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
-                        <Button h={'24px'} bg={'#EAECF0'} p={0} _hover={{bg: '#EAECF0'}}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
-                        <Text width={'90%'} textAlign={'center'} fontSize={'18px'} fontWeight={600} color={'#101828'}>Buy Data</Text>
-                    </HStack>
-                    <Stack spacing={'16px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'} pt={'48px'}>
-                        <Stack w={'60%'} display={'grid'} gridTemplateColumns={'repeat(2, auto)'}>
-                            {savedData.map((dat, index) => (
-                                <HStack border={'1px solid #EAECF0'} borderRadius={'8px'} w={'100%'} py={'20px'} px={'10px'} spacing={'16px'}>
-                                    <Box>
-                                        {dat.network.toLowerCase() === 'mtn' ? <img style={{width: '32px', height: '32px'}} src={getImageUrl('logos/mtn.png')} /> : <></>}
-                                        {dat.network.toLowerCase() === 'glo' ? <img style={{width: '32px', height: '32px'}} src={getImageUrl('logos/glo.png')} /> : <></>}
-                                        {dat.network.toLowerCase() === '9mobile' ? <img style={{width: '32px', height: '32px'}} src={getImageUrl('logos/9mobile.png')} /> : <></>}
-                                        {dat.network.toLowerCase() === 'airtel' ? <img style={{width: '32px', height: '32px'}} src={getImageUrl('logos/airtel.png')} /> : <></>}
-                                    </Box>
-                                    <Box w={'90%'}>
-                                        <HStack w={'100%'} justifyContent={'space-between'} alignItems={'center'}>
-                                            <Text fontSize={'16px'} fontWeight={'450'} color={'#101828'}>{dat.name}</Text>
-                                            <Text fontSize={'16px'} fontWeight={'450'} color={'#101828'}>{dat.amount}</Text>
-                                        </HStack>
-                                        <HStack w={'100%'} justifyContent={'space-between'} alignItems={'center'}>
-                                            <Text fontSize={'16px'} fontWeight={'450'} color={'#101828'}>{dat.number}</Text>
-                                            <button onClick={() => toggleAction(index)}><img style={{height: '24px', width: '24px'}} src={getImageUrl('icons/actions.png')} /></button>
-                                            <Box className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={popupRef}>
-                                                <button style={{alignSelf: 'end'}}><img style={{width: '14px', height: '14px'}} src={getImageUrl('icons/blackX.png')} /></button>
-                                                <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/nav/blackPhone.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Buy Data</Text></HStack>
-                                                <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/redDelete.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Delete</Text></HStack>
-                                            </Box>
-                                        </HStack>
-                                    </Box>
-                                </HStack>
-                            ))}
-                        </Stack>
-                    </Stack>
-                </Box>
-            )}
-        </Box>}
-
+        <>            
         {showOne && <Box>
             <HStack bg={'#EAECF0'} justifyContent={'space-between'} px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
-                <Button h={'24px'} bg={'#EAECF0'} p={0} _hover={{bg: '#EAECF0'}} onClick={moveToOptions}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
-                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>Buy Data</Text>
-                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>1/2</Text>
+                <Button h={'24px'} bg={'#EAECF0'} p={0} _hover={{bg: '#EAECF0'}}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
+                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>Transfer to Others</Text>
+                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>1/3</Text>
             </HStack>
-            <Stack spacing={'20px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'}>                                
-                <Text fontSize={'16px'} color={'#667085'} textAlign={'center'}>Select Preferred Network</Text>
+            <Stack gap={'16px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'}>                                
+                <Text fontSize={'16px'} color={'#667085'} textAlign={'center'}>Input the transaction details below</Text>
+                <HStack w={'75%'} backgroundColor={'#000000'} backgroundImage={getImageUrl('backgroundGrey.png')} bgSize={'100% 100%'} borderRadius={'12px'} p={'14px'} pt={'24px'} justifyContent={'space-between'}>
+                    <Box>
+                        <Text fontSize={'14px'} fontWeight={400} color={'#FFFFFF'}>Total Available Balance</Text>
+                        <HStack ml={"-1px"} spacing={0}>
+                            <Box fontSize={"22px"} color={"#FFFFFF"}><TbCurrencyNaira /></Box>
+                            <Text fontSize={"18px"} fontWeight={600} color={"#FFFFFF"}>{totalBalanceVisible ? `${1234568}` : hideBalance()}</Text>
+                            <Box pl={3} cursor={"pointer"}>
+                                { totalBalanceVisible && <BiShow fontSize={"lg"} color={"#FFFFFF"} onClick={handleToggleVisibility} /> }
+                                { !totalBalanceVisible && <BiHide fontSize={"lg"} color={"#FFFFFF"} onClick={handleToggleVisibility} /> }
+                            </Box>
+                        </HStack>
+                    </Box>
 
-                <HStack w={'60%'}>
-                    <Stack alignItems={'center'} borderRadius={'8px'} border={'1px solid #EAECF0'} p={'14px'} w={'100%'}><img src={getImageUrl('logos/mtn.png')} style={{width: '58px', height: '58px'}} alt="mtn" /><Text fontSize={'14px'} fontWeight={500} color={'#101828'}>MTN</Text></Stack>
-                    <Stack alignItems={'center'} borderRadius={'8px'} border={'1px solid #EAECF0'} p={'14px'} w={'100%'}><img src={getImageUrl('logos/glo.png')} style={{width: '58px', height: '58px'}} alt="glo" /><Text fontSize={'14px'} fontWeight={500} color={'#101828'}>Glo</Text></Stack>
-                    <Stack alignItems={'center'} borderRadius={'8px'} border={'1px solid #EAECF0'} p={'14px'} w={'100%'}><img src={getImageUrl('logos/airtel.png')} style={{width: '58px', height: '58px'}} alt="airtel" /><Text fontSize={'14px'} fontWeight={500} color={'#101828'}>Airtel</Text></Stack>
-                    <Stack alignItems={'center'} borderRadius={'8px'} border={'1px solid #EAECF0'} p={'14px'} w={'100%'}><img src={getImageUrl('logos/9mobile.png')} style={{width: '58px', height: '58px'}} alt="9mobile" /><Text fontSize={'14px'} fontWeight={500} color={'#101828'}>9mobile</Text></Stack>
+                    <Box alignSelf={'start'} borderRadius={'36px'} px={'12px'} py={'8px'} bg={'#2C323A'} color={'#FFFFFF'} fontSize={'10px'} fontWeight={500}>Tier 1 Savings Account</Box>
                 </HStack>
 
                 <FormControl w={'75%'} isRequired>
-                    <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Phone Number</FormLabel>
-                    <Input bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Input Phone Number" _placeholder={{fontSize: '16px', color: '#667085'}}></Input>
+                    <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Account Number</FormLabel>
+                    <Input h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Input acount number" _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
                 </FormControl>
 
                 <HStack w={'75%'}>
                     <img src={getImageUrl('icons/nav/profileGrey.png')} alt="" />
-                    <Text fontSize={'14px'} fontWeight={500} color={'#A41857'}>Select from favorites</Text>
+                    <Text fontSize={'14px'} fontWeight={500} color={'#A41857'}>Select from Beneficiary</Text>
                 </HStack>
 
                 <FormControl w={'75%'} isRequired>
-                    <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Data Bundle</FormLabel>
-                    <Select bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select Bundle" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
+                    <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Bank Name</FormLabel>
+                    <Select h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select bank" _placeholder={{fontSize: '16px', color: '#667085'}} >
+                        <option value="">Bank 1</option>
+                    </Select>
                 </FormControl>
 
-                <HStack w={'75%'} justifyContent={'space-between'}>
-                    <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Save as Favorite</Text>
-                    <Switch onChange={() => setAddFavorite(!addFavorite)} checked={addFavorite} onColor='#A41857' checkedIcon={false} uncheckedIcon={false} height={24} width={40} handleDiameter={16} />
-                </HStack>
-
-                <Button onClick={moveToTwo} mt={'16px'} w={'75%'} py={'20px'} px={'12px'} bg={'#A41856'} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} _hover={{bg: '#A41856'}}>Continue</Button>
+                <Button
+                    mt={'16px'}
+                    w={'75%'} h={'48px'}
+                    bg={'#A41856'} _hover={{bg: '#A41856'}}
+                    color={'#FFFFFF'} fontSize={'14px'} fontWeight={600}
+                    onClick={moveToTwo}
+                >Continue</Button>
             </Stack>
         </Box>}
 
 
         {showTwo && <Box>
+
             <HStack bg={'#EAECF0'} justifyContent={'space-between'} px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
                 <Button h={'24px'} bg={'#EAECF0'} p={0} _hover={{bg: '#EAECF0'}} onClick={moveToOne}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
-                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>Complete Purchase</Text>
-                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>2/2</Text>
+                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>Transfer to Others</Text>
+                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>2/3</Text>
+            </HStack>
+            <Stack gap={'16px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'}>                                
+                <Text fontSize={'16px'} color={'#667085'} textAlign={'center'}>Input the transaction details below</Text>
+                <HStack w={'75%'} backgroundColor={'#000000'} backgroundImage={getImageUrl('backgroundGrey.png')} bgSize={'100% 100%'} borderRadius={'12px'} p={'14px'} pt={'24px'} justifyContent={'space-between'}>
+                    <Box>
+                        <Text fontSize={'14px'} fontWeight={400} color={'#FFFFFF'}>Total Available Balance</Text>
+                        <HStack ml={"-1px"} spacing={0}>
+                            <Box fontSize={"20px"} color={"#FFFFFF"}><TbCurrencyNaira /></Box>
+                            <Text fontSize={"18px"} fontWeight={600} color={"#FFFFFF"}>{totalBalanceVisible ? `${1234568}` : hideBalance()}</Text>
+                            <Box pl={3} cursor={"pointer"}>
+                                { totalBalanceVisible && <BiShow fontSize={"lg"} color={"#FFFFFF"} onClick={handleToggleVisibility} /> }
+                                { !totalBalanceVisible && <BiHide fontSize={"lg"} color={"#FFFFFF"} onClick={handleToggleVisibility} /> }
+                            </Box>
+                        </HStack>
+                    </Box>
+
+                    <Box alignSelf={'start'} borderRadius={'36px'} px={'12px'} py={'8px'} bg={'#2C323A'} color={'#FFFFFF'} fontSize={'10px'} fontWeight={500}>Tier 1 Savings Account</Box>
+                </HStack>
+
+                <Box w={'75%'} p={'12px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} borderRadius={'8px'}>
+                    <HStack>
+                        <img style={{width: '20px', height: '20px'}} src={getImageUrl('icons/greyBank.png')} />
+                        <Stack gap={0}>
+                            <Text fontSize={'10px'} fontWeight={500} color={'#667085'}>BENEFICIARY ACCOUNT NUMBER</Text>
+                            <Text fontSize={'14px'} fontWeight={500} color={'#101828'}>Guaranty Trust Bank - 0122458754</Text>
+                        </Stack>
+                    </HStack>
+
+                    <Divider h={'2px'} mt={'12px'} mb={'12px'}/>
+
+                    <HStack>
+                        <img src={getImageUrl('icons/nav/profileGrey.png')} />
+                        <Stack gap={0}>
+                            <Text fontSize={'10px'} fontWeight={500} color={'#667085'}>BENEFICIARY NAME</Text>
+                            <Text fontSize={'14px'} fontWeight={500} color={'#101828'}>Adeola Obasanjo</Text>
+                        </Stack>
+                    </HStack>
+
+                </Box>
+
+                <Stack w={'75%'}>
+                    <Text>Amount</Text>
+                    <InputGroup>
+                        <InputLeftElement pointerEvents='none' color='#667085' fontSize='16px'>₦</InputLeftElement>
+                        <Input h={'48px'} type='number' bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Enter amount" _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
+                    </InputGroup>
+                </Stack>
+
+                <HStack w={'75%'} justifyContent={'space-between'}>
+                    <HStack>
+                        <img src={getImageUrl('icons/nav/profileGrey.png')} alt="" />
+                        <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Your daily transfer limit is N200,000</Text>
+                    </HStack>
+                    <Text cursor={'pointer'} fontSize={'14px'} fontWeight={500} color={'#A41857'}>Increase your transfer limit</Text>
+                </HStack>
+
+                <Stack w={'75%'}>
+                    <Text>Note (Optional)</Text>
+                    <Input h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
+                </Stack>
+
+                <Button
+                    mt={'16px'}
+                    w={'75%'} h={'48px'}
+                    bg={'#A41856'} _hover={{bg: '#A41856'}}
+                    color={'#FFFFFF'} fontSize={'14px'} fontWeight={600}
+                    onClick={moveToThree}
+                >Continue</Button>
+            </Stack>
+        </Box>}
+
+
+        {showThree && <Box>
+            <HStack bg={'#EAECF0'} justifyContent={'space-between'} px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
+                <Button h={'24px'} bg={'#EAECF0'} p={0} _hover={{bg: '#EAECF0'}} onClick={moveToTwo}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
+                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>Complete Transaction</Text>
+                <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>3/3</Text>
             </HStack>
 
             <CompleteTransaction />
-        </Box>}
 
+        </Box>}
         </>
     );
 }

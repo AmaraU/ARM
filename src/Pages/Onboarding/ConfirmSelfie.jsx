@@ -58,7 +58,7 @@ export const ConfirmSelfie = () => {
     return (
         <>
         <Stack alignItems={'center'} spacing={10} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
-            <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
+            <img style={{width: '140px', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
                 <a href='/capture'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
                 

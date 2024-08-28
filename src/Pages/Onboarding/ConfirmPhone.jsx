@@ -18,10 +18,6 @@ export const ConfirmNumber = ({ isOpen, onClose }) => {
     const [ isAlternate, setIsAlternate ] = useState(false);
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     setIsAlternate(false);
-    // })
-
     const closeModal = () => {
         setIsAlternate(false);
         onClose();

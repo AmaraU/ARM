@@ -89,8 +89,8 @@ export const VerifyNumber = () => {
     
     return (
         <>
-        <Stack alignItems={'center'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
-            <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
+        <Stack alignItems={'center'} h={'100vh'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
+            <img style={{width: '140px', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
                 <a href='/signup'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
                 

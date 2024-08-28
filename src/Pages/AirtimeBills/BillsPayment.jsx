@@ -21,26 +21,26 @@ export const BillsPayment = () => {
 
 
     const savedBills = [
-        // {
-        //     name: "DSTv Compact",
-        //     number: "00236781932",
-        //     amount: "19,000"
-        // },
-        // {
-        //     name: "Ikeja Electric",
-        //     number: "00236781932",
-        //     amount: "3,000"
-        // },
-        // {
-        //     name: "Ikeja Electric",
-        //     number: "00236781932",
-        //     amount: "5,000"
-        // },
-        // {
-        //     name: "DSTv Compact",
-        //     number: "00236781932",
-        //     amount: "19,000"
-        // }
+        {
+            name: "DSTv Compact",
+            number: "00236781932",
+            amount: "19,000"
+        },
+        {
+            name: "Ikeja Electric",
+            number: "00236781932",
+            amount: "3,000"
+        },
+        {
+            name: "Ikeja Electric",
+            number: "00236781932",
+            amount: "5,000"
+        },
+        {
+            name: "DSTv Compact",
+            number: "00236781932",
+            amount: "19,000"
+        }
     ]
     
 
@@ -140,7 +140,7 @@ export const BillsPayment = () => {
                                             <button onClick={() => toggleAction(index)}><img style={{height: '24px', width: '24px'}} src={getImageUrl('icons/actions.png')} /></button>
                                             <Box className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={popupRef}>
                                                 <button style={{alignSelf: 'end'}}><img style={{width: '14px', height: '14px'}} src={getImageUrl('icons/blackX.png')} /></button>
-                                                <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/nav/blackPhone.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Buy Data</Text></HStack>
+                                                <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/bills.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Buy Data</Text></HStack>
                                                 <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/redDelete.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Delete</Text></HStack>
                                             </Box>
                                         </HStack>
@@ -163,20 +163,20 @@ export const BillsPayment = () => {
 
                 <FormControl w={'75%'} isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Bill Type</FormLabel>
-                    <Select bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select bill type" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
+                    <Select h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select bill type" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
                 </FormControl>
 
                 <FormControl w={'75%'} isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Bill Provider</FormLabel>
-                    <Select bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select bill provider" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
+                    <Select h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select bill provider" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
                 </FormControl>
 
                 <FormControl w={'75%'} isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Package</FormLabel>
-                    <Select bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select package" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
+                    <Select h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select package" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
                 </FormControl>
 
-                <Button onClick={moveToTwo} mt={'16px'} w={'75%'} py={'20px'} px={'12px'} bg={'#A41856'} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} _hover={{bg: '#A41856'}}>Continue</Button>
+                <Button onClick={moveToTwo} mt={'16px'} w={'75%'} h={'48px'} bg={'#A41856'} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} _hover={{bg: '#A41856'}}>Continue</Button>
             </Stack>
         </Box>}
 
@@ -231,8 +231,7 @@ export const BillsPayment = () => {
 
                 <Button
                     mt={'16px'}
-                    w={'75%'} h={'fit-content'}
-                    py={'15px'} px={'20px'}
+                    w={'75%'} h={'48px'}
                     bg={'#A41856'} _hover={{bg: '#A41856'}}
                     color={'#FFFFFF'} fontSize={'14px'} fontWeight={600}
                     onClick={moveToThree}

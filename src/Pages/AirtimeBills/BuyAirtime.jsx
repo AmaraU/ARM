@@ -17,30 +17,30 @@ export const BuyAirtime = () => {
 
 
     const savedAirtime = [
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "300",
-            network: "MTN"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "300",
-            network: "Glo"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "300",
-            network: "9Mobile"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "300",
-            network: "Airtel"
-        }
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "300",
+        //     network: "MTN"
+        // },
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "300",
+        //     network: "Glo"
+        // },
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "300",
+        //     network: "9Mobile"
+        // },
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "300",
+        //     network: "Airtel"
+        // }
     ]
     
 
@@ -109,7 +109,7 @@ export const BuyAirtime = () => {
                     <Stack spacing={'16px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'} pt={'48px'}>
                         <Stack w={'60%'} display={'grid'} gridTemplateColumns={'repeat(2, auto)'}>
                             {savedAirtime.map((air, index) => (
-                                <HStack border={'1px solid #EAECF0'} borderRadius={'8px'} w={'100%'} py={'20px'} px={'10px'} spacing={'16px'}>
+                                <HStack key={index} border={'1px solid #EAECF0'} borderRadius={'8px'} w={'100%'} py={'20px'} px={'10px'} spacing={'16px'}>
                                     <Box>
                                         {air.network.toLowerCase() === 'mtn' ? <img style={{width: '32px', height: '32px'}} src={getImageUrl('logos/mtn.png')} /> : <></>}
                                         {air.network.toLowerCase() === 'glo' ? <img style={{width: '32px', height: '32px'}} src={getImageUrl('logos/glo.png')} /> : <></>}
@@ -126,7 +126,7 @@ export const BuyAirtime = () => {
                                             <button onClick={() => toggleAction(index)}><img style={{height: '24px', width: '24px'}} src={getImageUrl('icons/actions.png')} /></button>
                                             <Box className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={popupRef}>
                                                 <button style={{alignSelf: 'end'}}><img style={{width: '14px', height: '14px'}} src={getImageUrl('icons/blackX.png')} /></button>
-                                                <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/nav/blackPhone.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Buy Airtime</Text></HStack>
+                                                <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/blackPhone.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Buy Airtime</Text></HStack>
                                                 <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/redDelete.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Delete</Text></HStack>
                                             </Box>
                                         </HStack>
@@ -157,7 +157,7 @@ export const BuyAirtime = () => {
 
                 <FormControl w={'75%'} isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Phone Number</FormLabel>
-                    <Input bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Input Phone Number" _placeholder={{fontSize: '16px', color: '#667085'}}></Input>
+                    <Input h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Input Phone Number" _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
                 </FormControl>
 
                 <HStack w={'75%'}>
@@ -168,8 +168,8 @@ export const BuyAirtime = () => {
                 <FormControl w={'75%'} isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Amount</FormLabel>
                     <InputGroup>
-                        <InputLeftElement pointerEvents='none' color='#667085' fontSize='16px'>₦</InputLeftElement>
-                        <Input bg={'#F7F7F7'} border={'1px solid #EAECF0'} />
+                        <InputLeftElement h={'48px'} pointerEvents='none' color='#667085' fontSize='16px'>₦</InputLeftElement>
+                        <Input h={'48px'} type='number' bg={'#F7F7F7'} border={'1px solid #EAECF0'} autoComplete='off' />
                     </InputGroup>
                 </FormControl>
 
@@ -178,7 +178,7 @@ export const BuyAirtime = () => {
                     <Switch onChange={() => setAddFavorite(!addFavorite)} checked={addFavorite} onColor='#A41857' checkedIcon={false} uncheckedIcon={false} height={24} width={40} handleDiameter={16} />
                 </HStack>
 
-                <Button onClick={moveToTwo} mt={'16px'} w={'75%'} py={'20px'} px={'12px'} bg={'#A41856'} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} _hover={{bg: '#A41856'}}>Continue</Button>
+                <Button onClick={moveToTwo} mt={'16px'} w={'75%'} h={'48px'} bg={'#A41856'} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} _hover={{bg: '#A41856'}}>Continue</Button>
             </Stack>
         </Box>}
 

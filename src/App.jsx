@@ -6,16 +6,16 @@ import Signup from './Pages/Onboarding/Signup';
 import { VerifyNumber } from './Pages/Onboarding/VerifyNumber';
 import { TakeSelfie } from './Pages/Onboarding/TakeSelfie';
 import { ConfirmSelfie } from './Pages/Onboarding/ConfirmSelfie';
+import { UserInfo } from './Pages/Onboarding/UserInfo';
+import { CreateProfile } from './Pages/Onboarding/CreateProfile';
+import { Welcome } from './Pages/Onboarding/Welcome';
 
 import { DashboardLayout } from './Pages/DashboardLayout';
 import { Overview } from './Pages/DashboardPage/Overview';
 import { Transfers } from './Pages/Transfers/Transfers';
+import { AirtimeBills } from './Pages/AirtimeBills/AirtimeBills';
 
 import { BlankPage } from './Pages/BlankPage';
-import { UserInfo } from './Pages/Onboarding/UserInfo';
-import { CreateProfile } from './Pages/Onboarding/CreateProfile';
-import { Welcome } from './Pages/Onboarding/Welcome';
-import { AirtimeBills } from './Pages/AirtimeBills/AirtimeBills';
 
 
 function App() {
@@ -33,7 +33,6 @@ function App() {
     {
       path: '/overview', element: <DashboardLayout />,
       children: [
-
         { path: '/overview', element: <Navigate to="dashboard" /> },
         { path: 'dashboard', element: <Overview /> },
         { path: 'transfers', element: <Transfers /> },

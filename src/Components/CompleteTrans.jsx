@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Stack, Text, Box, Button, HStack, Input } from "@chakra-ui/react";
-import { getImageUrl } from "../../utils";
 
 export const CompleteTransaction = () => {
 
-    const [ isFiled, setIsFilled ] = useState(false);
+    const [ isFilled, setIsFilled ] = useState(false);
 
     useEffect(() => {
 
@@ -43,14 +42,11 @@ export const CompleteTransaction = () => {
                     });
                 }
     
-                if (!inputs[5].disabled && inputs[5].value !== "") {
+                if (!inputs[3].disabled && inputs[3].value !== "") {
                     setIsFilled(true);
-                    console.log(isFiled);
-
                     return;
                 }
                 setIsFilled(false);
-                console.log(isFiled);
             });
         });
     
@@ -70,22 +66,20 @@ export const CompleteTransaction = () => {
             <Text fontSize={'16px'} color={'#667085'} textAlign={'center'}>Enter your 4-digit PIN to complete your transaction</Text>
 
             <HStack w={'75%'} spacing={'16px'} justifyContent={'center'}>
-                <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" />
-                <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" />
-                <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" />
-                <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" />
+                <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" autoComplete='off' />
+                <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" autoComplete='off' />
+                <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" autoComplete='off' />
+                <Input bg={'#F7F7F7'} border={'2px solid #EAECF0'} textAlign={'center'} h={'72px'} w={'100px'} fontSize={'38px'} fontWeight={700} color={'#000000'} id="password" type="password" autoComplete='off' />
             </HStack>
 
             <Text color={'#A41857'} fontSize={'14px'} fontWeight={500} cursor={'pointer'} _hover={{textDecoration: 'underline'}}>Forgotten you PIN?</Text>
             
-
             <Button
                 mt={'16px'}
-                w={'75%'} h={'fit-content'}
-                py={'16px'} px={'20px'}
+                w={'75%'} h={'48px'}
                 bg={'#A41856'} _hover={{bg: '#A41856'}}
                 color={'#FFFFFF'} fontSize={'14px'} fontWeight={600}
-                // isDisabled={isFiled ? false : true}
+                isDisabled={isFilled ? false : true}
             >
                 Continue
             </Button>

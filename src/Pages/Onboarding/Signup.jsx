@@ -13,17 +13,16 @@ import {
     Divider,
     useDisclosure
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getImageUrl } from '../../../utils';
 import styles from './Onboarding.module.css';
 import { ConfirmNumber } from './ConfirmPhone';
 
-export default function Signin() {
+export default function Signup() {
 
     const { isOpen: isOpenConfirm, onOpen: onOpenConfirm, onClose: onCloseConfirm } = useDisclosure();
     const [isLoading, setIsloading] = useState(false);
-    const [email, setEmail] = useState("");
     const [ currentIndex, setCurrentIndex ] = useState(0);
     const [ questOne, setQuestOne ] = useState(false);
     const [ questTwo, setQuestTwo ] = useState(false);
@@ -63,7 +62,6 @@ export default function Signin() {
                 setVisible(true);
             }, 1000);
         }, 10000);
-
         return () => clearInterval(interval);
     }, []);
 
@@ -83,11 +81,19 @@ export default function Signin() {
 
     return (
         <>
-        <Stack className={styles.whole} minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
-
-            <Flex className={styles.image} bgImage={getImageUrl(`${changingText[currentIndex].image}`)} >
-                <Flex className={styles.image} p={'50px'} display={{ base: 'none', md: 'flex' }} flex={'40%'} background={'linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)'} backgroundSize={'100% 100%'} borderRadius={'0 56px 56px 0'}>
-                    <Stack spacing={10}>
+        <Box display="flex" height="100vh" maxW={'1500px'}>
+            
+            <Box display={{ base: 'none', md: 'block' }} flex="45%" position="relative" borderRadius={'0 56px 56px 0'}>
+                <Box
+                    position="fixed"
+                    width="45%"
+                    height="100vh"
+                    bgGradient={'linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)'}
+                    zIndex="1"
+                    borderRadius={'0 56px 56px 0'}
+                    p={'2.5%'}
+                >
+                    <Stack spacing={10} zIndex={2} h={'100%'}>
                         <Box p={8} as='button' onClick={() => navigate('/')}>
                             <Image src={getImageUrl("logos/arm_logo.png")} w={"140px"} h={'auto'} />
                         </Box>
@@ -102,28 +108,39 @@ export default function Signin() {
                                 ))}
                             </Flex>
 
-                            <Flex mt={24} bottom={'20%'} alignItems={'center'} justifyContent={'space-between'}>
+                            <Flex mt={24} bottom={0} alignItems={'center'} justifyContent={'space-between'}>
                                 <Text fontSize={"14px"} color={'#EFECE9'}>© 2024 ARM MFB by ARM Group. All rights reserved.</Text>
                                 <Text fontSize={"14px"} color={'#EFECE9'} cursor={'pointer'} _hover={{textDecoration: 'underline'}}>Help Center</Text>
                             </Flex>
                         </Flex>
                     </Stack>
-                </Flex>
-            </Flex>
-
-            <Flex flex={'60%'} display={'flex'} flexDirection={'column'} py={'94px'} px={'71px'}>
+                </Box>
                 
-                <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Let's have your {text}</Text>
-                <Text fontSize={'18px'} fontWeight={400} color={'#667085'}>Kindly provide your 11-digit {text} to validate your identity</Text>
+                <Image
+                    src={getImageUrl(`${changingText[currentIndex].image}`)}
+                    alt="Fixed"
+                    position="fixed"
+                    width="45%"
+                    height="100vh"
+                    objectFit="cover"
+                    borderRadius={'0 56px 56px 0'}
+                    className={styles.image}
+                />
+            </Box>
 
-                <Stack spacing={'16px'} w={{ base: 'md', md: 'lg' }} maxW={'lg'} as='form' onSubmit={processForm} mt={'48px'}>
+
+            <Box w={{base: 'sm', md: 'sm', lg: 'lg'}} flex="55%" overflowY="scroll" bg="white" display={'flex'} flexDirection={'column'} py={'50px'} px={'24px'} alignItems={'center'}>            
+                <Text fontSize={{base: '40px', md: '48px'}} fontWeight={700} color={'#14142A'}>Let's have your {text}</Text>
+                <Text fontSize={{base: '16px', md: '18px'}} fontWeight={400} color={'#667085'}>Kindly provide your 11-digit {text} to validate your identity</Text>
+
+                <Stack spacing={'16px'}  as='form' onSubmit={processForm} mt={'48px'}>
                     {isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter BVN</FormLabel>
-                        <Input type='text' placeholder='Enter your BVN' _placeholder={{ fontSize: "sm" }} value={email} onChange={(e) => setEmail(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                        <Input type='text' placeholder='Enter your BVN' _placeholder={{ fontSize: "sm" }} border={'1px solid #EAECF0'} bg={'#F7F7F7'} maxLength={11} autoComplete='off' />
                     </FormControl>}
                     {!isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter NIN</FormLabel>
-                        <Input type='text' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} value={email} onChange={(e) => setEmail(e.target.value)} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                        <Input type='text' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} border={'1px solid #EAECF0'} bg={'#F7F7F7'} maxLength={11} autoComplete='off' />
                     </FormControl>}
                     <Box p={'12px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} borderRadius={'8px'}>
                         <Box>
@@ -176,14 +193,14 @@ export default function Signin() {
                     </Box>
                     
                     <FormControl isRequired >
-                        <Checkbox alignItems={'flex-start'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} borderRadius={'8px'} p={'12px'}>
+                        <Checkbox alignItems={'flex-start'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} borderRadius={'8px'} p={'12px'} colorScheme="red" _checked={{"& .chakra-checkbox__control": { background: "#A41857" }}}>
                             <Stack>
                                 <Text fontSize={'14px'} fontWeight={700} color={'#344054'}>I accept the terms and conditions</Text>
                                 <Text fontSize={'14px'} fontWeight={400} color={'#475467'}>You acknowledge that you have read this Terms & Conditions and agree to all its term.</Text>
                             </Stack>
                         </Checkbox>
                     </FormControl>
-
+{/* _checked={{"& .chakra-checkbox__control": { background: "#A41857" }}} */}
                     <Stack pt={4}>
                         <Button
                             disabled={isLoading}
@@ -191,7 +208,6 @@ export default function Signin() {
                             rounded={'8px'}
                             py={'26px'}
                             px={'16px'}
-                            // type="submit"
                             type={'button'}
                             size="md"
                             bg={'#A41857'}
@@ -204,14 +220,13 @@ export default function Signin() {
                         </Button>
                     </Stack>
                     <div className={styles.signUp}>
-                        <div className={styles.line}></div>
+                        <div className={styles.line} />
                         Already have an account? <a href="/signin">Sign in</a>
-                        <div className={styles.line}></div>
+                        <div className={styles.line} />
                     </div>
                 </Stack>
-                        
-            </Flex>
-        </Stack>
+            </Box>
+        </Box>
         
         <ConfirmNumber isOpen={isOpenConfirm} onClose={onCloseConfirm} />
         </>

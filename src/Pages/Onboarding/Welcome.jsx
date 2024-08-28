@@ -34,9 +34,9 @@ export const Welcome = () => {
     };
     
     return (
-        <Stack alignItems={'center'} textAlign={'center'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
-            <img style={{width: '30%', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
-            <img style={{marginTop: '24px', width: '100%', height: 'auto'}}  src={getImageUrl('welcome.png')} alt="" />
+        <Stack h={'100vh'} alignItems={'center'} textAlign={'center'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
+            <img style={{width: '140px', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
+            <img style={{marginTop: '', width: '100%', height: 'auto'}}  src={getImageUrl('welcome.png')} alt="" />
             <Text mt={'-140px'} fontSize={'48px'} fontWeight={700} color={'#14142A'}>Welcome Adeola</Text>
             <Text fontSize={'18px'} fontWeight={400} color={'#667085'}>Your ARM MFB profile has been successfully created. You can now proceed to login and complete your setup</Text>
 

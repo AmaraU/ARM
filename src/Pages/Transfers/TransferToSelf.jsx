@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Stack, Text, Box, Button, HStack, Input, Select, FormControl, FormLabel } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Input, Select, FormControl, FormLabel, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import styles from "./Transfers.module.css";
 import { getImageUrl } from "../../../utils";
 import { CompleteTransaction } from '../../Components/CompleteTrans';
@@ -33,17 +33,21 @@ export const TransferToSelf = () => {
 
                 <FormControl w={'75%'} isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Account to Debit</FormLabel>
-                    <Select bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select account" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
+                    <Select h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select account" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
                 </FormControl>
 
                 <FormControl w={'75%'} isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Account to Credit</FormLabel>
-                    <Select bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select account" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
+                    <Select h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select account" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
                 </FormControl>
 
                 <FormControl w={'75%'} isRequired>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Amount</FormLabel>
-                    <Input bg={'#F7F7F7'} border={'1px solid #EAECF0'} _placeholder={{fontSize: '16px', color: '#667085'}} placeholder="₦00.00"></Input>
+                    <InputGroup>
+                        <InputLeftElement h={'48px'} pointerEvents='none' color='#667085' fontSize='16px'>₦</InputLeftElement>
+                        <Input h={'48px'} type='number' bg={'#F7F7F7'} border={'1px solid #EAECF0'} _placeholder={{fontSize: '16px', color: '#667085'}} placeholder="00.00" autoComplete='off' />
+                    </InputGroup>
+                    {/* <Input bg={'#F7F7F7'} border={'1px solid #EAECF0'} _placeholder={{fontSize: '16px', color: '#667085'}} placeholder="₦00.00" autoComplete='off' /> */}
                 </FormControl>
 
                 <HStack w={'75%'} justifyContent={'space-between'}>
@@ -56,10 +60,10 @@ export const TransferToSelf = () => {
 
                 <FormControl w={'75%'}>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Note (Optional)</FormLabel>
-                    <Input bg={'#F7F7F7'} border={'1px solid #EAECF0'} _placeholder={{fontSize: '16px', color: '#667085'}}></Input>
+                    <Input h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
                 </FormControl>
 
-                <Button onClick={moveToTwo} mt={'16px'} w={'75%'} py={'20px'} px={'12px'} bg={'#A41856'} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} _hover={{bg: '#A41856'}}>Continue</Button>
+                <Button onClick={moveToTwo} mt={'16px'} w={'75%'} h={'48px'} bg={'#A41856'} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} _hover={{bg: '#A41856'}}>Continue</Button>
             </Stack>
         </Box>}
 
