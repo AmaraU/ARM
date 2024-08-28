@@ -86,7 +86,7 @@ export default function Signin() {
 
     return (
         <>
-        <Box display="flex" height="100vh" maxW={'1500px'}>
+        <Box display="flex" height="100vh">
             
             <Box display={{base: 'none', md: 'block'}} flex={{base: '40%', lg: '45%'}} position="relative" borderRadius={'0 56px 56px 0'} maxW={'670px'}>
                 <Box

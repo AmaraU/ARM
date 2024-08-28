@@ -81,7 +81,7 @@ export default function Signup() {
 
     return (
         <>
-        <Box display="flex" height={["auto","100vh"]} maxW={'1500px'}>
+        <Box display="flex" height={["auto","100vh"]}>
             
             <Box display={{ base: 'none', md: 'block' }} flex="45%" position="relative" borderRadius={'0 56px 56px 0'} maxW={'670px'}>
                 <Box
