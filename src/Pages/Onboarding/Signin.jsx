@@ -92,6 +92,7 @@ export default function Signin() {
                 <Box
                     position="fixed"
                     width="45%"
+                    maxW={'670px'}
                     height="100vh"
                     bgGradient={'linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)'}
                     zIndex="1"
@@ -126,6 +127,7 @@ export default function Signin() {
                     alt="Fixed"
                     position="fixed"
                     width="45%"
+                    maxW={'670px'}
                     height="100vh"
                     objectFit="cover"
                     borderRadius={'0 56px 56px 0'}
