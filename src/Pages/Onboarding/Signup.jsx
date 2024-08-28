@@ -81,9 +81,9 @@ export default function Signup() {
 
     return (
         <>
-        <Box display="flex" height="100vh" maxW={'1500px'}>
+        <Box display="flex" height={["auto","100vh"]} maxW={'1500px'}>
             
-            <Box display={{ base: 'none', md: 'block' }} flex="45%" position="relative" borderRadius={'0 56px 56px 0'}>
+            <Box display={{ base: 'none', md: 'block' }} flex="45%" position="relative" borderRadius={'0 56px 56px 0'} maxW={'670px'}>
                 <Box
                     position="fixed"
                     width="45%"
@@ -99,7 +99,7 @@ export default function Signup() {
                         </Box>
                         
                         <Flex flexDirection={'column'} gap={'12px'} h={'100%'} justifyContent={'end'} mb={'24px'}>
-                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={"40px"} fontWeight={700} color={'white'} w={'90%'}>{changingText[currentIndex].header}</Text>
+                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={'6vh'} fontWeight={700} color={'white'} w={'90%'}>{changingText[currentIndex].header}</Text>
                             <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={"16px"} color={'white'} w={'90%'}>{changingText[currentIndex].subheading}</Text>
 
                             <Flex gap={'4px'}>
@@ -108,7 +108,7 @@ export default function Signup() {
                                 ))}
                             </Flex>
 
-                            <Flex mt={24} bottom={0} alignItems={'center'} justifyContent={'space-between'}>
+                            <Flex mt={'6vh'} bottom={0} alignItems={'center'} justifyContent={'space-between'}>
                                 <Text fontSize={"14px"} color={'#EFECE9'}>© 2024 ARM MFB by ARM Group. All rights reserved.</Text>
                                 <Text fontSize={"14px"} color={'#EFECE9'} cursor={'pointer'} _hover={{textDecoration: 'underline'}}>Help Center</Text>
                             </Flex>
@@ -124,16 +124,16 @@ export default function Signup() {
                     height="100vh"
                     objectFit="cover"
                     borderRadius={'0 56px 56px 0'}
-                    className={styles.image}
                 />
             </Box>
 
 
-            <Box w={{base: 'sm', md: 'sm', lg: 'lg'}} flex="55%" overflowY="scroll" bg="white" display={'flex'} flexDirection={'column'} py={'50px'} px={'24px'} alignItems={'center'}>            
-                <Text fontSize={{base: '40px', md: '48px'}} fontWeight={700} color={'#14142A'}>Let's have your {text}</Text>
-                <Text fontSize={{base: '16px', md: '18px'}} fontWeight={400} color={'#667085'}>Kindly provide your 11-digit {text} to validate your identity</Text>
+            <Box  flex="55%" overflowY="scroll" bg="white" display={'flex'} flexDirection={'column'} p={{base: '24px', md: '50px'}} alignItems={{base: 'center', md: 'start'}}>
 
-                <Stack spacing={'16px'}  as='form' onSubmit={processForm} mt={'48px'}>
+                <Stack spacing={'16px'} w={{base: 'sm', sm: 'md', lg: 'lg'}} maxW={'630px'} as='form' onSubmit={processForm} mt={'48px'} >
+                    <Text fontSize={{base: '40px', md: '48px'}} fontWeight={700} color={'#14142A'}>Let's have your {text}</Text>
+                    <Text fontSize={{base: '16px', md: '18px'}} fontWeight={400} color={'#667085'}>Kindly provide your 11-digit {text} to validate your identity</Text>
+
                     {isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter BVN</FormLabel>
                         <Input type='text' placeholder='Enter your BVN' _placeholder={{ fontSize: "sm" }} border={'1px solid #EAECF0'} bg={'#F7F7F7'} maxLength={11} autoComplete='off' />
@@ -200,7 +200,6 @@ export default function Signup() {
                             </Stack>
                         </Checkbox>
                     </FormControl>
-{/* _checked={{"& .chakra-checkbox__control": { background: "#A41857" }}} */}
                     <Stack pt={4}>
                         <Button
                             disabled={isLoading}
