@@ -2,6 +2,8 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react"
 import styles from './ProfilePage.module.css';
 import { AccountInformation } from "./AccountInformation";
 import { AccountHistory } from "./AccountHistory";
+import { AccountStatement } from "./AccountStatement";
+import { AccountLimit } from "./AccountLimit";
 
 export const ProfilePage = () => {
     
@@ -26,11 +28,11 @@ export const ProfilePage = () => {
                     </TabPanel>
                     
                     <TabPanel ml={-4}>
-                        {/* <BillsPayment /> */}
+                        <AccountStatement />
                     </TabPanel>
 
                     <TabPanel ml={-4}>
-                        {/* <BillsPayment /> */}
+                        <AccountLimit />
                     </TabPanel>
                 </TabPanels>
             </Tabs>

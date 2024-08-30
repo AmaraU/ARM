@@ -102,7 +102,7 @@ export const Beneficiaries = () => {
                                     <div>
                                         <button onClick={() => toggleAction(index)}><img style={{height: '24px', width: '24px'}} src={getImageUrl('icons/actions.png')} /></button>
                                         <Box className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={popupRef}>
-                                            <button style={{alignSelf: 'end'}}><img style={{width: '14px', height: '14px'}} src={getImageUrl('icons/blackX.png')} /></button>
+                                            <button onClick={()=>setActionsOpen(false)} style={{alignSelf: 'end'}}><img style={{width: '14px', height: '14px'}} src={getImageUrl('icons/blackX.png')} /></button>
                                             <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/nav/transfersGrey.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Transfer</Text></HStack>
                                             <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/redDelete.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'} onClick={onOpenDelete}>Delete</Text></HStack>
                                         </Box>

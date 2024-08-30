@@ -1,16 +1,16 @@
-import { useState, useRef } from "react";
-import { Stack, Text, Box, Button, HStack, Divider, Input, Table, Thead, Th, Tbody, Tr, Td } from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
+import { Stack, Text, Box, Button, HStack, Select } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./ProfilePage.module.css";
-import { BiShow, BiHide } from "react-icons/bi";
+import Pagination from "../../Components/Pagination/Pagination";
 
 export const AccountHistory = () => {
 
-    const [ currentIndex, setCurrentIndex ] = useState(0);
-    const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
-    const [ showUpgrade, setShowUpgrade ] = useState(true);
-    const [ infoPopup, setInfoPopup ] = useState(false);
-    
+    const [ search, setSearch] = useState("");
+    const [ actionsOpen, setActionsOpen ] = useState({});
+    const [ currentPage, setCurrentPage ] = useState(1);
+    const [ itemsPerPage, setItemsPerPage ] = useState(8);
+
 
     const history = [
         {
@@ -30,6 +30,62 @@ export const AccountHistory = () => {
         {
             description: 'DStv compact subscription',
             method: 'Bills Payment',
+            amount: '100,500',
+            date: '03-Jul-2024',
+            type: 'debit'
+        },
+        {
+            description: 'Account Credited',
+            method: 'Inter Bank Transfer',
+            amount: '100,500',
+            date: '03-Jul-2024',
+            type: 'credit'
+        },
+        {
+            description: 'Account Credited',
+            method: 'Inter Bank Transfer',
+            amount: '100,500',
+            date: '03-Jul-2024',
+            type: 'credit'
+        },
+        {
+            description: 'MTN Airtime Purchase',
+            method: 'Bills Payment',
+            amount: '100,500',
+            date: '03-Jul-2024',
+            type: 'debit'
+        },
+        {
+            description: 'Account Credited',
+            method: 'Inter Bank Transfer',
+            amount: '100,500',
+            date: '03-Jul-2024',
+            type: 'credit'
+        },
+        {
+            description: 'Account Credited',
+            method: 'Inter Bank Transfer',
+            amount: '100,500',
+            date: '03-Jul-2024',
+            type: 'credit'
+        },
+        {
+            description: 'DStv compact subscription',
+            method: 'Bills Payment',
+            amount: '100,500',
+            date: '03-Jul-2024',
+            type: 'debit'
+        },
+        {
+            description: 'DStv compact subscription',
+            method: 'Bills Payment',
+            amount: '100,500',
+            date: '03-Jul-2024',
+            type: 'debit'
+        },
+        {
+            description: 'Account Credited',
+            method: 'Inter Bank Transfer',
             amount: '100,500',
             date: '03-Jul-2024',
             type: 'credit'
@@ -53,14 +109,7 @@ export const AccountHistory = () => {
             method: 'Bills Payment',
             amount: '100,500',
             date: '03-Jul-2024',
-            type: 'credit'
-        },
-        {
-            description: 'Account Credited',
-            method: 'Inter Bank Transfer',
-            amount: '100,500',
-            date: '03-Jul-2024',
-            type: 'credit'
+            type: 'debit'
         },
         {
             description: 'Account Credited',
@@ -70,6 +119,54 @@ export const AccountHistory = () => {
             type: 'credit'
         }
     ]
+
+    const filteredHistory = history.filter(his => {
+        const searchLower = search.toLowerCase();
+        return (
+            his.amount.toLowerCase().includes(searchLower) ||
+            his.date.toLowerCase().includes(searchLower) ||
+            his.description.toLowerCase().includes(searchLower) ||
+            his.method.toLowerCase().includes(searchLower) ||
+            his.type.toLowerCase().includes(searchLower)
+        );
+    });
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentHistory = filteredHistory.slice(indexOfFirstItem, indexOfLastItem);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        window.scrollTo({ top: 0});
+    };
+
+    const handlePageNumber = (itemNumber) => {
+        setItemsPerPage(itemNumber);
+        setCurrentPage(1);
+        window.scrollTo({ top: 0});
+    };
+
+    const toggleAction = (index) => {
+        setActionsOpen(prevState => ({
+            ...prevState,
+            [index]: !prevState[index]
+        }));
+    };
+
+    const popupRef = useRef(null);
+
+    const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setActionsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    }, []);
 
 
 
@@ -81,30 +178,30 @@ export const AccountHistory = () => {
                 <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>My Account History</Text>
             </HStack>
             
-            <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='114px' pt='48px'>
+            <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='40px' pb='114px' pt='48px'>
 
-                <HStack mb={'12px'} justifyContent={'space-between'}>
-                    <Box border='1px solid #DCD6CF' px='20px' py='10px' borderRadius='8px'>
-                        <Input />
-                        <img src={getImageUrl('icons/search.png')} alt="search" />
-                    </Box>
-                    <Box border='1px solid #DCD6CF' py='10px' borderRadius='8px'>
+                <HStack w='100%' mb='12px' justifyContent='space-between'>
+                    <HStack border='1px solid #DCD6CF' px='20px' py='10px' borderRadius='8px' width='50%'>
+                        <input placeholder="Search" style={{ width: '100%', outline:'transparent', border:'none', fontSize:'16px', color:'#A0A4A9', padding: '0'}}/>
+                        <img style={{width: '24px', height:'24px'}} src={getImageUrl('icons/search.png')} alt="search" />
+                    </HStack>
+                    <HStack border='1px solid #DCD6CF' p='10px' borderRadius='8px'>
                         <img src={getImageUrl('icons/filter.png')} alt="search" />
                         <Text fontSize='16px' color='#A0A4A9'>Filter</Text>
-                    </Box>
+                    </HStack>
                 </HStack>
-                <Table>
-                    <Thead bg='#D391AF0D' color='#667085'>
-                        <Th>Description</Th>
-                        <Th>Amount</Th>
-                        <Th>Date</Th>
-                        <Th></Th>
-                    </Thead>
+                <table className={styles.historyTable}>
+                    <thead>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th></th>
+                    </thead>
                     
-                    <Tbody>
-                        {history.map((his, index) => (
-                            <Tr key={index}>
-                                <Td>
+                    <tbody>
+                        {currentHistory.map((his, index) => (
+                            <tr key={index}>
+                                <td>
                                     <HStack>
                                         {his.type === 'credit' ? <img className={styles.credDeb} src={getImageUrl('icons/credit.png')} /> : ''}
                                         {his.type === 'debit' ? <img className={styles.credDeb} src={getImageUrl('icons/debit.png')} /> : ''}
@@ -113,14 +210,35 @@ export const AccountHistory = () => {
                                             <Text fontSize={"12px"} color={"#667085"} fontWeight={450}>{his.method}</Text>
                                         </Stack>
                                     </HStack>
-                                </Td>
-                                <Td><Box fontSize={"14px"} color={"#394455"} fontWeight={500}>₦{his.amount}</Box></Td>
-                                <Td><Text fontSize={"14px"} color={"#394455"} fontWeight={500}>{his.date}</Text></Td>
-                                <Td><img src={getImageUrl('icons/three_dots.png')} /></Td>
-                            </Tr>
+                                </td>
+                                <td>₦ {his.amount}</td>
+                                <td>{his.date}</td>
+                                <td>
+                                    <div>
+                                        <button onClick={() => toggleAction(index)}><img src={getImageUrl('icons/three_dots.png')} /></button>
+                                        <Box className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={popupRef}>
+                                            <button onClick={()=>setActionsOpen(false)} style={{alignSelf: 'end'}}><img style={{width: '14px', height: '14px'}} src={getImageUrl('icons/blackX.png')} /></button>
+                                            <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/nav/greyReceipt.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Download Receipt</Text></HStack>
+                                            <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/greySend.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Repeat Transaction</Text></HStack>
+                                        </Box>
+                                    </div>
+                                </td>
+                            </tr>
                         ))}
-                    </Tbody>
-                </Table>
+                    </tbody>
+                </table>
+
+                <HStack w='100%' justifyContent='space-between' alignItems='center'>
+                    <Pagination filteredData={filteredHistory} currentPage={currentPage} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
+                    <HStack flex='50%' justifyContent='space-between' alignItems='center'>
+                        <Text fontSize={"12px"} color={"#667085"} fontWeight={450}>Showing {indexOfFirstItem + 1} to {currentHistory.length + ((currentPage-1) * itemsPerPage)} of {filteredHistory.length} entries</Text>
+                        <Select w='100px' border='1px solid #EFECE9' fontSize='12px' fontWeight={450} color='#101828' onChange={(e) => handlePageNumber(e.target.value)} >
+                            <option value={8}>Show 8</option>
+                            <option value={10}>Show 10</option>
+                            <option value={15}>Show 15</option>
+                        </Select>
+                    </HStack>
+                </HStack>
                     
             </Stack>
         </Box>
