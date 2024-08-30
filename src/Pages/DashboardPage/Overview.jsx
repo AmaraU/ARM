@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Stack, Grid, GridItem, Text, Box, Button, HStack, Circle, Flex, Divider } from "@chakra-ui/react";
-import { BiShow, BiHide, BiCopy } from "react-icons/bi";
+import { useState } from 'react';
+import { Stack, Grid, GridItem, Text, Box, Button, HStack, Flex, Divider } from "@chakra-ui/react";
+import { BiShow, BiHide} from "react-icons/bi";
 import { TbCurrencyNaira } from "react-icons/tb";
 import styles from "./Overview.module.css";
 import { getImageUrl } from "../../../utils";
 
 export const Overview = () => {
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [totalBalanceVisible, setTotalBalanceVisible] = useState(true);
+    const [ currentIndex, setCurrentIndex ] = useState(0);
+    const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
     const [ showComplete, setShowComplete ] = useState(true);
     const [ infoPopup, setInfoPopup ] = useState(false);
 
@@ -67,10 +67,6 @@ export const Overview = () => {
     const currentItem = accounts[currentIndex];
 
 
-    function closeComplete() {
-        setShowComplete(false);
-    }
-
     function infoPop() {
         setInfoPopup(false);
     }
@@ -103,7 +99,7 @@ export const Overview = () => {
     return (
         <div className={styles.whole}>
             
-            <Stack gap={"20px"}>
+            <Stack gap={"20px"} maxW={'1500px'}>
 
                 <Text fontSize={'24px'} fontWeight={700} color={'#101828'} mb={'4px'} >Good Morning, Adeola Obasanjo</Text>
 

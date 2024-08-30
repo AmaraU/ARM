@@ -1,11 +1,9 @@
 .theWhole {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
     background-color: #FFFFFF;
     border-right: 1px solid #EAECF0;
     width: 272px;
-    height: 100vh;
+    height: 100%;
+    position: fixed;
     overflow: hidden;
     overflow-y: scroll;
     -ms-overflow-style: none;
@@ -85,17 +83,14 @@
 
 
 .logOut {
-    margin-top: auto;
-}
-.logOut a {
-    height: 100%;
+    margin-top: 50px;
     display: flex;
     align-items: center;
-    gap: 12px;
     color: #ED405C;
     font-size: 14px;
     line-height: 20px;
     font-weight: 500;
+    gap: 12px;
     padding: 12px 16px;
 }
 .logOut img {

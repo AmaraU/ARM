@@ -9,11 +9,6 @@ img {
     height: 24px;
 }
 
-Input:focus,
-Select:focus {
-    border-color: aliceblue;
-}
-
 .actionsClosed {
     display: none;
 }
@@ -29,6 +24,5 @@ Select:focus {
     position: absolute;
     z-index: 5;
     width: 230px;
-    right: 10%;
-    margin-top: 10px;
+    margin-left: -110px;
 }

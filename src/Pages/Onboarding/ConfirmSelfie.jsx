@@ -6,7 +6,8 @@ import {
     Text,
     Modal, ModalOverlay, ModalContent, ModalBody, ModalHeader, ModalCloseButton, ModalFooter,
     useDisclosure,
-    Spinner    
+    Spinner,    
+    CircularProgress, CircularProgressLabel
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { getImageUrl } from "../../../utils";
@@ -61,20 +62,9 @@ export const ConfirmSelfie = () => {
             <img style={{width: '140px', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
                 <a href='/capture'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
-                
-                <div className={styles.circleWrap}>
-                    <div className={styles.circle}>
-                        <div className={`${styles.mask} ${styles.fullFive}`}>
-                            <div className={styles.fill}></div>
-                        </div>
-                        <div className={`${styles.mask} ${styles.half}`}>
-                            <div className={styles.fill}></div>
-                        </div>
-                        <div className={styles.insideCircle}>
-                            50%
-                        </div>
-                    </div>
-                </div>
+                <CircularProgress value={50} size={'32px'} color={'#A41857'}>
+                    <CircularProgressLabel fontWeight={700} fontSize={'9px'}>50%</CircularProgressLabel>
+                </CircularProgress>
 
             </Flex>
             <Stack alignItems={'center'}>

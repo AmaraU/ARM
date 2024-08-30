@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Stack, Text, useDisclosure, CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import Webcam from 'react-webcam';
 import { getImageUrl } from "../../../utils";
@@ -70,21 +70,10 @@ export const TakeSelfie = () => {
         <Stack alignItems={'center'} spacing={5} py={'6%'} px={'25%'} bgImage={getImageUrl('onboardingBackground.png')} bgSize={'100% 100%'}>
             <img style={{width: '140px', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} alt="ARM" />
             <Flex justifyContent={'space-between'} w={'100%'}>
-                <a href='/verify-number'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
-                
-                <div className={styles.circleWrap}>
-                    <div className={styles.circle}>
-                        <div className={`${styles.mask} ${styles.fullFour}`}>
-                            <div className={styles.fill}></div>
-                        </div>
-                        <div className={`${styles.mask} ${styles.half}`}>
-                            <div className={styles.fill}></div>
-                        </div>
-                        <div className={styles.insideCircle}>
-                            40%
-                        </div>
-                    </div>
-                </div>
+                <a href='/verify-number'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>       
+                <CircularProgress value={40} size={'32px'} color={'#A41857'}>
+                    <CircularProgressLabel fontWeight={700} fontSize={'9px'}>40%</CircularProgressLabel>
+                </CircularProgress>
 
             </Flex>
 

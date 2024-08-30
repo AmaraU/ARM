@@ -1,0 +1,119 @@
+.image {
+    display: flex;
+    flex: 50%;
+    background-size: 100% 100%;
+    border-radius: 0 56px 56px 0;
+    
+    transition: background-image 1s ease-in-out, opacity 1s ease-in-out;
+}
+.changing {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.visible {
+    opacity: 1;
+}
+
+.signUp {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    margin-top: 16px;
+    gap: 8px;
+}
+.signUp a {
+    color: #A41857;
+    font-weight: 500;
+}
+.signUp a:hover {
+    text-decoration: underline;
+}
+
+.line {
+    border: 0.5px solid #DCDEE3;
+    width: 50%;
+}
+
+.forgot {
+    text-align: right;
+    font-size: 18px;
+    font-weight: 500;
+    color: #A41857;
+}
+.forgot:hover {
+    text-decoration: underline;
+}
+
+
+
+.circleWrap {
+    width: 32px;
+    height: 32px;
+    background: #e6e2e7;
+    border-radius: 50%;
+}
+
+.circleWrap .circle .mask,
+.circleWrap .circle .fill {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.circleWrap .insideCircle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 4px;
+    margin-left: 4px;
+    position: absolute;
+    z-index: 100;
+    font-weight: 700;
+    font-size: 9px;
+}
+.circleWrap .circle .mask {
+    clip: rect(0px, 32px, 32px, 15px);
+}
+.circleWrap .circle .mask .fill {
+    clip: rect(0px, 15px, 32px, 0px);
+    background-color: #A41857;
+}
+
+.circleWrap .circle .mask.fullThree,
+.circleWrap .circle .fill {
+    transform: rotate(5deg);
+}
+.circleWrap .circle .mask.fullFour,
+.circleWrap .circle .fill {
+    transform: rotate(25deg);
+}
+.circleWrap .circle .mask.fullFive,
+.circleWrap .circle .fill {
+    transform: rotate(60deg);
+}
+.circleWrap .circle .mask.fullSix,
+.circleWrap .circle .fill {
+    transform: rotate(90deg);
+}
+.circleWrap .circle .mask.fullSeven,
+.circleWrap .circle .fill {
+    transform: rotate(120deg);
+}
+
+
+.webcam {
+    width: 100%;
+    height: 423px;
+    border-radius: 12px;
+}
+
+.captured {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}

@@ -32,7 +32,7 @@ export const Navbar = () => {
         </a>
         <a href="/overview/loans" className={currentPath.includes("/overview/loans") ? styles.active : ""}>
           <img className={styles.grey} src={getImageUrl("icons/nav/loansGrey.png")} />
-          <img className={styles.red} src={getImageUrl("icons/nav/loandsRed.png")} />
+          <img className={styles.red} src={getImageUrl("icons/nav/loansRed.png")} />
           Loans
         </a>
         <a href="/overview/savings" className={currentPath.includes("/overview/savings") ? styles.active : ""}>
@@ -55,15 +55,13 @@ export const Navbar = () => {
           <img className={styles.red} src={getImageUrl("icons/nav/profileRed.png")} />
           Profile
         </a>
+
       </div>
-      
-      <div className={styles.logOut}>
-        <a href="/signin">
-          <img src={getImageUrl("icons/nav/logout.png")} />
-          Log out
-        </a>
-      </div>
-      
+
+      <a href="" className={styles.logOut}>
+        <img src={getImageUrl("icons/nav/logout.png")} />
+        Log out
+      </a>
     </div>
   )
 }

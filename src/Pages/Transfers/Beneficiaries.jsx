@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Stack, Text, Box, Button, HStack, Input, Select, FormControl, FormLabel, Flex } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Flex, Modal, ModalHeader, ModalCloseButton, ModalBody, ModalContent, ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import styles from "./Transfers.module.css";
 import { getImageUrl } from "../../../utils";
 
@@ -7,6 +7,7 @@ export const Beneficiaries = () => {
 
     const [ search, setSearch] = useState("");
     const [ actionsOpen, setActionsOpen ] = useState({});
+    const { isOpen: isOpenDelete, onOpen: onOpenDelete, onClose: onCloseDelete } = useDisclosure();
 
 
     const beneficiaries = [
@@ -80,7 +81,7 @@ export const Beneficiaries = () => {
             <Stack spacing={'16px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'}>                                
 
                 <Flex justifyContent={'space-between'} alignItems={'center'} border={'1px solid #DCD6CF'} py={'10px'} px={'20px'} w={'75%'} borderRadius={'8px'} mt={'24px'}>
-                    <input id='search' type='text' onChange={handleSearch} placeholder='Search beneficiaries' style={{border:'none', outline: 'transparent', width: '100%'}} autoComplete='off' />
+                    <input id='search' type='text' onChange={handleSearch} placeholder='Search beneficiaries' style={{border:'none', outline: 'transparent', width: '100%'}}></input>
                     <img style={{width: '24px', height: '24px'}} src={getImageUrl('icons/search.png')} />
                 </Flex>
 
@@ -98,22 +99,45 @@ export const Beneficiaries = () => {
                                 </Flex>
                                 <Flex justifyContent={'space-between'}>
                                     <Text fontSize={'18px'} fontWeight={500} color={'#101828'}>{ben.number}</Text>
-                                    <button onClick={() => toggleAction(index)}><img style={{height: '24px', width: '24px'}} src={getImageUrl('icons/actions.png')} /></button>
-                                    <Box className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={popupRef}>
-                                        <button style={{alignSelf: 'end'}}><img style={{width: '14px', height: '14px'}} src={getImageUrl('icons/blackX.png')} /></button>
-                                        <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/nav/transfersGrey.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Transfer</Text></HStack>
-                                        <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/redDelete.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Delete</Text></HStack>
-                                    </Box>
+                                    <div>
+                                        <button onClick={() => toggleAction(index)}><img style={{height: '24px', width: '24px'}} src={getImageUrl('icons/actions.png')} /></button>
+                                        <Box className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={popupRef}>
+                                            <button style={{alignSelf: 'end'}}><img style={{width: '14px', height: '14px'}} src={getImageUrl('icons/blackX.png')} /></button>
+                                            <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/nav/transfersGrey.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Transfer</Text></HStack>
+                                            <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/redDelete.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'} onClick={onOpenDelete}>Delete</Text></HStack>
+                                        </Box>
+                                    </div>
                                 </Flex>
                             </Stack>
                         </HStack>
                     ))}
                     </>
-
                 )}
-
             </Stack>
         </Box>
+
+        <Modal isCentered size={'lg'} closeOnOverlayClick={false} isOpen={isOpenDelete} onClose={onCloseDelete} >
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>
+                    <Text textAlign={'center'} fontSize={'18px'} fontWeight={600} color={'#101828'}>Delete Beneficiary</Text>
+                </ModalHeader>
+                <ModalCloseButton />
+
+                <ModalBody>
+                <div style={{ overflow: 'auto', maxHeight: '60vh' }}>
+                    <Stack spacing={2} alignItems={'center'} textAlign={'center'}>
+                        <img style={{width: '70px', height: 'auto'}} src={getImageUrl('icons/caution.png')} />
+                        <Text fontSize={'16px'} fontWeight={700} color={'#0C111D'}>Are you sure you want to delete this beneficiary?</Text>
+
+                        <Button mt={'16px'} w={'100%'} h={'48px'} bg={'#A41856'} _hover={{bg: '#A41856'}} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600}>Yes</Button>
+                        <Button w={'100%'} h={'48px'} bg={'#EFECE9'} _hover={{bg: '#EFECE9'}} color={'#667085'} fontSize={'14px'} fontWeight={600}>Go to dashboard</Button>
+
+                    </Stack>
+                </div>
+                </ModalBody>
+            </ModalContent>
+        </Modal>
         </>
     );
 }

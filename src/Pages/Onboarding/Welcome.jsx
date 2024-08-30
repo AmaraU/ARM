@@ -1,24 +1,8 @@
-// import { Box, Button, Flex, HStack, Input, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import {
     Button,
-    Flex,
-    FormControl,
-    FormLabel,
-    Input,
     Stack,
-    Image,
-    InputGroup,
-    InputRightElement,
-    FormErrorMessage,
     Text,
-    Box,
-    Tabs,
-    TabList,
-    Tab,
-    TabPanels,
-    TabPanel,
     HStack,
-    Select
 } from '@chakra-ui/react';
 import React from "react";
 import { getImageUrl } from "../../../utils";

@@ -8,7 +8,8 @@ import {
     Select,
     useDisclosure,
     Modal, ModalOverlay, ModalContent,
-    Spinner
+    Spinner,
+    CircularProgress, CircularProgressLabel
 } from '@chakra-ui/react';
 import React from "react";
 import { getImageUrl } from "../../../utils";
@@ -36,19 +37,9 @@ export const UserInfo = () => {
             <Flex justifyContent={'space-between'} w={'100%'}>
                 <a href='/confirm-picture'><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></a>
                 
-                <div className={styles.circleWrap}>
-                    <div className={styles.circle}>
-                        <div className={`${styles.mask} ${styles.fullSix}`}>
-                            <div className={styles.fill}></div>
-                        </div>
-                        <div className={`${styles.mask} ${styles.half}`}>
-                            <div className={styles.fill}></div>
-                        </div>
-                        <div className={styles.insideCircle}>
-                            60%
-                        </div>
-                    </div>
-                </div>
+                <CircularProgress value={60} size={'32px'} color={'#A41857'}>
+                    <CircularProgressLabel fontWeight={700} fontSize={'9px'}>60%</CircularProgressLabel>
+                </CircularProgress>
 
             </Flex>
             <Text fontSize={'48px'} fontWeight={700} color={'#14142A'}>Your basic information</Text>

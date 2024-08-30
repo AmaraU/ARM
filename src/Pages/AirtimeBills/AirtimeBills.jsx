@@ -1,4 +1,3 @@
-import React from "react";
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import styles from './AirtimeBills.module.css';
 import { BuyAirtime } from "./BuyAirtime";
