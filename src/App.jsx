@@ -15,7 +15,9 @@ import { Transfers } from './Pages/Transfers/Transfers';
 import { TransactionReceipt } from './Pages/Transfers/TransactionReciept';
 import { AirtimeBills } from './Pages/AirtimeBills/AirtimeBills';
 import LoanPage from './Pages/LoanPage/LoanPage';
+import { MyAccountPage } from './Pages/MyAccountPage/MyAccountPage';
 import { ProfilePage } from './Pages/ProfilePage/ProfilePage';
+
 
 import { DashboardLayout } from './Pages/DashboardLayout';
 import { BlankPage } from './Pages/BlankPage';
@@ -46,8 +48,8 @@ function App() {
         { path: 'loans', element: <LoanPage /> },
         { path: 'savings', element: <BlankPage /> },
         { path: 'cards', element: <BlankPage /> },
-        { path: 'accounts', element: <ProfilePage /> },
-        { path: 'profile', element: <BlankPage /> },
+        { path: 'accounts', element: <MyAccountPage /> },
+        { path: 'profile', element: <ProfilePage /> },
       ]
     },
   ]);

@@ -1,14 +1,13 @@
 import { useState, useRef } from "react";
-import { Stack, Text, Box, Button, HStack, Divider } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Divider, Input } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
-import styles from "./ProfilePage.module.css";
+import styles from "./MyAccountPage.module.css";
 import { BiShow, BiHide } from "react-icons/bi";
 
-export const AccountInformation = () => {
+export const AccountLimit = () => {
 
     const [ currentIndex, setCurrentIndex ] = useState(0);
     const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
-    const [ showUpgrade, setShowUpgrade ] = useState(true);
     const [ infoPopup, setInfoPopup ] = useState(false);
     const popupRef = useRef(null);
 
@@ -51,19 +50,9 @@ export const AccountInformation = () => {
         <Box>
             <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
                 <Button h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
-                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>My Account Information</Text>
+                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>My Account Limit</Text>
             </HStack>
-            <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='114px' pt='48px'>
-
-                    {showUpgrade && <HStack id='complete' w='75%' backgroundColor='#EFDAE3' borderRadius='12px' display='flex' justifyContent='space-between' backgroundImage={getImageUrl('whiteRoof.png')} bgSize='20% auto' bgRepeat='no-repeat' backgroundPosition='bottom right 80px' px='23px' py='11px'>
-                        <Box>
-                            <Text fontSize='18px' fontWeight={700} color='#A41857'>Upgrade Your Account</Text>
-                            <Text fontSize='12px' fontWeight={400} color='#A41857'>You need to upgrade your account setup to enjoy more services</Text>
-                            <Button fontSize='12px' fontWeight={700} color='#A41857' padding={0} gap='4px' bg='transparent' _hover={{ bg: 'transparent' }}>Upgrade Now <img src={getImageUrl("icons/redRightArrow.png")} /></Button>
-                        </Box>
-                        <Button alignSelf='start' bg='transparent' _hover={{ bg: 'transparent' }} p={0} onClick={() => setShowUpgrade(false)}><img src={getImageUrl('icons/redClose.png')} alt="X" /></Button>
-                    </HStack>}
-
+            <Stack spacing='24px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='114px' pt='48px'>
 
                     <HStack justifyContent='space-between' w='75%' backgroundColor='#000000' backgroundImage={getImageUrl('backgroundGrey.png')} bgSize='100% 100%' borderRadius='8px' p='16px'>
                         <Box>
@@ -106,20 +95,20 @@ export const AccountInformation = () => {
                         </Box>
                     </HStack>
 
-                    <HStack justifyContent='space-between' alignItems='center' spacing='16px' w='75%'>
-                        <Stack borderRadius='8px' border='1px solid #EAECF0' w='100%' p='20px' spacing='8px'>
-                            <Text fontSize='12px' fontWeight={450} color='#667085'>AVAILABLE BALANCE</Text>
-                            <Text fontSize='18px' fontWeight={600} color='#101828'>₦40,618,080,000.00</Text>
+                    <Text w='75%' fontSize='16px' color='#101828'>Set your transaction limit, maximum limit is <b>₦200,000</b></Text>
+
+                    <Stack w='75%' justifyContent='space-between' spacing='24px'>
+                        <Stack w='100%'>
+                            <Text fontSize='16px' color='#101828'>Transaction Limit</Text>
+                            <Input autoComplete="off" type="number" bg='#F7F7F7' border='1px solid #EAECF0' placeholder="₦200,000" _placeholder={{fontSize: '16px', color: '#667085'}} />
                         </Stack>
-                        <Stack borderRadius='8px' border='1px solid #EAECF0' w='100%' p='20px' spacing='8px'>
-                            <Text fontSize='12px' fontWeight={450} color='#667085'>LEDGER BALANCE</Text>
-                            <Text fontSize='18px' fontWeight={600} color='#101828'>₦45,618,080,000.00</Text>
+                        <Stack w='100%'>
+                            <Text fontSize='16px' color='#101828'>PIN</Text>
+                            <Input autoComplete="off" maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' placeholder="****" _placeholder={{fontSize: '16px', color: '#667085'}} />
                         </Stack>
-                        <Stack borderRadius='8px' border='1px solid #EAECF0' w='100%' p='20px' spacing='8px'>
-                            <Text fontSize='12px' fontWeight={450} color='#667085'>LIENED BALANCE</Text>
-                            <Text fontSize='18px' fontWeight={600} color='#101828'>₦00.00</Text>
-                        </Stack>
-                    </HStack>
+                    </Stack>
+
+                    <Button w='75%' h='48px' mt='24px' bg='#A41856' color='#FFFFFF' fontSize='14px' fontWeight={600} _hover={{bg: '#A41856'}}>Increase Limit</Button>
             </Stack>
         </Box>
         </>

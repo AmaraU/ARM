@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Stack, Text, Box, Button, HStack, Divider, Input } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
-import styles from "./ProfilePage.module.css";
+import styles from "./MyAccountPage.module.css";
 import { BiShow, BiHide } from "react-icons/bi";
 
 export const AccountStatement = () => {
