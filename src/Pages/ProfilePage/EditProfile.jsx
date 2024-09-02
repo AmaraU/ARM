@@ -57,7 +57,7 @@ export const EditProfile = () => {
             <Stack spacing='24px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='36px' pb='114px' pt='48px'>
 
                 <Stack alignItems='center' spacing='8px'>
-                    <Box
+                    {/* <Box
                         width="82px"
                         height="82px"
                         background="#1018284A"
@@ -73,7 +73,7 @@ export const EditProfile = () => {
                         height="82px"
                         objectFit="cover"
                         borderRadius='50px'
-                    />
+                    /> */}
                     <Text fontSize='18px' fontWeight={600} color='#101828'>Adeola Obasanjo</Text>
                     <Text fontSize='18px' color='#667085'>Adeola.obasanjo@arm.com.ng</Text>
                 </Stack>
