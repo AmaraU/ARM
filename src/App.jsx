@@ -46,8 +46,8 @@ function App() {
         { path: 'loans', element: <LoanPage /> },
         { path: 'savings', element: <BlankPage /> },
         { path: 'cards', element: <BlankPage /> },
-        { path: 'accounts', element: <BlankPage /> },
-        { path: 'profile', element: <ProfilePage /> },
+        { path: 'accounts', element: <ProfilePage /> },
+        { path: 'profile', element: <BlankPage /> },
       ]
     },
   ]);
