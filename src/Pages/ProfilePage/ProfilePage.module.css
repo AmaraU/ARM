@@ -4,7 +4,9 @@
     margin-left: 272px;
 }
 
-.profileHStack button {
+
+.profileButton {
+    width: 100%;
     background: #F7F7F7;
     border: 1px solid #EAECF0;
     display: flex;
@@ -14,5 +16,46 @@
     color: #667085;
     font-size: 16px;
     padding: 16px;
-    gap: 16px;
+}
+.activeProfileButton {
+    width: 100%;
+    background: #F7F7F7;
+    border: 1px solid #EAECF0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 4px;
+    color: #A41857;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px;
+    pointer-events: none;
+}
+
+.profileButton div {
+    width: 20px;
+    height: 20px;
+    background: #EAECF0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.activeProfileButton div {
+    width: 20px;
+    height: 20px;
+    background: #2AD062;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profileButton div img {
+    display: none;
+}
+.activeProfileButton div img {
+    width: 14px;
+    height: 14px;
+    /* display: none; */
 }

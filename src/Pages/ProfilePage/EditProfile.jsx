@@ -3,6 +3,7 @@ import { Stack, Text, Box, Button, HStack, Select, Image, FormControl, FormLabel
 import { getImageUrl } from "../../../utils";
 import styles from "./ProfilePage.module.css";
 
+
 export const EditProfile = () => {
 
     const [ showEditProfile, setShowEditProfile ] = useState(true);
@@ -10,11 +11,17 @@ export const EditProfile = () => {
     const [ showContactDetails, setShowContactDetails ] = useState(false);
     const [ showDocumentUpload, setShowDocumentUpload ] = useState(false);
 
+    const [ BVNLinked, setBVNLinked ] = useState(true);
+    const [ hasPersonalDetails, setHasPersonalDetails ] = useState(false);
+    const [ hasContactDetails, setHasContactDetails ] = useState(false);
+    const [ uploadedDocuments, setUploadedDocuments ] = useState(false);
+
     const moveToEdit = () => {
         setShowEditProfile(true);
         setShowPersonalDetails(false);
         setShowContactDetails(false);
         setShowDocumentUpload(false);
+        window.scrollTo({ top: 0});
     }
 
     const moveToBVN = () => {
@@ -22,6 +29,7 @@ export const EditProfile = () => {
         setShowPersonalDetails(false);
         setShowContactDetails(false);
         setShowDocumentUpload(false);
+        window.scrollTo({ top: 0});
     }
 
     const moveToPersonalDetails = () => {
@@ -29,6 +37,7 @@ export const EditProfile = () => {
         setShowPersonalDetails(true);
         setShowContactDetails(false);
         setShowDocumentUpload(false);
+        window.scrollTo({ top: 0});
     }
 
     const moveToContactDetails = () => {
@@ -36,6 +45,7 @@ export const EditProfile = () => {
         setShowPersonalDetails(false);
         setShowContactDetails(true);
         setShowDocumentUpload(false);
+        window.scrollTo({ top: 0});
     }
 
     const moveToDocumentUpload = () => {
@@ -43,6 +53,7 @@ export const EditProfile = () => {
         setShowPersonalDetails(false);
         setShowContactDetails(false);
         setShowDocumentUpload(true);
+        window.scrollTo({ top: 0});
     }
 
 
@@ -56,33 +67,29 @@ export const EditProfile = () => {
             
             <Stack spacing='24px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='36px' pb='114px' pt='48px'>
 
-                <Stack alignItems='center' spacing='8px'>
-                    {/* <Box
+                <Stack alignItems='center' spacing='4px'>
+                    <Box
+                        bgImage={getImageUrl('avatar.png')}
+                        bgSize='100% 100%'
                         width="82px"
                         height="82px"
-                        background="#1018284A"
-                        zIndex="1"
                         borderRadius='50px'
+                        display='flex'
+                        alignItems='end'
+                        justifyContent='center'
+                        pb='4px'
                     >
                         <button><img src={getImageUrl('icons/whiteEdit.png')} /></button>
                     </Box>
-                    
-                    <Image
-                        src={getImageUrl('profile.png')}
-                        width="82px"
-                        height="82px"
-                        objectFit="cover"
-                        borderRadius='50px'
-                    /> */}
                     <Text fontSize='18px' fontWeight={600} color='#101828'>Adeola Obasanjo</Text>
                     <Text fontSize='18px' color='#667085'>Adeola.obasanjo@arm.com.ng</Text>
                 </Stack>
 
-                <HStack className={styles.profileHStack} justifyContent='space-between' alignItems='center' w='100%' gap='16px'>
-                    <button onClick={moveToBVN}>BVN Linked<div className={styles.checkbox}><img src={getImageUrl} alt="" /></div></button>
-                    <button onClick={moveToPersonalDetails}>Personal Details<div className={styles.checkbox}><img src={getImageUrl} alt="" /></div></button>
-                    <button onClick={moveToContactDetails}>Contact Details<div className={styles.checkbox}><img src={getImageUrl} alt="" /></div></button>
-                    <button onClick={moveToDocumentUpload}>Documents Upload<div className={styles.checkbox}><img src={getImageUrl} alt="" /></div></button>
+                <HStack justifyContent='space-between' alignItems='center' w='100%' gap='16px'>
+                    <button onClick={moveToBVN} className={BVNLinked ? styles.activeProfileButton : styles.profileButton}>BVN Linked<div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div></button>
+                    <button onClick={moveToPersonalDetails} className={hasPersonalDetails ? styles.activeProfileButton : styles.profileButton}>Personal Details<div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div></button>
+                    <button onClick={moveToContactDetails} className={hasContactDetails ? styles.activeProfileButton : styles.profileButton}>Contact Details<div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div></button>
+                    <button onClick={moveToDocumentUpload} className={uploadedDocuments ? styles.activeProfileButton : styles.profileButton}>Documents Upload<div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div></button>
                 </HStack>
             </Stack>
         </Box>}

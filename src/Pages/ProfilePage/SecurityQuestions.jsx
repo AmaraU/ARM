@@ -12,18 +12,21 @@ export const SecurityQuestions = () => {
         setStepOne(true);
         setStepTwo(false);
         setComplete(false);
+        window.scrollTo({ top: 0});
     }
 
     const moveToStepTwo = () => {
         setStepOne(false);
         setStepTwo(true);
         setComplete(false);
+        window.scrollTo({ top: 0});
     }
 
     const moveToComplete = () => {
         setStepOne(false);
         setStepTwo(false);
         setComplete(true);
+        window.scrollTo({ top: 0});
     }
 
 
@@ -34,12 +37,15 @@ export const SecurityQuestions = () => {
                 <Button h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
                 <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Security Questions</Text>
             </HStack>
-            <Stack spacing='24px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='54px' pt='24px'>
-                <Text>Input your 4 digit PIN</Text>
+            <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='54px' pt='24px'>
+                
+                <Text color='#667085' fontSize='16px'>Input your 4 digit PIN</Text>
+                
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
                     <Input type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
                 </FormControl>
+                
                 <Button onClick={moveToStepTwo} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
             </Stack>
         </Box>}
@@ -95,13 +101,13 @@ export const SecurityQuestions = () => {
         {complete && <Box>
             <HStack bg='#EAECF0' h='51px' w='100%' borderRadius={'12px 12px 0 0'}></HStack>
 
-            <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='54px' pt='24px'>
+            <Stack spacing={0} alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='54px' pt='24px'>
                 
                 <img src={getImageUrl('icons/success.png')} style={{width: '220px', height: 'auto'}} />
                 <Text mt={'12px'} fontSize={'18px'} fontWeight={700} color={'#000000'} textAlign={'center'}>Success!</Text>
-                <Text fontSize={'14px'} fontWeight={500} color={'#667085'} textAlign={'center'}>Security Question ChangePassword successfully</Text>
+                <Text fontSize={'14px'} fontWeight={500} color={'#667085'} textAlign={'center'}>Security Questions changed successfully</Text>
 
-                <Button onClick={moveToStepTwo} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Okay, Thank You</Button>
+                <Button onClick={moveToStepOne} mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Okay, Thank You</Button>
             </Stack>
         </Box>}
         </>
