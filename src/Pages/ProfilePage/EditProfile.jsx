@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Stack, Text, Box, Button, HStack, Select, Image, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Select, Image, FormControl, FormLabel, Input, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./ProfilePage.module.css";
 
 
 export const EditProfile = () => {
+
+    const { isOpen: isOpenSample, onOpen: onOpenSample, onClose: onCloseSample } = useDisclosure();
 
     const [ showEditProfile, setShowEditProfile ] = useState(true);
     const [ showPersonalDetails, setShowPersonalDetails ] = useState(false);
@@ -343,7 +345,7 @@ export const EditProfile = () => {
                     </Select>
                 </FormControl>
 
-                <Text w='80%' cursor='pointer' fontSize='16px' fontWeight={500} color='#A41857' textAlign='left'>See sample of document</Text>
+                <Text w='80%' cursor='pointer' onClick={onOpenSample} fontSize='16px' fontWeight={500} color='#A41857' textAlign='left'>See sample of document</Text>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>I.D. Card Number</FormLabel>
@@ -354,19 +356,19 @@ export const EditProfile = () => {
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Front</FormLabel>
                         <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                            <Button fontSize='13px' fontWeight={450} color='#667085' bg='#FFFFFF' _hover={{bg: '#FFFFFF'}} border='1px solid #EAECF0' borderRadius='50px' px='14px' py='10px' display='flex' flexDirection='column' alignItems='center'>
+                            <button className={styles.uploadButton}>
                                 <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                                 Tap to Upload
-                            </Button>
+                            </button>
                         </Stack>
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Back</FormLabel>
                         <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                            <Button fontSize='13px' fontWeight={450} color='#667085' bg='#FFFFFF' _hover={{bg: '#FFFFFF'}} border='1px solid #EAECF0' borderRadius='50px' px='14px' py='10px' display='flex' flexDirection='column' alignItems='center'>
+                            <button className={styles.uploadButton}>
                                 <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                                 Tap to Upload
-                            </Button>
+                            </button>
                         </Stack>
                     </FormControl>
                 </HStack>
@@ -374,10 +376,10 @@ export const EditProfile = () => {
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Passport Photograph</FormLabel>
                     <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                        <Button fontSize='13px' fontWeight={450} color='#667085' bg='#FFFFFF' _hover={{bg: '#FFFFFF'}} border='1px solid #EAECF0' borderRadius='50px' px='14px' py='10px' display='flex' flexDirection='column' alignItems='center'>
+                        <button className={styles.uploadButton}>
                             <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                             Tap to Upload
-                        </Button>
+                        </button>
                     </Stack>
                 </FormControl>
 
@@ -386,10 +388,10 @@ export const EditProfile = () => {
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Signature</FormLabel>
                     <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                        <Button fontSize='13px' fontWeight={450} color='#667085' bg='#FFFFFF' _hover={{bg: '#FFFFFF'}} border='1px solid #EAECF0' borderRadius='50px' px='14px' py='10px' display='flex' flexDirection='column' alignItems='center'>
+                        <button className={styles.uploadButton}>
                             <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                             Tap to Upload
-                        </Button>
+                        </button>
                     </Stack>
                 </FormControl>
 
@@ -403,6 +405,24 @@ export const EditProfile = () => {
                 <Button onClick={moveToEdit} mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
             </Stack>
         </Box>}
+
+
+        <Modal isCentered size={'lg'} closeOnOverlayClick={false} isOpen={isOpenSample} onClose={onCloseSample}>
+            <ModalOverlay />
+            <ModalContent bg='transparent' boxShadow='none'>
+                <ModalHeader>
+                    <Text textAlign='center' fontSize='14px' fontWeight={600} color='#FFFFFF'>Here's a sample document</Text>
+                </ModalHeader>
+                <ModalCloseButton color='#FFFFFF' />
+
+                <ModalBody alignItems='center'>
+                    <img src={getImageUrl('samplePassport.png')} style={{width: '100%', height: 'auto'}} />
+                </ModalBody>
+                <ModalFooter justifyContent='center'>
+                    <Text fontSize='14px' fontWeight={600} color='#FFFFFF'>We won't share your information with anyone</Text>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
         </>
     );
 };

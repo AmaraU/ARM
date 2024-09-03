@@ -8,9 +8,64 @@ import styles from "./ProfilePage.module.css";
 
 export const ChangePassword = () => {
 
+    const [ newPassword, setNewPassword] = useState("");
+    const [ confirmNewPassword, setConfirmNewPassword] = useState("");
+    const [ strength, setStrength ] = useState(0);
+    const [ strengthText, setstrengthText ] = useState("");
+    const [ hasEightChars, setHasEightChars ] = useState(false);
+    const [ hasLowerCase, setHasLowerCase ] = useState(false);
+    const [ hasUpperCase, setHasUpperCase ] = useState(false);
+    const [ hasSpecialSymbol, setHasSpecialSymbol ] = useState(false);    
+
     const [ showCurrentPassword, setShowCurrentPassword ] = useState(false);
     const [ showNewPassword, setShowNewPassword ] = useState(false);
     const [ showConfirmNewPassword, setShowConfirmNewPassword ] = useState(false);
+
+
+    const checkPasswordStrength = (password) => {
+        let strengthScore = 0;
+    
+        if (password.length >= 8) {
+            strengthScore += 1;
+            setHasEightChars(true);
+        } else if (password.length < 8) {
+            setHasEightChars(false);
+        }
+
+        if (/[a-z]/.test(password)) {
+            strengthScore += 1;
+            setHasLowerCase(/[a-z]/.test(password));
+        } else {
+            setHasLowerCase(false);
+        }
+
+        if (/[A-Z]/.test(password)) {
+            strengthScore += 1;
+            setHasUpperCase(true);
+        } else {
+            setHasUpperCase(false);
+        }
+
+        if (/[\W_]/.test(password)) {
+            strengthScore += 1;
+            setHasSpecialSymbol(true);
+        } else {
+            setHasSpecialSymbol(false);
+        }
+
+        if (strengthScore <= 1) setstrengthText('Weak');
+        if (strengthScore > 1) setstrengthText('Average');
+        if (strengthScore > 3) setstrengthText('Strong');
+    
+        return strengthScore;
+    };
+
+    const handlePasswordChange = (e) => {
+        const enteredPassword = e.target.value;
+        setNewPassword(enteredPassword);
+        setStrength(checkPasswordStrength(enteredPassword));
+    };
+    
 
 
 
@@ -45,31 +100,38 @@ export const ChangePassword = () => {
                 <FormControl w='80%'>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>New Password</FormLabel>
                     <InputGroup>
-                        <Input placeholder='Enter your password' _placeholder={{ fontSize: "sm" }} type={showNewPassword ? 'text' : 'password'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
+                        <Input placeholder='Enter your password' _placeholder={{ fontSize: "sm" }} type={showNewPassword ? 'text' : 'password'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} value={newPassword} onChange={handlePasswordChange} />
                         <InputRightElement h={'full'}>
-                            <Button
-                                variant={'ghost'}
-                                _hover={'transparent'}
-                                onClick={() =>
-                                    setShowNewPassword((showNewPassword) => !showNewPassword)
-                                }>
+                            <Button variant={'ghost'} _hover={'transparent'} onClick={() => setShowNewPassword((showNewPassword) => !showNewPassword) }>
                                 {showNewPassword ? <ViewIcon /> : <ViewOffIcon />}
                             </Button>
                         </InputRightElement>
                     </InputGroup>
                 </FormControl>
 
+                <Stack w='80%'>
+                    <Box display='flex' gap='4px' alignItems='center'>
+                        {[...Array(4)].map((_, index) => (
+                            // <Text color='black'>One Bar</Text>
+                            <Box key={index} className={`${styles.strengthBar} ${index < strength ? styles.filled : ''}`}></Box>
+                        ))}
+                        <Text fontSize='12px' color='#DB9308' ml='24px'>{strengthText}</Text>
+                    </Box>
+                    <Box display='flex' gap='16px' alignItems='center' justifyContent='space-between'>
+                        <div className={hasEightChars ? styles.passwordCheck : styles.passwordUncheck}><div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div>At least 8 characters strong</div>
+                        <div className={hasLowerCase ? styles.passwordCheck : styles.passwordUncheck}><div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div>One lower case character</div>
+                        <div className={hasUpperCase ? styles.passwordCheck : styles.passwordUncheck}><div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div>One upper case</div>
+                        <div className={hasSpecialSymbol ? styles.passwordCheck : styles.passwordUncheck}><div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div>One special symbol {'(@!><|.?*&%$)'}</div>
+                    </Box>
+                </Stack>
+
+
                 <FormControl w='80%'>
                     <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Confirm Password</FormLabel>
                     <InputGroup>
                         <Input placeholder='Enter your password' _placeholder={{ fontSize: "sm" }} type={showConfirmNewPassword ? 'text' : 'password'} border={'1px solid #EAECF0'} bg={'#F7F7F7'} />
                         <InputRightElement h={'full'}>
-                            <Button
-                                variant={'ghost'}
-                                _hover={'transparent'}
-                                onClick={() =>
-                                    setShowConfirmNewPassword((showConfirmNewPassword) => !showConfirmNewPassword)
-                                }>
+                            <Button variant={'ghost'} _hover={'transparent'} onClick={() => setShowConfirmNewPassword((showConfirmNewPassword) => !showConfirmNewPassword)}>
                                 {showConfirmNewPassword ? <ViewIcon /> : <ViewOffIcon />}
                             </Button>
                         </InputRightElement>
