@@ -108,7 +108,7 @@ export const EditProfile = () => {
                 <HStack  w='80%'>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Title</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}}>
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}}>
                             <option>Miss</option>
                             <option>Mrs</option>
                             <option>Mr</option>
@@ -116,7 +116,7 @@ export const EditProfile = () => {
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Marital Status</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}}>
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}}>
                             <option>Single</option>
                             <option>Married</option>
                             <option>Divorced</option>
@@ -127,23 +127,23 @@ export const EditProfile = () => {
                 <HStack w='80%'>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>First Name</FormLabel>
-                        <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}}/>
+                        <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}}/>
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Last Name</FormLabel>
-                        <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
+                        <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
                     </FormControl>
                 </HStack>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Other Names</FormLabel>
-                    <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
+                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
                 </FormControl>
 
                 <HStack w='80%'>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Gender</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option>Female</option>
                             <option>Male</option>
                             <option>Other</option>
@@ -152,20 +152,20 @@ export const EditProfile = () => {
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Date of Birth</FormLabel>
-                        <Input type="date" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
+                        <Input h='48px' type="date" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
                     </FormControl>
                 </HStack>
 
                 <HStack w='80%'>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Nationality</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option>Nigerian</option>
                         </Select>
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>State of Origin</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option>Lagos State</option>
                         </Select>
                     </FormControl>
@@ -174,13 +174,13 @@ export const EditProfile = () => {
                 <HStack w='80%'>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>LGA</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option>Eti-Osa</option>
                         </Select>
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Place of Birth</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option>Victoria Island</option>
                         </Select>
                     </FormControl>
@@ -189,7 +189,7 @@ export const EditProfile = () => {
                 <HStack w='80%'>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Employment Status</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option>Employed</option>
                             <option>Unemployed</option>
                             <option>Self-employed</option>
@@ -197,40 +197,40 @@ export const EditProfile = () => {
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Employer's Name</FormLabel>
-                        <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
+                        <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
                     </FormControl>
                 </HStack>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Employer's Address</FormLabel>
-                    <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
+                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
                 </FormControl>
                 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Employer's Name</FormLabel>
-                    <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
+                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
                 </FormControl>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Employment Phone Number</FormLabel>
                     <HStack spacing={2}>
-                        <Select flex={'35%'} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' flex={'35%'} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option value="">+234 (NG)</option>
                         </Select>
-                        <Input maxLength={10} type='tel' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
+                        <Input h='48px' maxLength={10} type='tel' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
                     </HStack>
                 </FormControl>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Sector</FormLabel>
-                    <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                    <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                         <option>Finance</option>
                     </Select>
                 </FormControl>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
-                    <Input maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
+                    <Input h='48px' maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
                 </FormControl>
 
                 <Button onClick={moveToEdit} mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='18px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
@@ -249,34 +249,34 @@ export const EditProfile = () => {
                 <HStack w='80%'>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>House Number</FormLabel>
-                        <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
+                        <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Street Name</FormLabel>
-                        <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
+                        <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
                     </FormControl>
                 </HStack>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Nearest Bus Stop (Landmark)</FormLabel>
-                    <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
+                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
                 </FormControl>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Address</FormLabel>
-                    <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
+                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
                 </FormControl>
 
                 <HStack w='80%'>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Country</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option>Nigeria</option>
                         </Select>
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Date of Birth</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option>Lagos State</option>
                         </Select>
                     </FormControl>
@@ -285,13 +285,13 @@ export const EditProfile = () => {
                 <HStack w='80%'>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>LGA</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option>Eti-Osa</option>
                         </Select>
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>City</FormLabel>
-                        <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option>Victoria Island</option>
                         </Select>
                     </FormControl>
@@ -299,27 +299,27 @@ export const EditProfile = () => {
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Email Address</FormLabel>
-                    <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
+                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
                 </FormControl>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Alternate Email Address</FormLabel>
-                    <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
+                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
                 </FormControl>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Phone Number</FormLabel>
                     <HStack spacing={2}>
-                        <Select flex={'30%'} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                        <Select h='48px' flex={'30%'} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                             <option value="">+234 (NG)</option>
                         </Select>
-                        <Input maxLength={10} type='tel' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
+                        <Input h='48px' maxLength={10} type='tel' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} />
                     </HStack>
                 </FormControl>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
-                    <Input type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
+                    <Input h='48px' type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
                 </FormControl>
 
                 <Button onClick={moveToEdit} mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
@@ -330,7 +330,7 @@ export const EditProfile = () => {
         {showDocumentUpload && <Box>
             <HStack bg='#EAECF0' px='26px' py='14px' borderRadius='12px 12px 0 0'>
                 <Button onClick={moveToEdit} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
-                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Contact Details</Text>
+                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Documents Upload</Text>
             </HStack>
             
             <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='36px' pb='114px' pt='48px'>
@@ -339,7 +339,7 @@ export const EditProfile = () => {
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>I.D. Type</FormLabel>
-                    <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
+                    <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' _placeholder={{color: '#667085'}} >
                         <option>Voter's ID Card</option>
                         <option>NIN</option>
                     </Select>
@@ -349,7 +349,7 @@ export const EditProfile = () => {
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>I.D. Card Number</FormLabel>
-                    <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
+                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
                 </FormControl>
 
                 <HStack w='80%'>
@@ -399,7 +399,7 @@ export const EditProfile = () => {
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
-                    <Input type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
+                    <Input h='48px' type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
                 </FormControl>
 
                 <Button onClick={moveToEdit} mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>

@@ -119,8 +119,7 @@ export const CompleteTransaction = ({ type = "", phoneNumber = "", amount= "" })
                 mt={'16px'} w={'75%'} h={'48px'}
                 bg={'#A41856'} _hover={{bg: '#A41856'}}
                 color={'#FFFFFF'} fontSize={'14px'} fontWeight={600}
-                // onClick={()=> navigate('receipt')}
-                // onClick={generatePDF}
+                onClick={()=> navigate('/receipt')}
             >
                 Download Receipt
             </Button>

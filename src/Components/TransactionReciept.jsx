@@ -1,10 +1,36 @@
 import { Box, HStack, Stack, Text } from "@chakra-ui/react";
-import React from "react";
-import { getImageUrl } from "../../../utils";
+import React, { useEffect } from "react";
+import { getImageUrl } from "../../utils";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
 
 export const TransactionReceipt = () => {
+
+    useEffect(() => {
+        generatePDF();
+    }, [])
+
+
+    const generatePDF = () => {
+        const input = document.getElementById('receipt');
+        console.log(input);
+        html2canvas(input)
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF();
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('transaction_receipt.pdf');
+            });
+        
+    };
+
     return (
-        <Box width='600px' ml='auto' mr='auto' bg='#FFFFFF' p='40px' bgImage={getImageUrl('onboardingBackground.png')} bgSize='100% 100%'>
+        <Box id="receipt" width='600px' ml='auto' mr='auto' bg='#FFFFFF' p='40px' bgImage={getImageUrl('onboardingBackground.png')} bgSize='100% 100%'>
             <HStack justifyContent='space-between' alignItems='center'>
                 <img style={{width: '95px', height: 'auto'}} src={getImageUrl('logos/arm_logo.png')} />
                 <Text fontSize='20px' fontWeight={600} color='#101828'>Transaction Receipt</Text>

@@ -43,14 +43,14 @@ export const ForgotPIN = ({ backHome }) => {
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Security Question 1</FormLabel>
-                    <Select bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' >
+                    <Select h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' >
                         <option>What is your favorite color?</option>
                     </Select>
                 </FormControl>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Answer 1</FormLabel>
-                    <Input bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
+                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
                 </FormControl>
 
                 <Button onClick={moveToStepTwo} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
@@ -71,7 +71,7 @@ export const ForgotPIN = ({ backHome }) => {
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>OTP</FormLabel>
-                    <Input maxLength={6} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
+                    <Input h='48px' maxLength={6} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
                 </FormControl>
 
                 <Button onClick={moveToStepThree} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
@@ -91,12 +91,12 @@ export const ForgotPIN = ({ backHome }) => {
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
-                    <Input maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
+                    <Input h='48px' maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
                 </FormControl>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Confirm PIN</FormLabel>
-                    <Input maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
+                    <Input h='48px' maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
                 </FormControl>
 
                 <Button onClick={backHome} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>

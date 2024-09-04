@@ -3,7 +3,6 @@ import { Stack, Text, Box, Button, HStack, Input, Select, FormControl, FormLabel
 import styles from "./Transfers.module.css";
 import { getImageUrl } from "../../../utils";
 import { CompleteTransaction } from '../../Components/CompleteTrans';
-import { CompleteTransaction2 } from '../../Components/CompleteTrans2';
 import { useNavigate } from 'react-router-dom';
 
 export const TransferToSelf = () => {

@@ -15,7 +15,7 @@ export const Navbar = () => {
 
       <div className={styles.linkList}>
 
-        <a href="/overview/dashboard" className={currentPath === "/overview/dashboard" ? styles.active : ""}>
+        <a href="/overview/dashboard" className={currentPath.includes("/overview/dashboard") ? styles.active : ""}>
           <img className={styles.grey} src={getImageUrl("icons/nav/dashboardGrey.png")} />
           <img className={styles.red} src={getImageUrl("icons/nav/dashboardRed.png")} />
           Dashboard

@@ -138,47 +138,47 @@ export default function Signup() {
 
                     {isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter BVN</FormLabel>
-                        <Input type='text' placeholder='Enter your BVN' _placeholder={{ fontSize: "sm" }} border={'1px solid #EAECF0'} bg={'#F7F7F7'} maxLength={11} autoComplete='off' />
+                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' />
                     </FormControl>}
                     {!isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter NIN</FormLabel>
-                        <Input type='text' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} border={'1px solid #EAECF0'} bg={'#F7F7F7'} maxLength={11} autoComplete='off' />
+                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' />
                     </FormControl>}
-                    <Box p={'12px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} borderRadius={'8px'}>
+                    <Box p='12px' bg='#F7F7F7' border='1px solid #EAECF0' borderRadius='8px'>
                         <Box>
-                            <Flex alignItems={'center'} justifyContent={'space-between'} onClick={() => setQuestOne(!questOne)}>
+                            <Flex alignItems='center' justifyContent='space-between' onClick={() => setQuestOne(!questOne)}>
                                 <HStack>
                                     <img src={getImageUrl('icons/blackInfo.png')} />
-                                    <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Why do we need your {text}?</Text>
+                                    <Text fontSize='14px' fontWeight={500} color='#667085'>Why do we need your {text}?</Text>
                                 </HStack>
                                 <button type='button'><img src={getImageUrl('icons/greyRightAngle.png')} /></button>
                             </Flex>
-                            {questOne && <Stack p={'12px'} spacing={'12px'}>
-                                <Text fontSize={'12px'} fontWeight={400} color={'#667085'}>This is how we verify that transactions are carried out by the real account owner (that’s you!) It helps us keep you safe.</Text>
-                                <Text fontSize={'12px'} fontWeight={400} color={'#667085'}>Before continuing you can review our Privacy Policy and Terms of Service</Text>
+                            {questOne && <Stack p='12px' spacing='12px'>
+                                <Text fontSize='12px' fontWeight={400} color='#667085'>This is how we verify that transactions are carried out by the real account owner (that’s you!) It helps us keep you safe.</Text>
+                                <Text fontSize='12px' fontWeight={400} color='#667085'>Before continuing you can review our Privacy Policy and Terms of Service</Text>
                                 <Box>
-                                    <Flex fontSize={'12px'} fontWeight={500} color={'#0C111D'}><img src={getImageUrl('icons/greenTick.png')} alt="" />Full Name</Flex>
-                                    <Flex fontSize={'12px'} fontWeight={500} color={'#0C111D'}><img src={getImageUrl('icons/greenTick.png')} alt="" />Phone number</Flex>
-                                    <Flex fontSize={'12px'} fontWeight={500} color={'#0C111D'}><img src={getImageUrl('icons/greenTick.png')} alt="" />Date of birth</Flex>
+                                    <Flex fontSize='12px' fontWeight={500} color='#0C111D'><img src={getImageUrl('icons/greenTick.png')} alt="" />Full Name</Flex>
+                                    <Flex fontSize='12px' fontWeight={500} color='#0C111D'><img src={getImageUrl('icons/greenTick.png')} alt="" />Phone number</Flex>
+                                    <Flex fontSize='12px' fontWeight={500} color='#0C111D'><img src={getImageUrl('icons/greenTick.png')} alt="" />Date of birth</Flex>
                                 </Box>
-                                <Text fontSize={'12px'} fontWeight={500} color={'#0C111D'}>Your {text} does not give us access to your bank account, transactions or any other information.</Text>
-                                <Text fontSize={'12px'} fontWeight={500} color={'#0C111D'}>Your data is safe with us and we will not share your data with anyone</Text>
+                                <Text fontSize='12px' fontWeight={500} color='#0C111D'>Your {text} does not give us access to your bank account, transactions or any other information.</Text>
+                                <Text fontSize='12px' fontWeight={500} color='#0C111D'>Your data is safe with us and we will not share your data with anyone</Text>
 
                             </Stack>}
                         </Box>
 
-                        <Divider h={'2px'} mt={'12px'} mb={'12px'}/>
+                        <Divider h='2px' mt='12px' mb='12px'/>
 
                         <Box>
-                            <Flex alignItems={'center'} justifyContent={'space-between'} onClick={() => setQuestTwo(!questTwo)}>
+                            <Flex alignItems='center' justifyContent='space-between' onClick={() => setQuestTwo(!questTwo)}>
                                 <HStack>
                                     <img src={getImageUrl('icons/blackQuestion.png')} />
-                                    <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Don't know your {text}?</Text>
+                                    <Text fontSize='14px' fontWeight={500} color='#667085'>Don't know your {text}?</Text>
                                 </HStack>
                                 <button type='button'><img src={getImageUrl('icons/greyRightAngle.png')} /></button>
                             </Flex>
-                            {questTwo && <Stack p={'12px'} spacing={'12px'}>
-                                <Text fontSize={'12px'} fontWeight={400} color={'#667085'}>This will work only if you are making the request from the same phone number currently linked to your bank account.</Text>
+                            {questTwo && <Stack p='12px' spacing='12px'>
+                                <Text fontSize='12px' fontWeight={400} color={'#667085'}>This will work only if you are making the request from the same phone number currently linked to your bank account.</Text>
                                 <Box bg={'#F2F4F7'} border={'1px solid #EAECF0'} borderRadius={'8px'} p={'12px'}>
                                     <Text fontSize={'16px'} fontWeight={700} color={'#0C111D'}>Just dial the USSD code below</Text>
                                     <Divider mt={'12px'} mb={'12px'} />

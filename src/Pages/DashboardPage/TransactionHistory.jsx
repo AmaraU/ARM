@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Stack, Text, Box, Button, HStack, Select } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
-import styles from "./MyAccountPage.module.css";
+import styles from "./Overview.module.css";
 import Pagination from "../../Components/Pagination/Pagination";
+import { useNavigate } from "react-router-dom";
 
-export const AccountHistory = ({ backHome }) => {
+export const TransactionHistory = () => {
 
     const [ search, setSearch] = useState("");
     const [ actionsOpen, setActionsOpen ] = useState({});
     const [ currentPage, setCurrentPage ] = useState(1);
     const [ itemsPerPage, setItemsPerPage ] = useState(8);
+    const navigate = useNavigate();
 
 
     const history = [
@@ -177,9 +179,9 @@ export const AccountHistory = ({ backHome }) => {
 
     return (
         <>
-        <Box>
+        <Box className={styles.whole}>
             <HStack bg='#EAECF0' px='26px' py='14px' borderRadius='12px 12px 0 0'>
-                <Button onClick={backHome} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
+                <Button onClick={()=>navigate('/overview')}  h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
                 <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>My Account History</Text>
             </HStack>
             
@@ -195,7 +197,7 @@ export const AccountHistory = ({ backHome }) => {
                         <Text fontSize='16px' color='#A0A4A9'>Filter</Text>
                     </HStack>
                 </HStack>
-                
+
                 {currentHistory.length === 0 ?
                     <Text w='100%' alignSelf='center' textAlign='center' fontSize="20px" color="#394455" fontWeight={450} py='25px'>NO ENTRIES FOUND</Text>
                 :
