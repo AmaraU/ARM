@@ -23,30 +23,30 @@ export const BuyAirtime = () => {
 
 
     const savedAirtime = [
-        // {
-        //     name: "My Baby",
-        //     number: "08101790957",
-        //     amount: "300",
-        //     network: "MTN"
-        // },
-        // {
-        //     name: "My Baby",
-        //     number: "08101790957",
-        //     amount: "300",
-        //     network: "Glo"
-        // },
-        // {
-        //     name: "My Baby",
-        //     number: "08101790957",
-        //     amount: "300",
-        //     network: "9Mobile"
-        // },
-        // {
-        //     name: "My Baby",
-        //     number: "08101790957",
-        //     amount: "300",
-        //     network: "Airtel"
-        // }
+        {
+            name: "My Baby",
+            number: "08101790957",
+            amount: "300",
+            network: "MTN"
+        },
+        {
+            name: "My Baby",
+            number: "08101790957",
+            amount: "300",
+            network: "Glo"
+        },
+        {
+            name: "My Baby",
+            number: "08101790957",
+            amount: "300",
+            network: "9Mobile"
+        },
+        {
+            name: "My Baby",
+            number: "08101790957",
+            amount: "300",
+            network: "Airtel"
+        }
     ]
     
 
@@ -137,7 +137,7 @@ export const BuyAirtime = () => {
                                                 <button onClick={() => toggleAction(index)}><img style={{height: '24px', width: '24px'}} src={getImageUrl('icons/actions.png')} /></button>
                                                 <Box className={`${styles.actionsClosed} ${actionsOpen[index] && styles.theActions}`} ref={popupRef}>
                                                     <button style={{alignSelf: 'end'}}><img style={{width: '14px', height: '14px'}} src={getImageUrl('icons/blackX.png')} /></button>
-                                                    <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/blackPhone.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Buy Airtime</Text></HStack>
+                                                    <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'} onClick={moveToOne}><img src={getImageUrl('icons/blackPhone.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Buy Airtime</Text></HStack>
                                                     <HStack cursor={'pointer'} _hover={{bg: '#EAECF0'}} p={'8px'}><img src={getImageUrl('icons/redDelete.png')} /><Text fontSize={'14px'} fontWeight={500} color={'#667085'} onClick={onOpenDelete}>Delete</Text></HStack>
                                                 </Box>
                                             </div>

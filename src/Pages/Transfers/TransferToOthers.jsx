@@ -4,7 +4,6 @@ import { BiShow, BiHide } from "react-icons/bi";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { getImageUrl } from "../../../utils";
 import { CompleteTransaction } from '../../Components/CompleteTrans';
-import { useNavigate } from 'react-router-dom';
 
 
 
@@ -14,11 +13,6 @@ export const TransferToOthers = () => {
     const [ showOne, setShowOne ] = useState(true);
     const [ showTwo, setShowTwo ] = useState(false);
     const [ showThree, setShowThree ] = useState(false);
-    const [ isFilled, setIsFilled ] = useState(false);
-    const [ enterPin, setEnterPin ] = useState(true);
-    const [ isSuccess, setIsSuccess ] = useState(false);
-    const [ isFailed, setIsFailed ] = useState(false);
-    const navigate = useNavigate();
     const noOfAccounts = 2;
 
     const hideBalance = () => {
@@ -48,18 +42,6 @@ export const TransferToOthers = () => {
         setEnterPin(true);
         setIsSuccess(false);
         setIsFailed(false);
-        window.scrollTo({ top: 0});
-    }
-    const moveToSuccess = () => {
-        setEnterPin(false);
-        setIsFailed(false);
-        setIsSuccess(true);
-        window.scrollTo({ top: 0});
-    }
-    const moveToFailed = () => {
-        setEnterPin(false);
-        setIsFailed(true);
-        setIsSuccess(false);
         window.scrollTo({ top: 0});
     }
 
@@ -189,7 +171,10 @@ export const TransferToOthers = () => {
 
                 <FormControl w='75%' isRequired>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Amount</FormLabel>
-                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' placeholder="Enter amount" _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
+                    <InputGroup>
+                        <InputLeftElement h='48px' color='#667085'>₦</InputLeftElement>
+                        <Input type='number' h='48px' bg='#F7F7F7' border='1px solid #EAECF0' placeholder="Enter amount" _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
+                    </InputGroup>
                 </FormControl>
 
                 <HStack w='75%' justifyContent='space-between'>

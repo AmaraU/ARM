@@ -83,35 +83,35 @@ export default function Signup() {
         <>
         <Box display="flex" height={["auto","100vh"]}>
             
-            <Box display={{ base: 'none', md: 'block' }} flex="45%" position="relative" borderRadius={'0 56px 56px 0'} maxW={'670px'}>
+            <Box display={{ base: 'none', md: 'block' }} flex="45%" position="relative" borderRadius='0 56px 56px 0' maxW='670px'>
                 <Box
                     position="fixed"
                     width="45%"
-                    maxW={'670px'}
+                    maxW='670px'
                     height="100vh"
-                    bgGradient={'linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)'}
+                    bgGradient='linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)'
                     zIndex="1"
-                    borderRadius={'0 56px 56px 0'}
-                    p={'2.5%'}
+                    borderRadius='0 56px 56px 0'
+                    p='2.5%'
                 >
-                    <Stack spacing={10} zIndex={2} h={'100%'}>
+                    <Stack spacing={10} zIndex={2} h='100%'>
                         <Box p={8} as='button' onClick={() => navigate('/')}>
-                            <Image src={getImageUrl("logos/arm_logo.png")} w={"140px"} h={'auto'} />
+                            <Image src={getImageUrl("logos/arm_logo.png")} w="140px" h='auto' />
                         </Box>
                         
-                        <Flex flexDirection={'column'} gap={'12px'} h={'100%'} justifyContent={'end'} mb={'24px'}>
-                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={'6vh'} fontWeight={700} color={'white'} w={'90%'}>{changingText[currentIndex].header}</Text>
-                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={"16px"} color={'white'} w={'90%'}>{changingText[currentIndex].subheading}</Text>
+                        <Flex flexDirection='column' gap='12px' h='100%' justifyContent='end' mb='24px'>
+                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize='4.5vh' fontWeight={700} color='white' w='90%'>{changingText[currentIndex].header}</Text>
+                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize="16px" color='white' w='90%'>{changingText[currentIndex].subheading}</Text>
 
-                            <Flex gap={'4px'}>
+                            <Flex gap='4px'>
                                 {changingText.map((_, idx) => (
-                                    <Box cursor={'pointer'} onClick={()=>setCurrentIndex(idx)} key={idx} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} className='circle' borderRadius={'500px'} w={idx === currentIndex ? '28px' : '8px'} h={'8px'} transition={'width 1s ease-in-out'} />
+                                    <Box cursor='pointer' onClick={()=>setCurrentIndex(idx)} key={idx} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} className='circle' borderRadius='500px' w={idx === currentIndex ? '28px' : '8px'} h='8px' transition='width 1s ease-in-out' />
                                 ))}
                             </Flex>
 
-                            <Flex mt={'6vh'} bottom={0} alignItems={'center'} justifyContent={'space-between'}>
-                                <Text fontSize={"14px"} color={'#EFECE9'}>© 2024 ARM MFB by ARM Group. All rights reserved.</Text>
-                                <Text fontSize={"14px"} color={'#EFECE9'} cursor={'pointer'} _hover={{textDecoration: 'underline'}}>Help Center</Text>
+                            <Flex mt='7vh' bottom={0} alignItems='center' justifyContent='space-between'>
+                                <Text fontSize="14px" color='#EFECE9'>© 2024 ARM MFB by ARM Group. All rights reserved.</Text>
+                                <Text fontSize="14px" color='#EFECE9' cursor='pointer' _hover={{textDecoration: 'underline'}}>Help Center</Text>
                             </Flex>
                         </Flex>
                     </Stack>
@@ -122,15 +122,16 @@ export default function Signup() {
                     alt="Fixed"
                     position="fixed"
                     width="45%"
-                    maxW={'670px'}
+                    maxW='670px'
                     height="100vh"
                     objectFit="cover"
-                    borderRadius={'0 56px 56px 0'}
+                    borderRadius='0 56px 56px 0'
+                    transition='src 1s ease-in-out'
                 />
             </Box>
 
 
-            <Box  flex="55%" overflowY="scroll" bg="white" display={'flex'} flexDirection={'column'} p={{base: '24px', md: '50px'}} alignItems={{base: 'center', md: 'start'}}>
+            <Box  flex="55%" overflowY="scroll" bg="white" display='flex' flexDirection='column' p={{base: '24px', md: '50px'}} alignItems={{base: 'center', md: 'start'}}>
 
                 <Stack spacing={'16px'} w={{base: 'sm', sm: 'md', lg: 'lg'}} maxW={'630px'} as='form' onSubmit={processForm} mt={'48px'} >
                     <Text fontSize={{base: '40px', md: '48px'}} fontWeight={700} color={'#14142A'}>Let's have your {text}</Text>
@@ -138,11 +139,11 @@ export default function Signup() {
 
                     {isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter BVN</FormLabel>
-                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' />
+                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
                     </FormControl>}
                     {!isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter NIN</FormLabel>
-                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' />
+                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
                     </FormControl>}
                     <Box p='12px' bg='#F7F7F7' border='1px solid #EAECF0' borderRadius='8px'>
                         <Box>

@@ -237,22 +237,22 @@ export const AccountHistory = ({ backHome }) => {
                                 </tr>
                             ))}
                         </tbody>
-                </table>
-            }
+                    </table>
+                }
 
 
-            <HStack w='100%' justifyContent='space-between' alignItems='center'>
-                <Pagination filteredData={filteredHistory} currentPage={currentPage} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
-                <HStack flex='50%' justifyContent='space-between' alignItems='center'>
-                    {currentHistory.length === 0 ? <Text fontSize="12px" color="#667085" fontWeight={450}>Showing 0 entries</Text>
-                    : <Text fontSize="12px" color="#667085" fontWeight={450}>Showing {indexOfFirstItem + 1} to {currentHistory.length + ((currentPage-1) * itemsPerPage)} of {filteredHistory.length} entries</Text>}
-                    <Select w='100px' border='1px solid #EFECE9' fontSize='12px' fontWeight={450} color='#101828' onChange={(e) => handlePageNumber(e.target.value)} >
-                        <option value={8}>Show 8</option>
-                        <option value={10}>Show 10</option>
-                        <option value={15}>Show 15</option>
-                    </Select>
+                <HStack w='100%' justifyContent='space-between' alignItems='center'>
+                    <Pagination filteredData={filteredHistory} currentPage={currentPage} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
+                    <HStack flex='50%' justifyContent='space-between' alignItems='center'>
+                        {currentHistory.length === 0 ? <Text fontSize="12px" color="#667085" fontWeight={450}>Showing 0 entries</Text>
+                        : <Text fontSize="12px" color="#667085" fontWeight={450}>Showing {indexOfFirstItem + 1} to {currentHistory.length + ((currentPage-1) * itemsPerPage)} of {filteredHistory.length} entries</Text>}
+                        <Select w='100px' border='1px solid #EFECE9' fontSize='12px' fontWeight={450} color='#101828' onChange={(e) => handlePageNumber(e.target.value)} >
+                            <option value={8}>Show 8</option>
+                            <option value={10}>Show 10</option>
+                            <option value={15}>Show 15</option>
+                        </Select>
+                    </HStack>
                 </HStack>
-            </HStack>
                     
             </Stack>
         </Box>
