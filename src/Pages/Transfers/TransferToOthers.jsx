@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Text, Box, Button, HStack, Divider, Input, Select, FormControl, FormLabel } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Divider, Input, Select, FormControl, FormLabel, InputGroup } from "@chakra-ui/react";
 import { BiShow, BiHide } from "react-icons/bi";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { getImageUrl } from "../../../utils";
@@ -136,34 +136,34 @@ export const TransferToOthers = () => {
                     <Box>
                         <Text fontSize={'14px'} fontWeight={400} color={'#FFFFFF'}>Total Available Balance</Text>
                         <HStack ml={"-1px"} spacing={0}>
-                            <Box fontSize={"20px"} color={"#FFFFFF"}><TbCurrencyNaira /></Box>
-                            <Text fontSize={"18px"} fontWeight={600} color={"#FFFFFF"}>{totalBalanceVisible ? `${1234568}` : hideBalance()}</Text>
-                            <Box pl={3} cursor={"pointer"}>
-                                { totalBalanceVisible && <BiShow fontSize={"lg"} color={"#FFFFFF"} onClick={handleToggleVisibility} /> }
-                                { !totalBalanceVisible && <BiHide fontSize={"lg"} color={"#FFFFFF"} onClick={handleToggleVisibility} /> }
+                            <Box fontSize="20px" color="#FFFFFF"><TbCurrencyNaira /></Box>
+                            <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${1234568}` : hideBalance()}</Text>
+                            <Box pl={3} cursor="pointer">
+                                { totalBalanceVisible && <BiShow fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} /> }
+                                { !totalBalanceVisible && <BiHide fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} /> }
                             </Box>
                         </HStack>
                     </Box>
 
-                    <Box alignSelf={'start'} borderRadius={'36px'} px={'12px'} py={'8px'} bg={'#2C323A'} color={'#FFFFFF'} fontSize={'10px'} fontWeight={500}>Tier 1 Savings Account</Box>
+                    <Box alignSelf='start' borderRadius='36px' px='12px' py='8px' bg='#2C323A' color='#FFFFFF' fontSize='10px' fontWeight={500}>Tier 1 Savings Account</Box>
                 </HStack>
 
-                <Box w={'75%'} p={'12px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} borderRadius={'8px'}>
+                <Box w='75%' p='12px' bg='#F7F7F7' border='1px solid #EAECF0' borderRadius='8px'>
                     <HStack>
                         <img style={{width: '20px', height: '20px'}} src={getImageUrl('icons/greyBank.png')} />
                         <Stack gap={0}>
-                            <Text fontSize={'10px'} fontWeight={500} color={'#667085'}>BENEFICIARY ACCOUNT NUMBER</Text>
-                            <Text fontSize={'14px'} fontWeight={500} color={'#101828'}>Guaranty Trust Bank - 0122458754</Text>
+                            <Text fontSize='10px' fontWeight={500} color='#667085'>BENEFICIARY ACCOUNT NUMBER</Text>
+                            <Text fontSize='14px' fontWeight={500} color='#101828'>Guaranty Trust Bank - 0122458754</Text>
                         </Stack>
                     </HStack>
 
-                    <Divider h={'2px'} mt={'12px'} mb={'12px'}/>
+                    <Divider h='2px' mt='12px' mb='12px'/>
 
                     <HStack>
                         <img src={getImageUrl('icons/nav/profileGrey.png')} />
                         <Stack gap={0}>
-                            <Text fontSize={'10px'} fontWeight={500} color={'#667085'}>BENEFICIARY NAME</Text>
-                            <Text fontSize={'14px'} fontWeight={500} color={'#101828'}>Adeola Obasanjo</Text>
+                            <Text fontSize='10px' fontWeight={500} color='#667085'>BENEFICIARY NAME</Text>
+                            <Text fontSize='14px' fontWeight={500} color='#101828'>Adeola Obasanjo</Text>
                         </Stack>
                     </HStack>
 
@@ -185,16 +185,15 @@ export const TransferToOthers = () => {
                     <Text cursor='pointer' fontSize='14px' fontWeight={500} color='#A41857'>Increase your transfer limit</Text>
                 </HStack>
 
-                <FormControl w={'75%'}>
-                    <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Note (Optional)</FormLabel>
-                    <Input h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} autoComplete='off' />
+                <FormControl w='75%'>
+                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Note (Optional)</FormLabel>
+                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' autoComplete='off' />
                 </FormControl>
 
                 <Button
-                    mt={'16px'}
-                    w={'75%'} h={'48px'}
-                    bg={'#A41856'} _hover={{bg: '#A41856'}}
-                    color={'#FFFFFF'} fontSize={'14px'} fontWeight={600}
+                    mt='16px' w='75%' h='48px'
+                    bg='#A41856' _hover={{bg: '#A41856'}}
+                    color='#FFFFFF' fontSize='14px' fontWeight={600}
                     onClick={moveToThree}
                 >Continue</Button>
             </Stack>
