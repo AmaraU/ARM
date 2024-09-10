@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Stack, Text, Box, Button, HStack, Divider, Input, Select, FormControl, FormLabel, InputGroup, InputLeftElement, InputRightElement, Spinner } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Divider, Input, Select, FormControl, FormLabel, InputGroup } from "@chakra-ui/react";
 import { BiShow, BiHide } from "react-icons/bi";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { getImageUrl } from "../../../utils";
 import { CompleteTransaction } from '../../Components/CompleteTrans';
-import Switch from "react-switch";
 
 
 
@@ -14,8 +13,6 @@ export const TransferToOthers = () => {
     const [ showOne, setShowOne ] = useState(true);
     const [ showTwo, setShowTwo ] = useState(false);
     const [ showThree, setShowThree ] = useState(false);
-    const [ checkingAccount, setCheckingAccount ] = useState(false);
-    const [ showName, setShowName ] = useState(false);
     const noOfAccounts = 2;
 
     const hideBalance = () => {
@@ -48,12 +45,6 @@ export const TransferToOthers = () => {
         window.scrollTo({ top: 0});
     }
 
-    const checkAccount = () => {
-        setCheckingAccount(true);
-        setTimeout(() => setCheckingAccount(false), 5000);
-        setTimeout(() => setShowName(true), 5000);
-    }
-
     return (
         <>            
         {showOne && <Box>
@@ -71,80 +62,55 @@ export const TransferToOthers = () => {
                         <Select h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select account" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
                     </FormControl>
 
-                    <FormControl w='75%' isRequired>
-                        <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Account Number</FormLabel>
-                        <InputGroup>
-                            <Input onChange={checkAccount} type='number' h='48px' bg='#F7F7F7' border='1px solid #EAECF0' placeholder="Input acount number" _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
-                            {checkingAccount && <InputRightElement><Spinner color='#A41857' w='24px' thickness='4px' /></InputRightElement>}
-                        </InputGroup>
+                    <FormControl w={'75%'} isRequired>
+                        <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Account Number</FormLabel>
+                        <Input h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Input account number" _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
                     </FormControl>
 
-                    {!showName && <HStack w='75%'>
-                        <img src={getImageUrl('icons/nav/profileGrey.png')} />
-                        <Text cursor='pointer' fontSize='14px' fontWeight={500} color='#A41857'>Select from Beneficiary</Text>
-                    </HStack>}
+                    <HStack w={'75%'}>
+                        <img src={getImageUrl('icons/nav/profileGrey.png')} alt="" />
+                        <Text cursor={'pointer'} fontSize={'14px'} fontWeight={500} color={'#A41857'}>Select from Beneficiary</Text>
+                    </HStack>
 
                     <FormControl w={'75%'} isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Bank Name</FormLabel>
                         <Select h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select bank" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
                     </FormControl>
-
-                    {showName && <HStack w='75%' p='12px' bg='#EFECE9' border='1px solid #EAECF0' borderRadius='8px'>
-                        <img style={{width: '20px', height: '20px'}} src={getImageUrl('icons/nav/profileGrey.png')} />
-                        <Stack gap={0}>
-                            <Text fontSize='10px' fontWeight={500} color='#667085'>BENEFICIARY NAME</Text>
-                            <Text fontSize='14px' fontWeight={500} color='#101828'>Adeola Obasanjo</Text>
-                        </Stack>
-                    </HStack>}
-
-                    {showName && <HStack w='75%' justifyContent='space-between'>
-                        <Text fontSize='14px' fontWeight={500} color='#667085'>Save as Beneficiary</Text>
-                        <Switch onColor='#A41857' checkedIcon={false} uncheckedIcon={false} height={24} width={40} handleDiameter={16} />
-                    </HStack>}
                 </>
                 :
                 <>
-                    <HStack w='75%' backgroundColor='#000000' backgroundImage={getImageUrl('backgroundGrey.png')} bgSize='100% 100%' borderRadius='12px' p='14px' pt='24px' justifyContent='space-between'>
+                    <HStack w={'75%'} backgroundColor={'#000000'} backgroundImage={getImageUrl('backgroundGrey.png')} bgSize={'100% 100%'} borderRadius={'12px'} p={'14px'} pt={'24px'} justifyContent={'space-between'}>
                         <Box>
-                            <Text fontSize='14px' fontWeight={400} color='#FFFFFF'>Total Available Balance</Text>
-                            <HStack ml="-1px" spacing={0}>
-                                <Box fontSize="22px" color="#FFFFFF"><TbCurrencyNaira /></Box>
-                                <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${1234568}` : hideBalance()}</Text>
-                                <Box pl={3} cursor="pointer">
-                                    { totalBalanceVisible && <BiShow fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} /> }
-                                    { !totalBalanceVisible && <BiHide fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} /> }
+                            <Text fontSize={'14px'} fontWeight={400} color={'#FFFFFF'}>Total Available Balance</Text>
+                            <HStack ml={"-1px"} spacing={0}>
+                                <Box fontSize={"22px"} color={"#FFFFFF"}><TbCurrencyNaira /></Box>
+                                <Text fontSize={"18px"} fontWeight={600} color={"#FFFFFF"}>{totalBalanceVisible ? `${1234568}` : hideBalance()}</Text>
+                                <Box pl={3} cursor={"pointer"}>
+                                    { totalBalanceVisible && <BiShow fontSize={"lg"} color={"#FFFFFF"} onClick={handleToggleVisibility} /> }
+                                    { !totalBalanceVisible && <BiHide fontSize={"lg"} color={"#FFFFFF"} onClick={handleToggleVisibility} /> }
                                 </Box>
                             </HStack>
                         </Box>
 
-                        <Box alignSelf='start' borderRadius='36px' px='12px' py='8px' bg='#2C323A' color='#FFFFFF' fontSize='10px' fontWeight={500}>Tier 1 Savings Account</Box>
+                        <Box alignSelf={'start'} borderRadius={'36px'} px={'12px'} py={'8px'} bg={'#2C323A'} color={'#FFFFFF'} fontSize={'10px'} fontWeight={500}>Tier 1 Savings Account</Box>
                     </HStack>
 
-                    <FormControl w='75%' isRequired>
-                        <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Account Number</FormLabel>
-                        <InputGroup>
-                            <Input onChange={checkAccount} type='number' h='48px' bg='#F7F7F7' border='1px solid #EAECF0' placeholder="Input acount number" _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
-                            {checkingAccount && <InputRightElement><Spinner color='#A41857' w='24px' thickness='4px' /></InputRightElement>}
-                        </InputGroup>
+                    <FormControl w={'75%'} isRequired>
+                        <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Account Number</FormLabel>
+                        <Input h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Input acount number" _placeholder={{fontSize: '16px', color: '#667085'}} autoComplete='off' />
                     </FormControl>
 
-                    {showName && <HStack w='75%' p='12px' bg='#EFECE9' border='1px solid #EAECF0' borderRadius='8px'>
-                        <img style={{width: '20px', height: '20px'}} src={getImageUrl('icons/nav/profileGrey.png')} />
-                        <Stack gap={0}>
-                            <Text fontSize='10px' fontWeight={500} color='#667085'>BENEFICIARY NAME</Text>
-                            <Text fontSize='14px' fontWeight={500} color='#101828'>Adeola Obasanjo</Text>
-                        </Stack>
-                    </HStack>}
+                    <HStack w={'75%'}>
+                        <img src={getImageUrl('icons/nav/profileGrey.png')} alt="" />
+                        <Text cursor={'pointer'} fontSize={'14px'} fontWeight={500} color={'#A41857'}>Select from Beneficiary</Text>
+                    </HStack>
 
-                    {!showName && <HStack w='75%'>
-                        <img src={getImageUrl('icons/nav/profileGrey.png')} />
-                        <Text cursor='pointer' fontSize='14px' fontWeight={500} color='#A41857'>Select from Beneficiary</Text>
-                    </HStack>}
-
-                    {showName && <HStack w='75%' justifyContent='space-between'>
-                        <Text fontSize='14px' fontWeight={500} color='#667085'>Save as Beneficiary</Text>
-                        <Switch onColor='#A41857' checkedIcon={false} uncheckedIcon={false} height={24} width={40} handleDiameter={16} />
-                    </HStack>}
+                    <FormControl w={'75%'} isRequired>
+                        <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Bank Name</FormLabel>
+                        <Select h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select bank" _placeholder={{fontSize: '16px', color: '#667085'}} >
+                            <option value="">Bank 1</option>
+                        </Select>
+                    </FormControl>
                 </>}
                 
                 <Button
