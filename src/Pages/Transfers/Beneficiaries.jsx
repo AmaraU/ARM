@@ -281,13 +281,13 @@ export const Beneficiaries = () => {
                                 <Text fontSize='18px' fontWeight={450} color='#101828'>0122458754</Text>
                             </Stack>
                         </HStack>
-                        <Button borderRadius='32px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='12px' fontWeight={600} color='#FFFFFF'>Make a bank transfer</Button>
+                        <Button  borderRadius='32px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='12px' fontWeight={600} color='#FFFFFF'>Make a bank transfer</Button>
                     </HStack>
 
                     <Divider h='0px' mt='12px' mb='12px' border='1px solid #DCD6CF' />
 
                     <HStack justifyContent='space-between'>
-                        <Text onClick={onOpenAdd} cursor='pointer' _hover={{textDecoration: 'underline'}} fontSize='18px' fontWeight={450} color='#A41857'>Add another bank account</Text>
+                        <Text fontSize='18px' fontWeight={450} color='#A41857'>Add another bank account</Text>
                         <button onClick={onOpenAdd} className={styles.plus}><img src={getImageUrl('icons/whitePlus.png')} style={{width: '16px', height: '16px'}} /></button>
                     </HStack>
 
