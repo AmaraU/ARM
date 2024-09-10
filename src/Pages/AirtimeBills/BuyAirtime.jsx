@@ -23,30 +23,30 @@ export const BuyAirtime = () => {
 
 
     const savedAirtime = [
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "300",
-            network: "MTN"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "300",
-            network: "Glo"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "300",
-            network: "9Mobile"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "300",
-            network: "Airtel"
-        }
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "300",
+        //     network: "MTN"
+        // },
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "300",
+        //     network: "Glo"
+        // },
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "300",
+        //     network: "9Mobile"
+        // },
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "300",
+        //     network: "Airtel"
+        // }
     ]
     
 

@@ -18,30 +18,30 @@ export const BuyData = () => {
 
 
     const savedData = [
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "6GB Weekly",
-            network: "MTN"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "6GB Weekly",
-            network: "Glo"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "6GB Weekly",
-            network: "9Mobile"
-        },
-        {
-            name: "My Baby",
-            number: "08101790957",
-            amount: "6GB Weekly",
-            network: "Airtel"
-        }
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "6GB Weekly",
+        //     network: "MTN"
+        // },
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "6GB Weekly",
+        //     network: "Glo"
+        // },
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "6GB Weekly",
+        //     network: "9Mobile"
+        // },
+        // {
+        //     name: "My Baby",
+        //     number: "08101790957",
+        //     amount: "6GB Weekly",
+        //     network: "Airtel"
+        // }
     ]
     
 

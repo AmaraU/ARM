@@ -139,7 +139,7 @@ export default function Signup() {
 
                     {isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter BVN</FormLabel>
-                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
+                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your BVN' _placeholder={{ fontSize: "sm" }} autoComplete='off' onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
                     </FormControl>}
                     {!isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter NIN</FormLabel>
