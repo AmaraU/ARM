@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Stack, Text, Box, Button, HStack, Input, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Input, FormControl, FormLabel, Select, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react";
 import Switch from "react-switch";
 import { getImageUrl } from "../../../utils";
 import styles from './AirtimeBills.module.css';
@@ -8,6 +8,7 @@ import { CompleteTransaction } from '../../Components/CompleteTrans';
 
 export const BuyData = () => {
 
+    const { isOpen: isOpenConfirm, onOpen: onOpenConfirm, onClose: onCloseConfirm } = useDisclosure();
     const [ actionsOpen, setActionsOpen ] = useState({});
     const [ showOptions, setShowOptions ] = useState(true);
     const [ showOne, setShowOne ] = useState(false);
@@ -81,6 +82,7 @@ export const BuyData = () => {
         setShowOne(false);
         setShowTwo(true);
         setShowOptions(false);
+        onCloseConfirm();
     }
 
     
@@ -191,7 +193,7 @@ export const BuyData = () => {
                     <Switch onChange={() => setAddFavorite(!addFavorite)} checked={addFavorite} onColor='#A41857' checkedIcon={false} uncheckedIcon={false} height={24} width={40} handleDiameter={16} />
                 </HStack>
 
-                <Button onClick={moveToTwo} mt={'16px'} w={'75%'} h={'48px'} bg={'#A41856'} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} _hover={{bg: '#A41856'}}>Continue</Button>
+                <Button onClick={onOpenConfirm} mt={'16px'} w={'75%'} h={'48px'} bg={'#A41856'} color={'#FFFFFF'} fontSize={'14px'} fontWeight={600} _hover={{bg: '#A41856'}}>Continue</Button>
             </Stack>
         </Box>}
 
@@ -205,6 +207,62 @@ export const BuyData = () => {
 
             <CompleteTransaction type='data' amount='15' phoneNumber='08083698233' />
         </Box>}
+
+
+
+        <Modal isCentered size='lg' closeOnOverlayClick={true} isOpen={isOpenConfirm} onClose={onCloseConfirm} >
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>
+                    <Text textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Confirm Data Payment Details</Text>
+                </ModalHeader>
+                <ModalCloseButton />
+
+                <ModalBody>
+                <div style={{ overflow: 'auto', maxHeight: '60vh' }}>
+
+                    <Stack w='100%' spacing='16px'>
+
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyBank.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>DATA BUNDLE</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>MTN - 15GB</Text>
+                            </Stack>
+                        </HStack>
+
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/nav/profileGrey.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>BENEFICIARY NAME</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>Adeola Obasanjo - 08083698233</Text>
+                            </Stack>
+                        </HStack>
+
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyCash.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>AMOUNT</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>₦4,000</Text>
+                            </Stack>
+                        </HStack>
+
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyFees.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>FEES</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>₦10.25</Text>
+                            </Stack>
+                        </HStack>
+                    </Stack>
+                </div>
+                </ModalBody>
+
+                <ModalFooter pt={0}>
+                    <Button mt='16px' w='100%' h='48px' bg='#A41856' _hover={{ bg: '#A41856' }} color='#FFFFFF' fontSize='14px' fontWeight={600} onClick={moveToTwo}>Continue</Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
 
         </>
     );

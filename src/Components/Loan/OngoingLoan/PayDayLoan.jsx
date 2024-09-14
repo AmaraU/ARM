@@ -48,19 +48,12 @@ function PayDayLoan({ moveToOne, moveToThree }) {
         pb={"114px"}
       >
         <Text fontSize={"16px"} color={"#667085"} textAlign={"center"}>
-          Complete the details below
+          Kindly provide your salary bank account
         </Text>
 
         <FormControl maxWidth={"600px"}>
-          <FormLabel>Name of Employer</FormLabel>
-          <Select
-            bg={"#F7F7F7"}
-            border={"1px solid #EAECF0"}
-            placeholder="Eze and Sons International LTD"
-            _placeholder={{ fontSize: "16px", color: "#667085" }}
-          />
 
-          <FormLabel mt={5}>Bank Name</FormLabel>
+          <FormLabel mt={5} fontSize='16px' fontWeight={400} color='#101828'>Bank Name</FormLabel>
           <Select
             bg={"#F7F7F7"}
             border={"1px solid #EAECF0"}
@@ -68,7 +61,7 @@ function PayDayLoan({ moveToOne, moveToThree }) {
             _placeholder={{ fontSize: "16px", color: "#667085" }}
           />
 
-          <FormLabel mt={5}>Account Number</FormLabel>
+          <FormLabel mt={5} fontSize='16px' fontWeight={400} color='#101828'>Account Number</FormLabel>
           <Input
             bg={"#F7F7F7"}
             border={"1px solid #EAECF0"}

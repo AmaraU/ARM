@@ -133,6 +133,21 @@ export const AccountStatement = ({ backHome }) => {
                     </Stack>
                 </HStack>
 
+                <HStack justifyContent='space-between' w='75%'>
+                    <HStack>
+                        <input type="checkbox" name="pdf" style={{ accentColor: '#A41856' }} />
+                        <label htmlFor="pdf"><Text fontSize='16px' color='#101828' >Download in PDF</Text></label>
+                    </HStack>
+                    <HStack>
+                        <input type="checkbox" name="csv" style={{ accentColor: '#A41856' }} />
+                        <label htmlFor="csv"><Text fontSize='16px' color='#101828' >Download in CSV</Text></label>
+                    </HStack>
+                    <HStack>
+                        <input type="checkbox" name="excel" style={{ accentColor: '#A41856' }} />
+                        <label htmlFor="excel"><Text fontSize='16px' color='#101828' >Download in Excel</Text></label>
+                    </HStack>
+                </HStack>
+
                 <Button w='75%' h='48px' mt='24px' bg='#A41856' color='#FFFFFF' fontSize='14px' fontWeight={600} _hover={{bg: '#A41856'}}>Request Statement</Button>
             </Stack>
         </Box>}

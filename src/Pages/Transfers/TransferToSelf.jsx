@@ -1,18 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Stack, Text, Box, Button, HStack, Input, Select, FormControl, FormLabel } from "@chakra-ui/react";
-import styles from "./Transfers.module.css";
 import { getImageUrl } from "../../../utils";
 import { CompleteTransaction } from '../../Components/CompleteTrans';
-import { useNavigate } from 'react-router-dom';
 
 export const TransferToSelf = () => {
 
     const [ showOne, setShowOne ] = useState(true);
     const [ showTwo, setShowTwo ] = useState(false);
-    const [ enterPin, setEnterPin ] = useState(true);
-    const [ isSuccess, setIsSuccess ] = useState(false);
-    const [ isFailed, setIsFailed ] = useState(false);
-    const navigate = useNavigate();
 
     
     const moveToOne = () => {
@@ -23,21 +17,6 @@ export const TransferToSelf = () => {
     const moveToTwo = () => {
         setShowOne(false);
         setShowTwo(true);
-        setEnterPin(true);
-        setIsSuccess(false);
-        setIsFailed(false);
-        window.scrollTo({ top: 0});
-    }
-    const moveToSuccess = () => {
-        setEnterPin(false);
-        setIsFailed(false);
-        setIsSuccess(true);
-        window.scrollTo({ top: 0});
-    }
-    const moveToFailed = () => {
-        setEnterPin(false);
-        setIsFailed(true);
-        setIsSuccess(false);
         window.scrollTo({ top: 0});
     }
 
@@ -70,7 +49,7 @@ export const TransferToSelf = () => {
 
                 <HStack w={'75%'} justifyContent={'space-between'}>
                     <HStack>
-                        <img src={getImageUrl('icons/nav/profileGrey.png')} />
+                        <img src={getImageUrl('icons/warning.png')} />
                         <Text fontSize={'14px'} fontWeight={500} color={'#667085'}>Your daily transfer limit is ₦200,000</Text>
                     </HStack>
                     <Text cursor={'pointer'} fontSize={'14px'} fontWeight={500} color={'#A41857'}>Increase your transfer limit</Text>

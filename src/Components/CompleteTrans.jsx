@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Text, Box, Button, HStack, Input } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Input, Switch } from "@chakra-ui/react";
 import { getImageUrl } from "../../utils";
 import { useNavigate } from 'react-router-dom';
 
@@ -109,16 +109,24 @@ export const CompleteTransaction = ({ type = "", phoneNumber = "", amount= "" })
 
             <Stack>
                 <Text mt={'12px'} fontSize={'18px'} fontWeight={700} color={'#000000'} textAlign={'center'}>Success!</Text>
-                {type === 'transaction' ? <Text fontSize={'14px'} fontWeight={500} color={'#667085'} textAlign={'center'}>Your transaction has been completed successfully</Text> : <></>}
-                {type === 'bills' ? <Text fontSize={'14px'} fontWeight={500} color={'#667085'} textAlign={'center'}>Your transaction has been completed successfully</Text> : <></>}
-                {type === 'airtime' ? <Text fontSize={'14px'} fontWeight={450} color={'#667085'} textAlign={'center'}>You just recharged <span style={{fontWeight: 500}}>{phoneNumber}</span> with <span style={{fontWeight: 500}}>₦{amount} Airtime</span></Text> : <></>}
-                {type === 'data' ? <Text fontSize={'14px'} fontWeight={500} color={'#667085'} textAlign={'center'}>You just recharged {phoneNumber} with {amount}GB Data</Text> : <></>}
-            </Stack>         
+                {type === 'transaction' ? <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>Your transaction has been completed successfully</Text> : <></>}
+                {type === 'bills' ? <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>Your transaction has been completed successfully</Text> : <></>}
+                {type === 'airtime' ? <Text fontSize='14px' fontWeight={450} color='#667085' textAlign='center'>You just recharged <span style={{fontWeight: 500}}>{phoneNumber}</span> with <span style={{fontWeight: 500}}>₦{amount} Airtime</span></Text> : <></>}
+                {type === 'data' ? <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>You just recharged {phoneNumber} with {amount}GB Data</Text> : <></>}
+            </Stack>       
+
+            {(type === 'bills') || (type === 'data') ? (
+                <HStack w='75%' justifyContent='space-between' alignItems='center'>
+                    <Text fontSize='14px' fontWeight={500} color='#667085'>Set as Auto-Renew</Text>
+                    <Switch size="md" color="#A41856" colorScheme="#A41856" sx={{ ".chakra-switch__track[data-checked]:not([data-theme])": {backgroundColor: "#A41856"}}}/>
+                    {/* <Switch onColor='#A41857' checkedIcon={false} uncheckedIcon={false} height={24} width={40} handleDiameter={16} /> */}
+                </HStack>
+            ) : ''}  
 
             <Button
-                mt={'16px'} w={'75%'} h={'48px'}
-                bg={'#A41856'} _hover={{bg: '#A41856'}}
-                color={'#FFFFFF'} fontSize={'14px'} fontWeight={600}
+                mt='16px' w='75%' h='48px'
+                bg='#A41856' _hover={{bg: '#A41856'}}
+                color='#FFFFFF' fontSize='14px' fontWeight={600}
                 onClick={()=> navigate('/receipt')}
             >
                 Download Receipt

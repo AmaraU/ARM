@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Text, Box, Button, HStack, Divider, Input, Select, FormControl, FormLabel, InputGroup, InputRightAddon, InputRightElement, InputLeftElement, Spinner } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Divider, Input, Select, FormControl, FormLabel, InputGroup, InputRightAddon, InputRightElement, InputLeftElement, Spinner, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure } from "@chakra-ui/react";
 import { BiShow, BiHide } from "react-icons/bi";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { getImageUrl } from "../../../utils";
@@ -11,6 +11,7 @@ import Switch from "react-switch";
 
 export const TransferToARMAcct = () => {
 
+    const { isOpen: isOpenConfirm, onOpen: onOpenConfirm, onClose: onCloseConfirm } = useDisclosure();
     const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
     const [ showOne, setShowOne ] = useState(true);
     const [ showTwo, setShowTwo ] = useState(false);
@@ -44,6 +45,7 @@ export const TransferToARMAcct = () => {
         setShowOne(false);
         setShowTwo(false);
         setShowThree(true);
+        onCloseConfirm();
         window.scrollTo({ top: 0});
     }
 
@@ -84,11 +86,6 @@ export const TransferToARMAcct = () => {
                         <img src={getImageUrl('icons/nav/profileGrey.png')} />
                         <Text cursor='pointer' fontSize='14px' fontWeight={500} color='#A41857'>Select from Beneficiary</Text>
                     </HStack>}
-
-                    <FormControl w={'75%'} isRequired>
-                        <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'}>Bank Name</FormLabel>
-                        <Select h={'48px'} bg={'#F7F7F7'} border={'1px solid #EAECF0'} placeholder="Select bank" _placeholder={{fontSize: '16px', color: '#667085'}}></Select>
-                    </FormControl>
 
                     {showName && <HStack w='75%' p='12px' bg='#EFECE9' border='1px solid #EAECF0' borderRadius='8px'>
                         <img style={{width: '20px', height: '20px'}} src={getImageUrl('icons/nav/profileGrey.png')} />
@@ -232,7 +229,7 @@ export const TransferToARMAcct = () => {
                     w={'75%'} h={'48px'}
                     bg={'#A41856'} _hover={{bg: '#A41856'}}
                     color={'#FFFFFF'} fontSize={'14px'} fontWeight={600}
-                    onClick={moveToThree}
+                    onClick={onOpenConfirm}
                 >Continue</Button>
             </Stack>
         </Box>}
@@ -248,6 +245,70 @@ export const TransferToARMAcct = () => {
             <CompleteTransaction type='transaction' />
 
         </Box>}
+
+
+
+        <Modal isCentered size='lg' closeOnOverlayClick={true} isOpen={isOpenConfirm} onClose={onCloseConfirm} >
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>
+                    <Text textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Confirm Transaction Details</Text>
+                </ModalHeader>
+                <ModalCloseButton />
+
+                <ModalBody>
+                <div style={{ overflow: 'auto', maxHeight: '60vh' }}>
+
+                    <Stack w='100%' spacing='16px'>
+                    
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyBank.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>BENEFICIARY ACCOUNT NUMBER</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>Guaranty Trust Bank - 0122458754</Text>
+                            </Stack>
+                        </HStack>
+                        
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/nav/profileGrey.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>BENEFICIARY NAME</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>Adeola Obasanjo</Text>
+                            </Stack>
+                        </HStack>
+
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyCash.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>AMOUNT</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>₦200,000</Text>
+                            </Stack>
+                        </HStack>
+
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyFees.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>FEES</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>₦10.25</Text>
+                            </Stack>
+                        </HStack>
+
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyNotes.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>NOTES</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>Weekend chillz</Text>
+                            </Stack>
+                        </HStack>
+                    </Stack>
+                </div>
+                </ModalBody>
+
+                <ModalFooter pt={0}>
+                    <Button mt='16px' w='100%' h='48px' bg='#A41856' _hover={{bg: '#A41856'}} color='#FFFFFF' fontSize='14px' fontWeight={600} onClick={moveToThree}>Continue</Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
         </>
     );
 }

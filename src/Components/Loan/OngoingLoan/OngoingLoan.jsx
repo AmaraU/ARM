@@ -42,50 +42,101 @@ export const OngoingLoan = () => {
     setShowOne(false);
     setShowTwo(false);
     setShowThree(false);
+    setShowFour(false);
+    setShowFive(false);
+    setShowSix(false);
+    setShowStaffLoan(false);
+    setShowVerifyEmail(false);
+    setShowInvestment(false);
     setShowOptions(true);
   };
   const moveToOne = () => {
     setShowOne(true);
     setShowTwo(false);
     setShowThree(false);
-    setShowOptions(false);
+    setShowFour(false);
+    setShowFive(false);
+    setShowSix(false);
+    setShowStaffLoan(false);
     setShowVerifyEmail(false);
+    setShowInvestment(false);
+    setShowOptions(false);
   };
   const moveToTwo = () => {
     setShowOne(false);
     setShowTwo(true);
     setShowThree(false);
+    setShowFour(false);
+    setShowFive(false);
+    setShowSix(false);
+    setShowStaffLoan(false);
+    setShowVerifyEmail(false);
+    setShowInvestment(false);
     setShowOptions(false);
   };
   const moveToThree = () => {
     setShowOne(false);
     setShowTwo(false);
     setShowThree(true);
-    setShowOptions(false);
+    setShowFour(false);
+    setShowFive(false);
+    setShowSix(false);
+    setShowStaffLoan(false);
     setShowVerifyEmail(false);
-    setShowInvestment(false)
+    setShowInvestment(false);
+    setShowOptions(false);
   };
 
   const moveToFour = () => {
+    setShowOne(false);
+    setShowTwo(false);
     setShowThree(false);
     setShowFour(true);
+    setShowFive(false);
+    setShowSix(false);
+    setShowStaffLoan(false);
+    setShowVerifyEmail(false);
+    setShowInvestment(false);
+    setShowOptions(false);
   };
 
   const moveToFive = () => {
+    setShowOne(false);
+    setShowTwo(false);
+    setShowThree(false);
     setShowFour(false);
     setShowFive(true);
+    setShowSix(false);
+    setShowStaffLoan(false);
+    setShowVerifyEmail(false);
+    setShowInvestment(false);
+    setShowOptions(false);
   };
 
   const moveToSix = () => {
-    setShowSix(true);
+    setShowOne(false);
+    setShowTwo(false);
+    setShowThree(false);
+    setShowFour(false);
     setShowFive(false);
+    setShowSix(true);
+    setShowStaffLoan(false);
+    setShowVerifyEmail(false);
+    setShowInvestment(false);
+    setShowOptions(false);
   };
 
   const moveToVerifyEmail = () => {
-    setShowFour(false);
+    setShowOne(false);
+    setShowTwo(false);
     setShowThree(false);
+    setShowFour(false);
+    setShowFive(false);
+    setShowSix(false);
     setShowStaffLoan(false);
     setShowVerifyEmail(true);
+    setShowInvestment(false);
+    setShowOptions(false);
   };
 
   function showPayLoan() {
@@ -95,16 +146,28 @@ export const OngoingLoan = () => {
 
   function showStaffLoan() {
     setShowOne(false);
+    setShowTwo(false);
+    setShowThree(false);
+    setShowFour(false);
+    setShowFive(false);
+    setShowSix(false);
     setShowStaffLoan(true);
+    setShowVerifyEmail(false);
+    setShowInvestment(false);
+    setShowOptions(false);
   }
 
   const showInvestmentLoan = () => {
     setShowOne(false);
     setShowTwo(false);
-    setShowFour(false);
     setShowThree(false);
+    setShowFour(false);
+    setShowFive(false);
+    setShowSix(false);
     setShowStaffLoan(false);
+    setShowVerifyEmail(false);
     setShowInvestment(true);
+    setShowOptions(false);
   };
 
   return (

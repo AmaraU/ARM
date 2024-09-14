@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { Card, Text } from "@chakra-ui/react";
+import { Button, Card, Text } from "@chakra-ui/react";
 
 function RepaymentAmount({ amount }) {
   return (
-    <Card py={"5"} bg={"#667085"}>
+    <Card py={"5"} bg={"#667085"} alignItems='center' gap='8px'>
       <Text textAlign={"center"} color={"white"}>
         TOTAL REPAYMENT AMOUNT
       </Text>
@@ -16,6 +16,7 @@ function RepaymentAmount({ amount }) {
         {" "}
         {amount}{" "}
       </Text>
+      <Button bg='#EFECE9' color='#667085' _hover={{bg: '#EFECE9'}} w='fit-content' fontSize='16px' fontWeight={500}>See Loan Repayment Schedule</Button>
     </Card>
   );
 }

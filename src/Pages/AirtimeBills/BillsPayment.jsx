@@ -9,6 +9,14 @@ import {
   FormLabel,
   Select,
   Divider,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
 } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./AirtimeBills.module.css";
@@ -17,12 +25,13 @@ import { TbCurrencyNaira } from "react-icons/tb";
 import { BiShow, BiHide } from "react-icons/bi";
 
 export const BillsPayment = () => {
-  const [ actionsOpen, setActionsOpen ] = useState({});
-  const [ showOptions, setShowOptions ] = useState(true);
-  const [ showOne, setShowOne ] = useState(false);
-  const [ showTwo, setShowTwo ] = useState(false);
-  const [ showThree, setShowThree ] = useState(false);
-  const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
+  const [actionsOpen, setActionsOpen] = useState({});
+  const [showOptions, setShowOptions] = useState(true);
+  const [showOne, setShowOne] = useState(false);
+  const [showTwo, setShowTwo] = useState(false);
+  const [showThree, setShowThree] = useState(false);
+  const [totalBalanceVisible, setTotalBalanceVisible] = useState(true);
+  const { isOpen: isOpenConfirm, onOpen: onOpenConfirm, onClose: onCloseConfirm } = useDisclosure();
   const popupRef = useRef(null);
 
   const savedBills = [
@@ -81,28 +90,29 @@ export const BillsPayment = () => {
     setShowTwo(false);
     setShowThree(false);
     setShowOptions(true);
-    window.scrollTo({ top: 0});
+    window.scrollTo({ top: 0 });
   };
   const moveToOne = () => {
     setShowOne(true);
     setShowTwo(false);
     setShowThree(false);
     setShowOptions(false);
-    window.scrollTo({ top: 0});
+    window.scrollTo({ top: 0 });
   };
   const moveToTwo = () => {
     setShowOne(false);
     setShowTwo(true);
     setShowThree(false);
     setShowOptions(false);
-    window.scrollTo({ top: 0});
+    window.scrollTo({ top: 0 });
   };
   const moveToThree = () => {
     setShowOne(false);
     setShowTwo(false);
     setShowThree(true);
     setShowOptions(false);
-    window.scrollTo({ top: 0});
+    onCloseConfirm();
+    window.scrollTo({ top: 0 });
   };
 
   return (
@@ -558,7 +568,7 @@ export const BillsPayment = () => {
               color={"#FFFFFF"}
               fontSize={"14px"}
               fontWeight={600}
-              onClick={moveToThree}
+              onClick={onOpenConfirm}
             >
               Continue
             </Button>
@@ -595,6 +605,62 @@ export const BillsPayment = () => {
           <CompleteTransaction type='bills' />
         </Box>
       )}
+
+
+
+      <Modal isCentered size='lg' closeOnOverlayClick={true} isOpen={isOpenConfirm} onClose={onCloseConfirm} >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <Text textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Confirm Transaction Details</Text>
+          </ModalHeader>
+          <ModalCloseButton />
+
+          <ModalBody>
+            <div style={{ overflow: 'auto', maxHeight: '60vh' }}>
+
+              <Stack w='100%' spacing='16px'>
+
+                <HStack spacing='8px' alignItems='center'>
+                  <img src={getImageUrl('icons/greyBank.png')} />
+                  <Stack spacing={0}>
+                    <Text fontSize='14px' fontWeight={450} color='#667085'>BILL PACKAGE</Text>
+                    <Text fontSize='18px' fontWeight={500} color='#A41856'>DSTv Compact - 03458856544</Text>
+                  </Stack>
+                </HStack>
+
+                <HStack spacing='8px' alignItems='center'>
+                  <img src={getImageUrl('icons/nav/profileGrey.png')} />
+                  <Stack spacing={0}>
+                    <Text fontSize='14px' fontWeight={450} color='#667085'>CUSTOMER NAME</Text>
+                    <Text fontSize='18px' fontWeight={500} color='#A41856'>Adeola Obasanjo</Text>
+                  </Stack>
+                </HStack>
+
+                <HStack spacing='8px' alignItems='center'>
+                  <img src={getImageUrl('icons/greyCash.png')} />
+                  <Stack spacing={0}>
+                    <Text fontSize='14px' fontWeight={450} color='#667085'>AMOUNT</Text>
+                    <Text fontSize='18px' fontWeight={500} color='#A41856'>₦19,000</Text>
+                  </Stack>
+                </HStack>
+
+                <HStack spacing='8px' alignItems='center'>
+                  <img src={getImageUrl('icons/greyFees.png')} />
+                  <Stack spacing={0}>
+                    <Text fontSize='14px' fontWeight={450} color='#667085'>FEES</Text>
+                    <Text fontSize='18px' fontWeight={500} color='#A41856'>₦10.25</Text>
+                  </Stack>
+                </HStack>
+              </Stack>
+            </div>
+          </ModalBody>
+
+          <ModalFooter pt={0}>
+            <Button mt='16px' w='100%' h='48px' bg='#A41856' _hover={{ bg: '#A41856' }} color='#FFFFFF' fontSize='14px' fontWeight={600} onClick={moveToThree}>Continue</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
