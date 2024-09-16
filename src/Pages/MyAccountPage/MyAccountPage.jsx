@@ -8,7 +8,7 @@ import React, { useState } from "react";
 
 export const MyAccountPage = () => {
 
-    const [tabIndex, setTabIndex] = useState(0);
+    const [ tabIndex, setTabIndex ] = useState(0);
 
     const handleTabsChange = (index) => {
         setTabIndex(index);

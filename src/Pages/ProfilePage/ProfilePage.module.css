@@ -81,9 +81,6 @@
     transition: background-color 0.3s ease;
     border-radius: 8px;
 }
-.strengthBar.filled {
-    background-color: #DB9308;
-}
 
 .passwordUncheck {
     color: #667085;

@@ -42,9 +42,6 @@ export const TransferToOthers = () => {
         setShowOne(false);
         setShowTwo(false);
         setShowThree(true);
-        setEnterPin(true);
-        setIsSuccess(false);
-        setIsFailed(false);
         window.scrollTo({ top: 0});
     }
 

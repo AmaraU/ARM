@@ -37,3 +37,44 @@ Select:focus {
 .loan-offer > *{
     margin-top: 10px !important
 }
+
+
+
+
+.progress {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 18px;
+    overflow: hidden;
+    align-self: center;
+    color: #DCD6CF;
+    margin-top: 6px;
+}
+
+.progress::-webkit-progress-bar {
+    background: #DCD6CF;
+}
+.progress::-webkit-progress-value {
+    background: #00BA88;
+    border-radius: 18px;
+}
+
+.progress::-ms-progress-bar {
+    background-color: #DCD6CF;
+}
+.progress::-ms-progress-value {
+    background: #00BA88;
+    border-radius: 18px;
+}
+
+.progress::-moz-progress-bar {
+    background-color: #DCD6CF;
+}
+.progress::-moz-progress-value {
+    background: #00BA88;
+    border-radius: 18px;
+}

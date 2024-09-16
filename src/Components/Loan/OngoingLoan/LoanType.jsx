@@ -16,20 +16,20 @@ function LoanType({
     {
       image: Target,
       title: "Pay Day Loans",
-      description: "Available for everyone",
+      description: "Available for workers whose salaries are paid via Remita. Apply NOW",
       action: showPayLoan,
     },
     {
       image: MultipleUser,
       title: "Staff Loans",
-      description: "Available for salary earners",
+      description: "Available for staff of select companies. Check if you company is listed and Apply NOW.",
       action: showStaffLoan,
     },
 
     {
       image: Investment,
       title: "Investment Portfolio Backed Loans",
-      description: "Available to those with ARM Investment Portfolios",
+      description: "Available for customers with eligible ARM investments. Meet your financial needs without liquidating your portfolio.",
       action: showInvestmentLoan,
     },
   ];
@@ -72,14 +72,14 @@ function LoanType({
           templateColumns={"repeat(3,auto)"}
           gap={5}
           margin={"auto"}
-          maxW={660}
+          // maxW={660}
         >
           {OPTIONS.map((card, i) => (
             <Card
               onClick={card.action}
               cursor={"pointer"}
-              px={9}
-              pb={6}
+              p={6}
+              maxW={250}
               key={i}
             >
               <img src={card.image} style={{ marginTop: "30px" }} />

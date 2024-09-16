@@ -28,7 +28,8 @@ export const CreateProfile = () => {
     const [ showPassword, setShowPassword ] = useState(false);
     const [ showPasswordConfirm, setShowPasswordConfirm ] = useState(false);
     const [ strength, setStrength ] = useState(0);
-    const [ strengthText, setstrengthText ] = useState("     ");
+    const [ strengthText, setstrengthText ] = useState("");
+    const [ strengthColor, setStregnthColor ] = useState("#EAECF0");
     const [ hasEightChars, setHasEightChars ] = useState(false);
     const [ hasLowerCase, setHasLowerCase ] = useState(false);
     const [ hasUpperCase, setHasUpperCase ] = useState(false);
@@ -67,9 +68,18 @@ export const CreateProfile = () => {
             setHasSpecialSymbol(false);
         }
 
-        if (strengthScore <= 1) setstrengthText('Weak');
-        if (strengthScore > 1) setstrengthText('Average');
-        if (strengthScore > 3) setstrengthText('Strong');
+        if (strengthScore <= 1) {
+            setstrengthText('Weak');
+            setStregnthColor('red');
+        }
+        if (strengthScore > 1) {
+            setstrengthText('Average');
+            setStregnthColor('#DB9308');
+        }
+        if (strengthScore > 3) {
+            setstrengthText('Strong');
+            setStregnthColor('#2AD062');
+        }
     
         return strengthScore;
     };
@@ -123,10 +133,9 @@ export const CreateProfile = () => {
                 <Stack w='100%'>
                     <Box display='flex' gap='4px' alignItems='center'>
                         {[...Array(4)].map((_, index) => (
-                            // <Text color='black'>One Bar</Text>
-                            <Box key={index} className={`${styles.strengthBar} ${index < strength ? styles.filled : ''}`}></Box>
+                            <Box key={index} className={styles.strengthBar} bgColor={index < strength ? strengthColor : ''}></Box>
                         ))}
-                        <Text fontSize='12px' color='#DB9308' ml='24px'>{strengthText}</Text>
+                        <Text fontSize='12px' color={strengthColor} ml='24px'>{strengthText}</Text>
                     </Box>
                     <Box display='flex' gap='16px' alignItems='center' justifyContent='space-between'>
                         <div className={hasEightChars ? styles.passwordCheck : styles.passwordUncheck}><div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div>At least 8 characters strong</div>

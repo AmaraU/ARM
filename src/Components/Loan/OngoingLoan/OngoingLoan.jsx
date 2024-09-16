@@ -10,9 +10,10 @@ import LoanOffer from "./LoanOffer";
 import StaffLoan from "./StaffLoan";
 import VerifyEmail from "./VerifyEmail";
 import InvestmentLoan from "./InvestmentLoan";
+import { CurrentLoans } from "./CurrentLoans";
 
 export const OngoingLoan = () => {
-  const [, setActionsOpen] = useState({});
+  
   const [showOptions, setShowOptions] = useState(true);
   const [showOne, setShowOne] = useState(false);
   const [showTwo, setShowTwo] = useState(false);
@@ -23,20 +24,35 @@ export const OngoingLoan = () => {
   const [showFour, setShowFour] = useState(false);
   const [showFive, setShowFive] = useState(false);
   const [showSix, setShowSix] = useState(false);
-  const popupRef = useRef(null);
 
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setActionsOpen(false);
+  const currentLoans = [
+    {
+      type: 'Pay Day',
+      amount: 1500000,
+      repay_amount: 1500000,
+      next_repayment: 1500000,
+      tenure: '1 month',
+      date: '24/08/2024',
+      status: 'Approved'
+    },
+    {
+      type: 'Staff',
+      amount: 1500000,
+      repay_amount: 1800000,
+      tenure: '1 month',
+      status: 'Pending'
+    },
+    {
+      type: 'Investment Backed',
+      amount: 1500000,
+      repay_amount: 1500000,
+      next_repayment: 1500000,
+      tenure: '1 month',
+      date: '24/08/2024',
+      status: 'Approved'
     }
-  };
+  ];
 
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true);
-    };
-  }, []);
 
   const moveToOptions = () => {
     setShowOne(false);
@@ -86,7 +102,6 @@ export const OngoingLoan = () => {
     setShowInvestment(false);
     setShowOptions(false);
   };
-
   const moveToFour = () => {
     setShowOne(false);
     setShowTwo(false);
@@ -99,7 +114,6 @@ export const OngoingLoan = () => {
     setShowInvestment(false);
     setShowOptions(false);
   };
-
   const moveToFive = () => {
     setShowOne(false);
     setShowTwo(false);
@@ -112,7 +126,6 @@ export const OngoingLoan = () => {
     setShowInvestment(false);
     setShowOptions(false);
   };
-
   const moveToSix = () => {
     setShowOne(false);
     setShowTwo(false);
@@ -125,7 +138,6 @@ export const OngoingLoan = () => {
     setShowInvestment(false);
     setShowOptions(false);
   };
-
   const moveToVerifyEmail = () => {
     setShowOne(false);
     setShowTwo(false);
@@ -138,12 +150,10 @@ export const OngoingLoan = () => {
     setShowInvestment(false);
     setShowOptions(false);
   };
-
   function showPayLoan() {
     setShowOne(false);
     setShowTwo(true);
   }
-
   function showStaffLoan() {
     setShowOne(false);
     setShowTwo(false);
@@ -156,7 +166,6 @@ export const OngoingLoan = () => {
     setShowInvestment(false);
     setShowOptions(false);
   }
-
   const showInvestmentLoan = () => {
     setShowOne(false);
     setShowTwo(false);
@@ -172,7 +181,7 @@ export const OngoingLoan = () => {
 
   return (
     <>
-      {showOptions && <EmptyLoan moveToOne={moveToOne} />}
+      {showOptions && currentLoans.length > 0 ? <CurrentLoans currentLoans={currentLoans} /> : <EmptyLoan moveToOne={moveToOne} />}
 
       {showOne && (
         <LoanType
@@ -201,6 +210,9 @@ export const OngoingLoan = () => {
           title={"Ongoing Loan"}
           moveToOne={moveToOne}
           moveNext={moveToThree}
+          showStaffLoan={showStaffLoan}
+          showPayLoan={showPayLoan}
+          showInvestmentLoan={showInvestmentLoan}
         />
       )}
 
