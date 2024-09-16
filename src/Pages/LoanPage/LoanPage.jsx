@@ -1,16 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoanHistory } from "../../Components/Loan/OngoingLoan/LoanHistory";
 import { OngoingLoan } from "../../Components/Loan/OngoingLoan/OngoingLoan";
 import styles from "./Loan.module.css";
 import { Tabs, TabList, Tab, TabPanels, TabPanel, Text, HStack, Button } from "@chakra-ui/react";
+
+
 function LoanPage() {
 
   const [ tabIndex, setTabIndex ] = useState(0);
+  const [ showNewLoanDiv, setShowNewLoanDiv ] = useState(false);
 
   const handleTabsChange = (index) => {
     setTabIndex(index);
     window.scrollTo({ top: 0});
   }
+
+  const handleNewLoan = () => {
+    setShowNewLoanDiv(true);
+    setTabIndex(0);
+  }
+
+  const handleLoanHandled = () => {
+    setShowNewLoanDiv(false);
+  }
+
+  console.log(showNewLoanDiv);
 
   return (
     <div className={styles.whole}>
@@ -56,12 +70,12 @@ function LoanPage() {
             </Tab>
           </TabList>
 
-          {tabIndex === 1 && <Button onClick={()=>handleTabsChange(0)} bg='#A41857' _hover={{bg: '#A41857'}} borderRadius='34px' fontSize='13px' fontWeight={600} color='#FFFFFF'>Apply for Loan</Button>}
+          <Button onClick={handleNewLoan} bg='#A41857' _hover={{bg: '#A41857'}} borderRadius='34px' fontSize='13px' fontWeight={600} color='#FFFFFF'>Apply for Loan</Button>
         </HStack>
 
         <TabPanels>
           <TabPanel ml={-4}>
-            <OngoingLoan />
+            <OngoingLoan showNewLoan={showNewLoanDiv} onLoanHandled={handleLoanHandled} />
           </TabPanel>
 
           <TabPanel ml={-4}>

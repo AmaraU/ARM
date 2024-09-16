@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-// import { CompleteTransaction } from '../../Components/CompleteTrans';
 import EmptyLoan from "./EmptyLoan";
 import LoanType from "./LoanType";
 import PayDayLoan from "./PayDayLoan";
@@ -12,18 +11,19 @@ import VerifyEmail from "./VerifyEmail";
 import InvestmentLoan from "./InvestmentLoan";
 import { CurrentLoans } from "./CurrentLoans";
 
-export const OngoingLoan = () => {
+
+export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
   
-  const [showOptions, setShowOptions] = useState(true);
-  const [showOne, setShowOne] = useState(false);
-  const [showTwo, setShowTwo] = useState(false);
-  const [showStaff, setShowStaffLoan] = useState(false);
-  const [showVerifyEmail, setShowVerifyEmail] = useState(false);
-  const [showInvestment, setShowInvestment] = useState(false);
-  const [showThree, setShowThree] = useState(false);
-  const [showFour, setShowFour] = useState(false);
-  const [showFive, setShowFive] = useState(false);
-  const [showSix, setShowSix] = useState(false);
+  const [ showOptions, setShowOptions] = useState(true);
+  const [ showOne, setShowOne] = useState(false);
+  const [ showTwo, setShowTwo] = useState(false);
+  const [ showStaff, setShowStaffLoan] = useState(false);
+  const [ showVerifyEmail, setShowVerifyEmail] = useState(false);
+  const [ showInvestment, setShowInvestment] = useState(false);
+  const [ showThree, setShowThree] = useState(false);
+  const [ showFour, setShowFour] = useState(false);
+  const [ showFive, setShowFive] = useState(false);
+  const [ showSix, setShowSix] = useState(false);
 
   const currentLoans = [
     {
@@ -179,9 +179,24 @@ export const OngoingLoan = () => {
     setShowOptions(false);
   };
 
+  useEffect(() => {
+    if (showNewLoan) {
+      moveToOne();
+      if (onLoanHandled) {
+        onLoanHandled();
+      }      
+    }
+  }, [showNewLoan]);
+
+
+
   return (
     <>
-      {showOptions && currentLoans.length > 0 ? <CurrentLoans currentLoans={currentLoans} /> : <EmptyLoan moveToOne={moveToOne} />}
+      {showOptions && currentLoans.length > 0 ? (
+        <CurrentLoans currentLoans={currentLoans} />
+      ) : !showOne ? (
+        <EmptyLoan moveToOne={moveToOne} />
+      ) : null}
 
       {showOne && (
         <LoanType

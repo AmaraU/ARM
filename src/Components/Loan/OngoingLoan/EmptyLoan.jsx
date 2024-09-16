@@ -3,6 +3,7 @@
 import { Box, Button, Text, HStack, Stack } from "@chakra-ui/react";
 import BackIcon from "../../../../assets/icons/blackLeftArrow.png";
 import MoneybackIcon from "../../../../assets/icons/money-bag-02.svg";
+
 function EmptyLoan({ moveToOne }) {
   return (
     <Box>

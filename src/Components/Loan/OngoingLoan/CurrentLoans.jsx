@@ -44,6 +44,13 @@ export const CurrentLoans = ({ currentLoans }) => {
         return new Intl.NumberFormat('en-US').format(number);
     };
 
+    const formatNumberDecimals = (number) => {
+        return new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(number);
+    };
+    
     const handleToggleVisibility = () => {
         setTotalBalanceVisible(!totalBalanceVisible);
     };
@@ -137,7 +144,7 @@ export const CurrentLoans = ({ currentLoans }) => {
                         <Text fontSize='14px' fontWeight={400} color='#FFFFFF'>Total Available Balance</Text>
                         <HStack ml="-1px" spacing={0}>
                             <Box fontSize="22px" color="#FFFFFF"><TbCurrencyNaira /></Box>
-                            <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${formatNumber(40618898300)}` : hideBalance()}</Text>
+                            <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${formatNumberDecimals(40618898300)}` : hideBalance()}</Text>
                             <Box pl={3} cursor="pointer">
                                 {totalBalanceVisible && <BiShow fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} />}
                                 {!totalBalanceVisible && <BiHide fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} />}
@@ -148,7 +155,7 @@ export const CurrentLoans = ({ currentLoans }) => {
                     <Box alignSelf='start' borderRadius='36px' px='12px' py='8px' bg='#2C323A' color='#FFFFFF' fontSize='10px' fontWeight={500}>Tier 3 Savings Account</Box>
                 </HStack>
 
-                <Button onClick={onOpenMethod} p={0} w='75%' bg='#A41857' _hover={{ bg: '#A41857' }} borderRadius='8px' fontSize='14px' fontWeight={600} color='#FFFFFF'>Continue</Button>
+                <Button h='48px' onClick={onOpenMethod} p={0} w='75%' bg='#A41857' _hover={{ bg: '#A41857' }} borderRadius='8px' fontSize='14px' fontWeight={600} color='#FFFFFF'>Continue</Button>
             </Stack>
         </Box>}
 
