@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+// eslint-disable react/prop-types
 
 import { Box, Button, Text, HStack, Stack } from "@chakra-ui/react";
 import BackIcon from "../../../../assets/icons/blackLeftArrow.png";

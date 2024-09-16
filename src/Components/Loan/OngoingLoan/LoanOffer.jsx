@@ -4,7 +4,7 @@ import CardContainer from "../../../elements/CardContainer";
 import "../Loan.module.css";
 import "./ongoing.css"
 
-function LoanOffer({ title, moveToOne }) {
+function LoanOffer({ title, moveToOne, moveNext }) {
   return (
     <CardContainer moveToOne={moveToOne} title={title}>
       <Stack maxW={"630px"}>
@@ -107,6 +107,7 @@ function LoanOffer({ title, moveToOne }) {
           color={"#FFFFFF"}
           fontSize={"14px"}
           fontWeight={600}
+          onClick={moveNext}
         >
           Proceed
         </Button>

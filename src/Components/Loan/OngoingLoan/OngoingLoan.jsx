@@ -10,20 +10,22 @@ import StaffLoan from "./StaffLoan";
 import VerifyEmail from "./VerifyEmail";
 import InvestmentLoan from "./InvestmentLoan";
 import { CurrentLoans } from "./CurrentLoans";
+import { SuccessScreen } from "./SuccessScreen";
 
 
 export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
   
-  const [ showOptions, setShowOptions] = useState(true);
-  const [ showOne, setShowOne] = useState(false);
-  const [ showTwo, setShowTwo] = useState(false);
-  const [ showStaff, setShowStaffLoan] = useState(false);
-  const [ showVerifyEmail, setShowVerifyEmail] = useState(false);
-  const [ showInvestment, setShowInvestment] = useState(false);
-  const [ showThree, setShowThree] = useState(false);
-  const [ showFour, setShowFour] = useState(false);
-  const [ showFive, setShowFive] = useState(false);
-  const [ showSix, setShowSix] = useState(false);
+  const [ showOptions, setShowOptions ] = useState(true);
+  const [ showOne, setShowOne ] = useState(false);
+  const [ showTwo, setShowTwo ] = useState(false);
+  const [ showStaff, setShowStaffLoan ] = useState(false);
+  const [ showVerifyEmail, setShowVerifyEmail ] = useState(false);
+  const [ showInvestment, setShowInvestment ] = useState(false);
+  const [ showThree, setShowThree ] = useState(false);
+  const [ showFour, setShowFour ] = useState(false);
+  const [ showFive, setShowFive ] = useState(false);
+  const [ showSix, setShowSix ] = useState(false);
+  const [ showSuccess, setShowSuccess ] = useState(false);
 
   const currentLoans = [
     {
@@ -65,6 +67,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowVerifyEmail(false);
     setShowInvestment(false);
     setShowOptions(true);
+    setShowSuccess(false);
   };
   const moveToOne = () => {
     setShowOne(true);
@@ -77,6 +80,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowVerifyEmail(false);
     setShowInvestment(false);
     setShowOptions(false);
+    setShowSuccess(false);
   };
   const moveToTwo = () => {
     setShowOne(false);
@@ -89,6 +93,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowVerifyEmail(false);
     setShowInvestment(false);
     setShowOptions(false);
+    setShowSuccess(false);
   };
   const moveToThree = () => {
     setShowOne(false);
@@ -101,6 +106,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowVerifyEmail(false);
     setShowInvestment(false);
     setShowOptions(false);
+    setShowSuccess(false);
   };
   const moveToFour = () => {
     setShowOne(false);
@@ -113,6 +119,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowVerifyEmail(false);
     setShowInvestment(false);
     setShowOptions(false);
+    setShowSuccess(false);
   };
   const moveToFive = () => {
     setShowOne(false);
@@ -125,6 +132,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowVerifyEmail(false);
     setShowInvestment(false);
     setShowOptions(false);
+    setShowSuccess(false);
   };
   const moveToSix = () => {
     setShowOne(false);
@@ -137,6 +145,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowVerifyEmail(false);
     setShowInvestment(false);
     setShowOptions(false);
+    setShowSuccess(false);
   };
   const moveToVerifyEmail = () => {
     setShowOne(false);
@@ -149,10 +158,20 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowVerifyEmail(true);
     setShowInvestment(false);
     setShowOptions(false);
+    setShowSuccess(false);
   };
   function showPayLoan() {
     setShowOne(false);
     setShowTwo(true);
+    setShowThree(false);
+    setShowFour(false);
+    setShowFive(false);
+    setShowSix(false);
+    setShowStaffLoan(false);
+    setShowVerifyEmail(false);
+    setShowInvestment(false);
+    setShowOptions(false);
+    setShowSuccess(false);
   }
   function showStaffLoan() {
     setShowOne(false);
@@ -165,6 +184,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowVerifyEmail(false);
     setShowInvestment(false);
     setShowOptions(false);
+    setShowSuccess(false);
   }
   const showInvestmentLoan = () => {
     setShowOne(false);
@@ -177,6 +197,20 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowVerifyEmail(false);
     setShowInvestment(true);
     setShowOptions(false);
+    setShowSuccess(false);
+  };
+  const moveToSuccess = () => {
+    setShowOne(false);
+    setShowTwo(false);
+    setShowThree(false);
+    setShowFour(false);
+    setShowFive(false);
+    setShowSix(false);
+    setShowStaffLoan(false);
+    setShowVerifyEmail(false);
+    setShowInvestment(false);
+    setShowOptions(false);
+    setShowSuccess(true);
   };
 
   useEffect(() => {
@@ -194,7 +228,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     <>
       {showOptions && currentLoans.length > 0 ? (
         <CurrentLoans currentLoans={currentLoans} />
-      ) : !showOne ? (
+      ) : (!showOne && !showTwo && !showThree && !showFour && !showSuccess) ? (
         <EmptyLoan moveToOne={moveToOne} />
       ) : null}
 
@@ -259,7 +293,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
         <LoanOffer
           moveToOne={moveToOne}
           title={"Please add two Bank Accounts"}
-          moveNext={moveToFive}
+          moveNext={moveToSuccess}
         />
       )}
 
@@ -270,6 +304,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
           moveNext={moveToThree}
         />
       )}
+      {showSuccess && <SuccessScreen moveToOptions={moveToOptions} />}
     </>
   );
 };
