@@ -228,7 +228,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     <>
       {showOptions && currentLoans.length > 0 ? (
         <CurrentLoans currentLoans={currentLoans} />
-      ) : (!showOne && !showTwo && !showThree && !showFour && !showSuccess) ? (
+      ) : (!showOne && !showTwo && !showThree && !showFour && !showFive && !showSix && !showStaff && !showInvestment && !showSuccess) ? (
         <EmptyLoan moveToOne={moveToOne} />
       ) : null}
 
@@ -304,6 +304,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
           moveNext={moveToThree}
         />
       )}
+
       {showSuccess && <SuccessScreen moveToOptions={moveToOptions} />}
     </>
   );
