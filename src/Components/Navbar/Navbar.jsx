@@ -1,10 +1,13 @@
-import React from "react";
 import styles from "./Navbar.module.css";
 import { getImageUrl } from "../../../utils";
 
 export const Navbar = () => {
 
   let currentPath = window.location.pathname;
+
+  function handleLogout(){
+    window.location.href= "/signin"
+  }
 
   return (
     <div className={styles.theWhole}>
@@ -58,7 +61,7 @@ export const Navbar = () => {
 
       </div>
 
-      <a href="" className={styles.logOut}>
+      <a onClick={handleLogout} className={styles.logOut}>
         <img src={getImageUrl("icons/nav/logout.png")} />
         Log out
       </a>

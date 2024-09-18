@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { HStack, PinInput, PinInputField } from "@chakra-ui/react";
 
-function OtpInput({ length, size, width }) {
+function OtpInput({ length, size, width, setOtp }) {
   return (
     <HStack>
-      <PinInput placeholder={""} size={size} otp>
+      <PinInput onChange={(e) => setOtp(e)} placeholder={""} size={size} otp>
         {Array.from({ length })
           .fill(null)
           .map((_, i) => (

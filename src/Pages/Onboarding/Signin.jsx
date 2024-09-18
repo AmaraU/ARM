@@ -19,16 +19,16 @@ import {
     HStack,
     Select
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { useNavigate, Link, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import EmailValidator from "email-validator";
 import { getImageUrl } from '../../../utils';
 import styles from './Onboarding.module.css';
 
 export default function Signin() {
     const [ showPassword, setShowPassword ] = useState(false);
-    const [ isLoading, setIsloading ] = useState(false);
+    const [ isLoading ] = useState(false);
     const [ password, setPassword ] = useState();
     const [ email, setEmail ] = useState("");
     const [ emailIsError, setEmailIsError ] = useState(false);
@@ -43,7 +43,7 @@ export default function Signin() {
         }
     }, [email]);
 
-    const processForm = async (e) => {
+    const processForm = async () => {
         console.log("Processed");
         Navigate('/overview');
     }
@@ -80,7 +80,7 @@ export default function Signin() {
         }, 10000);
 
         return () => clearInterval(interval);
-    }, []);
+    });
 
     
 
@@ -193,7 +193,7 @@ export default function Signin() {
                                 </Stack>
                                 <div className={styles.signUp}>
                                     <div className={styles.line}></div>
-                                    Don't have an account? <a href="/signup">Sign up now</a>
+                                    Don&apos;t have an account? <a href="/signup">Sign up now</a>
                                     <div className={styles.line}></div>
                                 </div>
                             </Stack>
@@ -250,7 +250,7 @@ export default function Signin() {
                                 </Stack>
                                 <div className={styles.signUp}>
                                     <div className={styles.line}></div>
-                                    Don't have an account? <a href="/signup">Sign up now</a>
+                                    Don&apos;t have an account? <a href="/signup">Sign up now</a>
                                     <div className={styles.line}></div>
                                 </div>
                             </Stack>

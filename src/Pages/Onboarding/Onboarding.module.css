@@ -31,7 +31,7 @@
     font-size: 18px;
     font-weight: 500;
     color: #A41857;
-    width: fit-content;
+    width: "fit-content";
     align-self: end;
     cursor: pointer;
 }
