@@ -4,7 +4,8 @@ import { Box, HStack, Button, Text, Stack, Card, Grid } from "@chakra-ui/react";
 import BackIcon from "../../../../assets/icons/blackLeftArrow.png";
 import Target from "../../../../assets/icons/target-02.svg";
 import MultipleUser from "../../../../assets/icons/user-multiple-02.svg";
-import Investment from "../../../../assets/icons/investment-portfolio.svg";
+// import Investment from "../../../../assets/icons/investment-portfolio.svg";
+import Investment from "../../../../assets/icons/save-money-dollar.svg";
 
 function LoanType({
   moveToOptions,
@@ -28,7 +29,7 @@ function LoanType({
 
     {
       image: Investment,
-      title: "Investment Portfolio Backed Loans",
+      title: "Investment Backed Loans",
       description: "Available for customers with eligible ARM investments. Meet your financial needs without liquidating your portfolio.",
       action: showInvestmentLoan,
     },

@@ -121,7 +121,7 @@ export default function Signup() {
                         </Box>
                         
                         <Flex flexDirection={'column'} gap={'12px'} h={'100%'} justifyContent={'end'} mb={'24px'}>
-                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={'6vh'} fontWeight={700} color={'white'} w={'90%'}>{changingText[currentIndex].header}</Text>
+                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={'4.5vh'} fontWeight={700} color={'white'} w={'90%'}>{changingText[currentIndex].header}</Text>
                             <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={"16px"} color={'white'} w={'90%'}>{changingText[currentIndex].subheading}</Text>
 
                             <Flex gap={'4px'}>
@@ -159,11 +159,11 @@ export default function Signup() {
 
                     {isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter BVN</FormLabel>
-                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' />
+                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your BVN' _placeholder={{ fontSize: "sm" }} autoComplete='off' onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
                     </FormControl>}
                     {!isBVN && <FormControl isRequired>
                         <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter NIN</FormLabel>
-                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' />
+                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
                     </FormControl>}
                     <Box p='12px' bg='#F7F7F7' border='1px solid #EAECF0' borderRadius='8px'>
                         <Box>

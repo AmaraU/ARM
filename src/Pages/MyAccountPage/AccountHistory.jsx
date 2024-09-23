@@ -4,6 +4,7 @@ import { getImageUrl } from "../../../utils";
 import styles from "./MyAccountPage.module.css";
 import Pagination from "../../Components/Pagination/Pagination";
 
+
 export const AccountHistory = ({ backHome }) => {
 
     const [ search, setSearch] = useState("");
@@ -16,109 +17,113 @@ export const AccountHistory = ({ backHome }) => {
         {
             description: 'Account Credited',
             method: 'Inter Bank Transfer',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         },
         {
             description: 'DStv compact subscription',
             method: 'Bills Payment',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'debit'
         },
         {
             description: 'DStv compact subscription',
             method: 'Bills Payment',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'debit'
         },
         {
             description: 'Account Credited',
             method: 'Inter Bank Transfer',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         },
         {
             description: 'Account Credited',
             method: 'Inter Bank Transfer',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         },
         {
             description: 'MTN Airtime Purchase',
             method: 'Bills Payment',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'debit'
         },
         {
             description: 'Account Credited',
             method: 'Inter Bank Transfer',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         },
         {
             description: 'Account Credited',
             method: 'Inter Bank Transfer',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         },
         {
             description: 'DStv compact subscription',
             method: 'Bills Payment',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'debit'
         },
         {
             description: 'DStv compact subscription',
             method: 'Bills Payment',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'debit'
         },
         {
             description: 'Account Credited',
             method: 'Inter Bank Transfer',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         },
         {
             description: 'Account Credited',
             method: 'Inter Bank Transfer',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         },
         {
             description: 'Account Credited',
             method: 'Inter Bank Transfer',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         },
         {
             description: 'MTN Airtime Purchase',
             method: 'Bills Payment',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'debit'
         },
         {
             description: 'Account Credited',
             method: 'Inter Bank Transfer',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         }
     ]
+
+    const formatNumber = (number) => {
+        return new Intl.NumberFormat('en-US').format(number);
+    };
 
     const handleSearch = (event) => {
         setSearch(event.target.value);
@@ -222,7 +227,7 @@ export const AccountHistory = ({ backHome }) => {
                                             </Stack>
                                         </HStack>
                                     </td>
-                                    <td>₦ {his.amount}</td>
+                                    <td>₦{formatNumber(his.amount)}</td>
                                     <td>{his.date}</td>
                                     <td>
                                         <div>

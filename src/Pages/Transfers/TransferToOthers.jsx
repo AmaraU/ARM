@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Stack, Text, Box, Button, HStack, Divider, Input, Select, FormControl, FormLabel, InputGroup, InputLeftElement, InputRightElement, Spinner } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Divider,
+        Input, Select, FormControl, FormLabel, InputGroup, InputLeftElement, InputRightElement,
+        Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure,
+        Spinner } from "@chakra-ui/react";
 import { BiShow, BiHide } from "react-icons/bi";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { getImageUrl } from "../../../utils";
@@ -10,6 +13,7 @@ import Switch from "react-switch";
 
 export const TransferToOthers = () => {
 
+    const { isOpen: isOpenConfirm, onOpen: onOpenConfirm, onClose: onCloseConfirm } = useDisclosure();
     const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
     const [ showOne, setShowOne ] = useState(true);
     const [ showTwo, setShowTwo ] = useState(false);
@@ -21,6 +25,12 @@ export const TransferToOthers = () => {
     const hideBalance = () => {
         return "****************";
     }
+    const formatNumberDec = (number) => {
+        return new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(number);
+    };
 
     const handleToggleVisibility = () => {
         setTotalBalanceVisible(!totalBalanceVisible);
@@ -42,6 +52,7 @@ export const TransferToOthers = () => {
         setShowOne(false);
         setShowTwo(false);
         setShowThree(true);
+        onCloseConfirm();
         window.scrollTo({ top: 0});
     }
 
@@ -168,7 +179,7 @@ export const TransferToOthers = () => {
                         <Text fontSize={'14px'} fontWeight={400} color={'#FFFFFF'}>Total Available Balance</Text>
                         <HStack ml={"-1px"} spacing={0}>
                             <Box fontSize="20px" color="#FFFFFF"><TbCurrencyNaira /></Box>
-                            <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${1234568}` : hideBalance()}</Text>
+                            <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${formatNumberDec(1234568)}` : hideBalance()}</Text>
                             <Box pl={3} cursor="pointer">
                                 { totalBalanceVisible && <BiShow fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} /> }
                                 { !totalBalanceVisible && <BiHide fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} /> }
@@ -210,7 +221,7 @@ export const TransferToOthers = () => {
 
                 <HStack w='75%' justifyContent='space-between'>
                     <HStack>
-                        <img src={getImageUrl('icons/nav/profileGrey.png')} alt="" />
+                        <img src={getImageUrl('icons/warning.png')} alt="" />
                         <Text fontSize='14px' fontWeight={500} color='#667085'>Your daily transfer limit is N200,000</Text>
                     </HStack>
                     <Text cursor='pointer' fontSize='14px' fontWeight={500} color='#A41857'>Increase your transfer limit</Text>
@@ -225,7 +236,7 @@ export const TransferToOthers = () => {
                     mt='16px' w='75%' h='48px'
                     bg='#A41856' _hover={{bg: '#A41856'}}
                     color='#FFFFFF' fontSize='14px' fontWeight={600}
-                    onClick={moveToThree}
+                    onClick={onOpenConfirm}
                 >Continue</Button>
             </Stack>
         </Box>}
@@ -241,6 +252,69 @@ export const TransferToOthers = () => {
             <CompleteTransaction type='transaction' />
 
         </Box>}
+
+
+        <Modal isCentered size='lg' closeOnOverlayClick={true} isOpen={isOpenConfirm} onClose={onCloseConfirm} >
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>
+                    <Text textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Confirm Transaction Details</Text>
+                </ModalHeader>
+                <ModalCloseButton />
+
+                <ModalBody>
+                <div style={{ overflow: 'auto', maxHeight: '60vh' }}>
+
+                    <Stack w='100%' spacing='16px'>
+                    
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyBank.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>BENEFICIARY ACCOUNT NUMBER</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>Guaranty Trust Bank - 0122458754</Text>
+                            </Stack>
+                        </HStack>
+                        
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/nav/profileGrey.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>BENEFICIARY NAME</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>Adeola Obasanjo</Text>
+                            </Stack>
+                        </HStack>
+
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyCash.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>AMOUNT</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>₦200,000</Text>
+                            </Stack>
+                        </HStack>
+
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyFees.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>FEES</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>₦10.25</Text>
+                            </Stack>
+                        </HStack>
+
+                        <HStack spacing='8px' alignItems='center'>
+                            <img src={getImageUrl('icons/greyNotes.png')} />
+                            <Stack spacing={0}>
+                                <Text fontSize='14px' fontWeight={450} color='#667085'>NOTES</Text>
+                                <Text fontSize='18px' fontWeight={500} color='#A41856'>Weekend chillz</Text>
+                            </Stack>
+                        </HStack>
+                    </Stack>
+                </div>
+                </ModalBody>
+
+                <ModalFooter pt={0}>
+                    <Button mt='16px' w='100%' h='48px' bg='#A41856' _hover={{bg: '#A41856'}} color='#FFFFFF' fontSize='14px' fontWeight={600} onClick={moveToThree}>Continue</Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
         </>
     );
 }

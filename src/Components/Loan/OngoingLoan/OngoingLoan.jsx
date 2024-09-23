@@ -9,6 +9,7 @@ import LoanOffer from "./LoanOffer";
 import StaffLoan from "./StaffLoan";
 import VerifyEmail from "./VerifyEmail";
 import InvestmentLoan from "./InvestmentLoan";
+import InvestmentBackedLoan from "./InvestmentBackedLoan";
 import { CurrentLoans } from "./CurrentLoans";
 import { SuccessScreen } from "./SuccessScreen";
 
@@ -21,11 +22,14 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
   const [ showStaff, setShowStaffLoan ] = useState(false);
   const [ showVerifyEmail, setShowVerifyEmail ] = useState(false);
   const [ showInvestment, setShowInvestment ] = useState(false);
+  const [ showInvestmentBacked, setShowInvestmentBacked ] = useState(false);
   const [ showThree, setShowThree ] = useState(false);
   const [ showFour, setShowFour ] = useState(false);
   const [ showFive, setShowFive ] = useState(false);
   const [ showSix, setShowSix ] = useState(false);
   const [ showSuccess, setShowSuccess ] = useState(false);
+
+  const [ loanType, setLoanType ] = useState('');
 
   const currentLoans = [
     {
@@ -81,6 +85,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowInvestment(false);
     setShowOptions(false);
     setShowSuccess(false);
+    setShowInvestmentBacked(false);
   };
   const moveToTwo = () => {
     setShowOne(false);
@@ -120,6 +125,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowInvestment(false);
     setShowOptions(false);
     setShowSuccess(false);
+    setShowInvestmentBacked(false);
   };
   const moveToFive = () => {
     setShowOne(false);
@@ -161,6 +167,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowSuccess(false);
   };
   function showPayLoan() {
+    setLoanType('pay')
     setShowOne(false);
     setShowTwo(true);
     setShowThree(false);
@@ -174,6 +181,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowSuccess(false);
   }
   function showStaffLoan() {
+    setLoanType('staff')
     setShowOne(false);
     setShowTwo(false);
     setShowThree(false);
@@ -187,6 +195,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowSuccess(false);
   }
   const showInvestmentLoan = () => {
+    setLoanType('invest')
     setShowOne(false);
     setShowTwo(false);
     setShowThree(false);
@@ -196,6 +205,20 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     setShowStaffLoan(false);
     setShowVerifyEmail(false);
     setShowInvestment(true);
+    setShowOptions(false);
+    setShowSuccess(false);
+  };
+  const showInvestmentBackedLoan = () => {
+    setShowOne(false);
+    setShowTwo(false);
+    setShowThree(false);
+    setShowFour(false);
+    setShowFive(false);
+    setShowSix(false);
+    setShowStaffLoan(false);
+    setShowVerifyEmail(false);
+    setShowInvestment(false);
+    setShowInvestmentBacked(true);
     setShowOptions(false);
     setShowSuccess(false);
   };
@@ -228,7 +251,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     <>
       {showOptions && currentLoans.length > 0 ? (
         <CurrentLoans currentLoans={currentLoans} />
-      ) : (!showOne && !showTwo && !showThree && !showFour && !showFive && !showSix && !showStaff && !showInvestment && !showSuccess) ? (
+      ) : (!showOne && !showTwo && !showThree && !showFour && !showFive && !showSix && !showStaff && !showInvestment && !showSuccess && !showInvestmentBacked) ? (
         <EmptyLoan moveToOne={moveToOne} />
       ) : null}
 
@@ -258,10 +281,18 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
         <InvestmentLoan
           title={"Ongoing Loan"}
           moveToOne={moveToOne}
-          moveNext={moveToThree}
+          moveNext={showInvestmentBackedLoan}
           showStaffLoan={showStaffLoan}
           showPayLoan={showPayLoan}
           showInvestmentLoan={showInvestmentLoan}
+        />
+      )}
+
+      {showInvestmentBacked && (
+        <InvestmentBackedLoan
+          title={"Investment Backed Loan"}
+          moveToOne={moveToOne}
+          moveToFour={moveToFour}
         />
       )}
 
@@ -305,7 +336,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
         />
       )}
 
-      {showSuccess && <SuccessScreen moveToOptions={moveToOptions} />}
+      {showSuccess && <SuccessScreen moveToOptions={moveToOptions} type={loanType} />}
     </>
   );
 };

@@ -24,6 +24,12 @@ export const TransferToARMAcct = () => {
     const hideBalance = () => {
         return "****************";
     }
+    const formatNumberDec = (number) => {
+        return new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(number);
+    };
 
     const handleToggleVisibility = () => {
         setTotalBalanceVisible(!totalBalanceVisible);
@@ -107,7 +113,7 @@ export const TransferToARMAcct = () => {
                             <Text fontSize='14px' fontWeight={400} color='#FFFFFF'>Total Available Balance</Text>
                             <HStack ml="-1px" spacing={0}>
                                 <Box fontSize="22px" color="#FFFFFF"><TbCurrencyNaira /></Box>
-                                <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${1234568}` : hideBalance()}</Text>
+                                <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${formatNumberDec(1234568)}` : hideBalance()}</Text>
                                 <Box pl={3} cursor="pointer">
                                     { totalBalanceVisible && <BiShow fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} /> }
                                     { !totalBalanceVisible && <BiHide fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} /> }

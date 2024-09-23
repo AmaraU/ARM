@@ -286,14 +286,6 @@ export const BuyAirtime = () => {
                                 <Text fontSize='18px' fontWeight={500} color='#A41856'>₦3,000</Text>
                             </Stack>
                         </HStack>
-
-                        <HStack spacing='8px' alignItems='center'>
-                            <img src={getImageUrl('icons/greyFees.png')} />
-                            <Stack spacing={0}>
-                                <Text fontSize='14px' fontWeight={450} color='#667085'>FEES</Text>
-                                <Text fontSize='18px' fontWeight={500} color='#A41856'>₦10.25</Text>
-                            </Stack>
-                        </HStack>
                     </Stack>
                 </div>
                 </ModalBody>

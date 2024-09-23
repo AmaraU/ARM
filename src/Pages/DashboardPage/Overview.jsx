@@ -27,35 +27,35 @@ export const Overview = () => {
         {
             name: 'Michael Adebanwo',
             account: '0214547897',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'debit'
         },
         {
             name: 'Michael Adebanwo',
             account: '0214547897',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         },
         {
             name: 'Michael Adebanwo',
             account: '0214547897',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'debit'
         },
         {
             name: 'Michael Adebanwo',
             account: '0214547897',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         },
         {
             name: 'Michael Adebanwo',
             account: '0214547897',
-            amount: '100,500',
+            amount: '100500',
             date: '03-Jul-2024',
             type: 'credit'
         }
@@ -84,6 +84,16 @@ export const Overview = () => {
     const hideBalance = () => {
         return "****************";
     }
+
+    const formatNumber = (number) => {
+        return new Intl.NumberFormat('en-US').format(number);
+    };
+    const formatNumberDecimals = (number) => {
+        return new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(number);
+    };
 
     const handleToggleVisibility = () => {
         setTotalBalanceVisible(!totalBalanceVisible);
@@ -132,7 +142,7 @@ export const Overview = () => {
                                 <Text fontSize='18px' fontWeight={400} color='#FFFFFF'>Total Available Balance</Text>
                                 <HStack ml="-5px" spacing={1} alignItems='center' mb='12px'>
                                     <Box fontSize="36px" fontWeight={500} color="#FFFFFF">₦</Box>
-                                    <Text fontSize="32px" fontWeight={700} color="#FFFFFF">{totalBalanceVisible ? currentItem.balance : hideBalance()}</Text>
+                                    <Text fontSize="32px" fontWeight={700} color="#FFFFFF">{totalBalanceVisible ? formatNumberDecimals(currentItem.balance) : hideBalance()}</Text>
                                     <Box borderRadius='500px' bg='#2F2F30' ml='8px' p='4px' cursor="pointer">
                                         { !totalBalanceVisible && <BiShow fontSize="lg" color="#667085" onClick={handleToggleVisibility} /> }
                                         { totalBalanceVisible && <BiHide fontSize="lg" color="#667085" onClick={handleToggleVisibility} /> }
@@ -184,11 +194,11 @@ export const Overview = () => {
                         <Box>
                             <Text fontSize='18px' fontWeight={600} color='#101828' mb='12px'>Quick Services</Text>
                             <Box borderRadius='12px' border='1px solid #EAECF0' display='flex' justifyContent='space-between' p='20px'>
-                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={600} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteSend.png")} /></Button>Send Money</Box>
-                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={600} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteBuy.png")} /></Button>Buy Airtime</Box>
-                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={600} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteBuy.png")} /></Button>Buy Data</Box>
-                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={600} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteLoans.png")} /></Button>Quick Loan</Box>
-                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={600} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteSavings.png")} /></Button>Target Savings</Box>
+                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteSend.png")} /></Button>Send Money</Box>
+                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteBuy.png")} /></Button>Buy Airtime</Box>
+                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteBuy.png")} /></Button>Buy Data</Box>
+                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteBills.png")} /></Button>Pay Bills</Box>
+                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteLoans.png")} /></Button>Staff Loan</Box>
                             </Box>
                         </Box>
 
@@ -226,7 +236,7 @@ export const Overview = () => {
                                             </HStack>
                                             <HStack gap={0} alignItems='center'>
                                                 <TbCurrencyNaira color="#394455"/>
-                                                <Text fontSize="14px" color="#394455" fontWeight={450}>{t.amount}</Text>
+                                                <Text fontSize="14px" color="#394455" fontWeight={450}>{formatNumber(t.amount)}</Text>
                                             </HStack>
                                             <Text fontSize="14px" color="#394455" fontWeight={450}>{t.date}</Text>
                                         </HStack>

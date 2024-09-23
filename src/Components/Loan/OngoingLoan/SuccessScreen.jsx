@@ -2,7 +2,7 @@ import { Box, Button, HStack, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import { getImageUrl } from "../../../../utils";
 
-export const SuccessScreen = ({ moveToOptions }) => {
+export const SuccessScreen = ({ moveToOptions, type }) => {
     return (
         <>
         <Box bg='#EAECF0' h='50px' w='100%' borderRadius={'12px 12px 0 0'}></Box>
@@ -12,7 +12,9 @@ export const SuccessScreen = ({ moveToOptions }) => {
 
             <Stack>
                 <Text mt={'12px'} fontSize={'18px'} fontWeight={700} color={'#000000'} textAlign={'center'}>Success!</Text>
-                <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>Your loan has been disbursed into your your account</Text>
+                {type === 'staff' ? 
+                    <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>Your loan request is being reviewed and will be disbursed shortly.</Text>
+                    : <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>Your loan has been disbursed into your your account</Text>}
             </Stack>
 
             <Button
