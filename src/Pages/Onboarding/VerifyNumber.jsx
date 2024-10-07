@@ -12,7 +12,10 @@ import { useEffect, useState } from "react";
 import { getImageUrl } from "../../../utils";
 import { VerifyIdentity } from "./VerifyIdentity";
 import { useDispatch, useSelector } from "react-redux";
-import { loadDetailsFromStorage } from "../../store/auth/auth.slice";
+import {
+  loadDetailsFromStorage,
+  setDetails,
+} from "../../store/auth/auth.slice";
 import OtpInput from "../../elements/PinInput";
 import { formatNumberStar } from "../../utils/formatter";
 import authService from "../../services/authService";
@@ -28,7 +31,6 @@ export const VerifyNumber = () => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dispatch(loadDetailsFromStorage());
@@ -45,27 +47,20 @@ export const VerifyNumber = () => {
     }
   }, [timeLeft]);
 
-  const handleVerifyPopup = async () => {
-    setLoading(true);
-    try {
-       await authService.verifyOtp({
-        otp: otp,
-        phoneNumber: auth?.phoneNumber,
-      });
-
-      onOpenConfirm();
-      setLoading(true);
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-    }
+  const handleVerifyPopup = () => {
+    dispatch(
+      setDetails({
+        otpCode: otp,
+      })
+    );
+    onOpenConfirm();
   };
 
   const resendOtp = async () => {
     try {
       setTimeLeft(30);
       await authService.sendOtp({
-        phoneOrAccountnumber: auth?.phoneNumber,
+        phoneOrAccountnumber: auth?.phone,
         email: auth?.email,
       });
       handleSuccess("Otp resent successfully");
@@ -144,7 +139,6 @@ export const VerifyNumber = () => {
           py={"12px"}
           w={"100%"}
           h={"fit-content"}
-          isLoading={loading}
         >
           Continue
         </Button>

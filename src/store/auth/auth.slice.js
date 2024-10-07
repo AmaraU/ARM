@@ -13,6 +13,8 @@ const loadFromSessionStorage = () => {
 const initialState = loadFromSessionStorage() || {
   phoneNumber: "",
   email: "",
+  bvn: "",
+  nin: "",
   otpCode: "",
   title: "",
   gender: "",
@@ -22,8 +24,8 @@ const initialState = loadFromSessionStorage() || {
   address: "",
   password: "",
   confirmPassword: "",
-  username: "",
-  ...getDeviceDetails(),
+  username:"",
+  ...getDeviceDetails()
 };
 
 const authSlice = createSlice({
@@ -43,22 +45,13 @@ const authSlice = createSlice({
         gender,
         othername,
         address,
-        photo,
-        image,
         password,
         confirmPassword,
-        accountNo,
       } = action.payload;
-      state.phoneNumber =
-        phoneNumber !== undefined ? phoneNumber : state.phoneNumber;
+      state.phoneNumber = phoneNumber !== undefined ? phoneNumber : state.phoneNumber;
       state.email = email !== undefined ? email : state.email;
-      if (bvn) {
-        state.bvn = bvn !== undefined ? bvn : state.bvn;
-      }
-      if (nin) {
-        state.nin = nin !== undefined ? nin : state.nin;
-      }
-
+      state.bvn = bvn !== undefined ? bvn : state.bvn;
+      state.nin = nin !== undefined ? nin : state.nin;
       state.otpCode = otpCode !== undefined ? otpCode : state.otpCode;
       state.title = title !== undefined ? title : state.title;
       state.gender = gender !== undefined ? gender : state.gender;
@@ -67,17 +60,10 @@ const authSlice = createSlice({
       state.othername = othername !== undefined ? othername : state.othername;
       state.address = address !== undefined ? address : state.address;
       state.password = password !== undefined ? password : state.password;
-      state.confirmPassword =
-        confirmPassword !== undefined ? confirmPassword : state.confirmPassword;
-      state.username = (state.email.split("@")[0]).toLowerCase()
-      state.photo = photo !== undefined ? photo : state.photo;
-      if (image) {
-        state.image = image !== undefined ? image : state.image;
-      }
-      if (accountNo) {
-        state.accountNo = accountNo !== undefined ? accountNo : state.accountNo;
-      }
-      saveToSessionStorage({ ...state, ...getDeviceDetails() });
+      state.confirmPassword = confirmPassword !== undefined ? confirmPassword : state.confirmPassword;
+      state.username = state.firstname+"-"+state.surname
+      console.log(getDeviceDetails())
+      saveToSessionStorage({...state,...getDeviceDetails()});
     },
     resetDetails: () => {
       sessionStorage.removeItem("auth-onboarding");

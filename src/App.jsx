@@ -27,23 +27,12 @@ import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import SavingsPage from "./Pages/SavingsPage/SavingsPage.jsx";
-import TargetSavings from "./Components/Savings/TargetSavings.jsx";
-import FixedSavings from "./Components/Savings/FixedSavings.jsx";
-import ForgotPassword from "./Pages/Onboarding/ForgotPassword.jsx";
-import { AccountSetup } from "./Pages/DashboardPage/AccountSetup.jsx";
-import { VerifyReset } from "./Pages/Onboarding/VerifyReset.jsx";
-import { ResetPassword } from "./Pages/Onboarding/ResetPassword.jsx";
-import { Success } from "./Pages/Onboarding/Success.jsx";
 
 function App() {
   const router = createBrowserRouter([
     { path: "/", element: <Navigate to="signin" /> },
     { path: "/signin", element: <Signin /> },
     { path: "/signup", element: <Signup /> },
-    { path: "/forgot-password", element: <ForgotPassword /> },
-    { path: "/verify-reset", element: <VerifyReset /> },
-    { path: "/reset-password", element: <ResetPassword /> },
-    { path: "/success", element: <Success /> },
     { path: "/verify-number", element: <VerifyNumber /> },
     { path: "/capture", element: <TakeSelfie /> },
     { path: "/confirm-picture", element: <ConfirmSelfie /> },
@@ -59,14 +48,11 @@ function App() {
       children: [
 
         { path: '/overview', element: <Navigate to="dashboard" /> },
-        { path: 'account-setup', element: <AccountSetup /> },
         { path: 'dashboard', element: <Overview /> },
         { path: 'transfers', element: <Transfers /> },
         { path: 'airtime', element: <AirtimeBills /> },
         { path: 'loans', element: <LoanPage /> },
         { path: 'savings', element: <SavingsPage /> },
-        { path: 'savings/target', element: <TargetSavings /> },
-        { path: 'savings/fixed', element: <FixedSavings /> },
         { path: 'cards', element: <BlankPage /> },
         { path: 'accounts', element: <MyAccountPage /> },
         { path: 'profile', element: <ProfilePage /> },

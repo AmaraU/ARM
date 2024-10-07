@@ -13,7 +13,7 @@ import styles from "../../Pages/SavingsPage/Savings.module.css";
 import { useState } from "react";
 import FinalizeSavings from "../../elements/Modals/FinalizeSavings";
 
-function TargetSavings({ moveToOptions }) {
+function PersonalSavings({ moveToOptions }) {
   const CATEGORIES = [
     "Rent/Accomodation",
     "Travel/Vacation",
@@ -37,7 +37,7 @@ function TargetSavings({ moveToOptions }) {
     <Stack maxWidth={"500px"} width={"100%"}>
       <FormControl className={styles["personal-saving-form"]}>
         <div>
-          <FormLabel>Group Name</FormLabel>
+          <FormLabel>What are you saving for?</FormLabel>
           <Input />
         </div>
 
@@ -98,15 +98,6 @@ function TargetSavings({ moveToOptions }) {
             </InputGroup>
           </div>
         </div>
-
-        <div>
-          <div>
-            <FormLabel>Who can invite members?</FormLabel>
-            <Select>
-              <option>Any member can invite other members</option>
-            </Select>
-          </div>
-        </div>
       </FormControl>
 
       <Button
@@ -130,4 +121,4 @@ function TargetSavings({ moveToOptions }) {
   );
 }
 
-export default TargetSavings;
+export default PersonalSavings;
