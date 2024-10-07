@@ -3,7 +3,7 @@ import { Stack, Text, Box, Button, HStack, Input, Switch } from "@chakra-ui/reac
 import { getImageUrl } from "../../utils";
 import { useNavigate } from 'react-router-dom';
 
-export const CompleteTransaction = ({ type = "", phoneNumber = "", amount= "" }) => {
+export const CompleteTransaction = ({ type = "", phoneNumber = "", amount= "", backToSaving }) => {
 
     const [ isFilled, setIsFilled ] = useState(false);
     const [ enterPin, setEnterPin ] = useState(true);
@@ -50,12 +50,9 @@ export const CompleteTransaction = ({ type = "", phoneNumber = "", amount= "" })
     
                 if (!inputs[3].disabled && inputs[3].value !== "") {
                     setIsFilled(true);
-                    console.log(isFiled);
-
                     return;
                 }
                 setIsFilled(false);
-                console.log(isFiled);
             });
         });
     
@@ -109,36 +106,50 @@ export const CompleteTransaction = ({ type = "", phoneNumber = "", amount= "" })
 
             <Stack>
                 <Text mt={'12px'} fontSize={'18px'} fontWeight={700} color={'#000000'} textAlign={'center'}>Success!</Text>
-                {type === 'transaction' ? <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>Your transaction has been completed successfully</Text> : <></>}
-                {type === 'bills' ? <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>Your transaction has been completed successfully</Text> : <></>}
-                {type === 'airtime' ? <Text fontSize='14px' fontWeight={450} color='#667085' textAlign='center'>You just recharged <span style={{fontWeight: 500}}>{phoneNumber}</span> with <span style={{fontWeight: 500}}>₦{amount} Airtime</span></Text> : <></>}
-                {type === 'data' ? <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>You just recharged {phoneNumber} with {amount}GB Data</Text> : <></>}
+                {type === 'transaction' ? <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>Your transaction has been completed successfully</Text>
+                : type === 'bills' ? <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>Your transaction has been completed successfully</Text>
+                : type === 'airtime' ? <Text fontSize='14px' fontWeight={450} color='#667085' textAlign='center'>You just recharged <span style={{fontWeight: 500}}>{phoneNumber}</span> with <span style={{fontWeight: 500}}>₦{amount} Airtime</span></Text>
+                : type === 'data' ? <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>You just recharged {phoneNumber} with {amount}GB Data</Text>
+                : type === 'savings' ? <Text fontSize='14px' fontWeight={450} color='#667085' textAlign='center'>Your transaction has been completed successfully</Text>
+                : <></>}
             </Stack>       
 
             {(type === 'bills') || (type === 'data') ? (
                 <HStack w='75%' justifyContent='space-between' alignItems='center'>
                     <Text fontSize='14px' fontWeight={500} color='#667085'>Set as Auto-Renew</Text>
                     <Switch size="md" color="#A41856" colorScheme="#A41856" sx={{ ".chakra-switch__track[data-checked]:not([data-theme])": {backgroundColor: "#A41856"}}}/>
-                    {/* <Switch onColor='#A41857' checkedIcon={false} uncheckedIcon={false} height={24} width={40} handleDiameter={16} /> */}
                 </HStack>
             ) : ''}  
 
-            <Button
-                mt='16px' w='75%' h='48px'
-                bg='#A41856' _hover={{bg: '#A41856'}}
-                color='#FFFFFF' fontSize='14px' fontWeight={600}
-                onClick={()=> navigate('/receipt')}
-            >
-                Download Receipt
-            </Button>
-            <Button
-                w={'75%'} h={'48px'}
-                bg={'#EFECE9'} _hover={{bg: '#EFECE9'}}
-                color={'#667085'} fontSize={'14px'} fontWeight={600}
-                onClick={()=>navigate('/overview/dashboard')}
-            >
-                Go to dashboard
-            </Button>
+            {!type === 'savings' && <>
+                <Button
+                    mt='16px' w='75%' h='48px'
+                    bg='#A41856' _hover={{bg: '#A41856'}}
+                    color='#FFFFFF' fontSize='14px' fontWeight={600}
+                    onClick={()=> navigate('/receipt')}
+                >
+                    Download Receipt
+                </Button>
+                <Button
+                    w={'75%'} h={'48px'}
+                    bg={'#EFECE9'} _hover={{bg: '#EFECE9'}}
+                    color={'#667085'} fontSize={'14px'} fontWeight={600}
+                    onClick={()=>navigate('/overview/dashboard')}
+                >
+                    Go to dashboard
+                </Button>
+            </>}
+
+            {type === 'savings' && (
+                <Button
+                    mt='16px' w='75%' h='48px'
+                    bg='#A41856' _hover={{bg: '#A41856'}}
+                    color='#FFFFFF' fontSize='14px' fontWeight={600}
+                    onClick={backToSaving}
+                >
+                    Okay, Thank You
+                </Button>
+            )}
         </Stack>}
 
         {isFailed && <Stack spacing={'24px'} alignItems={'center'} border={'1px solid #EFECE9'} bg={'#FFFFFF'} borderRadius={'0 0 12px 12px'} py={'16px'} pb={'114px'}>                                

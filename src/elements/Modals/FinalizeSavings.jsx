@@ -13,15 +13,18 @@ import {
   List,
   ListItem,
   Checkbox,
+  ModalHeader,
 } from "@chakra-ui/react";
 import style from "../../Pages/SavingsPage/Savings.module.css";
 
 function FinalizeSavings({ isOpen, close, frequency, showSuccess }) {
+
   const OPTIONS = [
     { title: "INTEREST RATE", value: "8% per annum" },
     { title: "MATURITY DATE", value: "25/DEC/2024" },
     { title: "ESTIMATED INTEREST", value: "₦1,040,560" },
   ];
+
   return (
     <Modal
       isCentered
@@ -33,14 +36,14 @@ function FinalizeSavings({ isOpen, close, frequency, showSuccess }) {
     >
       <ModalOverlay />
       <ModalContent>
+        <ModalHeader>
+          <Text fontWeight={"600"} textAlign={"center"}>
+            Preview
+          </Text>
+        </ModalHeader>
         <ModalCloseButton onClick={close}></ModalCloseButton>
         <ModalBody>
-          <Stack py={"10"}>
-            <Text fontWeight={"600"} textAlign={"center"}>
-              {" "}
-              Finalize Target Savings
-            </Text>
-
+          <Stack>
             <Card className={style["savings-card"]}>
               <Flex justifyContent={"space-between"}>
                 <div>
@@ -68,8 +71,8 @@ function FinalizeSavings({ isOpen, close, frequency, showSuccess }) {
                   key={i}
                 >
                   <Flex justifyContent={"space-between"}>
-                    <Text>{option.title}</Text>
-                    <Text>{option.value}</Text>
+                    <Text fontSize='16px' fontWeight={450} color='#667085'>{option.title}</Text>
+                    <Text fontSize='16px' fontWeight={600} color='#101828'>{option.value}</Text>
                   </Flex>
                 </ListItem>
               ))}
@@ -78,13 +81,13 @@ function FinalizeSavings({ isOpen, close, frequency, showSuccess }) {
             <Card shadow={"none"} bg={"#F7F7F7"} p={"5"}>
               <Flex>
                 <div>
-                <Checkbox _active={{ background: "#A41856" }} />
+                <Checkbox borderRadius='8px' size='lg' colorScheme="red" _checked={{ "& .chakra-checkbox__control": { background: "#A41857" }}} />
                 </div>
                 <Stack ml={"2"}>
-                  <Text fontWeight={"bold"}>
+                  <Text fontSize='14px' fontWeight={700} color='#344054'>
                     I accept the terms and conditions
                   </Text>
-                  <Text>
+                  <Text fontSize='14px' fontWeight={400} color='#475467'>
                     You acknowledge that you have read this{" "}
                     <span style={{ color: "#A41856", fontWeight: "bold" }}>
                       Terms & Conditions 
@@ -102,7 +105,7 @@ function FinalizeSavings({ isOpen, close, frequency, showSuccess }) {
               py={"15px"}
               px={"20px"}
               bg={"#A41856"}
-              _hover={{ bg: "#A41856" }}
+              _hover={{ bg: "#90164D" }}
               color={"#FFFFFF"}
               fontSize={"14px"}
               fontWeight={600}

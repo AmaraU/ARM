@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Stack, Text, Box, Button, HStack, Select, Image, FormControl, FormLabel, Input, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Select, FormControl, FormLabel, Input, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./ProfilePage.module.css";
 

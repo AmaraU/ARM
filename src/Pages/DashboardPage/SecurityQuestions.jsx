@@ -3,7 +3,7 @@ import { Stack, Text, Box, Button, HStack, FormControl, FormLabel, Input, Select
 import { getImageUrl } from "../../../utils";
 
 
-export const SecurityQuestions = ({ moveToPIN, moveToEmailAddress }) => {
+export const SecurityQuestions = ({ moveToPIN, moveToEmailAddress, proceed }) => {
 
     return (
         <>
@@ -14,6 +14,8 @@ export const SecurityQuestions = ({ moveToPIN, moveToEmailAddress }) => {
                 <Text fontSize={'18px'} fontWeight={600} color={'#101828'}>2/3</Text>
             </HStack>
             <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='54px' pt='24px'>
+
+                <Text fontSize='16px' fontWeight={400} color='#667085'>Select security question and answer that you will remember</Text>
                 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Security Question 1</FormLabel>
@@ -51,7 +53,7 @@ export const SecurityQuestions = ({ moveToPIN, moveToEmailAddress }) => {
                     <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
                 </FormControl>
 
-                <Button onClick={moveToEmailAddress} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
+                <Button onClick={proceed} mt='16px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
 
             </Stack>
         </Box>

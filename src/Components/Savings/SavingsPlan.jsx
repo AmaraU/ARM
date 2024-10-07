@@ -5,20 +5,36 @@ import Target from "../../../assets/icons/target-02.svg";
 import MultipleUser from "../../../assets/icons/user-multiple-02.svg";
 import styles from "../../Pages/SavingsPage/Savings.module.css";
 import { ViewOffIcon } from "@chakra-ui/icons";
-import TargetSavingsOption from "../../elements/Modals/TargetSavingsOption";
 import { useState } from "react";
 import FixedSavingsOption from "../../elements/Modals/FixedSavingsOption";
+import { useNavigate } from "react-router-dom";
+
 
 function SavingsPlan({ moveToOptions }) {
-  const [modalopen, setModalOpen] = useState(false);
-  const [fixedmodalopen, setFixedModalOpen] = useState(false);
 
-  const showModal = () => {
-    setModalOpen(true);
+  const [fixedmodalopen, setFixedModalOpen] = useState(false);
+  const [groupModalOpen, setGroupModalOpen] = useState(false);
+  const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
+  const navigate = useNavigate();
+
+  const formatNumberDecimals = (number) => {
+    return new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(number);
   };
+
+  const handleToggleVisibility = () => {
+    setTotalBalanceVisible(!totalBalanceVisible);
+  }
+
 
   const showFixedModal = () => {
     setFixedModalOpen(true);
+  };
+
+  const showGroupModal = () => {
+    setGroupModalOpen(true);
   };
 
   const OPTIONS = [
@@ -27,14 +43,21 @@ function SavingsPlan({ moveToOptions }) {
       title: "Target Savings",
       description:
         "Reach your savings goal either as an individual or as a group. Earn up to 8% per annum",
-      action: showModal,
+      action: ()=>navigate('target'),
     },
     {
       image: MultipleUser,
       title: "Fixed Savings",
       description:
         "Lock up savings to avoid temptations as an individual or as a group . Earn up to 8% per annum",
-      action: showFixedModal,
+      action: ()=>navigate('fixed'),
+    },
+    {
+      image: MultipleUser,
+      title: "Join a Group Savings",
+      description:
+        "Reach your savings goal either as an individual or as a group. Earn up to 8% per annum",
+      action: showGroupModal,
     },
   ];
 
@@ -50,7 +73,8 @@ function SavingsPlan({ moveToOptions }) {
       >
         <p>Total Savings</p>
         <h2>
-          ₦13,000,000.00 <ViewOffIcon />{" "}
+          ₦{totalBalanceVisible ? formatNumberDecimals(13000000) : '*************'}
+          <button onClick={handleToggleVisibility} style={{marginLeft: '8px'}}><ViewOffIcon /></button>{" "}
         </h2>
       </Card>
       <Text my={"10px"} align={"center"}>
@@ -58,7 +82,7 @@ function SavingsPlan({ moveToOptions }) {
       </Text>
 
       <Grid
-        templateColumns={"repeat(3,auto)"}
+        templateColumns={"repeat(2, auto)"}
         gap={5}
         margin={"auto"}
         maxW={660}
@@ -82,21 +106,6 @@ function SavingsPlan({ moveToOptions }) {
           </Card>
         ))}
       </Grid>
-      <TargetSavingsOption
-        isOpen={modalopen}
-        personalSaving={() => moveToOptions(2)}
-        privateSaving={() => moveToOptions(4)}
-        targetSaving={() => moveToOptions(5)}
-        close={() => setModalOpen(false)}
-      />
-
-      <FixedSavingsOption
-        isOpen={fixedmodalopen}
-        personalSaving={() => moveToOptions(2)}
-        privateSaving={() => moveToOptions(4)}
-        targetSaving={() => moveToOptions(5)}
-        close={() => setFixedModalOpen(false)}
-      />
     </Box>
   );
 }

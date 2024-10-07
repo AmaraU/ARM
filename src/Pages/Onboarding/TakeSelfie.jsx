@@ -1,5 +1,5 @@
-import { Box, Flex, Stack, Text, useDisclosure, CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import { Flex, Stack, Text, CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
+import {  useState, useRef, useCallback } from "react";
 import Webcam from 'react-webcam';
 import { getImageUrl } from "../../../utils";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ const initialConstraints = {
 export const TakeSelfie = () => {
 
     const webcamRef = useRef(null);
-    const [videoConstraints, setVideoConstraints] = useState(initialConstraints);
+    const [videoConstraints] = useState(initialConstraints);
     const navigate = useNavigate();
 
 

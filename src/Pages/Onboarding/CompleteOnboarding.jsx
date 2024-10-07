@@ -10,7 +10,10 @@ import {
 import { useEffect, useState } from "react";
 import { getImageUrl } from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { loadDetailsFromStorage } from "../../store/auth/auth.slice";
+import {
+  loadDetailsFromStorage,
+  setDetails,
+} from "../../store/auth/auth.slice";
 import OtpInput from "../../elements/PinInput";
 import { formatNumberStar } from "../../utils/formatter";
 import authService from "../../services/authService";
@@ -23,7 +26,7 @@ export const CompleteOnboarding = () => {
   const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(loadDetailsFromStorage());
@@ -47,9 +50,16 @@ export const CompleteOnboarding = () => {
         username: auth?.username.toLowerCase(),
         otpCode: otp,
       });
-      console.log(response);
       setIsLoading(false);
-      navigate("/welcome")
+
+      if (response) {
+        await dispatch(
+          setDetails({
+            accountNo: response.data.result.data.accountNumber,
+          })
+        );
+        navigate("/welcome");
+      }
     } catch (error) {
       handleErrors(error);
       setIsLoading(false);
@@ -59,10 +69,13 @@ export const CompleteOnboarding = () => {
   const resendOtp = async () => {
     try {
       setTimeLeft(30);
-      await authService.completeRegistration({
-        username: auth?.username,
-        otpCode: otp,
+      const response = await authService.sendOtp({
+        phoneOrAccountnumber: auth?.phoneNumber,
+        email: auth?.email,
       });
+
+      console.log(response);
+
       handleSuccess("Otp resent successfully");
     } catch (error) {
       handleErrors(error);
