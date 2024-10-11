@@ -10,9 +10,9 @@ import {
   Box,
   Flex,
   Image,
-  Select,
-  FormLabel,
   Button,
+  ModalFooter,
+  ModalHeader,
 } from "@chakra-ui/react";
 import User from "../../../assets/icons/user.png";
 import UserMultiple from "../../../assets/icons/user-multiple-savings.png";
@@ -20,39 +20,36 @@ import TargetUnlock from "../../../assets/icons/target-savings-unlock.png";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
-function TargetSavingsOption({
-  isOpen,
-  close,
-  personalSaving,
-  privateSaving,
-  targetSaving,
-}) {
-  const [step, setStep] = useState(1);
 
-  const selectPrivateSaving = () => {
-    setStep(2);
-    // privateSaving();
-  };
+function TargetSavingsOption({ isOpen, close, setType, moveNext }) {
+
+  const [ selected, setSelected ] = useState('');
+
+  const personal = () => {
+    setSelected('personal')
+    setType('personal')
+  }
+  
+  const group = () => {
+    setSelected('group')
+    setType('group')
+  }
 
   const OPTIONS = [
     {
       image: User,
       title: "Personal Target Savings ",
       description: "Start a personal target savings goal",
-      action: personalSaving,
+      type: 'personal',
+      action: personal,
     },
     {
       image: UserMultiple,
-      title: "Private Group Target Savings",
-      description: "Create a private target savings group",
-      action: selectPrivateSaving,
-    },
-    {
-      image: TargetUnlock,
-      title: "Public Group Target Savings",
-      description: "Create a public target savings group",
-      action: targetSaving,
-    },
+      title: "Group Target Savings",
+      description: "Create a private or public target savings group",
+      type: 'group',
+      action: group,
+    }
   ];
 
   return (
@@ -66,19 +63,22 @@ function TargetSavingsOption({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalCloseButton onClick={close}></ModalCloseButton>
+        <ModalHeader>
+          <Text fontWeight={"600"} textAlign={"center"}>
+            {" "}
+            Choose Preferred Option
+          </Text>
+        </ModalHeader>
+        <ModalCloseButton onClick={close} />
         <ModalBody>
-          {step === 1 && (
-            <Stack py={"10"}>
-              <Text fontWeight={"600"} textAlign={"center"}>
-                {" "}
-                Choose Preferred Option
-              </Text>
-
+          <div style={{overflow: 'auto', maxHeight: '80vh'}}>
+            <Stack>
+              
               {OPTIONS.map((option, i) => (
                 <Box
                   cursor={"pointer"}
                   my={"1"}
+                  border={selected === option.type ? '1px solid #A41857' : '1px solid transparent'}
                   _hover={{ border: "1px solid #A41857" }}
                   p={4}
                   rounded={"xl"}
@@ -101,41 +101,12 @@ function TargetSavingsOption({
                 </Box>
               ))}
             </Stack>
-          )}
-
-          {step === 2 && (
-            <Stack my={"6"}>
-              <Text fontWeight={"600"} textAlign={"center"}>
-                Create a Target Savings for Group
-              </Text>
-
-              <div>
-                <FormLabel>Is savings group public or private?</FormLabel>
-                <Select>
-                  <option>Public</option>
-                  <option>Private</option>
-                </Select>
-              </div>
-
-              <div>
-                <FormLabel>Who can invite members?</FormLabel>
-                <Select>
-                  <option>Any member can invite others</option>
-                </Select>
-              </div>
-
-              <Button
-                onClick={privateSaving}
-                my={"3"}
-                w={"100%"}
-                bg={"#A41856"}
-                color={"white"}
-              >
-                Continue
-              </Button>
-            </Stack>
-          )}
+          </div>
         </ModalBody>
+
+        <ModalFooter py={0}>
+          <Button w='100%' h='48px' my={4} color='#FFF' bg='#A41856' _hover={{bg: '#90164D'}} onClick={moveNext}>Let's Go</Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );

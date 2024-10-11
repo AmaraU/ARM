@@ -17,10 +17,11 @@ import {
   
   import User from "../../../assets/icons/user.png";
   import UserMultiple from "../../../assets/icons/user-multiple-savings.png";
+  import TargetUnlock from "../../../assets/icons/target-savings-unlock.png";
   import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useState } from "react";
   
-  function FixedSavingsOption({
+  function GroupSavingsOption({
     isOpen,
     close,
     setType,
@@ -29,29 +30,29 @@ import { useState } from "react";
 
     const [ selected, setSelected ] = useState('');
 
-    const personal = () => {
-      setSelected('personal')
-      setType('personal')
+    const target = () => {
+      setSelected('target')
+      setType('target')
     }
-    const group = () => {
-      setSelected('group')
-      setType('group')
+    const fixed = () => {
+      setSelected('fixed')
+      setType('fixed')
     }
 
     const OPTIONS = [
       {
-        image: User,
-        title: "Personal Fixed Savings ",
-        description: "Start a personal fixed savings goal",
-        type: 'personal',
-        action: personal,
+        image: UserMultiple,
+        title: "Group Target Savings ",
+        description: "Create a private or public target savings group",
+        type: 'target',
+        action: target,
       },
       {
         image: UserMultiple,
         title: "Group Fixed Savings",
         description: "Create a private or public fixed savings group",
-        type: 'group',
-        action: group,
+        type: 'fixed',
+        action: fixed,
       }
     ];
 
@@ -114,5 +115,5 @@ import { useState } from "react";
     );
   }
   
-  export default FixedSavingsOption;
+  export default GroupSavingsOption;
   
