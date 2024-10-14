@@ -148,7 +148,7 @@ export const AccountStatement = ({ backHome }) => {
                     </HStack>
                 </HStack>
 
-                <Button w='75%' h='48px' mt='24px' bg='#A41856' color='#FFFFFF' fontSize='14px' fontWeight={600} _hover={{bg: '#A41856'}}>Request Statement</Button>
+                <Button w='75%' h='48px' mt='24px' bg='#A41856' color='#FFFFFF' fontSize='14px' fontWeight={600} _hover={{bg: '#90164D'}}>Request Statement</Button>
             </Stack>
         </Box>}
 

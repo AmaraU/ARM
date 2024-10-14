@@ -247,4 +247,9 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
+}
+
+input[type="file"] {
+  display: none;
 }

@@ -108,7 +108,7 @@ export const AccountLimit = ({ backHome }) => {
                     </Stack>
                 </Stack>
 
-                <Button w='75%' h='48px' mt='24px' bg='#A41856' color='#FFFFFF' fontSize='14px' fontWeight={600} _hover={{bg: '#A41856'}}>Increase Limit</Button>
+                <Button w='75%' h='48px' mt='24px' bg='#A41856' color='#FFFFFF' fontSize='14px' fontWeight={600} _hover={{bg: '#90164D'}}>Increase Limit</Button>
             </Stack>
         </Box>
         </>

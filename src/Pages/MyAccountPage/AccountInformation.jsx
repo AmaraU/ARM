@@ -3,7 +3,7 @@ import { Stack, Text, Box, Button, HStack, Divider } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./MyAccountPage.module.css";
 import { BiShow, BiHide } from "react-icons/bi";
-import { UpgradeAccount } from "./UpgradeAccount";
+import { useNavigate } from "react-router-dom";
 
 export const AccountInformation = () => {
 
@@ -11,9 +11,8 @@ export const AccountInformation = () => {
     const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
     const [ showUpgrade, setShowUpgrade ] = useState(true);
     const [ infoPopup, setInfoPopup ] = useState(false);
-    const [ showAccInfo, setShowAccInfo ] = useState(true);
-    const [ upgradeAcc, setUpgradeAcc ] = useState(false);
     const popupRef = useRef(null);
+    const navigate = useNavigate();
     
 
     const accounts = [
@@ -29,18 +28,6 @@ export const AccountInformation = () => {
         }
     ]
     const currentItem = accounts[currentIndex];
-
-    const moveToAccInfo = () => {
-        setShowAccInfo(true);
-        setUpgradeAcc(false);
-        window.scrollTo({ top: 0});
-    }
-
-    const moveToUpgradeAcc = () => {
-        setShowAccInfo(false);
-        setUpgradeAcc(true);
-        window.scrollTo({ top: 0});
-    }
 
     function infoPop() {
         setInfoPopup(false);
@@ -61,8 +48,7 @@ export const AccountInformation = () => {
 
 
     return (
-        <>
-        {showAccInfo && <Box>
+        <Box>
             <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
                 <Button h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
                 <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>My Account Information</Text>
@@ -73,7 +59,7 @@ export const AccountInformation = () => {
                     <Box>
                         <Text fontSize='18px' fontWeight={700} color='#A41857'>Upgrade Your Account</Text>
                         <Text fontSize='12px' fontWeight={400} color='#A41857'>You need to upgrade your account setup to enjoy more services</Text>
-                        <Button onClick={moveToUpgradeAcc} fontSize='12px' fontWeight={700} color='#A41857' padding={0} gap='4px' bg='transparent' _hover={{ bg: 'transparent' }}>Upgrade Now <img src={getImageUrl("icons/redRightArrow.png")} /></Button>
+                        <Button onClick={()=>navigate('upgrade')} fontSize='12px' fontWeight={700} color='#A41857' padding={0} gap='4px' bg='transparent' _hover={{ bg: 'transparent' }}>Upgrade Now <img src={getImageUrl("icons/redRightArrow.png")} /></Button>
                     </Box>
                     <Button alignSelf='start' bg='transparent' _hover={{ bg: 'transparent' }} p={0} onClick={() => setShowUpgrade(false)}><img src={getImageUrl('icons/redClose.png')} alt="X" /></Button>
                 </HStack>}
@@ -100,7 +86,7 @@ export const AccountInformation = () => {
 
                     <Box alignSelf='start' >
                         <Box w='fit-content' borderRadius='36px' px='12px' py='8px' bg='#2C323A' color='#FFFFFF' fontSize='12px' fontWeight={500} cursor='pointer' onClick={() => setInfoPopup(true)}>{currentItem.type}</Box>
-                        {infoPopup && <Box className={styles.theBox}>
+                        {infoPopup && <Box className={styles.theBox} ref={popupRef}>
                             <div className={styles.header}>
                                 <h3>{currentItem.type}</h3>
                                 <img onClick={infoPop} src={getImageUrl('icons/greyClose.png')} />
@@ -135,9 +121,6 @@ export const AccountInformation = () => {
                     </Stack>
                 </HStack>
             </Stack>
-        </Box>}
-
-        {upgradeAcc && <UpgradeAccount backHome={moveToAccInfo} />}
-        </>
+        </Box>
     );
 };

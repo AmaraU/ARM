@@ -35,6 +35,7 @@ import FixedSavings from "./Components/Savings/FixedSavings.jsx";
 // import { ResetPassword } from "./Pages/Onboarding/ResetPassword.jsx";
 // import { Success } from "./Pages/Onboarding/Success.jsx";
 import GroupSavings from "./Components/Savings/GroupSavings.jsx";
+import { UpgradeAccount } from "./Pages/MyAccountPage/UpgradeAccount.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -71,6 +72,7 @@ function App() {
         { path: 'savings/group', element: <GroupSavings /> },
         { path: 'cards', element: <BlankPage /> },
         { path: 'accounts', element: <MyAccountPage /> },
+        { path: "accounts/upgrade", element: <UpgradeAccount /> },
         { path: 'profile', element: <ProfilePage /> },
       ]
     },

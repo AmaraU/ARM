@@ -1,8 +1,10 @@
 import { useState, useRef } from "react";
-import { Stack, Text, Box, Button, HStack, Divider, useDisclosure, FormControl, FormLabel, Select, Input } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Divider, useDisclosure, FormControl, FormLabel, Select, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./MyAccountPage.module.css";
 import { BiShow, BiHide } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import CardContainer from "../../elements/CardContainer";
 
 export const UpgradeAccount = ({backHome}) => {
 
@@ -15,32 +17,23 @@ export const UpgradeAccount = ({backHome}) => {
     const [ showUpgrade, setShowUpgrade ] = useState(true);
     const [ showBVN, setShowBVN ] = useState(false);
     const [ showDocumentUpload, setShowDocumentUpload ] = useState(false);
-    const [ BVNLinked, setBVNLinked ] = useState(true);
-    const [ uploadedDocuments, setUploadedDocuments ] = useState(false);
-    const popupRef = useRef(null);
+    const [ showSignature, setShowSignature ] = useState(false);
+    const [ showAddressProof, setShowAddressProof ] = useState(false);
+    const [ showSuccess, setShowSuccess ] = useState(false);
 
-    const accounts = [
-        {
-            number: 12345678,
-            balance: 1234556,
-            tier: 1,
-            type: 'Savings',
-            docsNeeded: [ 'BVN or NIN', 'Government issued ID cards', 'Signature', 'Residence Permit (for foreign nationals)' ]
-        },
-        {
-            number: 87654321,
-            balance: 76543.21,
-            tier: 2,
-            type: 'Current',
-            docsNeeded: [ 'BVN or NIN', 'Government issued ID cards', 'Signature', 'Residence Permit (for foreign nationals)', 'Utility Bill' ]
-        }
-    ]
-    const currentItem = accounts[currentIndex];
+    const [ BVNAndNINFilled, setBVNAndNINFilled ] = useState(false);
+    const [ IDCardFilled, setIDCardFilled ] = useState(false);
+    const [ signatureFilled, setSignatureFilled ] = useState(false);
+    const [ addressFilled, setAddressFilled ] = useState(false);
+    const navigate = useNavigate();
+
 
     const moveToUpgrade = () => {
         setShowUpgrade(true);
         setShowBVN(false);
         setShowDocumentUpload(false);
+        setShowSignature(false);
+        setShowAddressProof(false);
         window.scrollTo({ top: 0});
     }
 
@@ -48,6 +41,9 @@ export const UpgradeAccount = ({backHome}) => {
         setShowUpgrade(false);
         setShowBVN(true);
         setShowDocumentUpload(false);
+        setShowSignature(false);
+        setShowAddressProof(false);
+        setBVNAndNINFilled(true);
         window.scrollTo({ top: 0});
     }
 
@@ -55,75 +51,126 @@ export const UpgradeAccount = ({backHome}) => {
         setShowUpgrade(false);
         setShowBVN(false);
         setShowDocumentUpload(true);
+        setShowSignature(false);
+        setShowAddressProof(false);
+        setIDCardFilled(true);
+        window.scrollTo({ top: 0});
+    }
+
+    const moveToSignature = () => {
+        setShowUpgrade(false);
+        setShowBVN(false);
+        setShowDocumentUpload(false);
+        setShowSignature(true);
+        setShowAddressProof(false);
+        setSignatureFilled(true);
+        window.scrollTo({ top: 0});
+    }
+
+    const moveToAddressProof = () => {
+        setShowUpgrade(false);
+        setShowBVN(false);
+        setShowDocumentUpload(false);
+        setShowSignature(false);
+        setShowAddressProof(true);
+        setAddressFilled(true);
+        window.scrollTo({ top: 0});
+    }
+
+    const moveToSuccess = () => {
+        setShowUpgrade(false);
+        setShowBVN(false);
+        setShowDocumentUpload(false);
+        setShowSignature(false);
+        setShowAddressProof(false);
+        setShowSuccess(true);
         window.scrollTo({ top: 0});
     }
 
 
-    function infoPop() {
-        setInfoPopup(false);
-    }
-
-    const hideBalance = () => {
-        return "****************";
-    };
-
-    const handleToggleVisibility = () => {
-        setTotalBalanceVisible(!totalBalanceVisible);
-    };
-
-    function copyToClipboard() {
-        navigator.clipboard.writeText(currentItem.number);
-    };
-
-
 
     return (
-        <>
+        <div className={styles.whole}>
+
+        {showUpgrade && <HStack mb='40px' spacing='12px' cursor='pointer' onClick={()=>navigate('/overview/accounts')}>
+            <img src={getImageUrl('icons/blackLeftArrow.png')} />
+            <Text fontSize='24px' fontWeight={700} color='#101828'>Upgrade Your Account</Text>
+        </HStack>}
+
+        {!showUpgrade && <Text mb='40px' fontSize='24px' fontWeight={700} color='#101828'>Upgrade Your Account</Text>}
+
+
         {showUpgrade && <Box>
             <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
-                <Button onClick={backHome} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
-                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Upgrade Account</Text>
+                {/* <Button onClick={backHome} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button> */}
+                <Text w='100%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Account Upgrade Requirements</Text>
             </HStack>
             <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='114px' pt='48px'>
 
-                <HStack justifyContent='space-between' w='75%' backgroundColor='#000000' backgroundImage={getImageUrl('backgroundGrey.png')} bgSize='100% 100%' borderRadius='8px' p='16px'>
-                    <Box>
-                        <Text fontSize='12px' fontWeight={400} color='#FFFFFF'>Total Available Balance</Text>
-                        <HStack ml="0" spacing='4px' alignItems='center' mb='12px'>
-                            <Box fontSize="18px" fontWeight={500} color="#FFFFFF">₦</Box>
-                            <Text fontSize="18px" fontWeight={700} color="#FFFFFF">{totalBalanceVisible ? currentItem.balance : hideBalance()}</Text>
-                            <Box borderRadius='500px' bg='#2F2F30' ml='8px' p='4px' cursor="pointer">
-                                {!totalBalanceVisible && <BiShow fontSize="md" color="#667085" onClick={handleToggleVisibility} />}
-                                {totalBalanceVisible && <BiHide fontSize="md" color="#667085" onClick={handleToggleVisibility} />}
+                <Text  w="50%" fontSize="16px" color="#667085" textAlign="center">
+                    You are required to upload these documents below for us to verify and upgrade your account
+                </Text>
+
+                <Stack w="75%" bg='#F2F4F7' py='18px' px='16px' borderRadius='8px'>
+
+                    <HStack spacing='12px' onClick={moveToBVN} cursor='pointer' w='fit-content'>
+                        <Box p='8px' borderRadius='38px' border={BVNAndNINFilled ? '1px solid #2AD062' : '1px solid #EAECF0'}>
+                            <Box p='2px' borderRadius='38px' bg={BVNAndNINFilled ? '#2AD062' : '#667085'}>
+                                <img src={getImageUrl('icons/whiteCheck.png')} style={{width: '12px', height:'12px'}} />
                             </Box>
-                        </HStack>
+                        </Box>
+                        <Text fontSize='16px' fontWeight={600} color='#0C111D'>BVN and NIN</Text>
+                    </HStack>
 
-                        <Text fontSize='12px' fontWeight={400} color='#FFFFFF'>Account Number</Text>
-                        <HStack spacing={0} alignItems='center' mb='12px'>
-                            <Text fontSize='18px' fontWeight={700} color='#FFFFFF'>{currentItem.number}</Text>
-                            <Box borderRadius='500px' bg='#2F2F30' ml='8px' p='5px' cursor="pointer" onClick={copyToClipboard}><img style={{width: '13px', height: '13px'}} src={getImageUrl('icons/copy.png')} /></Box>
-                        </HStack>
-                    </Box>
+                    <Box h='14px' w='1px' ml='16px' border='1px dashed #A0A3BD'></Box>
 
-                    <Box alignSelf='start' >
-                        <Box w='fit-content' borderRadius='36px' px='12px' py='8px' bg='#2C323A' color='#FFFFFF' fontSize='12px' fontWeight={500} cursor='pointer' onClick={() => setInfoPopup(!infoPopup)}>Tier {currentItem.tier} {currentItem.type} Account</Box>
-                        {infoPopup && <Box className={styles.theBox2}>
-                            <Box bg='#DCD6CF' borderRadius='4px'px='9px' py='6px' mb='18px'>
-                                <Text fontSize='14px' fontWeight={600} color='#101828'>TIER {currentItem.tier+1} UPGRADE</Text>
+                    <HStack spacing='12px' onClick={moveToDocumentUpload} cursor='pointer' w='fit-content'>
+                        <Box p='8px' borderRadius='38px' border={IDCardFilled ? '1px solid #2AD062' : '1px solid #EAECF0'}>
+                            <Box p='2px' borderRadius='38px' bg={IDCardFilled ? '#2AD062' : '#667085'}>
+                                <img src={getImageUrl('icons/whiteCheck.png')} style={{width: '12px', height:'12px'}} />
                             </Box>
-                            {/* <Box className={styles.limitInfo} bg='#F7F7F7' borderRadius='4px' border='1px solid #EAECF0' p='9px' > */}
-                                {currentItem.docsNeeded.map((doc, index) => (
-                                    <div className={styles.info}><div />{doc}</div>
-                                ))}
-                            {/* </Box> */}
-                        </Box>}
-                    </Box>
-                </HStack>
+                        </Box>
+                        <Text fontSize='16px' fontWeight={600} color='#0C111D'>Government Issued ID card</Text>
+                    </HStack>
 
-                <HStack justifyContent='space-between' alignItems='center' gap='16px'>
-                    <button onClick={moveToBVN} className={BVNLinked ? styles.activeProfileButton : styles.profileButton}>BVN Linked<div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div></button>
-                    <button onClick={moveToDocumentUpload} className={uploadedDocuments ? styles.activeProfileButton : styles.profileButton}>Documents Upload<div className={styles.checkbox}><img src={getImageUrl('icons/whiteCheck.png')} /></div></button>
-                </HStack>
+                    <Box h='14px' w='1px' ml='16px' border='1px dashed #A0A3BD'></Box>
+
+
+                    <HStack spacing='12px' onClick={moveToSignature} cursor='pointer' w='fit-content'>
+                        <Box p='8px' borderRadius='38px' border={signatureFilled ? '1px solid #2AD062' : '1px solid #EAECF0'}>
+                            <Box p='2px' borderRadius='38px' bg={signatureFilled ? '#2AD062' : '#667085'}>
+                                <img src={getImageUrl('icons/whiteCheck.png')} style={{width: '12px', height:'12px'}} />
+                            </Box>
+                        </Box>
+                        <Text fontSize='16px' fontWeight={600} color='#0C111D'>Signature</Text>
+                    </HStack>
+
+                    <Box h='14px' w='1px' ml='16px' border='1px dashed #A0A3BD'></Box>
+
+
+                    <HStack spacing='12px' onClick={moveToAddressProof} cursor='pointer' w='fit-content'>
+                        <Box p='8px' borderRadius='38px' border={addressFilled ? '1px solid #2AD062' : '1px solid #EAECF0'}>
+                            <Box p='2px' borderRadius='38px' bg={addressFilled ? '#2AD062' : '#667085'}>
+                                <img src={getImageUrl('icons/whiteCheck.png')} style={{width: '12px', height:'12px'}} />
+                            </Box>
+                        </Box>
+                        <Text fontSize='16px' fontWeight={600} color='#0C111D'>Proof of Address</Text>
+                    </HStack>
+                </Stack>
+
+                <Button
+                    mt="16px"
+                    w="75%"
+                    h="48px"
+                    bg="#A41856"
+                    _hover={{ bg: "#90164D" }}
+                    color="#FFFFFF"
+                    fontSize="14px"
+                    fontWeight={600}
+                    // onClick={moveToTwo}
+                    >
+                    Proceed
+                </Button>
             </Stack>
         </Box>}
 
@@ -140,7 +187,18 @@ export const UpgradeAccount = ({backHome}) => {
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>BVN</FormLabel>
-                    <Input h='48px' maxLength={11} type="number" pattern="\d" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
+                    <InputGroup>
+                        <Input
+                            h={"48px"}
+                            type="text"
+                            border={"1px solid #EAECF0"}
+                            bg={"#F7F7F7"}
+                            value={'22225865945'}
+                            disabled
+                            _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
+                        />
+                        <InputRightElement h='100%' mr='12px'><img src={getImageUrl('icons/greenCheck.png')} style={{}} /></InputRightElement>
+                    </InputGroup>
                 </FormControl>
 
                 <FormControl w='80%'>
@@ -148,7 +206,7 @@ export const UpgradeAccount = ({backHome}) => {
                     <Input h='48px' maxLength={11} type="number" pattern="\d" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
                 </FormControl>
 
-                <Button onClick={moveToUpgrade} mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
+                <Button onClick={moveToUpgrade} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Save and Continue</Button>
             </Stack>
         </Box>}
 
@@ -175,62 +233,111 @@ export const UpgradeAccount = ({backHome}) => {
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>I.D. Card Number</FormLabel>
-                    <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} />
+                    <Input h='48px' type="number" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} autoComplete="false" />
                 </FormControl>
 
                 <HStack w='80%'>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Front</FormLabel>
-                        <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                            <button className={styles.uploadButton}>
+                        <Stack p='18px' h='150px' justifyContent='center' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
+                            <label className={styles.uploadButton}>
+                                <input id="front-upload" type="file" accept="image/png, image/jpeg, application/pdf, image/x-eps" />
                                 <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                                 Tap to Upload
-                            </button>
+                            </label>
                         </Stack>
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Back</FormLabel>
-                        <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                            <button className={styles.uploadButton}>
+                        <Stack p='18px' h='150px' justifyContent='center' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
+                            <label className={styles.uploadButton}>
+                                <input id="front-upload" type="file" accept="image/png, image/jpeg, application/pdf, image/x-eps" />
                                 <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                                 Tap to Upload
-                            </button>
+                            </label>
                         </Stack>
                     </FormControl>
                 </HStack>
 
-                <FormControl w='80%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Passport Photograph</FormLabel>
-                    <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                        <button className={styles.uploadButton}>
-                            <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
-                            Tap to Upload
-                        </button>
-                    </Stack>
-                </FormControl>
+                <Button onClick={moveToUpgrade} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={500} color='#FFFFFF' w='80%' h='48px'>Save and Continue</Button>
+            </Stack>
+        </Box>}
 
-                <Text fontSize='16px' color='#667085' textAlign='left' w='80%'>Upload a photo of your face in a well lit area, with your ears clearly visible (Max 1MB)</Text>
+
+        {showSignature && <Box>
+            <HStack bg='#EAECF0' px='26px' py='14px' borderRadius='12px 12px 0 0'>
+                <Button onClick={moveToUpgrade} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
+                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Upload Signature</Text>
+            </HStack>
+            
+            <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='36px' pb='114px' pt='48px'>
+
+                <Text fontSize='16px' color='#667085' mb='12px'>Upload a clear picture of your signature on a plain piece of paper</Text>
 
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Signature</FormLabel>
-                    <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                        <button className={styles.uploadButton}>
+                    <Stack p='18px' h='170px' justifyContent='center' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
+                        <label className={styles.uploadButton}>
+                            <input id="front-upload" type="file" accept="image/png, image/jpeg, application/pdf, image/x-eps" />
                             <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                             Tap to Upload
-                        </button>
+                        </label>
                     </Stack>
                 </FormControl>
 
-                <Text fontSize='16px' color='#667085' textAlign='left' w='80%'>Upload a picture of your signature on a plain white background (Max 1MB)</Text>
+                <HStack border='1px solid #E0E0E0' px='13px' py='7px' borderRadius='6px'>
+                    <Text fontSize='16px' fontWeight={900} color='#667085'>Tips:</Text>
+                    <Text fontSize='16px' color='#667085'>Take in good lighting and make sure your image takes up 75% of the  surface</Text>
+                </HStack>
 
-                <FormControl w='80%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
-                    <Input h='48px' type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
-                </FormControl>
-
-                <Button onClick={moveToUpgrade} mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
+                <Button onClick={moveToUpgrade} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={500} color='#FFFFFF' w='80%' h='48px'>Save and Continue</Button>
             </Stack>
         </Box>}
-        </>
+
+
+        {showAddressProof && <Box>
+            <HStack bg='#EAECF0' px='26px' py='14px' borderRadius='12px 12px 0 0'>
+                <Button onClick={moveToUpgrade} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
+                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Proof of Address</Text>
+            </HStack>
+            
+            <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='36px' pb='114px' pt='48px'>
+
+                <Text fontSize='16px' color='#667085' mb='12px' w='70%' textAlign='center'>Upload a recent utility bill (electricity, telephone, waste), bank statement, tenancy agreement. Not more than 3 months old</Text>
+
+                <FormControl w='80%'>
+                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Utility Bill</FormLabel>
+                    <Stack p='18px' h='170px' justifyContent='center' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
+                        <label className={styles.uploadButton}>
+                            <input id="front-upload" type="file" accept="image/png, image/jpeg, application/pdf, image/x-eps" />
+                            <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
+                            Tap to Upload
+                        </label>
+                    </Stack>
+                </FormControl>
+
+                <HStack border='1px solid #E0E0E0' px='13px' py='7px' borderRadius='6px' w='80%' justifyContent='center'>
+                    <Text fontSize='16px' fontWeight={900} color='#667085'>Tips:</Text>
+                    <Text fontSize='16px' color='#667085'>Take in good lighting and make sure your image takes up 75% of the  surface</Text>
+                </HStack>
+
+                <Button onClick={moveToSuccess} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={500} color='#FFFFFF' w='80%' h='48px'>Save and Continue</Button>
+            </Stack>
+        </Box>}
+
+
+
+        {showSuccess && <CardContainer title={'Account Upgrade Complete'}>
+            <Stack spacing={1} w='75%' alignItems='center'>
+
+                <img src={getImageUrl('icons/success.png')}  style={{height: '84px', width: 'auto'}}/>
+                <Text fontSize='18px' fontWeight={700} color='#000000'>Success!</Text>
+                <Text fontSize='14px' fontWeight={450} color='#667085' w='55%' textAlign='center'>Your documents are being reviewed, a notification will be sent once review is complete.</Text>
+
+                <Button h='48px' my={8} w="80%" color={"white"} bg={"#A41856"} _hover={{bg: '#90164D'}} onClick={()=>navigate('/overview')}>Proceed to dashboard</Button>
+
+            </Stack>
+        </CardContainer>}
+        </div>
     );
 };
