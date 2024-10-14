@@ -1,16 +1,11 @@
 import { useState, useRef } from "react";
-import { Stack, Text, Box, Button, HStack, Divider, useDisclosure, FormControl, FormLabel, Select, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, useDisclosure, FormControl, FormLabel, Select, Input, InputGroup, InputRightElement, Modal, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalOverlay } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./MyAccountPage.module.css";
-import { BiShow, BiHide } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import CardContainer from "../../elements/CardContainer";
 
 export const UpgradeAccount = ({backHome}) => {
-
-    const [ currentIndex, setCurrentIndex ] = useState(0);
-    const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
-    const [ infoPopup, setInfoPopup ] = useState(false);
 
     const { isOpen: isOpenSample, onOpen: onOpenSample, onClose: onCloseSample } = useDisclosure();
 
@@ -326,7 +321,6 @@ export const UpgradeAccount = ({backHome}) => {
         </Box>}
 
 
-
         {showSuccess && <CardContainer title={'Account Upgrade Complete'}>
             <Stack spacing={1} w='75%' alignItems='center'>
 
@@ -338,6 +332,20 @@ export const UpgradeAccount = ({backHome}) => {
 
             </Stack>
         </CardContainer>}
+
+        <Modal size='xl' isOpen={isOpenSample} onClose={onCloseSample} closeOnOverlayClick={false} >
+            <ModalOverlay />
+            <ModalContent bg='transparent' shadow='none' >
+                <ModalHeader>
+                    <Text textAlign='center' fontSize='20px' fontWeight={600} color='#FFFFFF'>Here's a sample document</Text>
+                </ModalHeader>
+                <ModalCloseButton color='#FFFFFF' />
+
+                <ModalBody>
+                    <img src={getImageUrl('samplePassport.png')} style={{width: '100%', height: 'auto'}} alt="" />
+                </ModalBody>
+            </ModalContent>
+        </Modal>
         </div>
     );
 };
