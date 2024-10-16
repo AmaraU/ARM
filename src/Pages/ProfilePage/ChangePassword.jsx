@@ -3,6 +3,7 @@ import { Stack, Text, Box, Button, HStack, Input, FormControl, FormLabel, InputG
 import { getImageUrl } from "../../../utils";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import styles from "./ProfilePage.module.css";
+import { CompleteTransaction } from "../../Components/CompleteTrans";
 
 
 
@@ -21,6 +22,21 @@ export const ChangePassword = ({ backHome }) => {
     const [ showCurrentPassword, setShowCurrentPassword ] = useState(false);
     const [ showNewPassword, setShowNewPassword ] = useState(false);
     const [ showConfirmNewPassword, setShowConfirmNewPassword ] = useState(false);
+
+    const [ showChange, setShowChange ] = useState(true);
+    const [ showPIN, setShowPIN ] = useState(false);
+
+    const moveToChange = () => {
+        setShowChange(true);
+        setShowPIN(false);
+        window.scrollTo({ top: 0});
+    }
+
+    const moveToPIN = () => {
+        setShowChange(false);
+        setShowPIN(true);
+        window.scrollTo({ top: 0});
+    }
 
 
     const checkPasswordStrength = (password) => {
@@ -76,13 +92,15 @@ export const ChangePassword = ({ backHome }) => {
         setNewPassword(enteredPassword);
         setStrength(checkPasswordStrength(enteredPassword));
     };
+
+    
     
 
 
 
     return (
         <>
-        <Box>
+        {showChange && <Box>
             <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
                 <Button onClick={backHome} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
                 <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Change Password</Text>
@@ -143,15 +161,18 @@ export const ChangePassword = ({ backHome }) => {
                     </InputGroup>
                 </FormControl>
 
-                <FormControl w='80%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
-                    <Input h='48px' type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
-                </FormControl>
-
-                <Button mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
+                <Button onClick={moveToPIN} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
 
             </Stack>
-        </Box>
+        </Box>}
+
+        {showPIN && <Box>
+            <HStack bg='#EAECF0' px='26px' py='14px' borderRadius='12px 12px 0 0'>
+                <Button onClick={moveToChange} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
+                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Complete Process</Text>
+            </HStack>
+            <CompleteTransaction type='edit' backToSaving={moveToChange} />
+        </Box>}
         </>
     );
 };

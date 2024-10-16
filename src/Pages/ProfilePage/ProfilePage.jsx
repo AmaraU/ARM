@@ -37,7 +37,7 @@ export const ProfilePage = () => {
                     </TabPanel>
                     
                     <TabPanel ml={-4}>
-                        <PINManagement backHome={()=>handleTabsChange(0)} />
+                        <PINManagement backHome={()=>handleTabsChange(0)} moveToQuestions={()=>handleTabsChange(3)} />
                     </TabPanel>
 
                     <TabPanel ml={-4}>

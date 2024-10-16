@@ -194,11 +194,36 @@ export const Overview = () => {
                         <Box>
                             <Text fontSize='18px' fontWeight={600} color='#101828' mb='12px'>Quick Services</Text>
                             <Box borderRadius='12px' border='1px solid #EAECF0' display='flex' justifyContent='space-between' p='20px'>
-                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteSend.png")} /></Button>Send Money</Box>
-                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteBuy.png")} /></Button>Buy Airtime</Box>
-                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteBuy.png")} /></Button>Buy Data</Box>
-                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteBills.png")} /></Button>Pay Bills</Box>
-                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'><Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }}><img src={getImageUrl("icons/whiteLoans.png")} /></Button>Staff Loan</Box>
+                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'>
+                                    <Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }} onClick={() => navigate("/overview/transfers")}>
+                                        <img src={getImageUrl("icons/whiteSend.png")} />
+                                    </Button>
+                                    Send Money
+                                </Box>
+                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'>
+                                    <Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }} onClick={() => navigate("/overview/airtime")}>
+                                        <img src={getImageUrl("icons/whiteBuy.png")} />
+                                    </Button>
+                                    Buy Airtime
+                                </Box>
+                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'>
+                                    <Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }} onClick={() => navigate("/overview/airtime")}>
+                                        <img src={getImageUrl("icons/whiteBuy.png")} />
+                                    </Button>
+                                    Buy Data
+                                </Box>
+                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'>
+                                    <Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }} onClick={() => navigate("/overview/airtime")}>
+                                        <img src={getImageUrl("icons/whiteBills.png")} />
+                                    </Button>
+                                    Pay Bills
+                                </Box>
+                                <Box display='flex' flexDir='column' alignItems='center' textAlign='center' fontSize='10px' fontWeight={500} color='#101828'>
+                                    <Button w='48px' h='48px' p={0} bg='#A41857' borderRadius='1000px' mb='8px' _hover={{bg: '#A41857' }} onClick={() => navigate("/overview/loans")}>
+                                        <img src={getImageUrl("icons/whiteLoans.png")} />
+                                    </Button>
+                                    Staff Loan
+                                </Box>
                             </Box>
                         </Box>
 

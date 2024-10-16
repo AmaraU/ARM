@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Stack, Text, Box, Button, HStack, Select, Image, FormControl, FormLabel, Input, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, Select, FormControl, FormLabel, Input, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./ProfilePage.module.css";
+import { CompleteTransaction } from "../../Components/CompleteTrans";
 
 
 export const EditProfile = () => {
@@ -12,6 +13,7 @@ export const EditProfile = () => {
     const [ showPersonalDetails, setShowPersonalDetails ] = useState(false);
     const [ showContactDetails, setShowContactDetails ] = useState(false);
     const [ showDocumentUpload, setShowDocumentUpload ] = useState(false);
+    const [ showPIN, setShowPIN ] = useState(false);
 
     const [ BVNLinked, setBVNLinked ] = useState(true);
     const [ hasPersonalDetails, setHasPersonalDetails ] = useState(false);
@@ -23,6 +25,7 @@ export const EditProfile = () => {
         setShowPersonalDetails(false);
         setShowContactDetails(false);
         setShowDocumentUpload(false);
+        setShowPIN(false);
         window.scrollTo({ top: 0});
     }
 
@@ -31,6 +34,7 @@ export const EditProfile = () => {
         setShowPersonalDetails(false);
         setShowContactDetails(false);
         setShowDocumentUpload(false);
+        setShowPIN(false);
         window.scrollTo({ top: 0});
     }
 
@@ -39,6 +43,7 @@ export const EditProfile = () => {
         setShowPersonalDetails(true);
         setShowContactDetails(false);
         setShowDocumentUpload(false);
+        setShowPIN(false);
         window.scrollTo({ top: 0});
     }
 
@@ -47,6 +52,7 @@ export const EditProfile = () => {
         setShowPersonalDetails(false);
         setShowContactDetails(true);
         setShowDocumentUpload(false);
+        setShowPIN(false);
         window.scrollTo({ top: 0});
     }
 
@@ -55,6 +61,16 @@ export const EditProfile = () => {
         setShowPersonalDetails(false);
         setShowContactDetails(false);
         setShowDocumentUpload(true);
+        setShowPIN(false);
+        window.scrollTo({ top: 0});
+    }
+
+    const moveToPIN = () => {
+        setShowEditProfile(false);
+        setShowPersonalDetails(false);
+        setShowContactDetails(false);
+        setShowDocumentUpload(false);
+        setShowPIN(true);
         window.scrollTo({ top: 0});
     }
 
@@ -228,12 +244,7 @@ export const EditProfile = () => {
                     </Select>
                 </FormControl>
 
-                <FormControl w='80%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
-                    <Input h='48px' maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
-                </FormControl>
-
-                <Button onClick={moveToEdit} mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='18px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
+                <Button onClick={moveToPIN} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='18px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
             </Stack>
         </Box>}
 
@@ -317,12 +328,12 @@ export const EditProfile = () => {
                     </HStack>
                 </FormControl>
 
-                <FormControl w='80%'>
+                {/* <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
                     <Input h='48px' type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
-                </FormControl>
+                </FormControl> */}
 
-                <Button onClick={moveToEdit} mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
+                <Button onClick={moveToPIN} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
             </Stack>
         </Box>}
 
@@ -356,19 +367,21 @@ export const EditProfile = () => {
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Front</FormLabel>
                         <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                            <button className={styles.uploadButton}>
+                            <label className={styles.uploadButton}>
+                                <input id="front-upload" type="file" accept="image/png, image/jpeg, application/pdf, image/x-eps" />
                                 <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                                 Tap to Upload
-                            </button>
+                            </label>
                         </Stack>
                     </FormControl>
                     <FormControl>
                         <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Back</FormLabel>
                         <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                            <button className={styles.uploadButton}>
+                            <label className={styles.uploadButton}>
+                                <input id="front-upload" type="file" accept="image/png, image/jpeg, application/pdf, image/x-eps" />
                                 <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                                 Tap to Upload
-                            </button>
+                            </label>
                         </Stack>
                     </FormControl>
                 </HStack>
@@ -376,10 +389,11 @@ export const EditProfile = () => {
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Passport Photograph</FormLabel>
                     <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                        <button className={styles.uploadButton}>
+                        <label className={styles.uploadButton}>
+                            <input id="front-upload" type="file" accept="image/png, image/jpeg, application/pdf, image/x-eps" />
                             <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                             Tap to Upload
-                        </button>
+                        </label>
                     </Stack>
                 </FormControl>
 
@@ -388,22 +402,33 @@ export const EditProfile = () => {
                 <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Upload Signature</FormLabel>
                     <Stack p='18px' alignItems='center' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' borderRadius='8px' _placeholder={{color: '#667085'}} >
-                        <button className={styles.uploadButton}>
+                        <label className={styles.uploadButton}>
+                            <input id="front-upload" type="file" accept="image/png, image/jpeg, application/pdf, image/x-eps" />
                             <img src={getImageUrl('icons/greyPic.png')} style={{width: '22px', height: '22px'}} />
                             Tap to Upload
-                        </button>
+                        </label>
                     </Stack>
                 </FormControl>
 
                 <Text fontSize='16px' color='#667085' textAlign='left' w='80%'>Upload a picture of your signature on a plain white background (Max 1MB)</Text>
 
-                <FormControl w='80%'>
+                {/* <FormControl w='80%'>
                     <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
                     <Input h='48px' type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
-                </FormControl>
+                </FormControl> */}
 
-                <Button onClick={moveToEdit} mt='24px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
+                <Button onClick={moveToPIN} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
             </Stack>
+        </Box>}
+
+        
+            
+        {showPIN && <Box>
+            <HStack bg='#EAECF0' px='26px' py='14px' borderRadius='12px 12px 0 0'>
+                <Button onClick={moveToEdit} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
+                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Complete Process</Text>
+            </HStack>
+            <CompleteTransaction type='edit' backToSaving={moveToEdit} />
         </Box>}
 
 

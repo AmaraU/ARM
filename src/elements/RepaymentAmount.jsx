@@ -101,7 +101,7 @@ function RepaymentAmount({ amount }) {
         {" "}
         {amount}{" "}
       </Text>
-      <Button onClick={onOpenSchedule} bg='#EFECE9' color='#667085' _hover={{bg: '#EFECE9'}} w='fit-content' fontSize='16px' fontWeight={500}>See Loan Repayment Schedule</Button>
+      <Button onClick={onOpenSchedule} bg='#EFECE9' color='#667085' _hover={{bg: '#E3E1DE'}} w='fit-content' fontSize='16px' fontWeight={500}>See Loan Repayment Schedule</Button>
     </Card>
 
 

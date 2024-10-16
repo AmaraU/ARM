@@ -171,12 +171,14 @@ function GroupSavings() {
   return (
     <div className={` ${styles.whole} ${styles.flex}`}>
 
-      <HStack alignItems='center' spacing='8px' mb="16px" onClick={()=>navigate('/overview/savings')} cursor='pointer'>
+      {showSavings && <HStack alignItems='center' spacing='8px' mb="16px" onClick={()=>navigate('/overview/savings')} cursor='pointer'>
         <img src={getImageUrl('icons/blackLeftArrow.png')} alt="" />
         <Text fontSize="24px" fontWeight={700} color={"#101828"}>
           Group Savings
         </Text>
-      </HStack>
+      </HStack>}
+        
+      {!showSavings && <Text  mb="24px" fontSize="24px" fontWeight={700} color={"#101828"}>Group Savings</Text>}
 
 
       {showSavings && <Button onClick={showModal} w='fit-content' alignSelf='end' bg='#A41857' mb="24px" _hover={{bg: '#90164D'}} borderRadius='34px' fontSize='13px' fontWeight={500} color='#FFFFFF'>
@@ -185,7 +187,12 @@ function GroupSavings() {
       </Button>}
 
 
-      {showSavings && <CardContainer title={'Join Group Savings'}>
+      {showSavings && <Box>
+        <HStack bg='#EAECF0' px='26px' py='14px' borderRadius='12px 12px 0 0'>
+          <Text width='100%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>My Target Savings</Text>
+        </HStack>
+        <Stack spacing='24px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='114px' pt='48px'>
+
         <Stack px='24px' w='100%' maxW='1000px' alignItems='center'>
 
           <HStack mb='12px' spacing='8px'  maxWidth='800px' w='80%'>
@@ -231,7 +238,8 @@ function GroupSavings() {
           )}
         
         </Stack>
-      </CardContainer>}
+      </Stack>
+      </Box>}
 
       {showCreate && 
         type.toLowerCase() === 'fixed' ? <NewFixedSaving type={'group'} goBack={moveToSavings} showSuccess={movetoSuccess} />

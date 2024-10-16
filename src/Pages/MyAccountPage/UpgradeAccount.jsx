@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Stack, Text, Box, Button, HStack, useDisclosure, FormControl, FormLabel, Select, Input, InputGroup, InputRightElement, Modal, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalOverlay } from "@chakra-ui/react";
+import { Stack, Text, Box, Button, HStack, useDisclosure, FormControl, FormLabel, Select, Input, InputGroup, InputRightElement, Modal, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalOverlay, ModalFooter } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./MyAccountPage.module.css";
 import { useNavigate } from "react-router-dom";
@@ -108,7 +108,7 @@ export const UpgradeAccount = ({backHome}) => {
 
                 <Stack w="75%" bg='#F2F4F7' py='18px' px='16px' borderRadius='8px'>
 
-                    <HStack spacing='12px' onClick={moveToBVN} cursor='pointer' w='fit-content'>
+                    <HStack spacing='12px' w='fit-content'>
                         <Box p='8px' borderRadius='38px' border={BVNAndNINFilled ? '1px solid #2AD062' : '1px solid #EAECF0'}>
                             <Box p='2px' borderRadius='38px' bg={BVNAndNINFilled ? '#2AD062' : '#667085'}>
                                 <img src={getImageUrl('icons/whiteCheck.png')} style={{width: '12px', height:'12px'}} />
@@ -119,7 +119,7 @@ export const UpgradeAccount = ({backHome}) => {
 
                     <Box h='14px' w='1px' ml='16px' border='1px dashed #A0A3BD'></Box>
 
-                    <HStack spacing='12px' onClick={moveToDocumentUpload} cursor='pointer' w='fit-content'>
+                    <HStack spacing='12px' w='fit-content'>
                         <Box p='8px' borderRadius='38px' border={IDCardFilled ? '1px solid #2AD062' : '1px solid #EAECF0'}>
                             <Box p='2px' borderRadius='38px' bg={IDCardFilled ? '#2AD062' : '#667085'}>
                                 <img src={getImageUrl('icons/whiteCheck.png')} style={{width: '12px', height:'12px'}} />
@@ -131,7 +131,7 @@ export const UpgradeAccount = ({backHome}) => {
                     <Box h='14px' w='1px' ml='16px' border='1px dashed #A0A3BD'></Box>
 
 
-                    <HStack spacing='12px' onClick={moveToSignature} cursor='pointer' w='fit-content'>
+                    <HStack spacing='12px' w='fit-content'>
                         <Box p='8px' borderRadius='38px' border={signatureFilled ? '1px solid #2AD062' : '1px solid #EAECF0'}>
                             <Box p='2px' borderRadius='38px' bg={signatureFilled ? '#2AD062' : '#667085'}>
                                 <img src={getImageUrl('icons/whiteCheck.png')} style={{width: '12px', height:'12px'}} />
@@ -143,7 +143,7 @@ export const UpgradeAccount = ({backHome}) => {
                     <Box h='14px' w='1px' ml='16px' border='1px dashed #A0A3BD'></Box>
 
 
-                    <HStack spacing='12px' onClick={moveToAddressProof} cursor='pointer' w='fit-content'>
+                    <HStack spacing='12px' w='fit-content'>
                         <Box p='8px' borderRadius='38px' border={addressFilled ? '1px solid #2AD062' : '1px solid #EAECF0'}>
                             <Box p='2px' borderRadius='38px' bg={addressFilled ? '#2AD062' : '#667085'}>
                                 <img src={getImageUrl('icons/whiteCheck.png')} style={{width: '12px', height:'12px'}} />
@@ -162,7 +162,7 @@ export const UpgradeAccount = ({backHome}) => {
                     color="#FFFFFF"
                     fontSize="14px"
                     fontWeight={600}
-                    // onClick={moveToTwo}
+                    onClick={moveToBVN}
                     >
                     Proceed
                 </Button>
@@ -175,7 +175,6 @@ export const UpgradeAccount = ({backHome}) => {
                 <Button onClick={moveToUpgrade} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
                 <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>BVN and NIN</Text>
             </HStack>
-            
             <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='36px' pb='114px' pt='48px'>
 
                 <Text fontSize='16px' color='#667085' mb='12px'>Kindly input your BVN and NIN</Text>
@@ -201,7 +200,7 @@ export const UpgradeAccount = ({backHome}) => {
                     <Input h='48px' maxLength={11} type="number" pattern="\d" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828'  _placeholder={{color: '#667085'}} onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
                 </FormControl>
 
-                <Button onClick={moveToUpgrade} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Save and Continue</Button>
+                <Button onClick={moveToDocumentUpload} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Save and Continue</Button>
             </Stack>
         </Box>}
 
@@ -254,7 +253,7 @@ export const UpgradeAccount = ({backHome}) => {
                     </FormControl>
                 </HStack>
 
-                <Button onClick={moveToUpgrade} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={500} color='#FFFFFF' w='80%' h='48px'>Save and Continue</Button>
+                <Button onClick={moveToSignature} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={500} color='#FFFFFF' w='80%' h='48px'>Save and Continue</Button>
             </Stack>
         </Box>}
 
@@ -285,7 +284,7 @@ export const UpgradeAccount = ({backHome}) => {
                     <Text fontSize='16px' color='#667085'>Take in good lighting and make sure your image takes up 75% of the  surface</Text>
                 </HStack>
 
-                <Button onClick={moveToUpgrade} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={500} color='#FFFFFF' w='80%' h='48px'>Save and Continue</Button>
+                <Button onClick={moveToAddressProof} mt='24px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={500} color='#FFFFFF' w='80%' h='48px'>Save and Continue</Button>
             </Stack>
         </Box>}
 
@@ -333,17 +332,20 @@ export const UpgradeAccount = ({backHome}) => {
             </Stack>
         </CardContainer>}
 
-        <Modal size='xl' isOpen={isOpenSample} onClose={onCloseSample} closeOnOverlayClick={false} >
+        <Modal isCentered size={'lg'} closeOnOverlayClick={false} isOpen={isOpenSample} onClose={onCloseSample}>
             <ModalOverlay />
-            <ModalContent bg='transparent' shadow='none' >
+            <ModalContent bg='transparent' boxShadow='none'>
                 <ModalHeader>
-                    <Text textAlign='center' fontSize='20px' fontWeight={600} color='#FFFFFF'>Here's a sample document</Text>
+                    <Text textAlign='center' fontSize='14px' fontWeight={600} color='#FFFFFF'>Here's a sample document</Text>
                 </ModalHeader>
                 <ModalCloseButton color='#FFFFFF' />
 
-                <ModalBody>
-                    <img src={getImageUrl('samplePassport.png')} style={{width: '100%', height: 'auto'}} alt="" />
+                <ModalBody alignItems='center'>
+                    <img src={getImageUrl('samplePassport.png')} style={{width: '100%', height: 'auto'}} />
                 </ModalBody>
+                <ModalFooter justifyContent='center'>
+                    <Text fontSize='14px' fontWeight={600} color='#FFFFFF'>We won't share your information with anyone</Text>
+                </ModalFooter>
             </ModalContent>
         </Modal>
         </div>

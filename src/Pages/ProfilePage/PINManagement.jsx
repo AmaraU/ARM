@@ -3,19 +3,30 @@ import { Stack, Text, Box, Button, HStack, FormControl, FormLabel, Select, Input
 import { getImageUrl } from "../../../utils";
 import styles from "./ProfilePage.module.css";
 import { ForgotPIN } from "./ForgotPIN";
+import { CompleteTransaction } from "../../Components/CompleteTrans";
+import { TransactionPIN } from "../DashboardPage/TransactionPIN";
+import { TransactionPIN2 } from "../DashboardPage/TransactionPIN2";
+import OtpInput from "../../elements/PinInput";
 
-export const PINManagement = ({ backHome }) => {
+export const PINManagement = ({ backHome, moveToQuestions }) => {
 
     const [ managePIN, setManagePIN ] = useState(true);
     const [ showCreatePIN, setShowCreatePIN ] = useState(false);
     const [ showForgotPIN, setShowForgotPIN ] = useState(false);
     const [ showChangePIN, setShowChangePIN ] = useState(false);
+    const [ showPIN, setShowPIN ] = useState(false);
+    const [ showPIN1, setShowPIN1 ] = useState(false);
+    const [ showPIN2, setShowPIN2 ] = useState(false);
+    const [ showSuccess, setShowSuccess ] = useState(false);
 
     const moveToManagePIN = () => {
         setManagePIN(true);
         setShowCreatePIN(false);
         setShowForgotPIN(false);
         setShowChangePIN(false);
+        setShowPIN1(false);
+        setShowPIN2(false);
+        setShowSuccess(false);
         window.scrollTo({ top: 0});
     }
 
@@ -24,6 +35,9 @@ export const PINManagement = ({ backHome }) => {
         setShowCreatePIN(true);
         setShowForgotPIN(false);
         setShowChangePIN(false);
+        setShowPIN1(false);
+        setShowPIN2(false);
+        setShowSuccess(false);
         window.scrollTo({ top: 0});
     }
 
@@ -32,6 +46,9 @@ export const PINManagement = ({ backHome }) => {
         setShowCreatePIN(false);
         setShowForgotPIN(true);
         setShowChangePIN(false);
+        setShowPIN1(false);
+        setShowPIN2(false);
+        setShowSuccess(false);
         window.scrollTo({ top: 0});
     }
 
@@ -40,6 +57,42 @@ export const PINManagement = ({ backHome }) => {
         setShowCreatePIN(false);
         setShowForgotPIN(false);
         setShowChangePIN(true);
+        setShowPIN1(false);
+        setShowPIN2(false);
+        setShowSuccess(false);
+        window.scrollTo({ top: 0});
+    }
+
+    const moveToPIN1 = () => {
+        setManagePIN(false);
+        setShowCreatePIN(false);
+        setShowForgotPIN(false);
+        setShowChangePIN(false);
+        setShowPIN1(true);
+        setShowPIN2(false);
+        setShowSuccess(false);
+        window.scrollTo({ top: 0});
+    }
+
+    const moveToPIN2 = () => {
+        setManagePIN(false);
+        setShowCreatePIN(false);
+        setShowForgotPIN(false);
+        setShowChangePIN(false);
+        setShowPIN1(false);
+        setShowPIN2(true);
+        setShowSuccess(false);
+        window.scrollTo({ top: 0});
+    }
+
+    const moveToSuccess = () => {
+        setManagePIN(false);
+        setShowCreatePIN(false);
+        setShowForgotPIN(false);
+        setShowChangePIN(false);
+        setShowPIN1(false);
+        setShowPIN2(false);
+        setShowSuccess(true);
         window.scrollTo({ top: 0});
     }
 
@@ -84,53 +137,106 @@ export const PINManagement = ({ backHome }) => {
                     <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
                 </FormControl>
 
-                <FormControl w='80%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
-                    <Input h='48px' type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
-                </FormControl>
+                <HStack spacing={2} textAlign='left' w='80%'>
+                    <img src={getImageUrl('icons/warning.png')} alt="" />
+                    <Text fontSize='11.5px' fontWeight={450} color='#667085'>Don't remember answer</Text>
+                    <Text fontSize='11.5px' fontWeight={700} color='#A41857' cursor='pointer' onClick={moveToQuestions}>Change security question</Text>
+                </HStack>
 
-                <FormControl w='80%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Confirm PIN</FormLabel>
-                    <Input h='48px' type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
-                </FormControl>
-
-                <Button onClick={moveToManagePIN} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Create PIN</Button>
+                <Button onClick={moveToPIN1} mt='16px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
 
             </Stack>
         </Box>}
 
 
-        {showForgotPIN && <ForgotPIN backHome={moveToManagePIN} /> }
+        {showForgotPIN && <ForgotPIN toPin={moveToPIN1} backHome={moveToManagePIN} moveToQuestions={moveToQuestions} /> }
 
 
         {showChangePIN && <Box>
             <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
                 <Button h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
-                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Change PIN</Text>
+                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Current Transaction PIN</Text>
             </HStack>
             <Stack spacing='24px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='114px' pt='48px'>
 
                 <Text color='#667085' fontSize='16px'>Make sure you keep PIN safe and secure</Text>
 
-                <FormControl w='80%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Current PIN</FormLabel>
-                    <Input h='48px' maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
-                </FormControl>
+                <OtpInput
+                    size={"lg"}
+                    length={4}
+                    width={110}
+                    height={"75px"}
+                    setOtp={(e) => setPin(e)}
+                />
 
-                <FormControl w='80%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>New PIN</FormLabel>
-                    <Input h='48px' maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
-                </FormControl>
-
-                <FormControl w='80%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>Confirm PIN</FormLabel>
-                    <Input h='48px' maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
-                </FormControl>
-
-                <Button onClick={moveToManagePIN} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Change PIN</Button>
+                <Button onClick={moveToPIN1} mt='16px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Change PIN</Button>
 
             </Stack>
         </Box>}
+
+
+
+        {showPIN1 && <Box>
+            <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
+                <Button onClick={moveToManagePIN} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
+                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Create Transaction PIN</Text>
+            </HStack>
+            <Stack spacing='24px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='114px' pt='48px'>
+
+                <Text color='#667085' fontSize='16px'>Secure your account with 4 digit PIN</Text>
+
+                <OtpInput
+                    size={"lg"}
+                    length={4}
+                    width={110}
+                    height={"75px"}
+                    setOtp={(e) => setPin(e)}
+                />
+
+                <Button onClick={moveToPIN2} mt='16px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
+
+            </Stack>
+        </Box>}
+
+        {showPIN2 && <Box>
+            <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
+                <Button h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
+                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Repeat Transaction PIN</Text>
+            </HStack>
+            <Stack spacing='24px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='114px' pt='48px'>
+
+                <Text color='#667085' fontSize='16px'>Enter 4 digit PIN again</Text>
+
+                <OtpInput
+                    size={"lg"}
+                    length={4}
+                    width={110}
+                    height={"75px"}
+                    setOtp={(e) => setPin(e)}
+                />
+
+                <Button onClick={moveToSuccess} mt='16px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Proceed</Button>
+
+            </Stack>
+        </Box>}
+
+
+        {showSuccess && <Box>
+            <HStack bg='#EAECF0' px={'26px'} py={'30px'} borderRadius={'12px 12px 0 0'}></HStack>
+            <Stack spacing='8px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='114px' pt='48px'>
+
+                <img style={{width: '200px', height: 'auto'}} src={getImageUrl('icons/success.png')} />
+                <Text mt={'12px'} fontSize={'18px'} fontWeight={700} color={'#000000'} textAlign={'center'}>Success!</Text>
+                <Text fontSize='14px' fontWeight={500} color='#667085' textAlign='center'>Your PIN has been created successfully</Text>
+
+                <Button onClick={moveToManagePIN} mt='16px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Okay, Thank You</Button>
+
+            </Stack>
+        </Box>}
+
+
+
+        {/* {showPIN && <TransactionPIN proceed={moveToManagePIN} moveToSetup={moveToManagePIN} />} */}
         </>
     );
 };

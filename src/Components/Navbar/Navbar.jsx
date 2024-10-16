@@ -43,11 +43,11 @@ export const Navbar = () => {
           <img className={styles.red} src={getImageUrl("icons/nav/savingsRed.png")} />
           Savings
         </a>
-        <a href="/overview/cards" className={currentPath.includes("/overview/cards") ? styles.active : ""}>
+        {/* <a href="/overview/cards" className={currentPath.includes("/overview/cards") ? styles.active : ""}>
           <img className={styles.grey} src={getImageUrl("icons/nav/cardsGrey.png")} />
           <img className={styles.red} src={getImageUrl("icons/nav/cardsRed.png")} />
           Cards
-        </a>
+        </a> */}
         <a href="/overview/accounts" className={currentPath.includes("/overview/accounts") ? styles.active : ""}>
           <img className={styles.grey} src={getImageUrl("icons/nav/accountsGrey.png")} alt="" />
           <img className={styles.red} src={getImageUrl("icons/nav/accountsRed.png")} alt="" />

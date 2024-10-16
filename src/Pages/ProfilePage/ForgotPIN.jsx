@@ -3,7 +3,7 @@ import { Stack, Text, Box, Button, HStack, Input, FormControl, FormLabel, Select
 import { getImageUrl } from "../../../utils";
 import styles from "./ProfilePage.module.css";
 
-export const ForgotPIN = ({ backHome }) => {
+export const ForgotPIN = ({ backHome, toPin, moveToQuestions }) => {
 
     const [ stepOne, setStepOne ] = useState(true);
     const [ stepTwo, setStepTwo ] = useState(false);
@@ -53,7 +53,13 @@ export const ForgotPIN = ({ backHome }) => {
                     <Input h='48px' bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
                 </FormControl>
 
-                <Button onClick={moveToStepTwo} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
+                <HStack spacing={2} textAlign='left' w='80%'>
+                    <img src={getImageUrl('icons/warning.png')} alt="" />
+                    <Text fontSize='11.5px' fontWeight={450} color='#667085'>Don't remember answer</Text>
+                    <Text fontSize='11.5px' fontWeight={700} color='#A41857' cursor='pointer' onClick={moveToQuestions}>Change security question</Text>
+                </HStack>
+
+                <Button onClick={moveToStepTwo} mt='16px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
 
             </Stack>
         </Box>}
@@ -74,12 +80,12 @@ export const ForgotPIN = ({ backHome }) => {
                     <Input h='48px' maxLength={6} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
                 </FormControl>
 
-                <Button onClick={moveToStepThree} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
+                <Button onClick={toPin} mt='16px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
 
             </Stack>
         </Box>}
 
-        {stepThree && <Box>
+        {/* {stepThree && <Box>
             <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
                 <Button onClick={moveToStepTwo} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
                 <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Forgot PIN</Text>
@@ -99,10 +105,12 @@ export const ForgotPIN = ({ backHome }) => {
                     <Input h='48px' maxLength={4} type="password" bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' />
                 </FormControl>
 
-                <Button onClick={backHome} mt='16px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
+                <Button onClick={backHome} mt='16px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
 
             </Stack>
-        </Box>}
+        </Box>} */}
+
+        {/* {stepThree && } */}
         </>
     );
 };
