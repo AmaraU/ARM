@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Grid, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Grid, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import { getImageUrl } from "../../../../utils";
 import { CompleteTransaction } from "../../CompleteTrans";
 import { TbCurrencyNaira } from "react-icons/tb";
@@ -15,6 +15,7 @@ export const CurrentLoans = ({ currentLoans }) => {
     const [ showTwo, setShowTwo ] = useState(false);
     const [ showThree, setShowThree ] = useState(false);
     const [ selected, setSelected ] = useState('');
+    const accountsLen = 2;
 
     const moveToOne = () => {
         setShowOne(true);
@@ -105,10 +106,10 @@ export const CurrentLoans = ({ currentLoans }) => {
                                 </Stack>
                             </HStack>}
 
-                            {loan.status.toLowerCase() === 'approved' && <Button onClick={moveToTwo} w='100%' mt='18px' bg='#A41857' _hover={{ bg: '#A41857' }} borderRadius='8px' fontSize='14px' fontWeight={600} color='#FFFFFF'>Pay Off Loan</Button>}
+                            {loan.status.toLowerCase() === 'approved' && <Button onClick={moveToTwo} w='100%' mt='18px' bg='#A41857' _hover={{ bg: '#90164D' }} borderRadius='8px' fontSize='14px' fontWeight={600} color='#FFFFFF'>Pay Off Loan</Button>}
                             {loan.status.toLowerCase() === 'pending' && <HStack w='100%' spacing='16px' mt='18px'>
-                                <Button p={0} w='100%' bg='#A41857' _hover={{ bg: '#A41857' }} borderRadius='8px' fontSize='14px' fontWeight={600} color='#FFFFFF'>Add Bank Accounts</Button>
-                                <Button p={0} w='100%' bg='transparent' _hover={{ bg: 'transparent' }} border='1px solid #A41857' borderRadius='8px' fontSize='14px' fontWeight={600} color='#A41857'>Cancel Loan Application</Button>
+                                <Button p={0} w='100%' bg='#A41857' _hover={{ bg: '#90164D' }} borderRadius='8px' fontSize='14px' fontWeight={600} color='#FFFFFF'>Add Bank Accounts</Button>
+                                <Button p={0} w='100%' bg='transparent' _hover={{ bg: '#E1DDD9' }} border='1px solid #A41857' borderRadius='8px' fontSize='14px' fontWeight={600} color='#A41857'>Cancel Loan Application</Button>
                             </HStack>}
 
                         </Box>
@@ -139,7 +140,7 @@ export const CurrentLoans = ({ currentLoans }) => {
                     <progress className={styles.progress} max={100} value={39} />
                 </Stack>
 
-                <HStack w='75%' backgroundColor='#000000' backgroundImage={getImageUrl('backgroundGrey.png')} bgSize='100% 100%' borderRadius='12px' p='14px' pt='24px' justifyContent='space-between'>
+                {accountsLen === 1 && <HStack w='75%' backgroundColor='#000000' backgroundImage={getImageUrl('backgroundGrey.png')} bgSize='100% 100%' borderRadius='12px' p='14px' pt='24px' justifyContent='space-between'>
                     <Box>
                         <Text fontSize='14px' fontWeight={400} color='#FFFFFF'>Total Available Balance</Text>
                         <HStack ml="-1px" spacing={0}>
@@ -153,9 +154,24 @@ export const CurrentLoans = ({ currentLoans }) => {
                     </Box>
 
                     <Box alignSelf='start' borderRadius='36px' px='12px' py='8px' bg='#2C323A' color='#FFFFFF' fontSize='10px' fontWeight={500}>Tier 3 Savings Account</Box>
-                </HStack>
+                </HStack>}
 
-                <Button h='48px' onClick={onOpenMethod} p={0} w='75%' bg='#A41857' _hover={{ bg: '#A41857' }} borderRadius='8px' fontSize='14px' fontWeight={600} color='#FFFFFF'>Continue</Button>
+                {accountsLen > 1 && <>
+                    <FormControl w={"75%"}>
+                        <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+                            Select Account to Debit
+                        </FormLabel>
+                        <Select
+                            h={"48px"}
+                            bg={"#F7F7F7"}
+                            border={"1px solid #EAECF0"}
+                            placeholder="Select account"
+                            _placeholder={{ fontSize: "16px", color: "#667085" }}
+                        ></Select>
+                    </FormControl>
+                </>}
+
+                <Button h='48px' onClick={onOpenMethod} p={0} w='75%' bg='#A41857' _hover={{ bg: '#90164D' }} borderRadius='8px' fontSize='14px' fontWeight={600} color='#FFFFFF'>Continue</Button>
             </Stack>
         </Box>}
 
@@ -170,7 +186,7 @@ export const CurrentLoans = ({ currentLoans }) => {
         </Box>}
 
 
-        <Modal isCentered size='lg' closeOnOverlayClick={true} isOpen={isOpenMethod} onClose={onCloseMethod} >
+        <Modal isCentered size='xl' closeOnOverlayClick={true} isOpen={isOpenMethod} onClose={onCloseMethod} >
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
@@ -195,11 +211,27 @@ export const CurrentLoans = ({ currentLoans }) => {
                                 <Text fontSize='18px' fontWeight={selected === 'LL' ? 700 : 400} color={selected === 'LL' ? '#A41856' : '#101828'}>(₦1,000,000)</Text>
                             </Stack>
                         </HStack>
+
+                        {accountsLen > 1 && <HStack w='100%' mt='40px' backgroundColor='#000000' backgroundImage={getImageUrl('backgroundGrey.png')} bgSize='100% 100%' borderRadius='12px' p='14px' pt='24px' justifyContent='space-between'>
+                            <Box>
+                                <Text fontSize='14px' fontWeight={400} color='#FFFFFF'>Total Available Balance</Text>
+                                <HStack ml="-1px" spacing={0}>
+                                    <Box fontSize="22px" color="#FFFFFF"><TbCurrencyNaira /></Box>
+                                    <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${formatNumberDecimals(40618898300)}` : hideBalance()}</Text>
+                                    <Box pl={3} cursor="pointer">
+                                        {totalBalanceVisible && <BiShow fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} />}
+                                        {!totalBalanceVisible && <BiHide fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} />}
+                                    </Box>
+                                </HStack>
+                            </Box>
+
+                            <Box alignSelf='start' borderRadius='36px' px='12px' py='8px' bg='#2C323A' color='#FFFFFF' fontSize='10px' fontWeight={500}>Tier 3 Savings Account</Box>
+                        </HStack>}
                     </div>
                 </ModalBody>
 
                 <ModalFooter pt={0}>
-                    <Button mt='16px' w='100%' h='48px' bg='#A41856' _hover={{ bg: '#A41856' }} color='#FFFFFF' fontSize='14px' fontWeight={600} onClick={moveToThree}>Proceed</Button>
+                    <Button mt='16px' w='100%' h='48px' bg='#A41856' _hover={{ bg: '#90164D' }} color='#FFFFFF' fontSize='14px' fontWeight={600} onClick={moveToThree}>Proceed</Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>

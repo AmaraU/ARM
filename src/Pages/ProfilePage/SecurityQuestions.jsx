@@ -6,21 +6,11 @@ import { CompleteTransaction } from "../../Components/CompleteTrans";
 export const SecurityQuestions = ({ backHome }) => {
 
     const [ stepOne, setStepOne ] = useState(true);
-    const [ stepTwo, setStepTwo ] = useState(false);
     const [ showPIN, setShowPIN ] = useState(false);
     const [ complete, setComplete ] = useState(false);
 
     const moveToStepOne = () => {
         setStepOne(true);
-        setStepTwo(false);
-        setShowPIN(false);
-        setComplete(false);
-        window.scrollTo({ top: 0});
-    }
-
-    const moveToStepTwo = () => {
-        setStepOne(false);
-        setStepTwo(true);
         setShowPIN(false);
         setComplete(false);
         window.scrollTo({ top: 0});
@@ -28,7 +18,6 @@ export const SecurityQuestions = ({ backHome }) => {
 
     const moveToPIN = () => {
         setStepOne(false);
-        setStepTwo(false);
         setShowPIN(true);
         setComplete(false);
         window.scrollTo({ top: 0});
@@ -36,7 +25,6 @@ export const SecurityQuestions = ({ backHome }) => {
 
     const moveToComplete = () => {
         setStepOne(false);
-        setStepTwo(false);
         setShowPIN(false);
         setComplete(true);
         window.scrollTo({ top: 0});
@@ -92,25 +80,6 @@ export const SecurityQuestions = ({ backHome }) => {
 
             </Stack>
         </Box>}
-
-
-        {/* {stepTwo && <Box>
-            <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
-                <Button onClick={backHome} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
-                <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Security Questions</Text>
-            </HStack>
-            <Stack spacing='16px' alignItems='center' border='1px solid #EFECE9' bg='#FFFFFF' borderRadius='0 0 12px 12px' px='16px' pb='54px' pt='24px'>
-                
-                <Text color='#667085' fontSize='16px'>Input your 4 digit PIN</Text>
-                
-                <FormControl w='80%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>PIN</FormLabel>
-                    <Input h='48px' type="password" maxLength={4} bg='#F7F7F7' border='1px solid #EAECF0' fontSize='16px' color='#101828' placeholder="****" />
-                </FormControl>
-                
-                <Button onClick={moveToStepTwo} mt='16px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='14px' fontWeight={600} color='#FFFFFF' w='80%' h='48px'>Continue</Button>
-            </Stack>
-        </Box>} */}
 
         {showPIN && <Box>
             <HStack bg='#EAECF0' px='26px' py='14px' borderRadius='12px 12px 0 0'>

@@ -28,11 +28,8 @@ import { FixedSavingsDetails } from "./FixedSavingsDetails";
 function FixedSavings() {
 
   const { isOpen: isOpenInvite, onOpen: onOpenInvite, onClose: onCloseInvite } = useDisclosure();
-  const [ showSavings, setShowSavings ] = useState(true);
-  const [ showCreate, setShowCreate ] = useState(false);
-  const [ showSuccess, setShowSuccess ] = useState(false);
-  const [ showDetails, setShowDetails ] = useState(false);
 
+  const [ step, setStep ] = useState('savings');
   const [ selected, setSelected ] = useState(null);
   const [ modalopen, setModalOpen ] = useState(false);
   const [ innerTabIndex, setInnerTabIndex ] = useState(0);
@@ -61,29 +58,21 @@ function FixedSavings() {
   }
 
   const moveToSavings = () => {
-    setShowSavings(true);
-    setShowCreate(false);
-    setShowSuccess(false);
-    setShowDetails(false);
+    setStep('savings');
+    window.scrollTo({ top: 0 });
   }
   const moveToCreate = () => {
-    setShowSavings(false);
-    setShowCreate(true);
-    setShowSuccess(false);
-    setShowDetails(false);
+    setStep('create');
+    window.scrollTo({ top: 0 });
     setModalOpen(false);
   }
   const movetoSuccess = () => {
-    setShowSavings(false);
-    setShowCreate(false);
-    setShowSuccess(true);
-    setShowDetails(false);
+    setStep('success');
+    window.scrollTo({ top: 0 });
   }
   const moveToDetails = (save) => {
-    setShowSavings(false);
-    setShowCreate(false);
-    setShowSuccess(false);
-    setShowDetails(true);
+    setStep('details');
+    window.scrollTo({ top: 0 });
     setSelected(save);
     onCloseInvite();
   }
@@ -139,27 +128,28 @@ function FixedSavings() {
 
   return (
     <div className={styles.whole}>
+    <Box maxWidth='1000px'>
 
-      {showSavings && <HStack alignItems='center' spacing='8px' mb="16px" onClick={()=>navigate('/overview/savings')} cursor='pointer'>
+      {step === 'savings' && <HStack alignItems='center' spacing='8px' mb="16px" onClick={()=>navigate('/overview/savings')} cursor='pointer'>
         <img src={getImageUrl('icons/blackLeftArrow.png')} alt="" />
         <Text fontSize="24px" fontWeight={700} color={"#101828"}>
           Fixed Savings
         </Text>
       </HStack>}
         
-      {!showSavings && <Text  mb="24px" fontSize="24px" fontWeight={700} color={"#101828"}>Fixed Savings</Text>}
+      {step != 'savings' && <Text  mb="24px" fontSize="24px" fontWeight={700} color={"#101828"}>Fixed Savings</Text>}
 
       <HStack alignItems='center' justifyContent='space-between'>
 
         <Box></Box>
 
-        {showSavings && <Button onClick={showModal} alignSelf={'end'} bg='#A41857' _hover={{bg: '#90164D'}} borderRadius='34px' fontSize='13px' fontWeight={500} color='#FFFFFF' mb='24px'>
+        {step === 'savings' && <Button onClick={showModal} alignSelf={'end'} bg='#A41857' _hover={{bg: '#90164D'}} borderRadius='34px' fontSize='13px' fontWeight={500} color='#FFFFFF' mb='24px'>
           <img src={getImageUrl('icons/whitePlus.png')} style={{width: '16px', height: '16px', marginRight: '4px', marginBottom: '3px'}} />
           Create New Fixed Savings
         </Button>}
       </HStack>
 
-      {showSavings && <Box>
+      {step === 'savings' && <Box>
         <HStack bg='#EAECF0' px='26px' py='14px' borderRadius='12px 12px 0 0'>
           <Text width='100%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>My Fixed Savings</Text>
         </HStack>
@@ -252,9 +242,9 @@ function FixedSavings() {
         </Stack>
       </Box>}
 
-      {showCreate && <NewFixedSaving type={type} goBack={moveToSavings} showSuccess={movetoSuccess} />}
+      {step === 'create' && <NewFixedSaving type={type} goBack={moveToSavings} showSuccess={movetoSuccess} />}
 
-      {showSuccess && <CardContainer title={'My Fixed Savings'}>
+      {step === 'success' && <CardContainer title={'My Fixed Savings'}>
         <Stack spacing={1} w='75%' alignItems='center'>
           <img src={getImageUrl('icons/success.png')}  style={{height: '84px', width: 'auto'}}/>
           <Text fontSize='18px' fontWeight={700} color='#000000'>Success!</Text>
@@ -266,10 +256,24 @@ function FixedSavings() {
             <Button h='48px' w="100%" color='white' bg='#A41856' _hover={{bg: '#90164D'}} onClick={onOpenInvite}>Invite Friends</Button>
             <Button h='48px' w="100%" color='#667085' bg='#EFECE9' _hover={{bg: '#E3E1DE'}} onClick={()=>moveToDetails(activeSavings[1])}>Go to Group</Button>
           </Stack>}
+
+          <Button
+            w={"75%"}
+            h={"48px"}
+            mt='33px'
+            bg="#A41856"
+            _hover={{ bg: "#90164D" }}
+            color="#FFFFFF"
+            fontSize={"14px"}
+            fontWeight={600}
+            onClick={moveToSavings}
+          >
+            Okay
+          </Button>
         </Stack>
       </CardContainer>}
       
-      {showDetails && <FixedSavingsDetails type={selected.type} title={selected.name} goBack={moveToSavings} showSuccess={movetoSuccess} />}
+      {step === 'details' && <FixedSavingsDetails type={selected.type} title={selected.name} goBack={moveToSavings} showSuccess={movetoSuccess} />}
 
       <FixedSavingsOption
         isOpen={modalopen}
@@ -280,7 +284,8 @@ function FixedSavings() {
 
       <InviteFriendsModal isOpen={isOpenInvite} onClose={onCloseInvite} handleProceed={()=>moveToDetails(activeSavings[1])} />
 
-
+    
+    </Box>
     </div>
     
   );

@@ -17,17 +17,11 @@ export const FixedSavingsDetails = ({ title, goBack, type, isMember=true }) => {
     const isComplete = true;
     const { isOpen: isOpenTopup, onOpen: onOpenTopup, onClose: onCloseTopup } = useDisclosure();
     const { isOpen: isOpenTopupComplete, onOpen: onOpenTopupComplete, onClose: onCloseTopupComplete } = useDisclosure();
-    const { isOpen: isOpenWithdraw, onOpen: onOpenWithdraw, onClose: onCloseWithdraw } = useDisclosure();
-    const { isOpen: isOpenExtend, onOpen: onOpenExtend, onClose: onCloseExtend } = useDisclosure();
     const { isOpen: isOpenBreak, onOpen: onOpenBreak, onClose: onCloseBreak } = useDisclosure();
     const { isOpen: isOpenRename, onOpen: onOpenRename, onClose: onCloseRename } = useDisclosure();
 
     const [ header, setHeader ] = useState('');
-    const [ showDetails, setShowDetails ] = useState(true);
-    const [ showWithdraw, setShowWithdraw ] = useState(false);
-    const [ showMembers, setShowMembers ] = useState(false);
-    const [ showBreakPlan, setShowBreakPlan ] = useState(false);
-    const [ showComplete, setShowComplete ] = useState(false);
+    const [ step, setStep ] = useState('deets');
     const [ showWarning, setShowWarning ] = useState(true);
 
 
@@ -51,58 +45,28 @@ export const FixedSavingsDetails = ({ title, goBack, type, isMember=true }) => {
         onCloseTopupComplete();
         onOpenTopup();
     };
-    const handleExtend = () => {
-        setHeader('Extension');
-        onOpenExtend();
-    }
 
     const moveToDetails = () => {
-        setShowDetails(true);
-        setShowWithdraw(false);
-        setShowMembers(false);
-        setShowBreakPlan(false);
-        setShowComplete(false);
+        setStep('deets');
         onCloseWithdraw();
-        window.scrollTo({ top: 0 });
-    }
-    const moveToWithdraw = () => {
-        setHeader('Withdrawal');
-        setShowDetails(false);
-        setShowWithdraw(true);
-        setShowMembers(false);
-        setShowBreakPlan(false);
-        setShowComplete(false);
         window.scrollTo({ top: 0 });
     }
     const moveToMembers = () => {
-        // setHeader('Members');
-        setShowDetails(false);
-        setShowWithdraw(false);
-        setShowMembers(true);
-        setShowBreakPlan(false);
-        setShowComplete(false);
+        setStep('members')
         window.scrollTo({ top: 0 });
     }
     const moveToBreak = () => {
-        setShowDetails(false);
-        setShowWithdraw(false);
-        setShowBreakPlan(true);
-        setShowComplete(false);
+        setStep('break');
         onCloseBreak();
-        // window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 });
     }
     const moveToComplete = () => {
-        setShowDetails(false);
-        setShowWithdraw(false);
-        setShowBreakPlan(false);
-        setShowComplete(true);
+        setStep('complete');
+        window.scrollTo({ top: 0 });
         onCloseTopup();
-        onCloseWithdraw();
-        onCloseExtend();
         onCloseBreak();
         onCloseRename();
         onCloseBreak();
-        // window.scrollTo({ top: 0 });
     }
 
     const ACTIVITES = [
@@ -191,7 +155,7 @@ export const FixedSavingsDetails = ({ title, goBack, type, isMember=true }) => {
 
     return (
         <div>
-            {showDetails && <CardContainer title={title} moveToOne={goBack}>
+            {step === 'deets' && <CardContainer title={title} moveToOne={goBack}>
                 {type === 'group' && showWarning && <HStack mb='18px' maxWidth='700px' w='75%' bg='#FFF4DF' borderRadius='8px' p='16px' justifyContent='space-between'>
                     <img src={getImageUrl('icons/warning.png')} />
                     <Text fontSize='14px' fontWeight={450} color='#DB9308'>Once the start date has passed, users can no longer be added to the fixed savings group</Text>
@@ -341,48 +305,7 @@ export const FixedSavingsDetails = ({ title, goBack, type, isMember=true }) => {
             </CardContainer>}
 
             
-            {showWithdraw && <CardContainer title='Withdraw' moveToOne={moveToDetails}>
-                <Stack maxWidth="700px" width="75%" borderRadius='8px' px='20px' py='25px' spacing={0} bg='#667085'>
-                    <Text fontSize='16px' fontWeight={400} color='#FFFFFF'>Target Amount</Text>
-                    <Text fontSize='24px' fontWeight={600} color='#FFFFFF'>₦{formatNumberDecimals(13000000)}</Text>
-                    <HStack justifyContent='space-between'>
-                        <Stack>
-                            <Text fontSize='16px' fontWeight={400} color='#FFFFFF'>Plan Balance</Text>
-                            <Text fontSize='24px' fontWeight={600} color='#FFFFFF'>₦{formatNumberDecimals(13000000)}</Text>        
-                        </Stack>
-                        <Stack>
-                            <Text fontSize='16px' fontWeight={400} color='#FFFFFF'>Interest Earned</Text>
-                            <Text fontSize='24px' fontWeight={600} color='#FFFFFF'>₦{formatNumberDecimals(3100000)}</Text>        
-                        </Stack>               
-                    </HStack>
-                </Stack>
-
-                <FormControl maxWidth='700px' w='75%'>
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828'>How much would you like to withdraw?</FormLabel>
-                    <InputGroup>
-                        <InputLeftElement>₦</InputLeftElement>
-                        <Input bg='#F7F7F7' border='1px solid #EAECF0' inputMode="numeric" type="number" />
-                    </InputGroup>
-
-                    <FormLabel fontSize='16px' fontWeight={400} color='#101828' mt='16px'>Reason</FormLabel>
-                    <Select bg='#F7F7F7' border='1px solid #EAECF0'>
-                        {REASONS.map((option, i) => (
-                        <option key={i}>{option}</option>
-                        ))}
-                    </Select>
-                </FormControl>
-
-                <HStack w='75%' maxWidth='700px'>
-                    <Switch size="md" color="#A41856" colorScheme="#A41856" sx={{ ".chakra-switch__track[data-checked]:not([data-theme])": {backgroundColor: "#A41856"}}}/>
-                    <Text fontSize='14px' fontWeight={450} color='#667085'>I hereby agree to this “You can withdraw up to 50% of your savings four (4) times every 30 days but you will lose part of your interest if you don’t meet your target amount.”</Text>
-                </HStack>
-
-                <Button onClick={onOpenWithdraw} mt='33px' w='75%' h='48px' maxWidth='700px' fontSize='14px' color='white' bg='#A41856' _hover={{ bg: '#90164D' }}>Continue</Button>
-
-            </CardContainer>}
-
-            
-            {showMembers && <CardContainer title='Members' moveToOne={moveToDetails}>
+            {step === 'members' && <CardContainer title='Members' moveToOne={moveToDetails}>
                 <Stack w='80%' maxWidth='800px' spacing='16px'>
                     {MEMBERS.map((mem, index) => (
                         <Stack key={index} border='1px solid #EAECF0' borderRadius='8px' p='16px' w='100%' spacing={1}>
@@ -401,7 +324,7 @@ export const FixedSavingsDetails = ({ title, goBack, type, isMember=true }) => {
             </CardContainer>}
 
             
-            {showBreakPlan && <CardContainer title='Break Plan' moveToOne={moveToDetails}>
+            {step === 'break' && <CardContainer title='Break Plan' moveToOne={moveToDetails}>
                 
                 <Stack maxWidth="700px" width="75%" borderRadius='8px' p='14px' spacing={2} bg='#667085'>
                     <Text textAlign='center' fontSize='16px' fontWeight={450} color='#FFFFFF'>{title}</Text>
@@ -437,7 +360,7 @@ export const FixedSavingsDetails = ({ title, goBack, type, isMember=true }) => {
             </CardContainer>}
 
             
-            {showComplete && <Box>
+            {step === 'complete' && <Box>
                 <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
                     <Button onClick={moveToDetails} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
                     <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Complete {header}</Text>
@@ -449,8 +372,6 @@ export const FixedSavingsDetails = ({ title, goBack, type, isMember=true }) => {
 
             <TopUpModal isOpen={isOpenTopup} onClose={onCloseTopup} handleProceed={moveToComplete} />
             <TopUpModalComplete isOpen={isOpenTopupComplete} onClose={onCloseTopupComplete} handleProceed={proceedTopUp} />
-            <WithdrawModal isOpen={isOpenWithdraw} onClose={onCloseWithdraw} handleProceed={moveToComplete} cancel={moveToDetails} />
-            <ExtendModal isOpen={isOpenExtend} onClose={onCloseExtend} handleProceed={moveToComplete} />
             <BreakWarningModal isOpen={isOpenBreak} onClose={onCloseBreak} handleProceed={moveToBreak} />
             <EditNameModal isOpen={isOpenRename} onClose={onCloseRename} handleProceed={moveToComplete} />
 

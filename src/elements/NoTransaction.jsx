@@ -1,14 +1,18 @@
 import { Stack, Text } from "@chakra-ui/react";
+import { getImageUrl } from "../../utils";
 
 function NoTransaction() {
   return (
     <Stack align={"center"} py={9}>
-      <Text fontSize={30} fontWeight={"bold"}>
+      <img src={getImageUrl('noTrxns.svg')} style={{width: '33%', height: 'auto'}} />
+      <Text fontSize={26} fontWeight={"bold"}>
         {" "}
-        No transactions
+        No Recent Transfers
       </Text>
 
-      <p>Your most recent transactions will appear here</p>
+      <Text fontSize='14px' color='#667085'>
+        You do not have any recent transfers
+      </Text>
     </Stack>
   );
 }

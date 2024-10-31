@@ -10,7 +10,6 @@ import { WithdrawModal } from "../../elements/Modals/WithdrawModal";
 import { ExtendModal } from "../../elements/Modals/ExtendModal";
 import { EditNameModal } from "../../elements/Modals/EditNameModal";
 import { BreakWarningModal } from "../../elements/Modals/BreakWarningModal";
-import OtpInput from "../../elements/PinInput";
 
 
 export const TargetSavingsDetails = ({ title, goBack, type, isMember=true }) => {
@@ -24,11 +23,7 @@ export const TargetSavingsDetails = ({ title, goBack, type, isMember=true }) => 
     const { isOpen: isOpenRename, onOpen: onOpenRename, onClose: onCloseRename } = useDisclosure();
 
     const [ header, setHeader ] = useState('');
-    const [ showDetails, setShowDetails ] = useState(true);
-    const [ showWithdraw, setShowWithdraw ] = useState(false);
-    const [ showMembers, setShowMembers ] = useState(false);
-    const [ showBreakPlan, setShowBreakPlan ] = useState(false);
-    const [ showComplete, setShowComplete ] = useState(false);
+    const [ step, setStep ] = useState('deets');
 
 
 
@@ -55,55 +50,36 @@ export const TargetSavingsDetails = ({ title, goBack, type, isMember=true }) => 
         setHeader('Extension');
         onOpenExtend();
     }
-
     const moveToDetails = () => {
-        setShowDetails(true);
-        setShowWithdraw(false);
-        setShowMembers(false);
-        setShowBreakPlan(false);
-        setShowComplete(false);
+        setStep('deets');
         onCloseWithdraw();
         window.scrollTo({ top: 0 });
     }
     const moveToWithdraw = () => {
         setHeader('Withdrawal');
-        setShowDetails(false);
-        setShowWithdraw(true);
-        setShowMembers(false);
-        setShowBreakPlan(false);
-        setShowComplete(false);
+        setStep('withdraw');
         window.scrollTo({ top: 0 });
     }
     const moveToMembers = () => {
-        // setHeader('Members');
-        setShowDetails(false);
-        setShowWithdraw(false);
-        setShowMembers(true);
-        setShowBreakPlan(false);
-        setShowComplete(false);
+        setStep('members')
         window.scrollTo({ top: 0 });
     }
     const moveToBreak = () => {
-        setShowDetails(false);
-        setShowWithdraw(false);
-        setShowBreakPlan(true);
-        setShowComplete(false);
+        setStep('break');
         onCloseBreak();
-        // window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 });
     }
     const moveToComplete = () => {
-        setShowDetails(false);
-        setShowWithdraw(false);
-        setShowBreakPlan(false);
-        setShowComplete(true);
+        setStep('complete');
+        window.scrollTo({ top: 0 });
         onCloseTopup();
         onCloseWithdraw();
         onCloseExtend();
         onCloseBreak();
         onCloseRename();
         onCloseBreak();
-        // window.scrollTo({ top: 0 });
     }
+
 
     const ACTIVITES = [
         {
@@ -200,7 +176,7 @@ export const TargetSavingsDetails = ({ title, goBack, type, isMember=true }) => 
 
     return (
         <div>
-            {showDetails && <CardContainer title={title} moveToOne={goBack}>
+            {step === 'deets' && <CardContainer title={title} moveToOne={goBack}>
                 <Stack maxWidth="800px" width="80%" border='1px solid #EAECF0' borderRadius='8px' px='20px' py='25px' spacing={0}>
                     <Text fontSize='12px' fontWeight={450} color='#667085'>TARGET AMOUNT</Text>
                     <Text fontSize='20px' fontWeight={600} color='#101828'>₦13,000,000</Text>
@@ -370,7 +346,7 @@ export const TargetSavingsDetails = ({ title, goBack, type, isMember=true }) => 
             </CardContainer>}
 
             
-            {showWithdraw && <CardContainer title='Withdraw' moveToOne={moveToDetails}>
+            {step === 'withdraw' && <CardContainer title='Withdraw' moveToOne={moveToDetails}>
                 <Stack maxWidth="700px" width="75%" borderRadius='8px' px='20px' py='25px' spacing={0} bg='#667085'>
                     <Text fontSize='16px' fontWeight={400} color='#FFFFFF'>Target Amount</Text>
                     <Text fontSize='24px' fontWeight={600} color='#FFFFFF'>₦{formatNumberDecimals(13000000)}</Text>
@@ -411,7 +387,7 @@ export const TargetSavingsDetails = ({ title, goBack, type, isMember=true }) => 
             </CardContainer>}
 
             
-            {showMembers && <CardContainer title='Members' moveToOne={moveToDetails}>
+            {step === 'members' && <CardContainer title='Members' moveToOne={moveToDetails}>
                 <Stack w='80%' maxWidth='800px' spacing='16px'>
                     {MEMBERS.map((mem, index) => (
                         <Stack key={index} border='1px solid #EAECF0' borderRadius='8px' p='16px' w='100%' spacing={1}>
@@ -430,7 +406,7 @@ export const TargetSavingsDetails = ({ title, goBack, type, isMember=true }) => 
             </CardContainer>}
 
             
-            {showBreakPlan && <CardContainer title='Break Plan' moveToOne={moveToDetails}>
+            {step === 'break' && <CardContainer title='Break Plan' moveToOne={moveToDetails}>
                 
                 <Stack maxWidth="700px" width="75%" borderRadius='8px' p='14px' spacing={2} bg='#667085'>
                     <Text textAlign='center' fontSize='16px' fontWeight={450} color='#FFFFFF'>{title}</Text>
@@ -466,16 +442,16 @@ export const TargetSavingsDetails = ({ title, goBack, type, isMember=true }) => 
             </CardContainer>}
 
             
-            {showComplete && <Box>
+            {step === 'complete' && <Box>
                 <HStack bg='#EAECF0' px={'26px'} py={'14px'} borderRadius={'12px 12px 0 0'}>
                     <Button onClick={moveToDetails} h='24px' bg='#EAECF0' p={0} _hover={{ bg: '#EAECF0' }}><img src={getImageUrl('icons/blackLeftArrow.png')} alt="back" /></Button>
                     <Text width='90%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>Complete {header}</Text>
                 </HStack>
 
                 <CompleteTransaction type='savings' backToSaving={moveToDetails} />
-                {/* <OtpInput type='savings' length={4} size='lg' width='800px' setOtp  backToSaving={moveToDetails} /> */}
 
             </Box>}
+
 
             <TopUpModal isOpen={isOpenTopup} onClose={onCloseTopup} handleProceed={moveToComplete} />
             <TopUpModalComplete isOpen={isOpenTopupComplete} onClose={onCloseTopupComplete} handleProceed={proceedTopUp} />

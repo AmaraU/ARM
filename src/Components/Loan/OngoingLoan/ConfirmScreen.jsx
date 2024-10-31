@@ -30,6 +30,7 @@ function ConfirmScreen({ moveToOne, title, moveToFour }) {
             bg={"#F7F7F7"}
             border={"1px solid #EAECF0"}
             _placeholder={{ fontSize: "16px", color: "#667085" }}
+            type="number"
           />
 
           <FormLabel mt={"5"}>Loan Tenure</FormLabel>
@@ -56,7 +57,7 @@ function ConfirmScreen({ moveToOne, title, moveToFour }) {
           h={"fit-content"}
           py={"15px"}
           bg={"#A41856"}
-          _hover={{ bg: "#A41856" }}
+          _hover={{ bg: "#90164D" }}
           color={"#FFFFFF"}
           fontSize={"14px"}
           fontWeight={600}

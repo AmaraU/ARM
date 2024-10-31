@@ -4,11 +4,6 @@
     margin-left: 272px;
 }
 
-.flex {
-    display: flex;
-    flex-direction: column;
-}
-
 img {
     width: 24px;
     height: 24px;

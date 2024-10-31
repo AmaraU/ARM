@@ -93,13 +93,13 @@ Button img {
     text-align: left;
     background: #D391AF0D;
     font-size: 14px;
-    font-weight: 600;
     color: #667085;
     padding: 12px;
 }
 .historyTable th {
     padding: 12px 0px;
     text-align: left;
+    font-weight: 500;
 }
 .historyTable th:first-child {
     padding: 12px 16px;

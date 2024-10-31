@@ -50,7 +50,7 @@ function LoanDetails({ moveToOne, title, moveNext }) {
           </div>
         </ModalBody>
         <ModalFooter pt={0}>
-          <Button w='100%' h='48px' bg='#A41856' _hover={{bg: '#A41856'}} color='#FFFFFF' onClick={moveNext}>Proceed to add account</Button>
+          <Button w='100%' h='48px' bg='#A41856' _hover={{bg: '#90164D'}} color='#FFFFFF' onClick={moveNext}>Proceed to add account</Button>
         </ModalFooter>
       </ModalContent>
 

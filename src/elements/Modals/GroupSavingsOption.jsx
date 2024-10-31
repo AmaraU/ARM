@@ -108,7 +108,18 @@ import { useState } from "react";
           </ModalBody>
 
           <ModalFooter py={0}>
-            <Button w='100%' h='48px' my={4} color='#FFF' bg='#A41856' _hover={{bg: '#90164D'}} onClick={moveNext}>Let's Go</Button>
+            <Button
+              w='100%'
+              h='48px'
+              my={4}
+              color='#FFF'
+              bg='#A41856'
+              _hover={{bg: '#90164D'}}
+              onClick={moveNext}
+              disabled={selected === '' ? true : false}
+            >
+              Let's Go
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

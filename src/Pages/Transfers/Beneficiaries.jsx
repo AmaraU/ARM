@@ -281,7 +281,7 @@ export const Beneficiaries = () => {
                                 <Text fontSize='18px' fontWeight={450} color='#101828'>0122458754</Text>
                             </Stack>
                         </HStack>
-                        <Button borderRadius='32px' bg='#A41857' _hover={{bg: '#A41857'}} fontSize='12px' fontWeight={600} color='#FFFFFF'>Make a bank transfer</Button>
+                        <Button borderRadius='32px' bg='#A41857' _hover={{bg: '#90164D'}} fontSize='12px' fontWeight={600} color='#FFFFFF'>Make a bank transfer</Button>
                     </HStack>
 
                     <Divider h='0px' mt='12px' mb='12px' border='1px solid #DCD6CF' />
@@ -358,8 +358,8 @@ export const Beneficiaries = () => {
                         <img style={{width: '70px', height: 'auto'}} src={getImageUrl('icons/caution.png')} />
                         <Text fontSize='16px' fontWeight={700} color='#0C111D'>Are you sure you want to delete this beneficiary?</Text>
 
-                        <Button mt='16px' w='100%' h='48px' bg='#A41856' _hover={{bg: '#A41856'}} color='#FFFFFF' fontSize='14px' fontWeight={600}>Yes</Button>
-                        <Button w='100%' h='48px' bg='#EFECE9' _hover={{bg: '#EFECE9'}} color='#667085' fontSize='14px' fontWeight={600}>Go to dashboard</Button>
+                        <Button mt='16px' w='100%' h='48px' bg='#A41856' _hover={{bg: '#90164D'}} color='#FFFFFF' fontSize='14px' fontWeight={600}>Yes</Button>
+                        <Button w='100%' h='48px' bg='#EFECE9' _hover={{bg: '#E3E1DE'}} color='#667085' fontSize='14px' fontWeight={600}>Go to dashboard</Button>
 
                     </Stack>
                 </div>
@@ -406,7 +406,7 @@ export const Beneficiaries = () => {
                 </ModalBody>
 
                 <ModalFooter pt={0}>
-                    <Button onClick={handleCloseAdd} mt='16px' w='100%' h='48px' bg='#A41856' _hover={{bg: '#A41856'}} color='#FFFFFF' fontSize='14px' fontWeight={600}>Add Bank Account</Button>
+                    <Button onClick={handleCloseAdd} mt='16px' w='100%' h='48px' bg='#A41856' _hover={{bg: '#90164D'}} color='#FFFFFF' fontSize='14px' fontWeight={600}>Add Bank Account</Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>

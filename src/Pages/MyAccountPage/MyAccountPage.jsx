@@ -4,11 +4,18 @@ import { AccountInformation } from "./AccountInformation";
 import { AccountHistory } from "./AccountHistory";
 import { AccountStatement } from "./AccountStatement";
 import { AccountLimit } from "./AccountLimit";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAccountBalance } from "../../store/auth/user.slice";
 
 export const MyAccountPage = () => {
-
     const [ tabIndex, setTabIndex ] = useState(0);
+    const accounts = useSelector((state) => state.user.accountBalance) || [];
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(getAccountBalance());
+    },[dispatch])
 
     const handleTabsChange = (index) => {
         setTabIndex(index);
@@ -29,7 +36,7 @@ export const MyAccountPage = () => {
 
                 <TabPanels maxWidth={'1000px'}>
                     <TabPanel ml={-4}>
-                        <AccountInformation />
+                        <AccountInformation accounts={accounts} />
                     </TabPanel>
                     
                     <TabPanel ml={-4}>
@@ -37,11 +44,11 @@ export const MyAccountPage = () => {
                     </TabPanel>
                     
                     <TabPanel ml={-4}>
-                        <AccountStatement backHome={()=>handleTabsChange(0)} />
+                        <AccountStatement backHome={()=>handleTabsChange(0)} accounts={accounts} />
                     </TabPanel>
 
                     <TabPanel ml={-4}>
-                        <AccountLimit backHome={()=>handleTabsChange(0)} />
+                        <AccountLimit backHome={()=>handleTabsChange(0)} accounts={accounts}/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

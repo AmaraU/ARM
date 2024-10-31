@@ -4,7 +4,7 @@ import { HStack, PinInput, PinInputField } from "@chakra-ui/react";
 function OtpInput({ length, size, width, height, setOtp }) {
   return (
     <HStack>
-      <PinInput onChange={(e) => setOtp(e)} placeholder={""} size={size} otp>
+      <PinInput onChange={(e) => setOtp(e)} placeholder={""} size={"lg"} mask>
         {Array.from({ length })
           .fill(null)
           .map((_, i) => (
@@ -13,7 +13,7 @@ function OtpInput({ length, size, width, height, setOtp }) {
               bg={"#F7F7F7"}
               height={height}
               width={width}
-              mask
+              size={size}
             />
           ))}
       </PinInput>

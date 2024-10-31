@@ -87,7 +87,7 @@ function StaffLoan({ title, moveToOne, moveToThree }) {
             py={"15px"}
             px={"20px"}
             bg={"#A41856"}
-            _hover={{ bg: "#A41856" }}
+            _hover={{ bg: "#90164D" }}
             color={"#FFFFFF"}
             fontSize={"14px"}
             fontWeight={600}

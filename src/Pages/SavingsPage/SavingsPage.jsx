@@ -1,4 +1,3 @@
-import { useState } from "react";
 import SavingsPlan from "../../Components/Savings/SavingsPlan";
 import styles from "./Savings.module.css";
 import { Text } from "@chakra-ui/react";
@@ -6,8 +5,6 @@ import CardContainer from "../../elements/CardContainer";
 
 
 function SavingsPage() {
-  
-  const [ step, setStep ] = useState(1);
   
   return (
     <div className={styles.whole}>

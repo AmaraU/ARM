@@ -5,6 +5,8 @@ const saveToSessionStorage = (data) => {
   sessionStorage.setItem("auth-onboarding", JSON.stringify(data));
 };
 
+
+
 const loadFromSessionStorage = () => {
   const data = sessionStorage.getItem("auth-onboarding");
   return data ? JSON.parse(data) : null;
@@ -13,8 +15,6 @@ const loadFromSessionStorage = () => {
 const initialState = loadFromSessionStorage() || {
   phoneNumber: "",
   email: "",
-  bvn: "",
-  nin: "",
   otpCode: "",
   title: "",
   gender: "",
@@ -24,8 +24,8 @@ const initialState = loadFromSessionStorage() || {
   address: "",
   password: "",
   confirmPassword: "",
-  username:"",
-  ...getDeviceDetails()
+  username: "",
+  ...getDeviceDetails(),
 };
 
 const authSlice = createSlice({
@@ -36,22 +36,37 @@ const authSlice = createSlice({
       const {
         phoneNumber,
         email,
+        altEmail,
+        altPhoneNumber,
         bvn,
         nin,
         otpCode,
         title,
         firstname,
         surname,
+        username,
         gender,
         othername,
         address,
+        photo,
+        image,
         password,
         confirmPassword,
+        accountNo,
+        sourceOfFund,
+        countryOfBirth,
+        occupation,
       } = action.payload;
-      state.phoneNumber = phoneNumber !== undefined ? phoneNumber : state.phoneNumber;
+      state.phoneNumber =
+        phoneNumber !== undefined ? phoneNumber : state.phoneNumber;
       state.email = email !== undefined ? email : state.email;
-      state.bvn = bvn !== undefined ? bvn : state.bvn;
-      state.nin = nin !== undefined ? nin : state.nin;
+      if (bvn) {
+        state.bvn = bvn !== undefined ? bvn : state.bvn;
+      }
+      if (nin) {
+        state.nin = nin !== undefined ? nin : state.nin;
+      }
+
       state.otpCode = otpCode !== undefined ? otpCode : state.otpCode;
       state.title = title !== undefined ? title : state.title;
       state.gender = gender !== undefined ? gender : state.gender;
@@ -60,10 +75,31 @@ const authSlice = createSlice({
       state.othername = othername !== undefined ? othername : state.othername;
       state.address = address !== undefined ? address : state.address;
       state.password = password !== undefined ? password : state.password;
-      state.confirmPassword = confirmPassword !== undefined ? confirmPassword : state.confirmPassword;
-      state.username = state.firstname+"-"+state.surname
-      console.log(getDeviceDetails())
-      saveToSessionStorage({...state,...getDeviceDetails()});
+      state.confirmPassword =
+        confirmPassword !== undefined ? confirmPassword : state.confirmPassword;
+      state.username = username !== undefined ? username : state.email.split("@")[0].toLowerCase();
+      state.photo = photo !== undefined ? photo : state.photo;
+      (state.sourceOfFunds =
+        sourceOfFund !== undefined ? sourceOfFund : state.sourceOfFunds),
+        (state.occupation =
+          occupation !== undefined ? occupation : state.occupation),
+        (state.countryOfBirth =
+          countryOfBirth !== undefined ? countryOfBirth : state.countryOfBirth);
+      if (image) {
+        state.image = image !== undefined ? image : state.image;
+      }
+      if (accountNo) {
+        state.accountNo = accountNo !== undefined ? accountNo : state.accountNo;
+      }
+      if (altEmail) {
+        state.altEmail = altEmail !== undefined ? altEmail : state.altEmail;
+        state.email = altEmail !== undefined ? altEmail: state.email 
+      }
+      if (altPhoneNumber) {
+        state.altPhoneNumber =
+          altPhoneNumber !== undefined ? altPhoneNumber : state.altPhoneNumber;
+      }
+      saveToSessionStorage({ ...state, ...getDeviceDetails() });
     },
     resetDetails: () => {
       sessionStorage.removeItem("auth-onboarding");

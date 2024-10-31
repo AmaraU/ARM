@@ -19,7 +19,7 @@ export const SuccessScreen = ({ moveToOptions, type }) => {
 
             <Button
                 mt='16px' w='75%' h='48px'
-                bg='#A41856' _hover={{bg: '#A41856'}}
+                bg='#A41856' _hover={{bg: '#90164D'}}
                 color='#FFFFFF' fontSize='14px' fontWeight={600}
                 onClick={moveToOptions}
             >

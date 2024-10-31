@@ -175,7 +175,7 @@ export const BillsPayment = () => {
                   w={"50%"}
                   h={'48px'}
                   bg={"#A41856"}
-                  _hover={{ bg: "#A41856" }}
+                  _hover={{ bg: "#90164D" }}
                   color={"#FFFFFF"}
                   fontSize={"14px"}
                   fontWeight={600}
@@ -373,6 +373,20 @@ export const BillsPayment = () => {
             py={"16px"}
             pb={"114px"}
           >
+
+            <FormControl w={"75%"} isRequired>
+              <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+                Select Account to Debit
+              </FormLabel>
+              <Select
+                h={"48px"}
+                bg={"#F7F7F7"}
+                border={"1px solid #EAECF0"}
+                placeholder="Select account"
+                _placeholder={{ fontSize: "16px", color: "#667085" }}
+              ></Select>
+            </FormControl>
+            
             <FormControl w={"75%"} isRequired>
               <FormLabel fontSize={"16px"} fontWeight={400} color={"#101828"}>
                 Bill Type
@@ -421,7 +435,7 @@ export const BillsPayment = () => {
               color={"#FFFFFF"}
               fontSize={"14px"}
               fontWeight={600}
-              _hover={{ bg: "#A41856" }}
+              _hover={{ bg: "#90164D" }}
             >
               Continue
             </Button>
@@ -564,7 +578,7 @@ export const BillsPayment = () => {
               w={"75%"}
               h={'48px'}
               bg={"#A41856"}
-              _hover={{ bg: "#A41856" }}
+              _hover={{ bg: "#90164D" }}
               color={"#FFFFFF"}
               fontSize={"14px"}
               fontWeight={600}
@@ -657,7 +671,7 @@ export const BillsPayment = () => {
           </ModalBody>
 
           <ModalFooter pt={0}>
-            <Button mt='16px' w='100%' h='48px' bg='#A41856' _hover={{ bg: '#A41856' }} color='#FFFFFF' fontSize='14px' fontWeight={600} onClick={moveToThree}>Continue</Button>
+            <Button mt='16px' w='100%' h='48px' bg='#A41856' _hover={{ bg: '#90164D' }} color='#FFFFFF' fontSize='14px' fontWeight={600} onClick={moveToThree}>Continue</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
