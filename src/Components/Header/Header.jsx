@@ -53,7 +53,7 @@ export const Header = () => {
           </button>
           <div>
             <button
-              onClick={()=>setShowNotif(!showNotif)}
+              onClick={toNotifsPage}
               onMouseEnter={()=>setShowNotif(true)}
             >
               <div className={styles.redCircle}>2</div>
