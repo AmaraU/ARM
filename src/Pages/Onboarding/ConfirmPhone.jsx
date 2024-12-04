@@ -23,12 +23,16 @@ import { useNavigate } from "react-router-dom";
 import { formatNumberStar } from "../../utils/formatter";
 import authService from "../../services/authService";
 import { handleErrors } from "../../utils/handleResponse";
+import { useDispatch } from "react-redux";
+import { setDetails } from "../../store/auth/auth.slice";
 
 export const ConfirmNumber = ({ isOpen, onClose, phoneNumber, email }) => {
   const [title, setTitle] = useState("Confirm Phone Number");
   const [isAlternate, setIsAlternate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [altPhoneNumber, setAltPhoneNumber] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const closeModal = () => {
     setIsAlternate(false);
@@ -40,19 +44,32 @@ export const ConfirmNumber = ({ isOpen, onClose, phoneNumber, email }) => {
     setIsAlternate(true);
   };
 
-  const confirmNumber = async () => {
-    try {
-      setLoading(true);
-      await authService.sendOtp({
-        phoneOrAccountnumber: phoneNumber,
-        email: email,
-      });
-      navigate("/verify-number");
-      setLoading(false);
-    } catch (error) {
-      handleErrors(error.message);
-      setLoading(false);
-    }
+  // const confirmNumber = async () => {
+  //   setLoading(true);
+  //   if (altPhoneNumber) {
+  //     dispatch(
+  //       setDetails({
+  //         altPhoneNumber,
+  //       })
+  //     );
+  //   }
+
+  //   try {
+  //     setLoading(true);
+  //     await authService.sendOtp({
+  //       phoneOrAccountnumber: altPhoneNumber ? altPhoneNumber : phoneNumber,
+  //       email: email,
+  //     });
+  //     navigate("/verify-number");
+  //     setLoading(false);
+  //   } catch (error) {
+  //     handleErrors(error.message);
+  //     setLoading(false);
+  //   }
+  // };
+
+  const confirmNumber = () => {
+    navigate("/verify-number");
   };
 
   return (
@@ -129,6 +146,7 @@ export const ConfirmNumber = ({ isOpen, onClose, phoneNumber, email }) => {
                         _placeholder={{ fontSize: "sm" }}
                         border={"1px solid #EAECF0"}
                         bg={"#F7F7F7"}
+                        onChange={(e) => setAltPhoneNumber(e.target.value)}
                       />
                     </HStack>
                   </FormControl>
@@ -145,7 +163,7 @@ export const ConfirmNumber = ({ isOpen, onClose, phoneNumber, email }) => {
                 color={"#FFFFFF"}
                 fontSize={"14px"}
                 fontWeight={600}
-                _hover={{ bg: "#A41856" }}
+                _hover={{ bg: "#90164D" }}
                 isLoading={loading}
               >
                 Continue
@@ -158,7 +176,7 @@ export const ConfirmNumber = ({ isOpen, onClose, phoneNumber, email }) => {
                   color={"#667085"}
                   fontSize={"16px"}
                   fontWeight={700}
-                  _hover={{ bg: "#EFECE9" }}
+                  _hover={{ bg: "#E3E1DE" }}
                 >
                   Edit phone number
                 </Button>

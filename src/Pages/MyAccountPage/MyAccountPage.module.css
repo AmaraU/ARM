@@ -166,6 +166,7 @@ img {
     color: #101828;
     gap: 4px;
     margin-bottom: 8px;
+    margin: 5px 0px 0px 0px
 }
 .theBox2 .info div {
     border-radius: 50px;
@@ -252,4 +253,18 @@ img {
 
 input[type="file"] {
   display: none;
+}
+
+
+
+@media screen and (max-width: 48em) {
+    .whole {
+        padding: 32px 15px;
+    }
+}
+
+@media screen and (max-width: 30em) {
+    .whole {
+        margin-left: 0;
+    }
 }

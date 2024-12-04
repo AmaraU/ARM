@@ -138,9 +138,31 @@ const userService = {
     }
   },
 
+  forgotPin: async (data) => {
+    try {
+      const response = await api.post("/settings/reset-transaction-pin", data);
+      return response.data;
+    } catch (error) {
+      handleErrors(error);
+      throw error;
+    }
+  },
+
   getBvnInfo: async () => {
     try {
       const response = await api.get("/validate/bvn-info");
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      // handleErrors(error);
+      console.log(error);
+      throw error;
+    }
+  },
+
+  updateBvn: async (bvn) => {
+    try {
+      const response = await api.put("/profile/bvn", bvn);
       console.log(response);
       return response.data;
     } catch (error) {
@@ -149,10 +171,41 @@ const userService = {
     }
   },
 
-  updateNin: async () => {
+  updateNin: async (nin) => {
     try {
-      const response = await api.put("/validate/bvn-info");
+      const response = await api.put("/profile/nin", nin);
       console.log(response);
+      return response.data;
+    } catch (error) {
+      handleErrors(error);
+      throw error;
+    }
+  },
+
+  validateSecurityAnswer: async (data) => {
+    try {
+      const response = await api.post("/validate/secret-answer", data);
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      handleErrors(error);
+      throw error;
+    }
+  },
+
+  changePin: async (data) => {
+    try {
+      const response = await api.post("/settings/change-transaction-pin", data);
+      return response.data;
+    } catch (error) {
+      handleErrors(error);
+      throw error;
+    }
+  },
+
+  uploadDocument: async (data) => {
+    try {
+      const response = await api.post("/utilities/upload-document", data);
       return response.data;
     } catch (error) {
       handleErrors(error);

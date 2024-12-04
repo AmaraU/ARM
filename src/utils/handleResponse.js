@@ -22,7 +22,6 @@ export const handleErrors = (error) => {
   }
 };
 
-
 export const handleSuccess = (message) => {
   toast.success(message);
 };

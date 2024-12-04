@@ -10,7 +10,7 @@ export const AccountStatement = () => {
 
     useEffect(() => {
         generatePDF();
-    }, [])
+    }, [1])
     
 
     const generatePDF = () => {

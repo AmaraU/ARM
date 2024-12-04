@@ -11,7 +11,6 @@ import {
   InputGroup,
   InputLeftElement,
   Input,
-  Select,
 } from "@chakra-ui/react";
 
 
@@ -27,15 +26,6 @@ export const TopUpModal = ({ isOpen, onClose, handleProceed }) => {
         <ModalCloseButton />
 
         <ModalBody>
-          <Text fontSize='16px' fontWeight={400} color='#101828'>Select Account to Debit</Text>
-          <Select
-            h={"48px"}
-            bg={"#F7F7F7"}
-            border={"1px solid #EAECF0"}
-            placeholder="Select account"
-            _placeholder={{ fontSize: "16px", color: "#667085" }}
-          ></Select>
-
           <Text fontSize='16px' fontWeight={400} color='#101828'>How much would you like to top up?</Text>
           <InputGroup mt='8px'>
             <InputLeftElement>₦</InputLeftElement>

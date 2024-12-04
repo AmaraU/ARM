@@ -75,10 +75,10 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
           >
             <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
           </Button>
-          <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+          <Text textAlign="center" fontSize={{base: "14px", md: "18px"}} fontWeight={600} color={"#101828"}>
             Email Address
           </Text>
-          <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+          <Text fontSize={{base: "14px", md: "18px"}} fontWeight={600} color={"#101828"}>
             3/3
           </Text>
         </HStack>
@@ -93,12 +93,12 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
             py={"16px"}
             pb={"114px"}
           >
-            <Text fontSize={"16px"} color={"#667085"} textAlign={"center"}>
+            <Text fontSize={{base: "14px", md: "16px"}} color={"#667085"} textAlign={"center"}>
               A 6-digit code will be sent to your email to validate it
             </Text>
 
-            <FormControl w="80%">
-              <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+            <FormControl w={{base: "100%", md: "80%"}}>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
                 Email Address
               </FormLabel>
               <Input
@@ -106,7 +106,7 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
                 h="48px"
                 bg="#F7F7F7"
                 border="1px solid #EAECF0"
-                fontSize="16px"
+                fontSize={{base: "14px", md: "16px"}}
                 color="#101828"
                 value={email}
                 disabled
@@ -116,7 +116,7 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
 
             <Button
               mt="16px"
-              w="80%"
+              w={{base: "100%", md: "80%"}}
               h="48px"
               bg="#A41856"
               _hover={{ bg: "#90164D" }}
@@ -139,7 +139,7 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
               </Text>
               <OtpInput
                 length={6}
-                width={110}
+                width={{base: "100%", md: 110}}
                 height={"75px"}
                 setOtp={setOtp}
               />
@@ -147,7 +147,7 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
               <Button
                 mt="16px"
                 h="48px"
-                w={"80%"}
+                w={{base: "100%", md: "80%"}}
                 bg="#A41856"
                 _hover={{ bg: "#90164D" }}
                 color="#FFFFFF"

@@ -7,15 +7,15 @@ export const Success = () => {
 
   return (
     <Stack
-      h={"100%"}
-      minH={"100vh"}
-      alignItems={"center"}
-      textAlign={"center"}
+      h="100%"
+      minH="100vh"
+      alignItems="center"
+      textAlign="center"
       spacing={5}
-      py={"6%"}
-      px={"25%"}
+      py="38px"
+      px={{base: "24px", md: "15%", lg: "25%"}}
       bgImage={getImageUrl("onboardingBackground.png")}
-      bgSize={"100% 100%"}
+      bgSize="100% 100%"
     >
       <img
         style={{ width: "140px", height: "auto" }}
@@ -27,10 +27,10 @@ export const Success = () => {
         src={getImageUrl("welcome.png")}
         alt=""
       />
-      <Text mt={"-140px"} fontSize={"48px"} fontWeight={700} color={"#14142A"}>
+      <Text mt={{base: "-100px", sm: "-140px"}} fontSize={{base: "30px", md: "48px"}} fontWeight={700} color={"#14142A"}>
         Success!
       </Text>
-      <Text fontSize={"18px"} fontWeight={400} color={"#667085"}>
+      <Text fontSize={{base: "14px", md: "18px"}} fontWeight={400} color={"#667085"}>
         Your password has been successfully changed
       </Text>
 

@@ -28,8 +28,11 @@ import { InviteFriendsModal } from "../../elements/Modals/InviteFriendsModal";
 function TargetSavings() {
 
   const { isOpen: isOpenInvite, onOpen: onOpenInvite, onClose: onCloseInvite } = useDisclosure();
-  
-  const [ step, setStep ] = useState('savings');
+  const [ showSavings, setShowSavings ] = useState(true);
+  const [ showCreate, setShowCreate ] = useState(false);
+  const [ showSuccess, setShowSuccess ] = useState(false);
+  const [ showDetails, setShowDetails ] = useState(false);
+
   const [ selected, setSelected ] = useState(null);
   const [ modalopen, setModalOpen ] = useState(false);
   const [ innerTabIndex, setInnerTabIndex ] = useState(0);
@@ -48,21 +51,29 @@ function TargetSavings() {
   }
 
   const moveToSavings = () => {
-    setStep('savings');
-    window.scrollTo({ top: 0 });
+    setShowSavings(true);
+    setShowCreate(false);
+    setShowSuccess(false);
+    setShowDetails(false);
   }
   const moveToCreate = () => {
-    setStep('create');
-    window.scrollTo({ top: 0 });
+    setShowSavings(false);
+    setShowCreate(true);
+    setShowSuccess(false);
+    setShowDetails(false);
     setModalOpen(false);
   }
   const movetoSuccess = () => {
-    setStep('success');
-    window.scrollTo({ top: 0 });
+    setShowSavings(false);
+    setShowCreate(false);
+    setShowSuccess(true);
+    setShowDetails(false);
   }
   const moveToDetails = (save) => {
-    setStep('details');
-    window.scrollTo({ top: 0 });
+    setShowSavings(false);
+    setShowCreate(false);
+    setShowSuccess(false);
+    setShowDetails(true);
     setSelected(save);
     onCloseInvite();
   }
@@ -112,23 +123,24 @@ function TargetSavings() {
 
   return (
     <div className={styles.whole}>
-    <Box maxWidth='1000px'>
 
-      {step === 'savings' && <HStack alignItems='center' spacing='8px' mb="16px" onClick={()=>navigate('/overview/savings')} cursor='pointer'>
+      {showSavings && <HStack alignItems='center' spacing='8px' mb="16px" onClick={()=>navigate('/overview/savings')} cursor='pointer'>
         <img src={getImageUrl('icons/blackLeftArrow.png')} alt="" />
         <Text fontSize="24px" fontWeight={700} color={"#101828"}>
           Target Savings
         </Text>
       </HStack>}
         
-      {step != 'savings' && <Text  mb="24px" fontSize="24px" fontWeight={700} color={"#101828"}>Target Savings</Text>}
+      {!showSavings && <Text  mb="24px" fontSize="24px" fontWeight={700} color={"#101828"}>Target Savings</Text>}
 
       <HStack alignItems='center' justifyContent='space-between' mr={4}>
+
         <Box></Box>
-        {step === 'savings' && <Button onClick={showModal} mb='24px' bg='#A41857' _hover={{bg: '#90164D'}} borderRadius='34px' fontSize='13px' fontWeight={500} color='#FFFFFF'>Create New Target</Button>}
+
+        {showSavings && <Button onClick={showModal} mb='24px' bg='#A41857' _hover={{bg: '#90164D'}} borderRadius='34px' fontSize='13px' fontWeight={500} color='#FFFFFF'>Create New Target</Button>}
       </HStack>
 
-      {step === 'savings' && <Box>
+      {showSavings && <Box>
         <HStack bg='#EAECF0' px='26px' py='14px' borderRadius='12px 12px 0 0'>
           <Text width='100%' textAlign='center' fontSize='18px' fontWeight={600} color='#101828'>My Target Savings</Text>
         </HStack>
@@ -222,9 +234,9 @@ function TargetSavings() {
         </Stack>
       </Box>}
 
-      {step === 'create' && <NewSaving type={type} goBack={moveToSavings} showSuccess={movetoSuccess} />}
+      {showCreate && <NewSaving type={type} goBack={moveToSavings} showSuccess={movetoSuccess} />}
 
-      {step === 'success' && <CardContainer title={'My Target Savings'}>
+      {showSuccess && <CardContainer title={'My Target Savings'}>
         <Stack spacing={1} w='75%' alignItems='center'>
           <img src={getImageUrl('icons/success.png')}  style={{height: '84px', width: 'auto'}}/>
           <Text fontSize='18px' fontWeight={700} color='#000000'>Success!</Text>
@@ -236,24 +248,10 @@ function TargetSavings() {
             <Button h='48px' w="100%" color='white' bg='#A41856' _hover={{bg: '#90164D'}} onClick={onOpenInvite}>Invite Friends</Button>
             <Button h='48px' w="100%" color='#667085' bg='#EFECE9' _hover={{bg: '#E3E1DE'}} onClick={()=>moveToDetails(activeSavings[1])}>Go to Group</Button>
           </Stack>}
-
-          <Button
-            w={"75%"}
-            h={"48px"}
-            mt='33px'
-            bg="#A41856"
-            _hover={{ bg: "#90164D" }}
-            color="#FFFFFF"
-            fontSize={"14px"}
-            fontWeight={600}
-            onClick={moveToSavings}
-          >
-            Okay
-          </Button>
         </Stack>
       </CardContainer>}
       
-      {step === 'details' && <TargetSavingsDetails type={selected.type} title={selected.name} goBack={moveToSavings} showSuccess={movetoSuccess} />}
+      {showDetails && <TargetSavingsDetails type={selected.type} title={selected.name} goBack={moveToSavings} showSuccess={movetoSuccess} />}
 
 
       <TargetSavingsOption
@@ -265,7 +263,7 @@ function TargetSavings() {
 
       <InviteFriendsModal isOpen={isOpenInvite} onClose={onCloseInvite} handleProceed={()=>moveToDetails(activeSavings[1])} />
 
-    </Box>
+
     </div>
     
   );

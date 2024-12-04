@@ -42,6 +42,7 @@ export const ResetPassword = () => {
   const [hasLowerCase, setHasLowerCase] = useState(false);
   const [hasUpperCase, setHasUpperCase] = useState(false);
   const [hasSpecialSymbol, setHasSpecialSymbol] = useState(false);
+  const [strengthColor, setStregnthColor] = useState("#EAECF0");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -76,9 +77,18 @@ export const ResetPassword = () => {
       setHasSpecialSymbol(false);
     }
 
-    if (strengthScore <= 1) setstrengthText("Weak");
-    if (strengthScore > 1) setstrengthText("Average");
-    if (strengthScore > 3) setstrengthText("Strong");
+    if (strengthScore <= 1) {
+      setstrengthText("Weak");
+      setStregnthColor("red");
+    }
+    if (strengthScore > 1) {
+      setstrengthText("Average");
+      setStregnthColor("#DB9308");
+    }
+    if (strengthScore > 3) {
+      setstrengthText("Strong");
+      setStregnthColor("#2AD062");
+    }
 
     return strengthScore;
   };
@@ -133,8 +143,8 @@ export const ResetPassword = () => {
       <Stack
         alignItems="center"
         spacing={5}
-        py="6%"
-        px="25%"
+        py={"38px"}
+        px={{base: "24px", md: "15%", lg: "25%"}}
         bgImage={getImageUrl("onboardingBackground.png")}
         bgSize="100% 100%"
       >
@@ -148,10 +158,10 @@ export const ResetPassword = () => {
             <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
           </a>
         </Flex>
-        <Text fontSize="48px" fontWeight={700} color="#14142A">
+        <Text fontSize={{base: "30px", md: "48px"}} fontWeight={700} color="#14142A">
           Reset Password
         </Text>
-        <Text fontSize="18px" fontWeight={400} color="#667085">
+        <Text fontSize={{base: "14px", md: "18px"}} fontWeight={400} color="#667085">
           Set up a new password
         </Text>
 
@@ -194,17 +204,17 @@ export const ResetPassword = () => {
               {[...Array(4)].map((_, index) => (
                 <Box
                   key={index}
-                  className={`${styles.strengthBar} ${
-                    index < strength ? styles.filled : ""
-                  }`}
+                  className={styles.strengthBar}
+                  bgColor={index < strength ? strengthColor : ""}
                 ></Box>
               ))}
-              <Text fontSize="12px" color="#DB9308" ml="24px">
+              <Text fontSize="12px" color={strengthColor} ml="24px">
                 {strengthText}
               </Text>
             </Box>
             <Box
               display="flex"
+              flexDirection={{base: "column", md: "row"}}
               gap="16px"
               alignItems="center"
               justifyContent="space-between"

@@ -14,9 +14,10 @@ import {
 } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import { CompleteTransaction } from "../../Components/CompleteTrans";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import transferService from "../../services/transferService";
 import { encrypt } from "../../utils/encrypt";
+import { getAccountBalance } from "../../store/auth/user.slice";
 
 export const TransferToSelf = ({ accounts }) => {
   const [showOne, setShowOne] = useState(true);
@@ -26,7 +27,12 @@ export const TransferToSelf = ({ accounts }) => {
   const [amount, setAmount] = useState(0);
   const [narration, setNarration] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
+  const [enterPin, setEnterPin] = useState(true);
+  const [otherAccounts, setOtherAccounts] = useState([]);
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const moveToOne = () => {
     setShowOne(true);
@@ -39,48 +45,56 @@ export const TransferToSelf = ({ accounts }) => {
     window.scrollTo({ top: 0 });
   };
 
-  const completeTransaction = async (e) => {
-    console.log(e)
-    const { pin } = e;
-
-    const transfer_funds_params = {
-      d_At: debit,
-      c_At: credit,
-      c_AN: user.fullname,
-      b_B: "ARM",
-      b_C: "1201",
-      p_A: amount,
-      n_R: narration,
-      t_T: "2",
-      t_P: pin,
-      o_C: pin,
-      s_ID: "",
-    };
-
-    const { encRequestEncrypted, detailsRequestEncrypted } = encrypt(
-      transfer_funds_params,
-      user
+  const setAccountDebit = (e) => {
+    setDebit(e);
+    const otherAccount = accounts.filter(
+      (account) => account.accountnumber != e
     );
+    setOtherAccounts(otherAccount);
+  };
 
-    const params = {
-      encRequest: window.Buffer.from(encRequestEncrypted, "base64").toString(
-        "utf-8"
-      ),
-      detailsRequest: window.Buffer.from(
-        detailsRequestEncrypted,
-        "base64"
-      ).toString("utf-8"),
-    };
+  const completeTransaction = async (e) => {
+    console.log(e);
+    const { pin } = e;
+    console.log(user.username);
+    console.log(user.casaAccountBalances[0]?.accountname);
+    console.log("credit", credit);
+    console.log("debit", debit);
+    console.log("narration", narration);
+
+    const payload = await encrypt({
+      amount,
+      acct_number: user.casaAccountBalances[0]?.accountnumber,
+      recipient_account: user.casaAccountBalances[0]?.accountnumber,
+      recipient_name: user.casaAccountBalances[0]?.accountname,
+      bank_name: "ARM",
+      pin,
+      username: user.username,
+    });
 
     try {
       setLoading(true);
-      const response = await transferService.transferFunds(params);
+      const response = await transferService.transferFunds({
+        encRequest: payload.encRequest,
+        detailsRequest: payload.detailsRequest,
+      });
       console.log(response);
-      setLoading(true);
-    } catch (error) {
-      console.log(error);
+      setIsSuccess(true);
+      setEnterPin(false);
+      setLoading(false);
+    } catch {
+      setEnterPin(false);
+      setIsFailed(true);
       setLoading(false);
     }
+  };
+
+  const backToSaving = async () => {
+    await dispatch(getAccountBalance());
+    setIsSuccess(false);
+    setEnterPin(true);
+    setIsFailed(false);
+    moveToOne();
   };
 
   return (
@@ -90,17 +104,17 @@ export const TransferToSelf = ({ accounts }) => {
           <HStack
             bg={"#EAECF0"}
             justifyContent={"space-between"}
-            px={"26px"}
+            px={{base: "14px", md: "26px"}}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
             <Button h={"24px"} bg={"#EAECF0"} p={0} _hover={{ bg: "#EAECF0" }}>
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text textAlign="center" fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               Transfer to Self
             </Text>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               1/2
             </Text>
           </HStack>
@@ -110,24 +124,26 @@ export const TransferToSelf = ({ accounts }) => {
             border={"1px solid #EFECE9"}
             bg={"#FFFFFF"}
             borderRadius={"0 0 12px 12px"}
-            py={"16px"}
+            pt={"16px"}
             pb={"114px"}
+            px="12px"
           >
-            <Text fontSize={"16px"} color={"#667085"} textAlign={"center"}>
+            <Text fontSize={{base: "14px", md: "16px"}} color={"#667085"} textAlign={"center"}>
               Input the transaction details below
             </Text>
 
-            <FormControl w={"75%"} isRequired>
-              <FormLabel fontSize={"16px"} fontWeight={400} color={"#101828"}>
+            <FormControl w={{base: "100%", md: "75%"}} isRequired>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
                 Account to Debit
               </FormLabel>
               <Select
                 h={"48px"}
                 bg={"#F7F7F7"}
                 border={"1px solid #EAECF0"}
+                fontSize={{base: "14px", md: "16px"}}
                 placeholder="Select account"
-                _placeholder={{ fontSize: "16px", color: "#667085" }}
-                onChange={(e) => setDebit(e.target.value)}
+                _placeholder={{ color: "#667085" }}
+                onChange={(e) => setAccountDebit(e.target.value)}
               >
                 {accounts &&
                   accounts.map((account, i) => (
@@ -139,8 +155,8 @@ export const TransferToSelf = ({ accounts }) => {
               </Select>
             </FormControl>
 
-            <FormControl w={"75%"} isRequired>
-              <FormLabel fontSize={"16px"} fontWeight={400} color={"#101828"}>
+            <FormControl w={{base: "100%", md: "75%"}} isRequired>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
                 Account to Credit
               </FormLabel>
               <Select
@@ -148,11 +164,12 @@ export const TransferToSelf = ({ accounts }) => {
                 bg={"#F7F7F7"}
                 border={"1px solid #EAECF0"}
                 placeholder="Select account"
-                _placeholder={{ fontSize: "16px", color: "#667085" }}
+                fontSize={{base: "14px", md: "16px"}}
+                _placeholder={{ color: "#667085" }}
                 onChange={(e) => setCredit(e.target.value)}
               >
-                {accounts &&
-                  accounts.map((account, i) => (
+                {otherAccounts &&
+                  otherAccounts.map((account, i) => (
                     <option value={account.accountnumber} key={i}>
                       {" "}
                       {account.accountnumber} - {account.acctProduct}
@@ -161,15 +178,16 @@ export const TransferToSelf = ({ accounts }) => {
               </Select>
             </FormControl>
 
-            <FormControl w={"75%"} isRequired>
-              <FormLabel fontSize={"16px"} fontWeight={400} color={"#101828"}>
+            <FormControl w={{base: "100%", md: "75%"}} isRequired>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
                 Amount
               </FormLabel>
               <Input
                 h={"48px"}
                 bg={"#F7F7F7"}
                 border={"1px solid #EAECF0"}
-                _placeholder={{ fontSize: "16px", color: "#667085" }}
+                fontSize={{base: "14px", md: "16px"}}
+                _placeholder={{ color: "#667085" }}
                 placeholder="₦0.00"
                 type={"number"}
                 inputMode="numberic"
@@ -177,16 +195,16 @@ export const TransferToSelf = ({ accounts }) => {
               ></Input>
             </FormControl>
 
-            <HStack w={"75%"} justifyContent={"space-between"}>
+            <HStack w={{base: "100%", md: "75%"}} justifyContent={"space-between"}>
               <HStack>
                 <img src={getImageUrl("icons/warning.png")} />
-                <Text fontSize={"14px"} fontWeight={500} color={"#667085"}>
+                <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color={"#667085"}>
                   Your daily transfer limit is ₦200,000
                 </Text>
               </HStack>
               <Text
                 cursor={"pointer"}
-                fontSize={"14px"}
+                fontSize={{base: "12px", md: "14px"}}
                 fontWeight={500}
                 color={"#A41857"}
               >
@@ -194,15 +212,15 @@ export const TransferToSelf = ({ accounts }) => {
               </Text>
             </HStack>
 
-            <FormControl w={"75%"}>
-              <FormLabel fontSize={"16px"} fontWeight={400} color={"#101828"}>
+            <FormControl w={{base: "100%", md: "75%"}}>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
                 Note (Optional)
               </FormLabel>
               <Input
                 h={"48px"}
                 bg={"#F7F7F7"}
                 border={"1px solid #EAECF0"}
-                _placeholder={{ fontSize: "16px", color: "#667085" }}
+                fontSize={{base: "14px", md: "16px"}}
                 onChange={(e) => setNarration(e.target.value)}
               ></Input>
             </FormControl>
@@ -210,13 +228,14 @@ export const TransferToSelf = ({ accounts }) => {
             <Button
               onClick={moveToTwo}
               mt={"16px"}
-              w={"75%"}
+              w={{base: "100%", md: "75%"}}
               h={"48px"}
               bg={"#A41856"}
               color={"#FFFFFF"}
               fontSize={"14px"}
               fontWeight={600}
               _hover={{ bg: "#90164D" }}
+              isDisabled={!debit || !credit || !amount}
             >
               Continue
             </Button>
@@ -229,7 +248,7 @@ export const TransferToSelf = ({ accounts }) => {
           <HStack
             bg={"#EAECF0"}
             justifyContent={"space-between"}
-            px={"26px"}
+            px={{base: "14px", md: "26px"}}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
@@ -242,10 +261,10 @@ export const TransferToSelf = ({ accounts }) => {
             >
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text textAlign="center" fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               Complete Transaction
             </Text>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               2/2
             </Text>
           </HStack>
@@ -254,6 +273,10 @@ export const TransferToSelf = ({ accounts }) => {
             type="transaction"
             handleSubmit={completeTransaction}
             loading={loading}
+            isSuccess={isSuccess}
+            isFailed={isFailed}
+            enterPin={enterPin}
+            backToSaving={backToSaving}
           />
         </Box>
       )}

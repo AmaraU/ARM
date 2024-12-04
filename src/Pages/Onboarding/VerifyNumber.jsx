@@ -12,10 +12,7 @@ import { useEffect, useState } from "react";
 import { getImageUrl } from "../../../utils";
 import { VerifyIdentity } from "./VerifyIdentity";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  loadDetailsFromStorage,
-  setDetails,
-} from "../../store/auth/auth.slice";
+import { loadDetailsFromStorage } from "../../store/auth/auth.slice";
 import OtpInput from "../../elements/PinInput";
 import { formatNumberStar } from "../../utils/formatter";
 import authService from "../../services/authService";
@@ -31,6 +28,7 @@ export const VerifyNumber = () => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dispatch(loadDetailsFromStorage());
@@ -47,12 +45,23 @@ export const VerifyNumber = () => {
     }
   }, [timeLeft]);
 
+  // const handleVerifyPopup = async () => {
+  //   setLoading(true);
+  //   try {
+  //     await authService.verifyOtp({
+  //       otp: otp,
+  //       phoneNumber: auth?.phoneNumber,
+  //     });
+
+  //     onOpenConfirm();
+  //     setLoading(true);
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.log(error);
+  //   }
+  // };
+
   const handleVerifyPopup = () => {
-    dispatch(
-      setDetails({
-        otpCode: otp,
-      })
-    );
     onOpenConfirm();
   };
 
@@ -60,7 +69,7 @@ export const VerifyNumber = () => {
     try {
       setTimeLeft(30);
       await authService.sendOtp({
-        phoneOrAccountnumber: auth?.phone,
+        phoneOrAccountnumber: auth?.phoneNumber,
         email: auth?.email,
       });
       handleSuccess("Otp resent successfully");
@@ -72,13 +81,14 @@ export const VerifyNumber = () => {
   return (
     <>
       <Stack
-        alignItems={"center"}
-        h={"100vh"}
+        alignItems="center"
+        h="100%"
+        minH="100vh"
         spacing={5}
-        py={"6%"}
-        px={"25%"}
+        py={"38px"}
+        px={{base: "24px", md: "25%"}}
         bgImage={getImageUrl("onboardingBackground.png")}
-        bgSize={"100% 100%"}
+        bgSize="100% 100%"
       >
         <img
           style={{ width: "140px", height: "auto" }}
@@ -95,31 +105,41 @@ export const VerifyNumber = () => {
             </CircularProgressLabel>
           </CircularProgress>
         </Flex>
-        <Text fontSize={"48px"} fontWeight={700} color={"#14142A"}>
+        <Text fontSize={{base: "24px", md: "44px"}} fontWeight={700} color={"#14142A"}>
           Verify your phone number
         </Text>
-        <Text fontSize={"18px"} fontWeight={400} color={"#667085"}>
+        <Text fontSize={{base: "14px", md: "18px"}} fontWeight={400} color={"#667085"}>
           Kindly enter the 6-digits OTP we sent to{" "}
-          <b>{formatNumberStar(auth?.phoneNumber)}</b>
+          <b>
+            {formatNumberStar(
+              auth?.altPhoneNumber ? auth?.altPhoneNumber : auth?.phoneNumber
+            )}
+          </b>
         </Text>
 
         <Stack>
-          <Text fontSize={"14px"} fontWeight={400} color={"#394455"}>
+          <Text fontSize={{base: "10px", md: "14px"}} fontWeight={400} color={"#394455"}>
             PIN
           </Text>
-          <OtpInput length={6} size={"lg"} width={99} setOtp={setOtp} />
-          <Text fontSize={"14px"} fontWeight={400} color={"#394455"}>
+          <OtpInput
+            length={6}
+            size={"lg"}
+            width={{base: 8, sm: 16, md: 99}}
+            height={{base: 12, sm: 20, md: 20}}
+            setOtp={setOtp}
+          />
+          <Text fontSize={{base: "10px", md: "14px"}} fontWeight={400} color={"#394455"}>
             Didn&apos;t receive OTP?
           </Text>
           <HStack spacing={3}>
-            <Text fontSize={"16px"} fontWeight={500} color={"#DB9308"}>
+            <Text fontSize={{base: "12px", md: "16px"}} fontWeight={500} color={"#DB9308"}>
               00:{timeLeft < 10 ? `0` : ``}
               {timeLeft}
             </Text>
             <Text
               cursor={timeLeft === 0 ? "pointer" : ""}
               onClick={timeLeft === 0 ? () => resendOtp() : ""}
-              fontSize={"16px"}
+              fontSize={{base: "12px", md: "16px"}}
               fontWeight={600}
               color={timeLeft === 0 ? "#667085" : "#EAECF0"}
             >
@@ -132,13 +152,14 @@ export const VerifyNumber = () => {
           isDisabled={otp.length !== 6}
           id="continue"
           bg={"#A41857"}
-          _hover={{ bg: "#A41857" }}
+          _hover={{ bg: "#90164D" }}
           fontSize={"18px"}
           fontWeight={600}
           color={"#FFFFFF"}
           py={"12px"}
           w={"100%"}
           h={"fit-content"}
+          isLoading={loading}
         >
           Continue
         </Button>

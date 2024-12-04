@@ -9,19 +9,18 @@ export const CompleteTransaction = ({
   handleSubmit,
   loading,
   toForgot,
-  backToSaving,
+  phoneNumber,
+  type,
+  amount,
+  enterPin,
+  isSuccess,
+  isFailed,
 }) => {
-  const [enterPin, setEnterPin] = useState(true);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isFailed, setIsFailed] = useState(false);
   const [pin, setPin] = useState("");
 
   const navigate = useNavigate();
 
   const moveToSuccess = () => {
-    // setEnterPin(false);
-    // setIsFailed(false);
-    // setIsSuccess(true);
     handleSubmit({ pin });
   };
 
@@ -50,7 +49,12 @@ export const CompleteTransaction = ({
             Enter your 4-digit PIN to complete your transaction
           </Text>
 
-          <OtpInput length={4} setOtp={setPin} height={70} width={100} />
+          <OtpInput
+            length={4}
+            setOtp={setPin}
+            height={70}
+            width={{base: "100%", md: 100}}
+          />
 
           <Text
             color={"#A41857"}
@@ -155,15 +159,6 @@ export const CompleteTransaction = ({
               >
                 Your transaction has been completed successfully
               </Text>
-            ) : type === "limit" ? (
-              <Text
-                fontSize="14px"
-                fontWeight={450}
-                color="#667085"
-                textAlign="center"
-              >
-                You have successfully increased your account limit
-              </Text>
             ) : (
               <></>
             )}
@@ -219,24 +214,19 @@ export const CompleteTransaction = ({
             </>
           )}
 
-          {type === "savings" ||
-            type === "edit" ||
-            type === "limit" ||
-            (type === "questions" && (
-              <Button
-                mt="16px"
-                w="75%"
-                h="48px"
-                bg="#A41856"
-                _hover={{ bg: "#90164D" }}
-                color="#FFFFFF"
-                fontSize="14px"
-                fontWeight={600}
-                onClick={backToSaving}
-              >
-                Okay, Thank You
-              </Button>
-            ))}
+          <Button
+            mt="16px"
+            w="75%"
+            h="48px"
+            bg="#A41856"
+            _hover={{ bg: "#90164D" }}
+            color="#FFFFFF"
+            fontSize="14px"
+            fontWeight={600}
+            onClick={() => location.reload()}
+          >
+            Okay, Thank You
+          </Button>
         </Stack>
       )}
 
@@ -284,6 +274,7 @@ export const CompleteTransaction = ({
             color={"#FFFFFF"}
             fontSize={"14px"}
             fontWeight={600}
+            onClick={() => location.reload()}
           >
             Try again
           </Button>

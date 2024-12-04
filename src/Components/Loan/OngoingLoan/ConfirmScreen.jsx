@@ -30,7 +30,6 @@ function ConfirmScreen({ moveToOne, title, moveToFour }) {
             bg={"#F7F7F7"}
             border={"1px solid #EAECF0"}
             _placeholder={{ fontSize: "16px", color: "#667085" }}
-            type="number"
           />
 
           <FormLabel mt={"5"}>Loan Tenure</FormLabel>

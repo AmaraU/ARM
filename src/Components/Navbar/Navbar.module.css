@@ -1,4 +1,5 @@
-.theWhole {
+.theWhole,
+.hiddenWhole {
     background-color: #FFFFFF;
     border-right: 1px solid #EAECF0;
     width: 272px;
@@ -10,7 +11,8 @@
     scrollbar-width: none;
     z-index: 11;
 }
-.theWhole::-webkit-scrollbar {
+.theWhole::-webkit-scrollbar,
+.hiddenWhole::-webkit-scrollbar {
     display: none;
 }
 
@@ -35,6 +37,19 @@
     height: auto;
 }
 
+.logo2 {
+    display: none;
+    height: 70px;
+    width: auto;
+    z-index: 10;
+    align-items: center;
+    justify-content: center;
+    margin-left: 14px;
+}
+.logo2 img {
+    width: auto;
+    height: 60%;
+}
 
 .linkList {
     display: flex;
@@ -97,4 +112,18 @@
 .logOut img {
     width: 20px;
     height: 20px;
+}
+
+
+@media screen and (max-width: 30em) {
+    .theWhole {
+        display: none;
+    }
+    .logo2 {
+        display: flex;
+        position: fixed;
+    }
+    .hiddenWhole {
+        display: block;
+    }
 }

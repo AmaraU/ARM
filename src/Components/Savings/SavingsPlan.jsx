@@ -6,11 +6,14 @@ import MultipleUser from "../../../assets/icons/user-multiple-02.svg";
 import styles from "../../Pages/SavingsPage/Savings.module.css";
 import { ViewOffIcon } from "@chakra-ui/icons";
 import { useState } from "react";
+import FixedSavingsOption from "../../elements/Modals/FixedSavingsOption";
 import { useNavigate } from "react-router-dom";
 
 
-function SavingsPlan() {
+function SavingsPlan({ moveToOptions }) {
 
+  const [fixedmodalopen, setFixedModalOpen] = useState(false);
+  const [groupModalOpen, setGroupModalOpen] = useState(false);
   const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
   const navigate = useNavigate();
 
@@ -24,6 +27,15 @@ function SavingsPlan() {
   const handleToggleVisibility = () => {
     setTotalBalanceVisible(!totalBalanceVisible);
   }
+
+
+  const showFixedModal = () => {
+    setFixedModalOpen(true);
+  };
+
+  const showGroupModal = () => {
+    setGroupModalOpen(true);
+  };
 
   const OPTIONS = [
     {

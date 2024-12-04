@@ -15,12 +15,17 @@ import {
   Spinner,
   CircularProgress,
   CircularProgressLabel,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
 } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDetails } from "../../store/auth/auth.slice";
+import { getNationalities, getSourceOfFunds } from "../../store/utils.slice";
 
 export const UserInfo = () => {
   const {
@@ -28,27 +33,47 @@ export const UserInfo = () => {
     onOpen: onOpenVerifying,
     onClose: onCloseVerifying,
   } = useDisclosure();
+  const {
+    isOpen: isOpenAlternate,
+    onOpen: onOpenAlternate,
+    onClose: onCloseAlternate,
+  } = useDisclosure();
   const navigate = useNavigate();
-  const [firstname, setFirstname] = useState("");
-  const [othername, setOthername] = useState("");
-  const [surname, setLastname] = useState("");
-  const [gender, setGender] = useState("Male");
+  const { firstname, othername, surname, email, phoneNumber, altEmail: altEmailValue } = useSelector(
+    (state) => state.auth
+  );
+  const { nationalities, sourceOfFunds } = useSelector((state) => state.utils);
+  const [altEmail, setAltEmail] = useState("");
   const [title, setTitle] = useState("Mr");
-  const [address, setAddress] = useState("");
+  const [occupation, setOccupation] = useState("Banking");
+  const [sourceOfFund, setSourceOfFund] = useState(71);
+  const [countryOfBirth, setCountryOfBirth] = useState(153);
   const dispatch = useDispatch();
-  const { phoneNumber } = useSelector((state) => state.auth);
 
-  const openVerifying = async () => {
-    await dispatch(
-      setDetails({
-        title,
-        gender,
-        firstname,
-        othername,
-        surname,
-        address,
-      })
-    );
+  useEffect(() => {
+    dispatch(getNationalities());
+    dispatch(getSourceOfFunds());
+  }, [dispatch]);
+
+  // const openVerifying = async () => {
+  //   await dispatch(
+  //     setDetails({
+  //       title,
+  //       firstname,
+  //       othername,
+  //       surname,
+  //       altEmail,
+  //       sourceOfFund,
+  //       occupation,
+  //       countryOfBirth,
+  //     })
+  //   );
+  //   onOpenVerifying();
+  //   setTimeout(() => onCloseVerifying(), 5000);
+  //   setTimeout(() => navigate("/create-profile"), 1000);
+  // };
+
+  const openVerifying = () => {
     onOpenVerifying();
     setTimeout(() => onCloseVerifying(), 5000);
     setTimeout(() => navigate("/create-profile"), 1000);
@@ -57,12 +82,12 @@ export const UserInfo = () => {
   return (
     <>
       <Stack
-        alignItems={"center"}
+        alignItems="center"
         spacing={5}
-        py={"6%"}
-        px={"25%"}
+        py={"38px"}
+        px={{base: "24px", md: "15%", lg: "25%"}}
         bgImage={getImageUrl("onboardingBackground.png")}
-        bgSize={"100% 100%"}
+        bgSize="100% 100%"
       >
         <img
           style={{ width: "140px", height: "auto" }}
@@ -80,11 +105,11 @@ export const UserInfo = () => {
             </CircularProgressLabel>
           </CircularProgress>
         </Flex>
-        <Text fontSize={"48px"} fontWeight={700} color={"#14142A"}>
+        <Text fontSize={{base: "30px", md: "48px"}} fontWeight={700} color={"#14142A"}>
           Your basic information
         </Text>
-        <Text fontSize={"18px"} fontWeight={400} color={"#667085"}>
-          Review and update your details
+        <Text fontSize={{base: "14px", md: "18px"}} fontWeight={400} color={"#667085"}>
+          Review and confirm your details
         </Text>
 
         <Stack spacing={"16px"} w={"100%"}>
@@ -111,8 +136,9 @@ export const UserInfo = () => {
               <option value="">Mrs</option>
             </Select>
           </FormControl>
-          <HStack>
-            <FormControl isRequired>
+
+          <Stack direction={{base: "column", md: "row"}}>
+            <FormControl>
               <FormLabel
                 fontSize={"16px"}
                 fontWeight={400}
@@ -122,101 +148,151 @@ export const UserInfo = () => {
                 First Name
               </FormLabel>
               <Input
-                onChange={(e) => setFirstname(e.target.value)}
                 h={"48px"}
                 type="text"
                 border={"1px solid #EAECF0"}
-                bg={"#F7F7F7"}
+                bg={"#EAECF0"}
+                value={firstname}
+                readOnly
+                disabled
+                _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
               />
             </FormControl>
 
-            <FormControl isRequired>
+            <FormControl>
               <FormLabel
                 fontSize={"16px"}
                 fontWeight={400}
                 color={"#101828"}
                 mb={"8px"}
               >
-                Other Name
+                Last Name
               </FormLabel>
               <Input
-                onChange={(e) => setOthername(e.target.value)}
+                h={"48px"}
+                type="text"
+                border={"1px solid #EAECF0"}
+                bg={"#EAECF0"}
+                value={surname}
+                readOnly
+                disabled
+                _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
+              />
+            </FormControl>
+          </Stack>
+
+          <Stack direction={{base: "column", md: "row"}}>
+            <FormControl>
+              <FormLabel
+                fontSize={"16px"}
+                fontWeight={400}
+                color={"#101828"}
+                mb={"8px"}
+              >
+                Email Address
+              </FormLabel>
+              <Input
                 h={"48px"}
                 type="text"
                 border={"1px solid #EAECF0"}
                 bg={"#F7F7F7"}
+                value={email ? email : altEmail}
+                disabled
+                _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
               />
             </FormControl>
+
+            <FormControl>
+              <FormLabel
+                fontSize={"16px"}
+                fontWeight={400}
+                color={"#101828"}
+                mb={"8px"}
+              >
+                Phone Number
+              </FormLabel>
+              <HStack spacing={2}>
+                <Select
+                  h={"48px"}
+                  flex={"35%"}
+                  border={"1px solid #EAECF0"}
+                  bg={"#F7F7F7"}
+                  fontSize={"16px"}
+                  disabled
+                  _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
+                >
+                  <option value="">+234 (NG)</option>
+                </Select>
+                <Input
+                  readOnly
+                  value={phoneNumber}
+                  h={"48px"}
+                  type="tel"
+                  border={"1px solid #EAECF0"}
+                  bg={"#F7F7F7"}
+                  disabled
+                  _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
+                />
+              </HStack>
+            </FormControl>
+          </Stack>
+
+          <Stack direction={{base: "column", md: "row"}} spacing={1}>
+            <HStack>
+              <img
+                src={getImageUrl("icons/warning.png")}
+                style={{ width: "20px", height: "20px" }}
+              />
+              <Text fontSize="11.5px" fontWeight={450} color="#667085">
+                Don&apos;t have access to email?
+              </Text>
+            </HStack>
+            <Text
+              fontSize="11.5px"
+              fontWeight={700}
+              color="#A41857"
+              cursor="pointer"
+              onClick={onOpenAlternate}
+            >
+              Provide Altenate Email
+            </Text>
+          </Stack>
+
+          {(altEmail || altEmailValue) && (
+            <FormControl>
+              <FormLabel
+                fontSize={"16px"}
+                fontWeight={400}
+                color={"#101828"}
+                mb={"8px"}
+              >
+                Alternate Email Address
+              </FormLabel>
+              <Input
+                h={"48px"}
+                type="text"
+                border={"1px solid #EAECF0"}
+                bg={"#F7F7F7"}
+                value={altEmail || altEmailValue}
+                onChange={(e) => setAltEmail(e.target.value)}
+              />
+            </FormControl>
+          )}
+
+          <HStack spacing="13px">
+            <Text
+              w="fit-content"
+              fontSize="12px"
+              fontWeight={400}
+              color="#667085"
+              whiteSpace="nowrap"
+            >
+              PROVIDE ADDITIONAL DETAILS
+            </Text>
+            <div style={{ width: "100%", border: "0.5px solid #E6E2DD" }}></div>
           </HStack>
 
-          <FormControl isRequired>
-            <FormLabel
-              fontSize={"16px"}
-              fontWeight={400}
-              color={"#101828"}
-              mb={"8px"}
-            >
-              Last Name
-            </FormLabel>
-            <Input
-              onChange={(e) => setLastname(e.target.value)}
-              h={"48px"}
-              type="text"
-              border={"1px solid #EAECF0"}
-              bg={"#F7F7F7"}
-            />
-          </FormControl>
-
-          <FormControl isRequired>
-            <FormLabel
-              fontSize={"16px"}
-              fontWeight={400}
-              color={"#101828"}
-              mb={"8px"}
-            >
-              Address
-            </FormLabel>
-            <Input
-              onChange={(e) => setAddress(e.target.value)}
-              h={"48px"}
-              type="text"
-              border={"1px solid #EAECF0"}
-              bg={"#F7F7F7"}
-            />
-          </FormControl>
-
-          <FormControl isRequired>
-            <FormLabel
-              fontSize={"16px"}
-              fontWeight={400}
-              color={"#101828"}
-              mb={"8px"}
-            >
-              Phone Number
-            </FormLabel>
-            <HStack spacing={2}>
-              <Select
-                h={"48px"}
-                flex={"35%"}
-                border={"1px solid #EAECF0"}
-                bg={"#F7F7F7"}
-                fontSize={"16px"}
-              >
-                <option value="">+234 (NG)</option>
-              </Select>
-              <Input
-                readOnly
-                value={phoneNumber}
-                h={"48px"}
-                type="tel"
-                placeholder="Enter your phone number"
-                _placeholder={{ fontSize: "sm" }}
-                border={"1px solid #EAECF0"}
-                bg={"#F7F7F7"}
-              />
-            </HStack>
-          </FormControl>
-          <HStack>
+          <Stack direction={{base: "column", md: "row"}}>
             <FormControl isRequired>
               <FormLabel
                 fontSize={"16px"}
@@ -232,8 +308,15 @@ export const UserInfo = () => {
                 border={"1px solid #EAECF0"}
                 bg={"#F7F7F7"}
                 fontSize={"16px"}
+                onChange={(e) => setOccupation(e.target.value)}
               >
-                <option value="">Banking</option>
+                <option value="Banking">Banking</option>
+                <option value="Tech.">Tech.</option>
+                <option value="Media & Entertainment">
+                  Media & Entertainment
+                </option>
+                <option value="Engineering">Engineering</option>
+                <option value="Consultant">Consultant</option>
               </Select>
             </FormControl>
             <FormControl isRequired>
@@ -251,66 +334,57 @@ export const UserInfo = () => {
                 border={"1px solid #EAECF0"}
                 bg={"#F7F7F7"}
                 fontSize={"16px"}
+                onChange={(e) => setSourceOfFund(parseFloat(e.target.value))}
               >
-                <option value="">Employeed</option>
+                {sourceOfFunds.map((option, i) => (
+                  <option value={option.id} key={i}>
+                    {option.name}
+                  </option>
+                ))}
               </Select>
             </FormControl>
-          </HStack>
-          <HStack>
-            <FormControl isRequired>
-              <FormLabel
-                fontSize={"16px"}
-                fontWeight={400}
-                color={"#101828"}
-                mb={"8px"}
-              >
-                Gender
-              </FormLabel>
-              <Select
-                onChange={(e) => setGender(e.target.value)}
-                h={"48px"}
-                flex={"35%"}
-                border={"1px solid #EAECF0"}
-                bg={"#F7F7F7"}
-                fontSize={"16px"}
-              >
-                <option value="">Male</option>
-                <option value="">Female</option>
-              </Select>
-            </FormControl>
+          </Stack>
 
-            <FormControl isRequired>
-              <FormLabel
-                fontSize={"16px"}
-                fontWeight={400}
-                color={"#101828"}
-                mb={"8px"}
-              >
-                Country of birth
-              </FormLabel>
-              <Select
-                h={"48px"}
-                flex={"35%"}
-                border={"1px solid #EAECF0"}
-                bg={"#F7F7F7"}
-                fontSize={"16px"}
-              >
-                <option value="">Nigeria</option>
-              </Select>
-            </FormControl>
-          </HStack>
+          <FormControl isRequired>
+            <FormLabel
+              fontSize={"16px"}
+              fontWeight={400}
+              color={"#101828"}
+              mb={"8px"}
+            >
+              Nationality
+            </FormLabel>
+            <Select
+              h={"48px"}
+              flex={"35%"}
+              border={"1px solid #EAECF0"}
+              bg={"#F7F7F7"}
+              fontSize={"16px"}
+              onChange={(e) => setCountryOfBirth(parseFloat(e.target.value))}
+            >
+              <option value={153} defaultValue={"Nigerian"}>
+                Nigerian
+              </option>
+              {nationalities.map((country, i) => (
+                <option value={country.id} key={i}>
+                  {country.name}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
         </Stack>
+
         <Button
           onClick={openVerifying}
           mt={"56px"}
           bg={"#A41857"}
-          _hover={{ bg: "#A41857" }}
+          _hover={{ bg: "#90164D" }}
           fontSize={"18px"}
           fontWeight={600}
           color={"#FFFFFF"}
           w={"100%"}
           h={"48px"}
-          isDisabled={!firstname || !surname || !othername || !address}
+          // isDisabled={!firstname || !surname || (!email && !altEmail)}
         >
           Continue
         </Button>
@@ -330,6 +404,66 @@ export const UserInfo = () => {
           w={"fit-content"}
         >
           <Spinner w={"30px"} h={"30px"} speed="1s" emptyColor="grey" />
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isCentered
+        size="lg"
+        closeOnOverlayClick={false}
+        isOpen={isOpenAlternate}
+        onClose={onCloseAlternate}
+      >
+        <ModalOverlay />
+
+        <ModalContent py={4}>
+          <ModalHeader>
+            <Text
+              textAlign="center"
+              fontSize="18px"
+              fontWeight={600}
+              color="#394455"
+            >
+              Provide Alternate Email
+            </Text>
+          </ModalHeader>
+          <ModalCloseButton />
+
+          <ModalBody py="12px">
+            <FormControl>
+              <FormLabel
+                fontSize={"16px"}
+                fontWeight={400}
+                color={"#101828"}
+                mb={"8px"}
+              >
+                Email Address
+              </FormLabel>
+              <Input
+                h={"48px"}
+                border={"1px solid #EAECF0"}
+                bg={"#F7F7F7"}
+                fontSize={"16px"}
+                defaultValue={altEmail || altEmailValue}
+                onChange={(e) => setAltEmail(e.target.value)}
+              />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter pt={0}>
+            <Button
+              bg={"#A41857"}
+              _hover={{ bg: "#90164D" }}
+              fontSize={"18px"}
+              fontWeight={600}
+              color={"#FFFFFF"}
+              w={"100%"}
+              h={"48px"}
+              onClick={onCloseAlternate}
+            >
+              Continue
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

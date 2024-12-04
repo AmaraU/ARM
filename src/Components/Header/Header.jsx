@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 export const Header = () => {
-  // const { fullname } = useSelector((state) => state.user);
+  const { fullname } = useSelector((state) => state.user);
   const [ showNotif, setShowNotif ] = useState(false);
 
   const notifications = [
@@ -53,7 +53,7 @@ export const Header = () => {
           </button>
           <div>
             <button
-              onClick={toNotifsPage}
+              onClick={()=>setShowNotif(!showNotif)}
               onMouseEnter={()=>setShowNotif(true)}
             >
               <div className={styles.redCircle}>2</div>
@@ -90,7 +90,7 @@ export const Header = () => {
 
         <div className={styles.profile}>
           <img src={getImageUrl("icons/header/avatar.png")} alt="" />
-          {/* {fullname} */}
+          {fullname}
         </div>
       </div>
     </div>

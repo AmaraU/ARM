@@ -10,7 +10,10 @@ import {
 import { useEffect, useState } from "react";
 import { getImageUrl } from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { loadDetailsFromStorage } from "../../store/auth/auth.slice";
+import {
+  loadDetailsFromStorage,
+  setDetails,
+} from "../../store/auth/auth.slice";
 import OtpInput from "../../elements/PinInput";
 import { formatNumberStar } from "../../utils/formatter";
 import authService from "../../services/authService";
@@ -23,7 +26,7 @@ export const CompleteOnboarding = () => {
   const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(loadDetailsFromStorage());
@@ -47,9 +50,16 @@ export const CompleteOnboarding = () => {
         username: auth?.username.toLowerCase(),
         otpCode: otp,
       });
-      console.log(response);
       setIsLoading(false);
-      navigate("/welcome")
+
+      if (response) {
+        await dispatch(
+          setDetails({
+            accountNo: response.data.result.data.accountNumber,
+          })
+        );
+        navigate("/welcome");
+      }
     } catch (error) {
       handleErrors(error);
       setIsLoading(false);
@@ -59,10 +69,13 @@ export const CompleteOnboarding = () => {
   const resendOtp = async () => {
     try {
       setTimeLeft(30);
-      await authService.completeRegistration({
-        username: auth?.username,
-        otpCode: otp,
+      const response = await authService.sendOtp({
+        phoneOrAccountnumber: auth?.phoneNumber,
+        email: auth?.email,
       });
+
+      console.log(response);
+
       handleSuccess("Otp resent successfully");
     } catch (error) {
       handleErrors(error);
@@ -72,13 +85,14 @@ export const CompleteOnboarding = () => {
   return (
     <>
       <Stack
-        alignItems={"center"}
-        h={"100vh"}
+        alignItems="center"
+        h="100%"
+        minH="100vh"
         spacing={5}
-        py={"6%"}
-        px={"25%"}
+        py={"38px"}
+        px={{base: "24px", md: "25%"}}
         bgImage={getImageUrl("onboardingBackground.png")}
-        bgSize={"100% 100%"}
+        bgSize="100% 100%"
       >
         <img
           style={{ width: "140px", height: "auto" }}
@@ -89,37 +103,43 @@ export const CompleteOnboarding = () => {
           <a href="/signup">
             <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
           </a>
-          <CircularProgress value={30} size={"32px"} color={"#A41857"}>
+          <CircularProgress value={90} size={"32px"} color={"#A41857"}>
             <CircularProgressLabel fontWeight={700} fontSize={"9px"}>
               90%
             </CircularProgressLabel>
           </CircularProgress>
         </Flex>
-        <Text fontSize={"48px"} fontWeight={700} color={"#14142A"}>
+        <Text fontSize={{base: "24px", md: "48px"}} fontWeight={700} color={"#14142A"}>
           Verify your phone number
         </Text>
-        <Text fontSize={"18px"} fontWeight={400} color={"#667085"}>
+        <Text fontSize={{base: "13px", md: "18px"}} fontWeight={400} color={"#667085"}>
           Kindly enter the 6-digits OTP we sent to{" "}
           <b>{formatNumberStar(auth?.phoneNumber)}</b>
         </Text>
 
         <Stack>
-          <Text fontSize={"14px"} fontWeight={400} color={"#394455"}>
+          <Text fontSize={{base: "10px", md: "14px"}} fontWeight={400} color={"#394455"}>
             PIN
           </Text>
-          <OtpInput length={6} size={"lg"} width={99} setOtp={setOtp} />
-          <Text fontSize={"14px"} fontWeight={400} color={"#394455"}>
+          <OtpInput
+            length={6}
+            height={{base: 12, sm: 20, md: 20}}
+            size={"lg"}
+            width={{base: 8, sm: 16, md: 99}}
+            setOtp={setOtp}
+          />
+          <Text fontSize={{base: "10px", md: "14px"}} fontWeight={400} color={"#394455"}>
             Didn&apos;t receive OTP?
           </Text>
           <HStack spacing={3}>
-            <Text fontSize={"16px"} fontWeight={500} color={"#DB9308"}>
+            <Text fontSize={{base: "12px", md: "16px"}} fontWeight={500} color={"#DB9308"}>
               00:{timeLeft < 10 ? `0` : ``}
               {timeLeft}
             </Text>
             <Text
               cursor={timeLeft === 0 ? "pointer" : ""}
               onClick={timeLeft === 0 ? () => resendOtp() : ""}
-              fontSize={"16px"}
+              fontSize={{base: "12px", md: "16px"}}
               fontWeight={600}
               color={timeLeft === 0 ? "#667085" : "#EAECF0"}
             >
@@ -132,7 +152,7 @@ export const CompleteOnboarding = () => {
           isDisabled={otp.length !== 6}
           id="continue"
           bg={"#A41857"}
-          _hover={{ bg: "#A41857" }}
+          _hover={{ bg: "#90164D" }}
           fontSize={"18px"}
           fontWeight={600}
           color={"#FFFFFF"}

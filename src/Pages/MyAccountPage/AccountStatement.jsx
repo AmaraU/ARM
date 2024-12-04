@@ -18,14 +18,19 @@ import { formatNumberDecimals, hideBalance } from "../../utils/utils";
 import { handleSuccess } from "../../utils/handleResponse";
 import { getBvnInfo } from "../../store/auth/user.slice";
 import { useDispatch } from "react-redux";
+import transactionService from "../../services/transactionService";
+import { getFormattedDate } from "../../utils/formatter";
 
-export const AccountStatement = ({ backHome, accounts }) => {
+export const AccountStatement = ({ backHome, accounts, bvnStatus, ninStatus, governmentIDcard, signatureStatus, addressStatus }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [totalBalanceVisible, setTotalBalanceVisible] = useState(true);
-  const [showUpgrade, setShowUpgrade] = useState(true);
+  const [showUpgrade, setShowUpgrade] = useState(false);
   const [infoPopup, setInfoPopup] = useState(false);
   const [showAccStmnt, setShowAccStmnt] = useState(true);
   const [upgradeAcc, setUpgradeAcc] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const currentItem = accounts ? accounts[currentIndex] : [];
@@ -59,13 +64,28 @@ export const AccountStatement = ({ backHome, accounts }) => {
     handleSuccess("Account number copied successfully");
   }
 
+  async function sendStatementRequest() {
+    try {
+      setLoading(true);
+      const response = await transactionService.statementRequest({
+        accountNumber: currentItem?.accountnumber,
+        startDate: getFormattedDate(startDate),
+        endDate: getFormattedDate(endDate),
+      });
+      console.log(response);
+      setLoading(false);
+    } catch {
+      setLoading(false);
+    }
+  }
+
   return (
     <>
       {showAccStmnt && (
         <Box>
           <HStack
             bg="#EAECF0"
-            px={"26px"}
+            px={{base: "14px", md: "26px"}}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
@@ -79,9 +99,9 @@ export const AccountStatement = ({ backHome, accounts }) => {
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
             <Text
-              width="90%"
+              width="100%"
               textAlign="center"
-              fontSize="18px"
+              fontSize={{base: "14px", md: "18px"}}
               fontWeight={600}
               color="#101828"
             >
@@ -94,36 +114,36 @@ export const AccountStatement = ({ backHome, accounts }) => {
             border="1px solid #EFECE9"
             bg="#FFFFFF"
             borderRadius="0 0 12px 12px"
-            px="16px"
+            px="14px"
             pb="114px"
             pt="48px"
           >
-            {showUpgrade && (
+            {showUpgrade || (!bvnStatus || !ninStatus || !governmentIDcard || !signatureStatus || !addressStatus) && (
               <HStack
                 id="complete"
-                w="75%"
+                w={{base: "100%", md: "75%"}}
                 backgroundColor="#EFDAE3"
                 borderRadius="12px"
                 display="flex"
                 justifyContent="space-between"
                 backgroundImage={getImageUrl("whiteRoof.png")}
-                bgSize="20% auto"
+                bgSize={{base: "0 auto", sm: "100px auto", md: "20% auto"}}
                 bgRepeat="no-repeat"
-                backgroundPosition="bottom right 80px"
+                backgroundPosition={{base: "bottom", md: "bottom right 80px"}}
                 px="23px"
                 py="11px"
               >
                 <Box>
-                  <Text fontSize="18px" fontWeight={700} color="#A41857">
+                  <Text fontSize={{base: "16px", md: "18px"}} fontWeight={700} color="#A41857">
                     Upgrade Your Account
                   </Text>
-                  <Text fontSize="12px" fontWeight={400} color="#A41857">
+                  <Text fontSize={{base: "10px", md: "12px"}} fontWeight={400} color="#A41857">
                     You need to upgrade your account setup to enjoy more
                     services
                   </Text>
                   <Button
                     onClick={moveToUpgradeAcc}
-                    fontSize="12px"
+                    fontSize={{base: "10px", md: "12px"}}
                     fontWeight={700}
                     color="#A41857"
                     padding={0}
@@ -147,24 +167,25 @@ export const AccountStatement = ({ backHome, accounts }) => {
               </HStack>
             )}
 
-            <HStack
+            <Stack
               justifyContent="space-between"
-              w="75%"
+              w={{base: "100%", md: "75%"}}
               backgroundColor="#000000"
               backgroundImage={getImageUrl("backgroundGrey.png")}
               bgSize="100% 100%"
               borderRadius="8px"
               p="16px"
+              flexDirection={{base: "column-reverse", md: "row"}}
             >
               <Box>
-                <Text fontSize="12px" fontWeight={400} color="#FFFFFF">
+                <Text fontSize={{base: "10px", md: "12px"}} fontWeight={400} color="#FFFFFF">
                   Total Available Balance
                 </Text>
                 <HStack ml="0" spacing="4px" alignItems="center" mb="12px">
-                  <Box fontSize="18px" fontWeight={500} color="#FFFFFF">
+                  <Box fontSize={{base: "14px", md: "18px"}} fontWeight={500} color="#FFFFFF">
                     ₦
                   </Box>
-                  <Text fontSize="18px" fontWeight={700} color="#FFFFFF">
+                  <Text fontSize={{base: "14px", md: "18px"}} fontWeight={700} color="#FFFFFF">
                     {totalBalanceVisible
                       ? formatNumberDecimals(currentItem?.bookBalance)
                       : hideBalance()}
@@ -224,7 +245,7 @@ export const AccountStatement = ({ backHome, accounts }) => {
                   py="8px"
                   bg="#2C323A"
                   color="#FFFFFF"
-                  fontSize="12px"
+                  fontSize={{base: "10px", md: "12px"}}
                   fontWeight={500}
                   cursor="pointer"
                   onClick={() => setInfoPopup(true)}
@@ -284,7 +305,7 @@ export const AccountStatement = ({ backHome, accounts }) => {
                   </Box>
                 )}
               </Box>
-            </HStack>
+            </Stack>
 
             <Flex justifyContent={"center"}>
               {accounts.map((_, idx) => (
@@ -300,12 +321,21 @@ export const AccountStatement = ({ backHome, accounts }) => {
               ))}
             </Flex>
 
-            <Text w="75%" fontSize="18px" color="#667085">
+            <Text
+              w={{base: "100%", md: "75%"}}
+              fontSize={{base: "15px", md: "18px"}}
+              color="#667085"
+            >
               Your account statement for the selected period of time will be
               sent to your email address
             </Text>
 
-            <HStack w="75%" justifyContent="space-between" spacing="24px">
+            <Stack
+              w={{base: "100%", md: "75%"}}
+              justifyContent="space-between"
+              spacing="24px"
+              flexDirection={{base: "column", md: "row"}}
+            >
               <Stack w="100%">
                 <Text fontSize="16px" color="#101828">
                   Start Date
@@ -317,11 +347,12 @@ export const AccountStatement = ({ backHome, accounts }) => {
                   border="1px solid #EAECF0"
                   placeholder="Select Date"
                   _placeholder={{ fontSize: "16px", color: "#667085" }}
+                  onChange={(e) => setStartDate(e.target.value)}
                 />
               </Stack>
               <Stack w="100%">
                 <Text fontSize="16px" color="#101828">
-                  Start Date
+                  End Date
                 </Text>
                 <Input
                   h="48px"
@@ -330,11 +361,16 @@ export const AccountStatement = ({ backHome, accounts }) => {
                   border="1px solid #EAECF0"
                   placeholder="Select Date"
                   _placeholder={{ fontSize: "16px", color: "#667085" }}
+                  onChange={(e) => setEndDate(e.target.value)}
                 />
               </Stack>
-            </HStack>
+            </Stack>
 
-            <HStack justifyContent="space-between" w="75%">
+            <HStack
+              justifyContent="space-between"
+              w={{base: "100%", md: "75%"}}
+              flexDirection={{base: "column", md: "row"}}
+            >
               <HStack>
                 <input
                   type="checkbox"
@@ -374,7 +410,7 @@ export const AccountStatement = ({ backHome, accounts }) => {
             </HStack>
 
             <Button
-              w="75%"
+              w={{base: "100%", md: "75%"}}
               h="48px"
               mt="24px"
               bg="#A41856"
@@ -382,6 +418,9 @@ export const AccountStatement = ({ backHome, accounts }) => {
               fontSize="14px"
               fontWeight={600}
               _hover={{ bg: "#90164D" }}
+              isLoading={loading}
+              isDisabled={!startDate || !endDate}
+              onClick={sendStatementRequest}
             >
               Request Statement
             </Button>

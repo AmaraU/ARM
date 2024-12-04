@@ -5,6 +5,7 @@ import documentSlice from "./auth/document.slice";
 import transactionsSlice from "./transactions.slice";
 import utilsSlice from "./utils.slice";
 import billsSlice from "./bills.slice";
+import transfersSlice from "./transfer.slice"
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     transactions: transactionsSlice,
     utils: utilsSlice,
     bills: billsSlice,
+    transfers: transfersSlice
   },
 });

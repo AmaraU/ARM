@@ -43,7 +43,6 @@ export default function ForgotPassword() {
   }, [username]);
 
   const processForm = async () => {
-    window.location.href = "/verify-reset"
     setLoading(true);
     try {
       const response = await authService.forgotPassword({
@@ -217,18 +216,18 @@ export default function ForgotPassword() {
           bg="white"
           display={"flex"}
           flexDirection={"column"}
-          p={{ base: "24px", md: "50px" }}
+          p={{ base: "12px", md: "50px" }}
           alignItems={{ base: "center", md: "start" }}
         >
           <Text
-            fontSize={{ base: "40px", md: "48px" }}
+            fontSize={{ base: "32px", md: "44px" }}
             fontWeight={700}
             color={"#14142A"}
           >
             Forgot Password
           </Text>
           <Text
-            fontSize={{ base: "16px", md: "18px" }}
+            fontSize={{ base: "14px", md: "18px" }}
             fontWeight={400}
             color={"#667085"}
           >
@@ -246,7 +245,7 @@ export default function ForgotPassword() {
             >
               <Tab
                 rounded={"50px"}
-                fontSize={"13px"}
+                fontSize={{ base: "11px", md: "13px" }}
                 color={"#667085"}
                 fontWeight={500}
                 border={"1px solid #EAECF0"}
@@ -263,7 +262,7 @@ export default function ForgotPassword() {
               </Tab>
               <Tab
                 rounded={"50px"}
-                fontSize={"13px"}
+                fontSize={{ base: "11px", md: "13px" }}
                 color={"#667085"}
                 fontWeight={500}
                 border={"1px solid #EAECF0"}
@@ -280,8 +279,8 @@ export default function ForgotPassword() {
               </Tab>
             </TabList>
 
-            <TabPanels>
-              <TabPanel w={{ base: "sm", md: "md", lg: "lg" }} maxW={"630px"}>
+            <TabPanels w={{ base: "sm", md: "md", lg: "lg" }} maxW={{md:"350px", lg: "630px"}} p={2}>
+              <TabPanel p={0}>
                 <Stack spacing={"16px"} as="form" onSubmit={processForm}>
                   <FormControl isInvalid={emailIsError} isRequired>
                     <FormLabel
@@ -334,7 +333,7 @@ export default function ForgotPassword() {
                 </Stack>
               </TabPanel>
 
-              <TabPanel w={{ base: "sm", md: "sm", lg: "lg" }} maxW={"630px"}>
+              <TabPanel p={0}>
                 <Stack spacing={"16px"} as="form" onSubmit={processForm}>
                   <FormControl>
                     <FormLabel
@@ -356,6 +355,7 @@ export default function ForgotPassword() {
                       </Select>
                       <Input
                         isRequired
+                        flex={"65%"}
                         type="tel"
                         placeholder="Enter your phone number"
                         _placeholder={{ fontSize: "sm" }}
@@ -370,7 +370,7 @@ export default function ForgotPassword() {
                     <Button
                       onClick={processForm}
                       disabled={isLoading}
-                      isLoading={isLoading}
+                      isLoading={loading}
                       rounded={"8px"}
                       py={"26px"}
                       px={"16px"}

@@ -14,15 +14,14 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
-import { ArrowBackIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import styles from "./ProfilePage.module.css";
 import userService from "../../services/userService";
 import OtpInput from "../../elements/PinInput";
 import SuccessComponent from "../../Components/SuccessComponent";
-import authService from "../../services/authService";
 
 
-export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
+export const ChangePassword = ({ backHome }) => {
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmNewPassword] = useState("");
@@ -37,6 +36,7 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("")
   const [step, setStep] = useState(1);
   const [pin, setPin] = useState("");
 
@@ -99,9 +99,6 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
 
   const changePassword = async () => {
     setLoading(true);
-
-
-
     try {
       await userService.verifyPin(pin);
       const response = await userService.changePassword({
@@ -138,7 +135,7 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
       <Box>
         <HStack
           bg="#EAECF0"
-          px={"26px"}
+          px={{base: "14px", md: "26px"}}
           py={"14px"}
           borderRadius={"12px 12px 0 0"}
         >
@@ -152,9 +149,9 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
             <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
           </Button>
           <Text
-            width="90%"
+            width="100%"
             textAlign="center"
-            fontSize="18px"
+            fontSize={{base: "16px", md: "18px"}}
             fontWeight={600}
             color="#101828"
           >
@@ -172,20 +169,20 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
             pb="114px"
             pt="24px"
           >
-            <Text w="80%" color="#667085" fontSize="18px" textAlign="center">
+            <Text w={{base: "100%", md: "80%"}} color="#667085" fontSize={{base: "16px", md: "18px"}} textAlign="center">
               Make sure you use at least 8 characters. One lowercase, one
               uppercase and a special symbol
             </Text>
 
-            <FormControl w="80%">
-              <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+            <FormControl w={{base: "100%", md: "80%"}}>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
                 Current Password
               </FormLabel>
               <InputGroup>
                 <Input
                   h="48px"
+                  fontSize={{base: "14px", md: "16px"}}
                   placeholder="Enter your password"
-                  _placeholder={{ fontSize: "sm" }}
                   type={showCurrentPassword ? "text" : "password"}
                   border={"1px solid #EAECF0"}
                   bg={"#F7F7F7"}
@@ -207,15 +204,15 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
               </InputGroup>
             </FormControl>
 
-            <FormControl w="80%">
-              <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+            <FormControl w={{base: "100%", md: "80%"}}>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
                 New Password
               </FormLabel>
               <InputGroup>
                 <Input
                   h="48px"
                   placeholder="Enter your password"
-                  _placeholder={{ fontSize: "sm" }}
+                  fontSize={{base: "14px", md: "16px"}}
                   type={showNewPassword ? "text" : "password"}
                   border="1px solid #EAECF0"
                   bg="#F7F7F7"
@@ -236,7 +233,7 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
               </InputGroup>
             </FormControl>
 
-            <Stack w="80%">
+            <Stack w={{base: "100%", md: "80%"}}>
               <Box display="flex" gap="4px" alignItems="center">
                 {[...Array(4)].map((_, index) => (
                   <Box
@@ -245,12 +242,13 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
                     bgColor={index < strength ? strengthColor : ""}
                   ></Box>
                 ))}
-                <Text fontSize="12px" color={strengthColor} ml="24px">
+                <Text fontSize={{base: "10px", md: "12px"}} color={strengthColor} ml="24px">
                   {strengthText}
                 </Text>
               </Box>
               <Box
                 display="flex"
+                flexDirection={{base: "column", md: "row"}}
                 gap="16px"
                 alignItems="center"
                 justifyContent="space-between"
@@ -285,7 +283,7 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
                   <div className={styles.checkbox}>
                     <img src={getImageUrl("icons/whiteCheck.png")} />
                   </div>
-                  One upper case
+                  One upper case character
                 </div>
                 <div
                   className={
@@ -302,8 +300,8 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
               </Box>
             </Stack>
 
-            <FormControl w="80%">
-              <FormLabel fontSize="16px" fontWeight={400} color={"#101828"}>
+            <FormControl w={{base: "100%", md: "80%"}}>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
                 Confirm Password
               </FormLabel>
               <InputGroup>
@@ -311,7 +309,7 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
                   h="48px"
                   placeholder="Enter your password"
-                  _placeholder={{ fontSize: "sm" }}
+                  fontSize={{base: "14px", md: "16px"}}
                   type={showConfirmNewPassword ? "text" : "password"}
                   border="1px solid #EAECF0"
                   bg="#F7F7F7"
@@ -339,7 +337,7 @@ export const ChangePassword = ({ backHome, phoneNumber, email, username }) => {
               fontSize="14px"
               fontWeight={600}
               color="#FFFFFF"
-              w="80%"
+              w={{base: "100%", md: "80%"}}
               h="48px"
               onClick={sendOtp}
               isLoading={loading}

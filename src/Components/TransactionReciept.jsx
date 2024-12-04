@@ -9,7 +9,7 @@ export const TransactionReceipt = () => {
 
     useEffect(() => {
         generatePDF();
-    }, [])
+    }, [1])
 
 
     const generatePDF = () => {

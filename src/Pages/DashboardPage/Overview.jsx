@@ -9,16 +9,8 @@ import {
   HStack,
   Flex,
   Divider,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  useDisclosure,
-  ModalFooter,
 } from "@chakra-ui/react";
 import { BiShow, BiHide } from "react-icons/bi";
-import { TbCurrencyNaira } from "react-icons/tb";
 import styles from "./Overview.module.css";
 import { getImageUrl } from "../../../utils";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +23,12 @@ import {
 import { handleSuccess } from "../../utils/handleResponse";
 import { getTransactionHistory } from "../../store/transactions.slice";
 import NoTransaction from "../../elements/NoTransaction";
+import {
+  formatBeneficiaryName,
+  formatTransactionDate,
+} from "../../utils/formatter";
+import SetupModal from "../../elements/Modals/SetupModal";
+import TransactionSkeleton from "../../elements/Loader/TransactionSkeleton";
 
 export const Overview = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -38,34 +36,18 @@ export const Overview = () => {
   const [infoPopup, setInfoPopup] = useState(false);
   const navigate = useNavigate();
   const { fullname } = useSelector((state) => state.user);
-  const transactions = useSelector((state) => state.transactions.value);
+  const { transactions, loading } = useSelector((state) => state.transactions);
   const accounts = useSelector((state) => state.user.accountBalance) || [];
   const { emailAddressVerification, secretQuestion, transactionPIN } =
-    useSelector((state) => state.user.setupStatus) || {
-      emailAddressVerification: true,
-      secretQuestion: true,
-      transactionPIN: true,
-    };
+    useSelector((state) => state.user.setupStatus);
 
   const dispatch = useDispatch();
-  const {
-    isOpen: isOpenSetup,
-    onOpen: onOpenSetup,
-    onClose: onCloseSetup
-  } = useDisclosure();
-
-  // useEffect(() => {
-  //   if (!(transactionPIN && emailAddressVerification && secretQuestion)) {
-  //     onOpenSetup();
-  //   }
-  // }, []);
-
 
   useEffect(() => {
-    dispatch(getDashboardSummary());
-    dispatch(getTransactionHistory());
     dispatch(getAccountBalance());
+    dispatch(getDashboardSummary());
     dispatch(getSetupStatus());
+    dispatch(getTransactionHistory(5));
   }, [dispatch]);
 
   const currentItem = accounts ? accounts[currentIndex] : [];
@@ -76,6 +58,9 @@ export const Overview = () => {
 
   const hideBalance = () => {
     return "****************";
+  };
+  const hideBalanceShort = () => {
+    return "******";
   };
 
   const formatNumber = (number) => {
@@ -107,16 +92,10 @@ export const Overview = () => {
     handleSuccess("Account number copied to clipboard");
   }
 
-  function handleToSetup() {
-    // window.location.href = "/overview/account-setup";
-    navigate("/overview/account-setup")
-    window.scrollTo({ top: 0 });
-  }
-
   return (
     <div className={styles.whole}>
       <Stack gap="20px" maxW="1500px">
-        <Text fontSize="24px" fontWeight={700} color="#101828" mb="4px">
+        <Text fontSize={{base: "16px", sm: "20px", md: "24px"}} fontWeight={700} color="#101828" mb="4px">
           Good Morning, {fullname && fullname}
         </Text>
 
@@ -132,7 +111,7 @@ export const Overview = () => {
           py="40px"
         >
           <HStack w="100%" justifyContent="space-between">
-            {accounts.length > 1 && <Button
+            <Button
               onClick={handlePrevious}
               pointerEvents={currentIndex === 0 ? "none" : ""}
               p={0}
@@ -144,23 +123,23 @@ export const Overview = () => {
                 className={styles.arrow}
                 src={getImageUrl("icons/whiteLeftAngle.png")}
               />
-            </Button>}
+            </Button>
 
-            <HStack justifyContent="space-between" w="100%" px={accounts.length > 0 ? "8px" : "60px"}>
+            <Stack direction={{base: "column-reverse", md: "row"}} justifyContent="space-between" w="100%" px="8px">
               <Box>
-                <Text fontSize="18px" fontWeight={400} color="#FFFFFF">
+                <Text fontSize={{base: "10px", md: "18px"}} fontWeight={400} color="#FFFFFF">
                   Total Available Balance
                 </Text>
                 <HStack ml="-5px" spacing={1} alignItems="center" mb="12px">
-                  <Box fontSize="36px" fontWeight={500} color="#FFFFFF">
+                  <Box fontSize={{base: "24px", md: "36px"}} fontWeight={500} color="#FFFFFF">
                     ₦
                   </Box>
-                  <Text fontSize="32px" fontWeight={700} color="#FFFFFF">
+                  <Text fontSize={{base: "22px", md: "32px"}} fontWeight={700} color="#FFFFFF">
                     {totalBalanceVisible
                       ? formatNumberDecimals(
                           currentItem && currentItem.bookBalance
                         )
-                      : hideBalance()}
+                      : hideBalanceShort()}
                   </Text>
                   <Box
                     borderRadius="500px"
@@ -186,11 +165,11 @@ export const Overview = () => {
                   </Box>
                 </HStack>
 
-                <Text fontSize="14px" fontWeight={400} color="#FFFFFF">
+                <Text fontSize={{base: "10px", md: "14px"}} fontWeight={400} color="#FFFFFF">
                   Account Number
                 </Text>
                 <HStack spacing={0} alignItems="center" mb="12px">
-                  <Text fontSize="20px" fontWeight={700} color="#FFFFFF">
+                  <Text fontSize={{base: "12px", md: "20px"}} fontWeight={700} color="#FFFFFF">
                     {currentItem && currentItem.accountnumber}
                   </Text>
                   <Box
@@ -217,7 +196,7 @@ export const Overview = () => {
                   py="8px"
                   bg="#2C323A"
                   color="#FFFFFF"
-                  fontSize="10px"
+                  fontSize="12px"
                   fontWeight={500}
                   cursor="pointer"
                   onClick={() => setInfoPopup(true)}
@@ -272,9 +251,9 @@ export const Overview = () => {
                   </Box>
                 )}
               </Box>
-            </HStack>
+            </Stack>
 
-            {accounts.length > 1 && <Button
+            <Button
               onClick={handleNext}
               pointerEvents={currentIndex === accounts.length - 1 ? "none" : ""}
               p={0}
@@ -286,10 +265,10 @@ export const Overview = () => {
                 className={styles.arrow}
                 src={getImageUrl("icons/whiteRightAngle.png")}
               />
-            </Button>}
+            </Button>
           </HStack>
 
-          {accounts.length > 1 &&<Box
+          <Box
             w="fit-content"
             bg="#2C323A"
             borderRadius="12px"
@@ -309,7 +288,7 @@ export const Overview = () => {
                 h="8px"
               ></Box>
             ))}
-          </Box>}
+          </Box>
         </Flex>
 
         <Grid gridTemplateColumns={{ lg: "1fr 1fr", md: "auto" }} gap="24px">
@@ -318,12 +297,15 @@ export const Overview = () => {
               <Text fontSize="18px" fontWeight={600} color="#101828" mb="12px">
                 Quick Services
               </Text>
-              <Box
+              {/* <Box */}
+              <Grid
                 borderRadius="12px"
                 border="1px solid #EAECF0"
-                display="flex"
-                justifyContent="space-between"
+                // display="flex"
+                // justifyContent="space-between"
                 p="20px"
+                gridTemplateColumns={{base: "1fr 1fr", md: "1fr 1fr 1fr 1fr 1fr" }}
+                gap='12px'
               >
                 <Box
                   display="flex"
@@ -440,7 +422,7 @@ export const Overview = () => {
                   </Button>
                   Staff Loan
                 </Box>
-              </Box>
+              </Grid>
             </Box>
 
             <Box
@@ -452,7 +434,7 @@ export const Overview = () => {
             >
               <Box
                 bg="#2C323A"
-                fontSize="6px"
+                fontSize="8px"
                 fontWeight={600}
                 color="#FFFFFF"
                 w="fit-content"
@@ -464,9 +446,9 @@ export const Overview = () => {
                 Investments
               </Box>
               <Text
-                lineHeight="33px"
-                w="60%"
-                fontSize="32px"
+                lineHeight={{base: "25px", md: "33px"}}
+                w={{base: "100%", md: "60%"}}
+                fontSize={{base: "22px", md: "32px"}}
                 fontWeight={700}
                 color="#FFFFFF"
                 mb="5px"
@@ -474,7 +456,7 @@ export const Overview = () => {
                 Best in Market Investments!
               </Text>
               <Text
-                w="60%"
+                w={{base: "100%", md: "60%"}}
                 fontSize="12px"
                 fontWeight={400}
                 color="#FFFFFF"
@@ -510,269 +492,110 @@ export const Overview = () => {
                 justifyContent="space-between"
                 gap="4px"
               >
-                <HStack
-                  bg="#D391AF0D"
-                  justify="space-between"
-                  margin={0}
-                  px="20px"
-                  py="12px"
-                >
-                  <Text fontSize="14px" color="#667085" fontWeight={600}>
-                    Description
-                  </Text>
-                  <Text fontSize="14px" color="#667085" fontWeight={600}>
-                    Amount
-                  </Text>
-                  <Text fontSize="14px" color="#667085" fontWeight={600}>
-                    Date
-                  </Text>
-                </HStack>
+                <table className={styles.historyTable}>
+                  <thead>
+                    <th>Transfers</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th></th>
+                  </thead>
 
-                {transactions && transactions.length == 0 && (
-                  <Stack>
-                    <NoTransaction />
-                  </Stack>
-                )}
-                <Stack px="18px" pt="10px">
-                  {transactions &&
-                    transactions.map((t, k) => (
-                      <HStack
-                        key={k}
-                        justify="space-between"
-                        borderBottom="1px solid #F3F4F6"
-                        pt="10px"
-                        pb="4px"
-                        px={0}
-                        alignItems="start"
-                      >
-                        <HStack alignItems="start">
-                          {t.type === "credit" ? (
-                            <img
-                              className={styles.credDeb}
-                              src={getImageUrl("icons/credit.png")}
-                            />
-                          ) : t.type === "debit" ? (
-                            <img
-                              className={styles.credDeb}
-                              src={getImageUrl("icons/debit.png")}
-                            />
-                          ) : (
-                            ""
-                          )}
-                          <Stack gap={0}>
+                  <tbody>
+                    {transactions &&
+                      transactions.map((transaction, i) => (
+                        <tr key={i}>
+                          <td>
+                            <HStack pl={3}>
+                              {parseInt(transaction.amount) > 0 ? (
+                                <img
+                                  className={styles.credDeb}
+                                  src={getImageUrl("icons/credit.png")}
+                                />
+                              ) : (
+                                ""
+                              )}
+                              {parseInt(transaction.amount) < 0 ? (
+                                <img
+                                  className={styles.credDeb}
+                                  src={getImageUrl("icons/debit.png")}
+                                />
+                              ) : (
+                                ""
+                              )}
+
+                              <Stack gap={0}>
+                                <Text
+                                  fontSize="14px"
+                                  color="#394455"
+                                  fontWeight={450}
+                                >
+                                  {parseInt(transaction.amount) > 0 ||
+                                  transaction.category
+                                    ? formatBeneficiaryName(
+                                        transaction.narration
+                                      )
+                                    : `To ${formatBeneficiaryName(
+                                        transaction.beneficiaryName
+                                      )}`}{" "}
+                                </Text>
+
+                                <Text fontSize={12}>
+                                  {parseInt(transaction.amount) > 0
+                                    ? "Credit"
+                                    : "Debit"}
+                                </Text>
+                              </Stack>
+                            </HStack>
+                          </td>
+
+                          <td>
+                            <HStack textAlign={"start"}>
+                              <Text
+                                fontSize="14px"
+                                color="#394455"
+                                fontWeight={450}
+                                textAlign={"start"}
+                              >
+                                ₦ {formatNumber(Math.abs(transaction.amount))}
+                              </Text>
+                            </HStack>
+                          </td>
+                          <td>
                             <Text
                               fontSize="14px"
                               color="#394455"
                               fontWeight={450}
                             >
-                              {t.name}
+                              {formatTransactionDate(
+                                transaction.trandate.split(" ")[0]
+                              )}
                             </Text>
-                            <Text
-                              fontSize="12px"
-                              color="#667085"
-                              fontWeight={450}
-                            >
-                              {t.account}
-                            </Text>
-                          </Stack>
-                        </HStack>
-                        <HStack gap={0} alignItems="center">
-                          <TbCurrencyNaira color="#394455" />
-                          <Text
-                            fontSize="14px"
-                            color="#394455"
-                            fontWeight={450}
-                          >
-                            {formatNumber(t.amount)}
-                          </Text>
-                        </HStack>
-                        <Text fontSize="14px" color="#394455" fontWeight={450}>
-                          {t.date}
-                        </Text>
-                      </HStack>
-                    ))}
-                </Stack>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+
+                {transactions.length == 0 && loading && (
+                  <TransactionSkeleton width={"300px"} length={3} />
+                )}
+
+                {transactions && !loading && transactions.length == 0 && (
+                  <Stack>
+                    <NoTransaction />
+                  </Stack>
+                )}
               </Stack>
             </Box>
           </GridItem>
         </Grid>
+
+        <SetupModal
+          isOpen={
+            !(transactionPIN && emailAddressVerification && secretQuestion)
+          }
+        />
       </Stack>
-
-
-
-      <Modal
-        isCentered
-        closeOnOverlayClick={false}
-        isOpen={isOpenSetup}
-        onClose={onCloseSetup}
-        // size='xl'
-        maxHeight={"70%"}
-      >
-        <ModalOverlay />
-        <ModalContent maxW={'600px'}>
-          <ModalHeader pb={0}>
-            <Text
-              fontSize='26px'
-              color='#101828'
-            >
-              Complete your account setup
-            </Text>
-          </ModalHeader>
-          <ModalBody>
-
-            <div style={{ overflow: "auto", maxHeight: "60vh" }}>
-              <Text
-                fontSize='16px'
-                color='#667085'
-                mb='20px'
-              >
-                You need to complete your account setup to ensure the security and integrity of your transactions conducted on ARM MFB
-              </Text>
-
-              <HStack
-                bg='#F2F4F7'
-                px='16px'
-                py='18px'
-                borderRadius='8px'
-                justifyContent='space-between'
-                gap='20px'
-              >
-                <div style={{width: '100%'}}>
-                  <Text fontSize='16px' mb='16px'>
-                    You'll need to setup the following
-                  </Text>
-
-                  <HStack
-                    spacing="12px"
-                    w="fit-content"
-                    py='4px'
-                  >
-                    <Box
-                      p="8px"
-                      borderRadius="38px"
-                      border={
-                        false
-                          ? "1px solid #2AD062"
-                          : "1px solid #EAECF0"
-                      }
-                    >
-                      <Box
-                        p="2px"
-                        borderRadius="38px"
-                        bg={
-                          false
-                            ? "#2AD062"
-                            : "#667085"
-                        }
-                      >
-                        <img
-                          src={getImageUrl("icons/whiteCheck.png")}
-                          style={{ width: "12px", height: "12px" }}
-                        />
-                      </Box>
-                    </Box>
-                    <Text fontSize="16px" fontWeight={600} color="#0C111D">
-                      Create transaction PIN
-                    </Text>
-                  </HStack>
-
-                  <Box h="14px" w="1px" ml="16px" border="1px dashed #A0A3BD"></Box>
-
-                  <HStack
-                    spacing="12px"
-                    w="fit-content"
-                    py='4px'
-                  >
-                    <Box
-                      p="8px"
-                      borderRadius="38px"
-                      border={
-                        false
-                          ? "1px solid #2AD062"
-                          : "1px solid #EAECF0"
-                      }
-                    >
-                      <Box
-                        p="2px"
-                        borderRadius="38px"
-                        bg={
-                          false
-                            ? "#2AD062"
-                            : "#667085"
-                        }
-                      >
-                        <img
-                          src={getImageUrl("icons/whiteCheck.png")}
-                          style={{ width: "12px", height: "12px" }}
-                        />
-                      </Box>
-                    </Box>
-                    <Text fontSize="16px" fontWeight={600} color="#0C111D">
-                      Add security questions
-                    </Text>
-                  </HStack>
-
-                  <Box h="14px" w="1px" ml="16px" border="1px dashed #A0A3BD"></Box>
-
-                  <HStack
-                    spacing="12px"
-                    w="fit-content"
-                    py='4px'
-                  >
-                    <Box
-                      p="8px"
-                      borderRadius="38px"
-                      border={
-                        false
-                          ? "1px solid #2AD062"
-                          : "1px solid #EAECF0"
-                      }
-                    >
-                      <Box
-                        p="2px"
-                        borderRadius="38px"
-                        bg={
-                          false
-                            ? "#2AD062"
-                            : "#667085"
-                        }
-                      >
-                        <img
-                          src={getImageUrl("icons/whiteCheck.png")}
-                          style={{ width: "12px", height: "12px" }}
-                        />
-                      </Box>
-                    </Box>
-                    <Text fontSize="16px" fontWeight={600} color="#0C111D">
-                      Validate email address
-                    </Text>
-                  </HStack>
-                </div>
-
-                <img src={getImageUrl('modalImg.svg')} style={{width: '100%', height: 'auto'}} />
-
-              </HStack>
-            </div>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              w="100%"
-              // h="48px"
-              bg="#A41856"
-              _hover={{ bg: "#90164D" }}
-              color="#FFFFFF"
-              fontSize="14px"
-              fontWeight={600}
-              onClick={handleToSetup}
-            >
-              Proceed
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-
     </div>
   );
 };

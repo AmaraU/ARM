@@ -28,7 +28,8 @@
     color: #A41857;
     font-size: 16px;
     font-weight: 600;
-    padding: 16px
+    padding: 16px;
+    pointer-events: none;
 }
 
 .profileButton div {
@@ -125,4 +126,19 @@
 
 .uploadButton {
     cursor: pointer;
+}
+
+
+
+
+@media screen and (max-width: 48em) {
+    .whole {
+        padding: 32px 15px;
+    }
+}
+
+@media screen and (max-width: 30em) {
+    .whole {
+        margin-left: 0;
+    }
 }

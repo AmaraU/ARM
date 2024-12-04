@@ -10,6 +10,7 @@ import {
   FormLabel,
   Select,
   Input,
+  Grid,
 } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import { ForgotPIN } from "./ForgotPIN";
@@ -22,6 +23,8 @@ export const PINManagement = ({
   moveToQuestions,
   securityQuestions,
   accountnumber,
+  phoneNumber,
+  email,
 }) => {
   const [managePIN, setManagePIN] = useState(true);
   const [showCreatePIN, setShowCreatePIN] = useState(false);
@@ -29,10 +32,13 @@ export const PINManagement = ({
   const [showChangePIN, setShowChangePIN] = useState(false);
   const [showPIN1, setShowPIN1] = useState(false);
   const [showPIN2, setShowPIN2] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [process, setProcess] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [pin, setPin] = useState("");
+  const [newpin, setNewPin] = useState("");
   const [resetpin, setResetPin] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -77,18 +83,32 @@ export const PINManagement = ({
     setShowPIN1(false);
     setShowPIN2(false);
     setShowSuccess(false);
+    setProcess("CHANGE-PIN");
     window.scrollTo({ top: 0 });
   };
 
-  const moveToPIN1 = () => {
-    setManagePIN(false);
-    setShowCreatePIN(false);
-    setShowForgotPIN(false);
-    setShowChangePIN(false);
-    setShowPIN1(true);
-    setShowPIN2(false);
-    setShowSuccess(false);
-    window.scrollTo({ top: 0 });
+  const moveToPIN1 = async () => {
+    //validate security answer before moving user
+    try {
+      setLoading(true);
+      const response = await userService.validateSecurityAnswer({
+        questionId: question,
+        questionAnswer: answer,
+      });
+
+      setLoading(false);
+      setManagePIN(false);
+      setShowCreatePIN(false);
+      setShowForgotPIN(false);
+      setShowChangePIN(false);
+      setShowPIN1(true);
+      setShowPIN2(false);
+      setShowSuccess(false);
+      window.scrollTo({ top: 0 });
+      console.log(response);
+    } catch {
+      setLoading(false);
+    }
   };
 
   const moveToPIN2 = () => {
@@ -105,12 +125,10 @@ export const PINManagement = ({
   const moveToSuccess = async () => {
     try {
       setLoading(true);
-      const response = await userService.resetPin({
+      const response = await userService.setTransactionPin({
         accountnumber: accountnumber,
-        question: question,
-        new_Trans_Pin: pin,
+        transactionpin: newpin,
         renter_Transactionpin: resetpin,
-        answer_To_Question: answer,
       });
 
       console.log(response);
@@ -138,13 +156,97 @@ export const PINManagement = ({
     backHome();
   };
 
+  const handleForgotPin = ({ otp, question, answer }) => {
+    setOtp(otp);
+    setQuestion(question);
+    setAnswer(answer);
+    setProcess("FORGOT-PIN");
+    setManagePIN(false);
+    setShowCreatePIN(false);
+    setShowForgotPIN(false);
+    setShowChangePIN(false);
+    setShowPIN1(true);
+    setShowPIN2(false);
+    setShowSuccess(false);
+  };
+
+  const handleChangePin = () => {
+    setProcess("CHANGE-PIN");
+    setManagePIN(false);
+    setShowCreatePIN(false);
+    setShowForgotPIN(false);
+    setShowChangePIN(false);
+    setShowPIN1(true);
+    setShowPIN2(false);
+    setShowSuccess(false);
+  };
+
+  const moveToSuccessForgotPin = async () => {
+    try {
+      setLoading(true);
+      const response = await userService.forgotPin({
+        accountnumber: accountnumber,
+        opTcode: otp,
+        new_Trans_Pin: newpin,
+        renter_Transactionpin: resetpin,
+        questionId: question,
+        answer_To_Question: answer,
+      });
+
+      console.log(response);
+      setLoading(false);
+      setShowCreatePIN(false);
+      setShowForgotPIN(false);
+      setShowChangePIN(false);
+      setShowPIN1(false);
+      setShowPIN2(false);
+      setShowSuccess(true);
+      window.scrollTo({ top: 0 });
+    } catch (error) {
+      setLoading(false);
+      handleErrors(error);
+    }
+  };
+
+  const moveToSuccessChangePin = async () => {
+    try {
+      setLoading(true);
+      await userService.changePin({
+        currentpin: pin,
+        transactionpin: newpin,
+        renter_Transactionpin: resetpin,
+      });
+
+      setLoading(false);
+      setShowCreatePIN(false);
+      setShowForgotPIN(false);
+      setShowChangePIN(false);
+      setShowPIN1(false);
+      setShowPIN2(false);
+      setShowSuccess(true);
+      window.scrollTo({ top: 0 });
+    } catch {
+      setLoading(false);
+    }
+  };
+
+  const handleProceed = async () => {
+    if (process === "FORGOT-PIN") {
+      await moveToSuccessForgotPin();
+    } else if (process === "CHANGE-PIN") {
+      await moveToSuccessChangePin();
+    } else {
+      await moveToSuccess();
+    }
+  };
+
   return (
     <>
       {managePIN && (
         <Box>
           <HStack
             bg="#EAECF0"
-            px={"26px"}
+            px={{base: "14px", md: "26px"}}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
@@ -158,9 +260,9 @@ export const PINManagement = ({
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
             <Text
-              width="90%"
+              width="100%"
               textAlign="center"
-              fontSize="18px"
+              fontSize={{base: "16px", md: "18px"}}
               fontWeight={600}
               color="#101828"
             >
@@ -177,11 +279,15 @@ export const PINManagement = ({
             pb="114px"
             pt="48px"
           >
-            <Text color="#667085" fontSize="16px">
+            <Text textAlign="center" color="#667085" fontSize={{base: "14px", md: "16px"}}>
               Make sure you keep PIN safe and secure
             </Text>
 
-            <HStack>
+            <Grid
+              gridTemplateColumns={{base: '1fr', md: '1fr 1fr 1fr'}}
+              w="100%"
+              gap="16px"
+            >
               <Button
                 onClick={moveToCreatePIN}
                 bg="#FFFFFF"
@@ -192,8 +298,7 @@ export const PINManagement = ({
                 fontWeight={600}
                 color="#A41857"
                 alignItems="center"
-                px="50px"
-                py="38px"
+                py="38px"                
               >
                 Create PIN
               </Button>
@@ -207,7 +312,6 @@ export const PINManagement = ({
                 fontWeight={600}
                 color="#A41857"
                 alignItems="center"
-                px="50px"
                 py="38px"
               >
                 Forgot PIN
@@ -222,12 +326,11 @@ export const PINManagement = ({
                 fontWeight={600}
                 color="#A41857"
                 alignItems="center"
-                px="50px"
                 py="38px"
               >
                 Change PIN
               </Button>
-            </HStack>
+            </Grid>
           </Stack>
         </Box>
       )}
@@ -236,7 +339,7 @@ export const PINManagement = ({
         <Box>
           <HStack
             bg="#EAECF0"
-            px={"26px"}
+            px={{base: "14px", md: "26px"}}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
@@ -250,9 +353,9 @@ export const PINManagement = ({
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
             <Text
-              width="90%"
+              width="100%"
               textAlign="center"
-              fontSize="18px"
+              fontSize={{base: "16px", md: "18px"}}
               fontWeight={600}
               color="#101828"
             >
@@ -269,19 +372,19 @@ export const PINManagement = ({
             pb="114px"
             pt="48px"
           >
-            <Text color="#667085" fontSize="16px">
+            <Text textAlign="center" color="#667085" fontSize={{base: "14px", md: "16px"}}>
               Secure your account with 4 digits PIN
             </Text>
 
-            <FormControl w="80%">
-              <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+            <FormControl w={{base: "100%", md: "80%"}}>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
                 Security Question 1
               </FormLabel>
               <Select
                 h="48px"
                 bg="#F7F7F7"
                 border="1px solid #EAECF0"
-                fontSize="16px"
+                fontSize={{base: "14px", md: "16px"}}
                 color="#101828"
                 onChange={(e) => setQuestion(e.target.value)}
               >
@@ -293,27 +396,32 @@ export const PINManagement = ({
               </Select>
             </FormControl>
 
-            <FormControl w="80%">
-              <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+            <FormControl w={{base: "100%", md: "80%"}}>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
                 Answer 1
               </FormLabel>
               <Input
                 h="48px"
                 bg="#F7F7F7"
                 border="1px solid #EAECF0"
-                fontSize="16px"
+                fontSize={{base: "14px", md: "16px"}}
                 color="#101828"
                 onChange={(e) => setAnswer(e.target.value)}
               />
             </FormControl>
 
-            <HStack spacing={2} textAlign="left" w="80%">
+            <Stack
+              spacing={2}
+              textAlign="left"
+              w={{base: "100%", md: "80%"}}
+              direction={{base: 'column', md: "row"}}
+            >
               <img src={getImageUrl("icons/warning.png")} alt="" />
-              <Text fontSize="11.5px" fontWeight={450} color="#667085">
+              <Text fontSize={{base: "10px", md: "11.5px"}} fontWeight={450} color="#667085">
                 Don&apos;t remember answer
               </Text>
               <Text
-                fontSize="11.5px"
+                fontSize={{base: "10px", md: "11.5px"}}
                 fontWeight={700}
                 color="#A41857"
                 cursor="pointer"
@@ -321,7 +429,7 @@ export const PINManagement = ({
               >
                 Change security question
               </Text>
-            </HStack>
+            </Stack>
 
             <Button
               onClick={moveToPIN1}
@@ -331,8 +439,9 @@ export const PINManagement = ({
               fontSize="14px"
               fontWeight={600}
               color="#FFFFFF"
-              w="80%"
+              w={{base: "100%", md: "80%"}}
               h="48px"
+              isLoading={loading}
             >
               Continue
             </Button>
@@ -342,9 +451,13 @@ export const PINManagement = ({
 
       {showForgotPIN && (
         <ForgotPIN
-          toPin={moveToPIN1}
+          toPin={handleForgotPin}
           backHome={moveToManagePIN}
           moveToQuestions={moveToQuestions}
+          securityQuestions={securityQuestions}
+          phoneNumber={phoneNumber}
+          accountnumber={accountnumber}
+          email={email}
         />
       )}
 
@@ -352,7 +465,7 @@ export const PINManagement = ({
         <Box>
           <HStack
             bg="#EAECF0"
-            px={"26px"}
+            px={{base: "14px", md: "26px"}}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
@@ -360,9 +473,9 @@ export const PINManagement = ({
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
             <Text
-              width="90%"
+              width="100%"
               textAlign="center"
-              fontSize="18px"
+              fontSize={{base: "16px", md: "18px"}}
               fontWeight={600}
               color="#101828"
             >
@@ -379,28 +492,29 @@ export const PINManagement = ({
             pb="114px"
             pt="48px"
           >
-            <Text color="#667085" fontSize="16px">
+            <Text textAlign="center" color="#667085" fontSize={{base: "14px", md: "16px"}}>
               Make sure you keep PIN safe and secure
             </Text>
 
             <OtpInput
               size={"lg"}
               length={4}
-              width={110}
+              width={{base: "100%", md: 110}}
               height={"75px"}
               setOtp={(e) => setPin(e)}
             />
 
             <Button
-              onClick={moveToPIN1}
+              onClick={handleChangePin}
               mt="16px"
               bg="#A41857"
               _hover={{ bg: "#90164D" }}
               fontSize="14px"
               fontWeight={600}
               color="#FFFFFF"
-              w="80%"
+              w={{base: "100%", md: "80%"}}
               h="48px"
+              isDisabled={pin.length != 4}
             >
               Change PIN
             </Button>
@@ -412,7 +526,7 @@ export const PINManagement = ({
         <Box>
           <HStack
             bg="#EAECF0"
-            px={"26px"}
+            px={{base: "14px", md: "26px"}}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
@@ -426,9 +540,9 @@ export const PINManagement = ({
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
             <Text
-              width="90%"
+              width="100%"
               textAlign="center"
-              fontSize="18px"
+              fontSize={{base: "16px", md: "18px"}}
               fontWeight={600}
               color="#101828"
             >
@@ -445,16 +559,16 @@ export const PINManagement = ({
             pb="114px"
             pt="48px"
           >
-            <Text color="#667085" fontSize="16px">
+            <Text color="#667085"  textAlign="center" fontSize={{base: "14px", md: "16px"}}>
               Secure your account with 4 digit PIN
             </Text>
 
             <OtpInput
               size={"lg"}
               length={4}
-              width={110}
+              width={{base: "100%", md: 110}}
               height={"75px"}
-              setOtp={(e) => setPin(e)}
+              setOtp={(e) => setNewPin(e)}
             />
 
             <Button
@@ -465,8 +579,9 @@ export const PINManagement = ({
               fontSize="14px"
               fontWeight={600}
               color="#FFFFFF"
-              w="80%"
+              w={{base: "100%", md: "80%"}}
               h="48px"
+              isDisabled={newpin.length != 4}
             >
               Continue
             </Button>
@@ -478,7 +593,7 @@ export const PINManagement = ({
         <Box>
           <HStack
             bg="#EAECF0"
-            px={"26px"}
+            px={{base: "14px", md: "26px"}}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
@@ -492,9 +607,9 @@ export const PINManagement = ({
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
             <Text
-              width="90%"
+              width="100%"
               textAlign="center"
-              fontSize="18px"
+              fontSize={{base: "16px", md: "18px"}}
               fontWeight={600}
               color="#101828"
             >
@@ -511,29 +626,30 @@ export const PINManagement = ({
             pb="114px"
             pt="48px"
           >
-            <Text color="#667085" fontSize="16px">
+            <Text color="#667085" textAlign="center" fontSize={{base: "14px", md: "16px"}}>
               Enter 4 digit PIN again
             </Text>
 
             <OtpInput
               size={"lg"}
               length={4}
-              width={110}
+              width={{base: "100%", md: 110}}
               height={"75px"}
               setOtp={(e) => setResetPin(e)}
             />
 
             <Button
-              onClick={moveToSuccess}
+              onClick={handleProceed}
               mt="16px"
               bg="#A41857"
               _hover={{ bg: "#90164D" }}
               fontSize="14px"
               fontWeight={600}
               color="#FFFFFF"
-              w="80%"
+              w={{base: "100%", md: "80%"}}
               h="48px"
               isLoading={loading}
+              isDisabled={resetpin.length != 4}
             >
               Proceed
             </Button>
@@ -565,7 +681,7 @@ export const PINManagement = ({
             />
             <Text
               mt={"12px"}
-              fontSize={"18px"}
+              fontSize={{base: "16px", md: "18px"}}
               fontWeight={700}
               color={"#000000"}
               textAlign={"center"}
@@ -573,7 +689,7 @@ export const PINManagement = ({
               Success!
             </Text>
             <Text
-              fontSize="14px"
+              fontSize={{base: "12px", md: "14px"}}
               fontWeight={500}
               color="#667085"
               textAlign="center"
@@ -589,7 +705,7 @@ export const PINManagement = ({
               fontSize="14px"
               fontWeight={600}
               color="#FFFFFF"
-              w="80%"
+              w={{base: "100%", md: "80%"}}
               h="48px"
             >
               Okay, Thank You

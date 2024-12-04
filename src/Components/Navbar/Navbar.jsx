@@ -3,6 +3,7 @@ import { getImageUrl } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { resetDocumentDetails } from "../../store/auth/document.slice";
 import { resetUserDetails } from "../../store/auth/user.slice";
+import { useEffect, useRef, useState } from "react";
 
 export const Navbar = () => {
   let currentPath = window.location.pathname;
@@ -15,8 +16,27 @@ export const Navbar = () => {
     window.location.href = "/signin";
   }
 
+  const [showNav, setShowNav] = useState(false);
+  const navRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (navRef.current && !navRef.current.contains(event.target)) {
+        setShowNav(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+        document.removeEventListener('click', handleClickOutside, true);
+    };
+  }, []);
+
   return (
-    <div className={styles.theWhole}>
+    <>
+    <button className={styles.logo2} onClick={()=>setShowNav(!showNav)}>
+      <img src={getImageUrl("logos/arm_a.png")} alt="ARM" />
+    </button>
+    <div className={`${styles.theWhole} ${showNav ? styles.hiddenWhole : ''}`} ref={navRef}>
       <div className={styles.logo}>
         <a href="/overview">
           <img src={getImageUrl("logos/arm_logo.png")} alt="ARM" />
@@ -145,5 +165,7 @@ export const Navbar = () => {
         Log out
       </a>
     </div>
+    </>
+    
   );
 };

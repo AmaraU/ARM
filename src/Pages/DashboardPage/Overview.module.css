@@ -21,8 +21,9 @@ Button img {
 
 
 .credDeb {
-    width: 32px;
-    height: 32px;
+    margin:-5px;
+    width: 30px;
+    height: 30px;
 }
 
 .dotss {
@@ -93,13 +94,13 @@ Button img {
     text-align: left;
     background: #D391AF0D;
     font-size: 14px;
+    font-weight: 600;
     color: #667085;
     padding: 12px;
 }
 .historyTable th {
     padding: 12px 0px;
     text-align: left;
-    font-weight: 500;
 }
 .historyTable th:first-child {
     padding: 12px 16px;
@@ -143,4 +144,30 @@ Button img {
     width: 230px;
     margin-left: -110px;
     margin-top: 5px;
+}
+
+.check {
+    width: 12px;
+    height: 12px;
+}
+
+
+@media screen and (max-width: 48em) {
+    .whole {
+        padding: 32px 20px;
+    }
+    .arrow {
+        width: 18px;
+        height: 18px;
+    }
+    .check {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media screen and (max-width: 30em) {
+    .whole {
+        margin-left: 0;
+    }
 }

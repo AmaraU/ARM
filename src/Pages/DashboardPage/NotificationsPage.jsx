@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text, Box, HStack, Stack } from "@chakra-ui/react";
 import styles from './Overview.module.css';
 import CardContainer from "../../elements/CardContainer";
@@ -110,7 +110,7 @@ export const NotificationsPage = () => {
                     <TabPanel ml={-4}>
                         <CardContainer title={'Recent Notifications'}>
                             
-                            <Stack width='80%'>
+                            <Stack width={{base: "90%", md: '80%'}}>
                                 <HStack justifyContent='space-between' alignItems='center' mb='16px'>
                                     <Text fontSize='16px' fontWeight={500} color='#A41857' cursor='pointer' textDecoration='underline'>Mark all as read</Text>
                                     <div>

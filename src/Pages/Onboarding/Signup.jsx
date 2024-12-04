@@ -20,7 +20,7 @@ import styles from "./Onboarding.module.css";
 import { ConfirmNumber } from "./ConfirmPhone";
 import { useDispatch } from "react-redux";
 import { setDetails } from "../../store/auth/auth.slice";
-import PhoneInput from "../../elements/PhoneInput";
+import authService from "../../services/authService";
 
 export default function Signup() {
   const {
@@ -28,7 +28,7 @@ export default function Signup() {
     onOpen: onOpenConfirm,
     onClose: onCloseConfirm,
   } = useDisclosure();
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [questOne, setQuestOne] = useState(false);
   const [questTwo, setQuestTwo] = useState(false);
@@ -37,14 +37,67 @@ export default function Signup() {
   const [text, setText] = useState("BVN");
   const [bvn, setBVN] = useState("");
   const [nin, setNIN] = useState("");
-  const [phoneNumber, setPhone] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [checked, setChecked] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const processForm = async (e) => {
-    console.log("Processed");
+  const verifyKyc = async () => {
+    try {
+      setLoading(true);
+      await authService.checkBVNorNIN(bvn ? bvn : nin);
+      let response;
+      if (isBVN) {
+        response = await authService.verifyBVN({
+          number: bvn,
+          firstName: "",
+          lastName: "",
+        });
+        setPhoneNumber(response.data.data.bvn.phone);
+        setEmail(response.data.data.bvn.email);
+
+        dispatch(
+          setDetails({
+            bvn,
+            phoneNumber: response.data.data.bvn.phone,
+            email: response.data.data.bvn.email,
+            firstname: response.data.data.bvn.firstname,
+            surname: response.data.data.bvn.lastname,
+            othername: response.data.data.bvn.middlename,
+            photo: response.data.data.bvn.photo,
+            gender: response.data.data.bvn.gender,
+            address: response.data.data.bvn.residential_address,
+          })
+        );
+      } else {
+        response = await authService.verifyNIN({
+          number: nin,
+          firstName: "",
+          lastName: "",
+        });
+        setPhoneNumber(response.data.data.nin.phone);
+        setEmail(response.data.data.nin.email);
+        dispatch(
+          setDetails({
+            bvn,
+            phoneNumber: response.data.data.nin.phone,
+            email: response.data.data.nin.email,
+            firstname: response.data.data.nin.firstname,
+            surname: response.data.data.nin.lastname,
+            othername: response.data.data.nin.middlename,
+            photo: response.data.data.nin.photo,
+            gender: response.data.data.nin.gender,
+            address: response.data.data.nin.residential_address,
+          })
+        );
+      }
+      setLoading(false);
+      onOpenConfirm();
+    } catch (error) {
+      console.log(error)
+      setLoading(false);
+    }
   };
 
   const changingText = [
@@ -70,7 +123,6 @@ export default function Signup() {
   useEffect(() => {
     const interval = setInterval(() => {
       setVisible(false);
-
       setTimeout(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % changingText.length);
         setVisible(true);
@@ -79,15 +131,22 @@ export default function Signup() {
     return () => clearInterval(interval);
   }, []);
 
+  // const handleConfirmNumber = async () => {
+  //   try {
+  //     dispatch(
+  //       setDetails({
+  //         bvn,
+  //         nin,
+  //       })
+  //     );
+  //     await verifyKyc();
+  //   } catch (error) {
+  //     console.log(error);
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleConfirmNumber = () => {
-    dispatch(
-      setDetails({
-        phoneNumber,
-        email,
-        bvn,
-        nin,
-      })
-    );
     onOpenConfirm();
   };
 
@@ -100,93 +159,256 @@ export default function Signup() {
     setText("BVN");
   };
 
-    return (
-        <>
-        <Box display="flex" height={["auto","100vh"]}>
-            
-            <Box display={{ base: 'none', md: 'block' }} flex="45%" position="relative" borderRadius={'0 56px 56px 0'} maxW={'670px'}>
-                <Box
-                    position="fixed"
-                    width="45%"
-                    maxW={'670px'}
-                    height="100vh"
-                    bgGradient={'linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)'}
-                    zIndex="1"
-                    borderRadius={'0 56px 56px 0'}
-                    p={'2.5%'}
-                >
-                    <Stack spacing={10} zIndex={2} h={'100%'}>
-                        <Box p={8} as='button' onClick={() => navigate('/')}>
-                            <Image src={getImageUrl("logos/arm_logo.png")} w={"140px"} h={'auto'} />
-                        </Box>
-                        
-                        <Flex flexDirection={'column'} gap={'12px'} h={'100%'} justifyContent={'end'} mb={'24px'}>
-                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={'4.5vh'} fontWeight={700} color={'white'} w={'90%'}>{changingText[currentIndex].header}</Text>
-                            <Text className={`${styles.changing} ${visible ? styles.visible : ''}`} fontSize={"16px"} color={'white'} w={'90%'}>{changingText[currentIndex].subheading}</Text>
-
-                            <Flex gap={'4px'}>
-                                {changingText.map((_, idx) => (
-                                    <Box cursor={'pointer'} onClick={()=>setCurrentIndex(idx)} key={idx} bg={idx === currentIndex ? '#A41857' : '#FFFFFF'} className='circle' borderRadius={'500px'} w={idx === currentIndex ? '28px' : '8px'} h={'8px'} transition={'width 1s ease-in-out'} />
-                                ))}
-                            </Flex>
-
-                            <Flex mt={'6vh'} bottom={0} alignItems={'center'} justifyContent={'space-between'}>
-                                <Text fontSize={"14px"} color={'#EFECE9'}>© 2024 ARM MFB by ARM Group. All rights reserved.</Text>
-                                <Text fontSize={"14px"} color={'#EFECE9'} cursor={'pointer'} _hover={{textDecoration: 'underline'}}>Help Center</Text>
-                            </Flex>
-                        </Flex>
-                    </Stack>
-                </Box>
-                
+  return (
+    <>
+      <Box display="flex" height={["auto", "100vh"]}>
+        <Box
+          display={{ base: "none", md: "block" }}
+          flex="45%"
+          position="relative"
+          borderRadius="0 56px 56px 0"
+          maxW="670px"
+        >
+          <Box
+            position="fixed"
+            width="45%"
+            maxW="670px"
+            height="100vh"
+            bgGradient={
+              "linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)"
+            }
+            zIndex="1"
+            borderRadius="0 56px 56px 0"
+            p="2.5%"
+          >
+            <Stack spacing={10} zIndex={2} h="100%">
+              <Box p={8} as="button" onClick={() => navigate("/")}>
                 <Image
-                    src={getImageUrl(`${changingText[currentIndex].image}`)}
-                    alt="Fixed"
-                    position="fixed"
-                    width="45%"
-                    maxW={'670px'}
-                    height="100vh"
-                    objectFit="cover"
-                    borderRadius={'0 56px 56px 0'}
+                  src={getImageUrl("logos/arm_logo.png")}
+                  w="140px"
+                  h="auto"
                 />
-            </Box>
+              </Box>
 
+              <Flex
+                flexDirection="column"
+                gap="12px"
+                h="100%"
+                justifyContent="end"
+                mb="24px"
+              >
+                <Text
+                  className={`${styles.changing} ${
+                    visible ? styles.visible : ""
+                  }`}
+                  fontSize="6vh"
+                  fontWeight={700}
+                  color="white"
+                  w="90%"
+                >
+                  {changingText[currentIndex].header}
+                </Text>
+                <Text
+                  className={`${styles.changing} ${
+                    visible ? styles.visible : ""
+                  }`}
+                  fontSize="16px"
+                  color="white"
+                  w="90%"
+                >
+                  {changingText[currentIndex].subheading}
+                </Text>
 
-            <Box  flex="55%" overflowY="scroll" bg="white" display={'flex'} flexDirection={'column'} p={{base: '24px', md: '50px'}} alignItems={{base: 'center', md: 'start'}}>
+                <Flex gap="4px">
+                  {changingText.map((_, idx) => (
+                    <Box
+                      cursor="pointer"
+                      onClick={() => setCurrentIndex(idx)}
+                      key={idx}
+                      bg={idx === currentIndex ? "#A41857" : "#FFFFFF"}
+                      className="circle"
+                      borderRadius="500px"
+                      w={idx === currentIndex ? "28px" : "8px"}
+                      h="8px"
+                      transition={"width 1s ease-in-out"}
+                    />
+                  ))}
+                </Flex>
 
-                <Stack spacing={'16px'} w={{base: 'sm', sm: 'md', lg: 'lg'}} maxW={'630px'} as='form' onSubmit={processForm} mt={'48px'} >
-                    <Text fontSize={{base: '40px', md: '48px'}} fontWeight={700} color={'#14142A'}>Let's have your {text}</Text>
-                    <Text fontSize={{base: '16px', md: '18px'}} fontWeight={400} color={'#667085'}>Kindly provide your 11-digit {text} to validate your identity</Text>
+                <Flex
+                  mt="6vh"
+                  bottom={0}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Text fontSize="14px" color="#EFECE9">
+                    © 2024 ARM MFB by ARM Group. All rights reserved.
+                  </Text>
+                  <Text
+                    fontSize="14px"
+                    color="#EFECE9"
+                    cursor="pointer"
+                    _hover={{ textDecoration: "underline" }}
+                  >
+                    Help Center
+                  </Text>
+                </Flex>
+              </Flex>
+            </Stack>
+          </Box>
 
-                    {isBVN && <FormControl isRequired>
-                        <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter BVN</FormLabel>
-                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your BVN' _placeholder={{ fontSize: "sm" }} autoComplete='off' onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
-                    </FormControl>}
-                    {!isBVN && <FormControl isRequired>
-                        <FormLabel fontSize={'16px'} fontWeight={400} color={'#101828'} mb={'16px'}>Enter NIN</FormLabel>
-                        <Input maxLength={11} type="number" border='1px solid #EAECF0' bg='#F7F7F7' color='#101828' placeholder='Enter your NIN' _placeholder={{ fontSize: "sm" }} autoComplete='off' onInput={(e)=>e.target.value = e.target.value.slice(0, e.target.maxLength)} />
-                    </FormControl>}
-                    <Box p='12px' bg='#F7F7F7' border='1px solid #EAECF0' borderRadius='8px'>
-                        <Box>
-                            <Flex alignItems='center' justifyContent='space-between' onClick={() => setQuestOne(!questOne)}>
-                                <HStack>
-                                    <img src={getImageUrl('icons/blackInfo.png')} />
-                                    <Text fontSize='14px' fontWeight={500} color='#667085'>Why do we need your {text}?</Text>
-                                </HStack>
-                                <button type='button'><img src={getImageUrl('icons/greyRightAngle.png')} /></button>
-                            </Flex>
-                            {questOne && <Stack p='12px' spacing='12px'>
-                                <Text fontSize='12px' fontWeight={400} color='#667085'>This is how we verify that transactions are carried out by the real account owner (that’s you!) It helps us keep you safe.</Text>
-                                <Text fontSize='12px' fontWeight={400} color='#667085'>Before continuing you can review our Privacy Policy and Terms of Service</Text>
-                                <Box>
-                                    <Flex fontSize='12px' fontWeight={500} color='#0C111D'><img src={getImageUrl('icons/greenTick.png')} alt="" />Full Name</Flex>
-                                    <Flex fontSize='12px' fontWeight={500} color='#0C111D'><img src={getImageUrl('icons/greenTick.png')} alt="" />Phone number</Flex>
-                                    <Flex fontSize='12px' fontWeight={500} color='#0C111D'><img src={getImageUrl('icons/greenTick.png')} alt="" />Date of birth</Flex>
-                                </Box>
-                                <Text fontSize='12px' fontWeight={500} color='#0C111D'>Your {text} does not give us access to your bank account, transactions or any other information.</Text>
-                                <Text fontSize='12px' fontWeight={500} color='#0C111D'>Your data is safe with us and we will not share your data with anyone</Text>
+          <Image
+            src={getImageUrl(`${changingText[currentIndex].image}`)}
+            alt="Fixed"
+            position="fixed"
+            width="45%"
+            maxW="670px"
+            height="100vh"
+            objectFit="cover"
+            borderRadius="0 56px 56px 0"
+          />
+        </Box>
 
-                            </Stack>}
-                        </Box>
+        <Box
+          flex="55%"
+          overflowY={{base: "auto", sm: "scroll"}}
+          bg="white"
+          display={"flex"}
+          flexDirection={"column"}
+          p={{ base: "12px", md: "50px" }}
+          alignItems={{ base: "center", md: "start" }}
+        >
+          <Stack
+            spacing={"16px"}
+            w={{ base: "100%", sm: "sm", lg: "lg" }}
+            h="100%"
+            maxW={"630px"}
+            as="form"
+            mt={"48px"}
+          >
+            <Text
+              fontSize={{ base: "32px", md: "44px" }}
+              fontWeight={700}
+              color={"#14142A"}
+            >
+              Let&apos;s have your {text}
+            </Text>
+            <Text
+              fontSize={{ base: "14px", md: "18px" }}
+              fontWeight={400}
+              color={"#667085"}
+            >
+              Kindly provide your 11-digit {text} to validate your identity
+            </Text>
+
+            {isBVN && (
+              <FormControl isRequired>
+                <FormLabel
+                  fontSize={"16px"}
+                  fontWeight={400}
+                  color={"#101828"}
+                  mb={"16px"}
+                >
+                  Enter BVN
+                </FormLabel>
+                <Input
+                  onChange={(e) => setBVN(e.target.value)}
+                  type="number"
+                  border="1px solid #EAECF0"
+                  bg="#F7F7F7"
+                  color="#101828"
+                  placeholder="Enter your BVN"
+                  _placeholder={{ fontSize: "sm" }}
+                  autoComplete="off"
+                  onInput={(e)=>e.target.value = e.target.value.slice(0,11)}
+                  maxLength={11}
+                  onWheel={ event => event.currentTarget.blur() }
+                />
+              </FormControl>
+            )}
+            {!isBVN && (
+              <FormControl isRequired>
+                <FormLabel
+                  fontSize={"16px"}
+                  fontWeight={400}
+                  color={"#101828"}
+                  mb={"16px"}
+                >
+                  Enter NIN
+                </FormLabel>
+                <Input
+                  maxLength={11}
+                  type="number"
+                  border="1px solid #EAECF0"
+                  bg="#F7F7F7"
+                  color="#101828"
+                  placeholder="Enter your NIN"
+                  _placeholder={{ fontSize: "sm" }}
+                  autoComplete="off"
+                  onChange={(e) => setNIN(e.target.value)}
+                  onInput={(e) => e.target.value = e.target.value.slice(0,11)}
+                  onWheel={(e) => e.currentTarget.blur() }
+                />
+              </FormControl>
+            )}
+            <Box
+              p="12px"
+              bg="#F7F7F7"
+              border="1px solid #EAECF0"
+              borderRadius="8px"
+            >
+              <Box>
+                <Flex
+                  alignItems="center"
+                  justifyContent="space-between"
+                  onClick={() => setQuestOne(!questOne)}
+                >
+                  <HStack>
+                    <img src={getImageUrl("icons/blackInfo.png")} />
+                    <Text fontSize="14px" fontWeight={500} color="#667085">
+                      Why do we need your {text}?
+                    </Text>
+                  </HStack>
+                  <button type="button">
+                    <img src={getImageUrl("icons/greyRightAngle.png")} />
+                  </button>
+                </Flex>
+                {questOne && (
+                  <Stack p="12px" spacing="12px">
+                    <Text fontSize="12px" fontWeight={400} color="#667085">
+                      This is how we verify that transactions are carried out by
+                      the real account owner (that’s you!) It helps us keep you
+                      safe.
+                    </Text>
+                    <Text fontSize="12px" fontWeight={400} color="#667085">
+                      Before continuing you can review our Privacy Policy and
+                      Terms of Service
+                    </Text>
+                    <Box>
+                      <Flex fontSize="12px" fontWeight={500} color="#0C111D">
+                        <img src={getImageUrl("icons/greenTick.png")} alt="" />
+                        Full Name
+                      </Flex>
+                      <Flex fontSize="12px" fontWeight={500} color="#0C111D">
+                        <img src={getImageUrl("icons/greenTick.png")} alt="" />
+                        Phone number
+                      </Flex>
+                      <Flex fontSize="12px" fontWeight={500} color="#0C111D">
+                        <img src={getImageUrl("icons/greenTick.png")} alt="" />
+                        Date of birth
+                      </Flex>
+                    </Box>
+                    <Text fontSize="12px" fontWeight={500} color="#0C111D">
+                      Your {text} does not give us access to your bank account,
+                      transactions or any other information.
+                    </Text>
+                    <Text fontSize="12px" fontWeight={500} color="#0C111D">
+                      Your data is safe with us and we will not share your data
+                      with anyone
+                    </Text>
+                  </Stack>
+                )}
+              </Box>
 
               <Divider h="2px" mt="12px" mb="12px" />
 
@@ -302,7 +524,7 @@ export default function Signup() {
             </FormControl>
             <Stack pt={4}>
               <Button
-                isDisabled={!checked || (!phoneNumber || !email || (!bvn && !nin))}
+                // isDisabled={!checked || (!bvn && !nin)}
                 isLoading={isLoading}
                 rounded={"8px"}
                 py={"26px"}
@@ -312,7 +534,7 @@ export default function Signup() {
                 bg={"#A41857"}
                 color={"white"}
                 _hover={{
-                  bg: "#0E0E0ECC",
+                  bg: "#90164D",
                 }}
                 onClick={handleConfirmNumber}
               >

@@ -67,19 +67,15 @@ export const getSetupStatus = createAsyncThunk(
   }
 );
 
-
-export const getBvnInfo = createAsyncThunk(
-  "user/getBvnInfo",
-  async () => {
-    try {
-      const response = await userService.getBvnInfo();
-      return response;
-    } catch (error) {
-      handleErrors(error);
-      throw error;
-    }
+export const getBvnInfo = createAsyncThunk("user/getBvnInfo", async () => {
+  try {
+    const response = await userService.getBvnInfo();
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
-);
+});
 
 const saveToSessionStorage = (data) => {
   const existingData = sessionStorage.getItem("user");
@@ -97,7 +93,21 @@ const initialState = {
   ...loadFromSessionStorage(),
   customerDetails: {},
   contactDetails: {},
-  setupStatus: { profile: {} },
+  setupStatus: {
+    emailAddressVerification: true,
+    secretQuestion: true,
+    transactionPIN: true,
+    profile: {},
+    identity: {
+      bvn: true,
+      nin: true,
+      governmentIDCard: true,
+      signature: true,
+      proofOfAddress: true,
+    }
+
+
+  },
 };
 
 const userSlice = createSlice({
@@ -187,7 +197,7 @@ const userSlice = createSlice({
       })
       .addCase(getBvnInfo.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload.result)
+        console.log(action.payload.result);
         state.userBVN = action.payload.result.data[0];
         console.log(state.contactDetails);
       })

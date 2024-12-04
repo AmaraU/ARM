@@ -6,7 +6,7 @@ import { getImageUrl } from "../../utils";
 function PinComponent({ setStep, handleContinue, loading, setPin, pin }) {
   return (
     <Box>
-      <HStack bg="#EAECF0" px="26px" py="14px" borderRadius="12px 12px 0 0">
+      <HStack bg="#EAECF0" px={{base: "14px", md: "26px"}} py="14px" borderRadius="12px 12px 0 0">
         <Button
           onClick={setStep}
           h="24px"
@@ -17,9 +17,9 @@ function PinComponent({ setStep, handleContinue, loading, setPin, pin }) {
           <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
         </Button>
         <Text
-          width="90%"
+          width="100%"
           textAlign="center"
-          fontSize="18px"
+          fontSize={{base: "16px", md: "18px"}}
           fontWeight={600}
           color="#101828"
         >
@@ -38,9 +38,19 @@ function PinComponent({ setStep, handleContinue, loading, setPin, pin }) {
       >
         <Flex textAlign={"center"} justifyContent={"center"}>
           <Stack>
-            <Text>Enter your 4-digit PIN to complete process</Text>
+            <Text
+              fontSize={{base: "14px", md: "16px"}}
+              color={"#667085"}
+            >
+              Enter your 4-digit PIN to complete process
+            </Text>
             <Text textAlign={"start"}>Pin</Text>
-            <OtpInput length={4} height={20} width={100} setOtp={setPin} />
+            <OtpInput
+              length={4}
+              height={{base: 50, md: 20}}
+              width={{base: "100%", md: 100}}
+              setOtp={setPin}
+            />
 
             <Button
               mt="24px"

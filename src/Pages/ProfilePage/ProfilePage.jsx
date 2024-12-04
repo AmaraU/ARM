@@ -26,9 +26,8 @@ import { getSecurityQuestions } from "../../store/utils.slice";
 export const ProfilePage = () => {
   const location = useLocation();
   const [tabIndex, setTabIndex] = useState(0);
-  const { fullname, email, username, phoneNumber, casaAccountBalances } = useSelector(
-    (state) => state.user
-  );
+  const { fullname, email, username, phoneNumber, casaAccountBalances } =
+    useSelector((state) => state.user);
   const userDetails = useSelector((state) => state.user.customerDetails);
   const contactDetails = useSelector((state) => state.user.contactDetails);
   const { nationalities, securityQuestions } = useSelector(
@@ -74,15 +73,26 @@ export const ProfilePage = () => {
 
   return (
     <div className={styles.whole}>
-      <Text fontSize="24px" fontWeight={700} color="#101828" mb="16px">
+      <Text
+        fontSize={{base: "22px", md: "24px"}}
+        fontWeight={700}
+        color="#101828"
+        mb="16px"
+      >
         Profile
       </Text>
 
       <Tabs index={tabIndex} onChange={handleTabsChange}>
-        <TabList borderBottom="none" gap="5px" mb="24px">
+        <TabList
+          display="grid"
+          gridTemplateColumns={{base: "1fr 1fr", md: "auto auto auto auto"}}
+          borderBottom="none"
+          gap="5px"
+          mb="24px"
+        >
           <Tab
             rounded="50px"
-            fontSize="13px"
+            fontSize={{base: "11px", md: "13px"}}
             color="#667085"
             fontWeight={500}
             border="1px solid #EAECF0"
@@ -99,7 +109,7 @@ export const ProfilePage = () => {
           </Tab>
           <Tab
             rounded="50px"
-            fontSize="13px"
+            fontSize={{base: "11px", md: "13px"}}
             color="#667085"
             fontWeight={500}
             border="1px solid #EAECF0"
@@ -116,7 +126,7 @@ export const ProfilePage = () => {
           </Tab>
           <Tab
             rounded="50px"
-            fontSize="13px"
+            fontSize={{base: "11px", md: "13px"}}
             color="#667085"
             fontWeight={500}
             border="1px solid #EAECF0"
@@ -133,7 +143,7 @@ export const ProfilePage = () => {
           </Tab>
           <Tab
             rounded="50px"
-            fontSize="13px"
+            fontSize={{base: "11px", md: "13px"}}
             color="#667085"
             fontWeight={500}
             border="1px solid #EAECF0"
@@ -151,7 +161,7 @@ export const ProfilePage = () => {
         </TabList>
 
         <TabPanels maxWidth="1000px">
-          <TabPanel ml={-4}>
+          <TabPanel mx={{base: -3, md: -4}}>
             <EditProfile
               fullname={fullname}
               email={email}
@@ -166,7 +176,7 @@ export const ProfilePage = () => {
             />
           </TabPanel>
 
-          <TabPanel ml={-4}>
+          <TabPanel mx={{base: -3, md: -4}}>
             <ChangePassword
               backHome={() => handleTabsChange(0)}
               username={username}
@@ -176,17 +186,19 @@ export const ProfilePage = () => {
             />
           </TabPanel>
 
-          <TabPanel ml={-4}>
+          <TabPanel mx={{base: -3, md: -4}}>
             <PINManagement
               backHome={() => handleTabsChange(0)}
               isForget={isForget}
               moveToQuestions={() => handleTabsChange(3)}
               securityQuestions={securityQuestions}
               // accountnumber={casaAccountBalances[0]?.accountnumber}
+              phoneNumber={phoneNumber}
+              email={email}
             />
           </TabPanel>
 
-          <TabPanel ml={-4}>
+          <TabPanel mx={{base: -3, md: -4}}>
             <SecurityQuestions
               // proceed={moveToSetup}
               isNotShowNumber={true}

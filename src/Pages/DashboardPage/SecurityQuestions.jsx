@@ -19,9 +19,9 @@ import authService from "../../services/authService";
 export const SecurityQuestions = ({ moveToSetup, proceed, isNotShowNumber }) => {
   const dispatch = useDispatch();
   const { securityQuestions } = useSelector((state) => state.utils);
-  const [question1, setQuestion1] = useState(1);
-  const [question2, setQuestion2] = useState(1);
-  const [question3, setQuestion3] = useState(1);
+  const [question1, setQuestion1] = useState("");
+  const [question2, setQuestion2] = useState("");
+  const [question3, setQuestion3] = useState("");
   const [answer1, setAnswer1] = useState("");
   const [answer2, setAnswer2] = useState("");
   const [answer3, setAnswer3] = useState("");
@@ -83,9 +83,10 @@ export const SecurityQuestions = ({ moveToSetup, proceed, isNotShowNumber }) => 
         <HStack
           bg={"#EAECF0"}
           justifyContent={"space-between"}
-          px={"26px"}
+          px={{base: "14px", md: "26px"}}
           py={"14px"}
           borderRadius={"12px 12px 0 0"}
+          gap={0}
         >
           <Button
             h={"24px"}
@@ -96,10 +97,10 @@ export const SecurityQuestions = ({ moveToSetup, proceed, isNotShowNumber }) => 
           >
             <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
           </Button>
-          <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+          <Text textAlign="center" fontSize={{base: "14px", md: "18px"}} fontWeight={600} color={"#101828"}>
             Security Questions
           </Text>
-          <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+          <Text fontSize={{base: "14px", md: "18px"}} fontWeight={600} color={"#101828"}>
             {!isNotShowNumber ? '2/3':''}
           </Text>
         </HStack>
@@ -113,23 +114,26 @@ export const SecurityQuestions = ({ moveToSetup, proceed, isNotShowNumber }) => 
           pb="54px"
           pt="24px"
         >
-          <Text fontSize="16px" fontWeight={400} color="#667085">
+          <Text textAlign="center" fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#667085">
             Select security question and answer that you will remember
           </Text>
 
-          <FormControl w="80%">
-            <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+          <FormControl w={{base: "100%", md: "80%"}}>
+            <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
               Security Question 1
             </FormLabel>
             <Select
               h="48px"
               bg="#F7F7F7"
               border="1px solid #EAECF0"
-              fontSize="16px"
+              fontSize={{base: "14px", md: "16px"}}
               color="#101828"
               value={question1}
               onChange={(e) => setSecurityQuestion1(e.target.value)}
             >
+              <option selected hidden>
+                Select a security question
+              </option>
               {securityQuestions.map((option, i) => (
                 <option key={i} value={option.id}>
                   {option.secret_Question}
@@ -138,33 +142,36 @@ export const SecurityQuestions = ({ moveToSetup, proceed, isNotShowNumber }) => 
             </Select>
           </FormControl>
 
-          <FormControl w="80%">
-            <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+          <FormControl w={{base: "100%", md: "80%"}}>
+            <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
               Answer 1
             </FormLabel>
             <Input
               h="48px"
               bg="#F7F7F7"
               border="1px solid #EAECF0"
-              fontSize="16px"
+              fontSize={{base: "14px", md: "16px"}}
               color="#101828"
               value={answer1}
               onChange={(e) => setAnswer1(e.target.value)}
             />
           </FormControl>
 
-          <FormControl w="80%">
-            <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+          <FormControl w={{base: "100%", md: "80%"}}>
+            <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
               Security Question 2
             </FormLabel>
             <Select
               h="48px"
               bg="#F7F7F7"
               border="1px solid #EAECF0"
-              fontSize="16px"
+              fontSize={{base: "14px", md: "16px"}}
               color="#101828"
               onChange={(e) => setSecurityQuestion2(e.target.value)}
             >
+              <option selected disabled>
+                Select a security question
+              </option>
               {allSecurityQuestions.map((option, i) => (
                 <option key={i} value={option.id}>
                   {option.secret_Question}
@@ -173,33 +180,36 @@ export const SecurityQuestions = ({ moveToSetup, proceed, isNotShowNumber }) => 
             </Select>
           </FormControl>
 
-          <FormControl w="80%">
-            <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+          <FormControl w={{base: "100%", md: "80%"}}>
+            <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
               Answer 2
             </FormLabel>
             <Input
               h="48px"
               bg="#F7F7F7"
               border="1px solid #EAECF0"
-              fontSize="16px"
+              fontSize={{base: "14px", md: "16px"}}
               color="#101828"
               value={answer2}
               onChange={(e) => setAnswer2(e.target.value)}
             />
           </FormControl>
 
-          <FormControl w="80%">
-            <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+          <FormControl w={{base: "100%", md: "80%"}}>
+            <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
               Security Question 3
             </FormLabel>
             <Select
               h="48px"
               bg="#F7F7F7"
               border="1px solid #EAECF0"
-              fontSize="16px"
+              fontSize={{base: "14px", md: "16px"}}
               color="#101828"
               onChange={(e) => setQuestion3(e.target.value)}
             >
+              <option selected disabled hidden>
+                Select a security question
+              </option>
               {securityQuestions3.map((option, i) => (
                 <option key={i} value={option.id}>
                   {option.secret_Question}
@@ -208,15 +218,15 @@ export const SecurityQuestions = ({ moveToSetup, proceed, isNotShowNumber }) => 
             </Select>
           </FormControl>
 
-          <FormControl w="80%">
-            <FormLabel fontSize="16px" fontWeight={400} color="#101828">
+          <FormControl w={{base: "100%", md: "80%"}}>
+            <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
               Answer 3
             </FormLabel>
             <Input
               h="48px"
               bg="#F7F7F7"
               border="1px solid #EAECF0"
-              fontSize="16px"
+              fontSize={{base: "14px", md: "16px"}}
               color="#101828"
               value={answer3}
               onChange={(e) => setAnswer3(e.target.value)}
@@ -231,7 +241,7 @@ export const SecurityQuestions = ({ moveToSetup, proceed, isNotShowNumber }) => 
             fontSize="14px"
             fontWeight={600}
             color="#FFFFFF"
-            w="80%"
+            w={{base: "100%", md: "80%"}}
             h="48px"
             isDisabled={!answer1 || !answer2 || !answer3}
             isLoading={loading}

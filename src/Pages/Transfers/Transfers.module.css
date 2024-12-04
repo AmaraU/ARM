@@ -78,3 +78,18 @@ img {
     padding: 8px;
     background: #A41857;
 }
+
+
+
+
+@media screen and (max-width: 48em) {
+    .whole {
+        padding: 32px 15px;
+    }
+}
+
+@media screen and (max-width: 30em) {
+    .whole {
+        margin-left: 0;
+    }
+}

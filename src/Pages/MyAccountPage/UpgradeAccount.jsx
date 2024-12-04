@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Stack,
   Text,
@@ -11,7 +11,6 @@ import {
   Select,
   Input,
   InputGroup,
-  InputRightElement,
   Modal,
   ModalContent,
   ModalHeader,
@@ -19,11 +18,16 @@ import {
   ModalBody,
   ModalOverlay,
   ModalFooter,
+  Image,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./MyAccountPage.module.css";
 import { useNavigate } from "react-router-dom";
 import CardContainer from "../../elements/CardContainer";
+import userService from "../../services/userService";
+import { useDispatch, useSelector } from "react-redux";
+import { getAccountBalance, getSetupStatus } from "../../store/auth/user.slice";
 
 export const UpgradeAccount = () => {
   const {
@@ -31,14 +35,38 @@ export const UpgradeAccount = () => {
     onOpen: onOpenSample,
     onClose: onCloseSample,
   } = useDisclosure();
-
+  const [currentIndex] = useState(0);
   const [step, setStep] = useState(1);
-
   const [BVNAndNINFilled, setBVNAndNINFilled] = useState(false);
   const [IDCardFilled, setIDCardFilled] = useState(false);
   const [signatureFilled, setSignatureFilled] = useState(false);
   const [addressFilled, setAddressFilled] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [nin, setNin] = useState("");
+  const [bvn, setBVN] = useState("");
+  const [idNumber, setIDNumber] = useState("");
+  const accounts = useSelector((state) => state.user.accountBalance) || [];
+  const {
+    bvn: bvnStatus,
+    nin: ninStatus,
+    governmentIDCard,
+    signature: signatureStatus,
+    proofOfAddress: addressStatus,
+  } = useSelector((state) => state.user.setupStatus.identity);
+  const [frontDocument, setFrontDocument] = useState("");
+  const [backDocument, setBackDocument] = useState("");
+  const [signature, setSignature] = useState("");
+  const [utilitybill, setUtilityBill] = useState("");
+
+  const currentItem = accounts ? accounts[currentIndex] : [];
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAccountBalance());
+    dispatch(getSetupStatus());
+  }, [dispatch]);
 
   const moveToUpgrade = () => {
     setStep(1);
@@ -47,31 +75,169 @@ export const UpgradeAccount = () => {
 
   const moveToBVN = () => {
     setStep(2);
-    setBVNAndNINFilled(true);
     window.scrollTo({ top: 0 });
   };
+  const moveToDocumentUpload = async () => {
+    try {
+      setLoading(true);
+      if (!bvnStatus) {
+        await userService.updateBvn({
+          accountNumber: currentItem?.accountnumber,
+          bvn: bvn,
+        });
+      }
 
-  const moveToDocumentUpload = () => {
+      if (!ninStatus) {
+        await userService.updateNin({
+          accountNumber: currentItem?.accountnumber,
+          nin: nin,
+        });
+      }
+
+
+      setStep(3);
+      window.scrollTo({ top: 0 });
+      setBVNAndNINFilled(true);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const showDocumentUpload = () => {
     setStep(3);
-    setIDCardFilled(true);
     window.scrollTo({ top: 0 });
   };
 
-  const moveToSignature = () => {
+  const showSignature = () => {
     setStep(4);
-    setSignatureFilled(true);
     window.scrollTo({ top: 0 });
   };
 
-  const moveToAddressProof = () => {
+  const showAddress = () => {
     setStep(5);
-    setAddressFilled(true);
     window.scrollTo({ top: 0 });
   };
 
-  const moveToSuccess = () => {
-    setStep(6);
-    window.scrollTo({ top: 0 });
+  const moveToSignature = async () => {
+    try {
+      setLoading(true);
+      await userService.uploadDocument({
+        documentType: 2,
+        idNumber: idNumber,
+        base64String: [frontDocument.split(",")[1], backDocument.split(",")[1]],
+      });
+      setStep(4);
+      setIDCardFilled(true);
+      window.scrollTo({ top: 0 });
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const moveToAddressProof = async () => {
+    try {
+      setLoading(true);
+      const response = await userService.uploadDocument({
+        documentType: 15,
+        idNumber: "123456789",
+        base64String: [signature.split(",")[1]],
+      });
+
+      console.log(response);
+      setStep(5);
+      setSignatureFilled(true)
+      setLoading(false);
+      window.scrollTo({ top: 0 });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const moveToSuccess = async () => {
+    try {
+      setLoading(true)
+      const response = await userService.uploadDocument({
+        documentType: 3,
+        idNumber: "123456789",
+        documentNumber: "1234567890",
+        base64String: [utilitybill.split(",")[1]],
+      });
+      console.log(response);
+
+      setStep(6);
+      setAddressFilled(true)
+      window.scrollTo({ top: 0 });
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(error);
+    }
+  };
+
+  const moveToStep = () => {
+    if (signatureStatus || signatureFilled) {
+      showAddress();
+    } else if (governmentIDCard || IDCardFilled) {
+      showSignature();
+    } else if ((bvnStatus && ninStatus) || BVNAndNINFilled) {
+      showDocumentUpload();
+    } else {
+      moveToBVN();
+    }
+  };
+
+  const selectFrontDocument = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        // The result is a Base64 string
+        const base64String = reader.result; //const base64String = reader.result.split(",")[1];
+        setFrontDocument(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const selectBackDocument = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const base64String = reader.result;
+        setBackDocument(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const selectSignature = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const base64String = reader.result;
+        setSignature(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const selectUtilityBill = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const base64String = reader.result;
+        setUtilityBill(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -143,7 +309,7 @@ export const UpgradeAccount = () => {
                     p="8px"
                     borderRadius="38px"
                     border={
-                      BVNAndNINFilled
+                      (bvnStatus && ninStatus) || BVNAndNINFilled
                         ? "1px solid #2AD062"
                         : "1px solid #EAECF0"
                     }
@@ -151,7 +317,11 @@ export const UpgradeAccount = () => {
                     <Box
                       p="2px"
                       borderRadius="38px"
-                      bg={BVNAndNINFilled ? "#2AD062" : "#667085"}
+                      bg={
+                        (bvnStatus && ninStatus) || BVNAndNINFilled
+                          ? "#2AD062"
+                          : "#667085"
+                      }
                     >
                       <img
                         src={getImageUrl("icons/whiteCheck.png")}
@@ -176,13 +346,17 @@ export const UpgradeAccount = () => {
                     p="8px"
                     borderRadius="38px"
                     border={
-                      IDCardFilled ? "1px solid #2AD062" : "1px solid #EAECF0"
+                      governmentIDCard || IDCardFilled
+                        ? "1px solid #2AD062"
+                        : "1px solid #EAECF0"
                     }
                   >
                     <Box
                       p="2px"
                       borderRadius="38px"
-                      bg={IDCardFilled ? "#2AD062" : "#667085"}
+                      bg={
+                        governmentIDCard || IDCardFilled ? "#2AD062" : "#667085"
+                      }
                     >
                       <img
                         src={getImageUrl("icons/whiteCheck.png")}
@@ -207,7 +381,7 @@ export const UpgradeAccount = () => {
                     p="8px"
                     borderRadius="38px"
                     border={
-                      signatureFilled
+                      signatureStatus || signatureFilled
                         ? "1px solid #2AD062"
                         : "1px solid #EAECF0"
                     }
@@ -215,7 +389,7 @@ export const UpgradeAccount = () => {
                     <Box
                       p="2px"
                       borderRadius="38px"
-                      bg={signatureFilled ? "#2AD062" : "#667085"}
+                      bg={signatureStatus ? "#2AD062" : "#667085"}
                     >
                       <img
                         src={getImageUrl("icons/whiteCheck.png")}
@@ -240,13 +414,17 @@ export const UpgradeAccount = () => {
                     p="8px"
                     borderRadius="38px"
                     border={
-                      addressFilled ? "1px solid #2AD062" : "1px solid #EAECF0"
+                      addressStatus || addressFilled
+                        ? "1px solid #2AD062"
+                        : "1px solid #EAECF0"
                     }
                   >
                     <Box
                       p="2px"
                       borderRadius="38px"
-                      bg={addressFilled ? "#2AD062" : "#667085"}
+                      bg={
+                        addressStatus || addressFilled ? "#2AD062" : "#667085"
+                      }
                     >
                       <img
                         src={getImageUrl("icons/whiteCheck.png")}
@@ -269,7 +447,7 @@ export const UpgradeAccount = () => {
                 color="#FFFFFF"
                 fontSize="14px"
                 fontWeight={600}
-                onClick={moveToBVN}
+                onClick={moveToStep}
               >
                 Proceed
               </Button>
@@ -328,13 +506,14 @@ export const UpgradeAccount = () => {
                     type="text"
                     border={"1px solid #EAECF0"}
                     bg={"#F7F7F7"}
-                    value={"22225865945"}
-                    disabled
+                    onChange={(e) => setBVN(e.target.value)}
+                    value={bvnStatus ? "***********" : ""}
+                    disabled={bvnStatus}
                     _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
                   />
-                  <InputRightElement h="100%" mr="12px">
+                  {bvnStatus && <InputRightElement h="100%" mr="12px">
                     <img src={getImageUrl("icons/greenCheck.png")} style={{}} />
-                  </InputRightElement>
+                  </InputRightElement>}
                 </InputGroup>
               </FormControl>
 
@@ -342,19 +521,29 @@ export const UpgradeAccount = () => {
                 <FormLabel fontSize="16px" fontWeight={400} color="#101828">
                   NIN
                 </FormLabel>
-                <Input
-                  h="48px"
-                  type="number"
-                  pattern="\d"
-                  bg="#F7F7F7"
-                  border="1px solid #EAECF0"
-                  fontSize="16px"
-                  color="#101828"
-                  _placeholder={{ color: "#667085" }}
-                  onInput={(e) =>
-                    (e.target.value = e.target.value.slice(0, 11))
-                  }
-                />
+                <InputGroup>
+                  <Input
+                    h="48px"
+                    type="number"
+                    pattern="\d"
+                    bg="#F7F7F7"
+                    border="1px solid #EAECF0"
+                    fontSize="16px"
+                    color="#101828"
+                    inputMode="numeric"
+                    _placeholder={{ color: "#667085" }}
+                    maxLength={11}
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.slice(0, 11))
+                    }
+                    onChange={(e) => setNin(e.target.value)}
+                    disabled={ninStatus}
+                    _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
+                  />
+                  {ninStatus && <InputRightElement h="100%" mr="12px">
+                    <img src={getImageUrl("icons/greenCheck.png")} style={{}} />
+                  </InputRightElement>}
+                </InputGroup>
               </FormControl>
 
               <Button
@@ -367,6 +556,7 @@ export const UpgradeAccount = () => {
                 color="#FFFFFF"
                 w="80%"
                 h="48px"
+                isLoading={loading}
               >
                 Save and Continue
               </Button>
@@ -466,6 +656,9 @@ export const UpgradeAccount = () => {
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   autoComplete="false"
+                  onChange={(e) => setIDNumber(e.target.value)}
+                  maxLength={"11"}
+                  max={"11"}
                 />
               </FormControl>
 
@@ -491,6 +684,7 @@ export const UpgradeAccount = () => {
                         id="front-upload"
                         type="file"
                         accept="image/png, image/jpeg, application/pdf, image/x-eps"
+                        onChange={selectFrontDocument}
                       />
                       <img
                         src={getImageUrl("icons/greyPic.png")}
@@ -498,17 +692,26 @@ export const UpgradeAccount = () => {
                       />
                       Tap to Upload
                     </label>
-                    <Text fontSize="14px" fontWeight={500} color="#101828">
-                      Choose a file or drag & drop it here.
-                    </Text>
-                    <Text
-                      fontSize="12px"
-                      fontWeight={400}
-                      color="#667085"
-                      mt="-8px"
-                    >
-                      PDF, PNG and JPG formats, up to 5 MB.
-                    </Text>
+                    {!frontDocument ? (
+                      <Stack>
+                        <Text fontSize="14px" fontWeight={500} color="#101828">
+                          Choose a file or drag & drop it here.
+                        </Text>
+                        <Text
+                          fontSize="12px"
+                          fontWeight={400}
+                          color="#667085"
+                          mt="-8px"
+                        >
+                          PDF, PNG and JPG formats, up to 5 MB.
+                        </Text>
+                      </Stack>
+                    ) : (
+                      <Image
+                        src={frontDocument}
+                        style={{ width: "100px", height: "100px" }}
+                      />
+                    )}
                   </Stack>
                 </FormControl>
                 <FormControl>
@@ -532,6 +735,7 @@ export const UpgradeAccount = () => {
                         id="front-upload"
                         type="file"
                         accept="image/png, image/jpeg, application/pdf, image/x-eps"
+                        onChange={selectBackDocument}
                       />
                       <img
                         src={getImageUrl("icons/greyPic.png")}
@@ -539,17 +743,26 @@ export const UpgradeAccount = () => {
                       />
                       Tap to Upload
                     </label>
-                    <Text fontSize="14px" fontWeight={500} color="#101828">
-                      Choose a file or drag & drop it here.
-                    </Text>
-                    <Text
-                      fontSize="12px"
-                      fontWeight={400}
-                      color="#667085"
-                      mt="-8px"
-                    >
-                      PDF, PNG and JPG formats, up to 5 MB.
-                    </Text>
+                    {!backDocument ? (
+                      <Stack>
+                        <Text fontSize="14px" fontWeight={500} color="#101828">
+                          Choose a file or drag & drop it here.
+                        </Text>
+                        <Text
+                          fontSize="12px"
+                          fontWeight={400}
+                          color="#667085"
+                          mt="-8px"
+                        >
+                          PDF, PNG and JPG formats, up to 5 MB.
+                        </Text>
+                      </Stack>
+                    ) : (
+                      <Image
+                        src={backDocument}
+                        style={{ width: "100px", height: "100px" }}
+                      />
+                    )}
                   </Stack>
                 </FormControl>
               </HStack>
@@ -564,6 +777,7 @@ export const UpgradeAccount = () => {
                 color="#FFFFFF"
                 w="80%"
                 h="48px"
+                isLoading={loading}
               >
                 Save and Continue
               </Button>
@@ -635,6 +849,7 @@ export const UpgradeAccount = () => {
                       id="front-upload"
                       type="file"
                       accept="image/png, image/jpeg, application/pdf, image/x-eps"
+                      onChange={selectSignature}
                     />
                     <img
                       src={getImageUrl("icons/greyPic.png")}
@@ -642,17 +857,26 @@ export const UpgradeAccount = () => {
                     />
                     Tap to Upload
                   </label>
-                  <Text fontSize="14px" fontWeight={500} color="#101828">
-                    Choose a file or drag & drop it here.
-                  </Text>
-                  <Text
-                    fontSize="12px"
-                    fontWeight={400}
-                    color="#667085"
-                    mt="-8px"
-                  >
-                    PDF, PNG and JPG formats, up to 5 MB.
-                  </Text>
+                  {!signature ? (
+                    <Stack>
+                      <Text fontSize="14px" fontWeight={500} color="#101828">
+                        Choose a file or drag & drop it here.
+                      </Text>
+                      <Text
+                        fontSize="12px"
+                        fontWeight={400}
+                        color="#667085"
+                        mt="-8px"
+                      >
+                        PDF, PNG and JPG formats, up to 5 MB.
+                      </Text>
+                    </Stack>
+                  ) : (
+                    <Image
+                      src={signature}
+                      style={{ width: "100px", height: "100px" }}
+                    />
+                  )}
                 </Stack>
               </FormControl>
 
@@ -683,6 +907,7 @@ export const UpgradeAccount = () => {
                 color="#FFFFFF"
                 w="80%"
                 h="48px"
+                isLoading={loading}
               >
                 Save and Continue
               </Button>
@@ -760,6 +985,7 @@ export const UpgradeAccount = () => {
                       id="front-upload"
                       type="file"
                       accept="image/png, image/jpeg, application/pdf, image/x-eps"
+                      onChange={selectUtilityBill}
                     />
                     <img
                       src={getImageUrl("icons/greyPic.png")}
@@ -767,17 +993,26 @@ export const UpgradeAccount = () => {
                     />
                     Tap to Upload
                   </label>
-                  <Text fontSize="14px" fontWeight={500} color="#101828">
-                    Choose a file or drag & drop it here.
-                  </Text>
-                  <Text
-                    fontSize="12px"
-                    fontWeight={400}
-                    color="#667085"
-                    mt="-8px"
-                  >
-                    PDF, PNG and JPG formats, up to 5 MB.
-                  </Text>
+                  {!utilitybill ? (
+                    <Stack>
+                      <Text fontSize="14px" fontWeight={500} color="#101828">
+                        Choose a file or drag & drop it here.
+                      </Text>
+                      <Text
+                        fontSize="12px"
+                        fontWeight={400}
+                        color="#667085"
+                        mt="-8px"
+                      >
+                        PDF, PNG and JPG formats, up to 5 MB.
+                      </Text>
+                    </Stack>
+                  ) : (
+                    <Image
+                      src={utilitybill}
+                      style={{ width: "100px", height: "100px" }}
+                    />
+                  )}
                 </Stack>
               </FormControl>
 
@@ -808,6 +1043,7 @@ export const UpgradeAccount = () => {
                 color="#FFFFFF"
                 w="80%"
                 h="48px"
+                isLoading={loading}
               >
                 Save and Continue
               </Button>

@@ -61,6 +61,8 @@ const authService = {
   sendOtp: async (otpData) => {
     try {
       const response = await api.post("/account/send-otp", otpData);
+      // handleSuccess(response.data.mes)
+      console.log(response)
       return response;
     } catch (error) {
       handleErrors(error);

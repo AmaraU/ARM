@@ -79,7 +79,6 @@ const utilsSlice = createSlice({
       })
       .addCase(getSecurityQuestions.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(state.payload);
         state.securityQuestions = action.payload.result.data;
       })
       .addCase(getSecurityQuestions.rejected, (state) => {
