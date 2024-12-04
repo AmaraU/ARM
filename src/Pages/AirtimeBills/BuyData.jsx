@@ -24,8 +24,8 @@ import { getImageUrl } from "../../../utils";
 import styles from "./AirtimeBills.module.css";
 import { CompleteTransaction } from "../../Components/CompleteTrans";
 import { useSelector } from "react-redux";
-import { TbCurrencyNaira } from "react-icons/tb";
-import { BiHide, BiShow } from "react-icons/bi";
+import { encrypt } from "../../utils/billsEncrypt";
+import billsService from "../../services/billsService";
 
 export const BuyData = ({ networks }) => {
   const {
@@ -40,9 +40,17 @@ export const BuyData = ({ networks }) => {
   const [addFavorite, setAddFavorite] = useState(false);
   const [selected, setSelected] = useState("");
   const [dataplan, setDataPlan] = useState("");
-  const { fullname, phoneNumber: phone } = useSelector((state) => state.user);
+  const {
+    fullname,
+    phoneNumber: phone,
+    casaAccountBalances,
+    username,
+  } = useSelector((state) => state.user);
   const [phoneNumber, setPhoneNumber] = useState(phone);
-  const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
+  const [enterPin, setEnterPin] = useState(true);
   const popupRef = useRef(null);
 
   const savedData = [
@@ -85,21 +93,6 @@ export const BuyData = ({ networks }) => {
     }
   };
 
-  const handleToggleVisibility = () => {
-    setTotalBalanceVisible(!totalBalanceVisible);
-  };
-
-  const hideBalance = () => {
-    return "****************";
-  };
-
-  const formatNumberDecimals = (number) => {
-    return new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(number);
-  };
-
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
     return () => {
@@ -125,6 +118,53 @@ export const BuyData = ({ networks }) => {
     onCloseConfirm();
   };
 
+  const handleSubmit = async ({ pin }) => {
+    const { usesPreset, vendCode } = networks.filter(
+      (network) => network.name === selected && network.usesPreset
+    )[0];
+    console.log(selected);
+    const payload = await encrypt({
+      amount: dataplan.amount,
+      s_C: dataplan.subCode,
+      a_N: casaAccountBalances[0]?.accountnumber,
+      a_P: String(dataplan.amount),
+      n_P: selected,
+      p_N: phone,
+      u_P: usesPreset,
+      v_C: vendCode,
+      t_P: pin,
+      username,
+    });
+
+    console.log(payload);
+    try {
+      setLoading(true);
+      const response = await billsService.vend({
+        encRequest: payload.encRequest,
+        detailsRequest: payload.detailsRequest,
+      });
+      console.log(response);
+      setLoading(false);
+      if (response) {
+        setEnterPin(false);
+        setIsSuccess(true);
+      } else {
+        setIsFailed(true);
+        setEnterPin(false);
+      }
+    } catch {
+      setLoading(false);
+      setIsFailed(true);
+      setEnterPin(false);
+    }
+  };
+
+  const backToSaving = () => {
+    setEnterPin(true);
+    setIsFailed(false);
+    setIsSuccess(false);
+    moveToOptions();
+  };
 
   return (
     <>
@@ -133,10 +173,10 @@ export const BuyData = ({ networks }) => {
           {savedData.length === 0 ? (
             <Box>
               <HStack
-                bg={"#EAECF0"}
-                px={"26px"}
-                py={"14px"}
-                borderRadius={"12px 12px 0 0"}
+                bg="#EAECF0"
+                px={{base: "14px", md: "26px"}}
+                py="14px"
+                borderRadius="12px 12px 0 0"
               >
                 <Button
                   h={"24px"}
@@ -150,24 +190,24 @@ export const BuyData = ({ networks }) => {
                   />
                 </Button>
                 <Text
-                  width={"90%"}
-                  textAlign={"center"}
-                  fontSize={"18px"}
+                  width="100%"
+                  textAlign="center"
+                  fontSize={{base: "16px", md: "18px"}}
                   fontWeight={600}
-                  color={"#101828"}
+                  color="#101828"
                 >
                   Buy Data
                 </Text>
               </HStack>
               <Stack
-                spacing={"16px"}
-                alignItems={"center"}
-                border={"1px solid #EFECE9"}
-                bg={"#FFFFFF"}
-                borderRadius={"0 0 12px 12px"}
-                py={"16px"}
-                pb={"114px"}
-                pt={"48px"}
+                spacing="16px"
+                alignItems="center"
+                border="1px solid #EFECE9"
+                bg="#FFFFFF"
+                borderRadius="0 0 12px 12px"
+                px="14px"
+                pb="114px"
+                pt="48px"
               >
                 <img
                   style={{ width: "40px", height: "40px" }}
@@ -175,16 +215,16 @@ export const BuyData = ({ networks }) => {
                   alt=""
                 />
                 <Text
-                  w={"50%"}
-                  textAlign={"center"}
-                  fontSize={"16px"}
-                  color={"#667085"}
+                  w={{base: "100%", md: "50%"}}
+                  textAlign="center"
+                  fontSize="16px"
+                  color="#667085"
                 >
                   You do not have any saved data purchase
                 </Text>
                 <Button
                   mt={"16px"}
-                  w={"50%"}
+                  w={{base: "100%", md: "50%"}}
                   h={"fit-content"}
                   py={"15px"}
                   bg={"#A41856"}
@@ -201,14 +241,14 @@ export const BuyData = ({ networks }) => {
           ) : (
             <Box>
               <HStack
-                bg={"#EAECF0"}
-                px={"26px"}
-                py={"14px"}
-                borderRadius={"12px 12px 0 0"}
+                bg="#EAECF0"
+                px={{base: "14px", md: "26px"}}
+                py="14px"
+                borderRadius="12px 12px 0 0"
               >
                 <Button
-                  h={"24px"}
-                  bg={"#EAECF0"}
+                  h="24px"
+                  bg="#EAECF0"
                   p={0}
                   _hover={{ bg: "#EAECF0" }}
                 >
@@ -218,32 +258,32 @@ export const BuyData = ({ networks }) => {
                   />
                 </Button>
                 <Text
-                  width={"90%"}
-                  textAlign={"center"}
-                  fontSize={"18px"}
+                  width="100%"
+                  textAlign="center"
+                  fontSize={{base: "16px", md: "18px"}}
                   fontWeight={600}
-                  color={"#101828"}
+                  color="#101828"
                 >
                   Buy Data
                 </Text>
               </HStack>
               <Stack
-                spacing={"16px"}
-                alignItems={"center"}
-                border={"1px solid #EFECE9"}
-                bg={"#FFFFFF"}
-                borderRadius={"0 0 12px 12px"}
-                py={"16px"}
-                pb={"114px"}
-                pt={"48px"}
+                spacing="16px"
+                alignItems="center"
+                border="1px solid #EFECE9"
+                bg="#FFFFFF"
+                borderRadius="0 0 12px 12px"
+                px="14px"
+                pb="114px"
+                pt="48px"
               >
                 <Stack
-                  w={"60%"}
+                  w={{base: "100%", md: "90%", lg: "60%"}}
                   display={"grid"}
-                  gridTemplateColumns={"repeat(2, auto)"}
+                  gridTemplateColumns={{base: "1fr", md: "1fr 1fr"}}
                 >
                   {savedData.map((dat, index) => (
-                    <HStack
+                    <Stack
                       key={index}
                       border={"1px solid #EAECF0"}
                       borderRadius={"8px"}
@@ -251,62 +291,73 @@ export const BuyData = ({ networks }) => {
                       py={"20px"}
                       px={"10px"}
                       spacing={"16px"}
+                      direction={{base: "column", lg: "row"}}
+                      alignItems="center"
                     >
                       <Box>
-                        {dat.network.toLowerCase() === "mtn" ? (
+                        {air.network.toLowerCase() === "mtn" ? (
                           <img
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/mtn.png")}
                           />
-                        ) : dat.network.toLowerCase() === "glo" ? (
+                        )
+                        :
+                        air.network.toLowerCase() === "glo" ? (
                           <img
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/glo.png")}
                           />
-                        ) : dat.network.toLowerCase() === "9mobile" ? (
+                        )
+                        :
+                        air.network.toLowerCase() === "9mobile" ? (
                           <img
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/9mobile.png")}
                           />
-                        ) : dat.network.toLowerCase() === "airtel" ? (
+                        )
+                        :
+                        air.network.toLowerCase() === "airtel" ? (
                           <img
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/airtel.png")}
                           />
                         ) : (
-                          <></>
+                          <Text>{air.network.slice(0,2)}</Text>
                         )}
                       </Box>
                       <Box w={"90%"}>
-                        <HStack
+                        <Stack
                           w={"100%"}
                           justifyContent={"space-between"}
                           alignItems={"center"}
+                          direction={{base: "column", md: "row", lg: "row"}}
                         >
                           <Text
-                            fontSize={"16px"}
+                            fontSize={"15px"}
                             fontWeight={"450"}
                             color={"#101828"}
                           >
                             {dat.name}
                           </Text>
                           <Text
-                            fontSize={"16px"}
+                            fontSize={"15px"}
                             fontWeight={"450"}
                             color={"#101828"}
                           >
                             {dat.amount}
                           </Text>
-                        </HStack>
+                        </Stack>
                         <HStack
                           w={"100%"}
                           justifyContent={"space-between"}
                           alignItems={"center"}
                         >
                           <Text
-                            fontSize={"16px"}
+                            fontSize={"15px"}
                             fontWeight={"450"}
                             color={"#101828"}
+                            overflow={"hidden"}
+                            textOverflow={"ellipsis"}
                           >
                             {dat.number}
                           </Text>
@@ -323,7 +374,7 @@ export const BuyData = ({ networks }) => {
                               }`}
                               ref={popupRef}
                             >
-                              <button style={{ alignSelf: "end" }}>
+                              <button style={{ alignSelf: "end" }} onClick={() => toggleAction(index)}>
                                 <img
                                   style={{ width: "14px", height: "14px" }}
                                   src={getImageUrl("icons/blackX.png")}
@@ -364,7 +415,7 @@ export const BuyData = ({ networks }) => {
                           </div>
                         </HStack>
                       </Box>
-                    </HStack>
+                    </Stack>
                   ))}
                 </Stack>
               </Stack>
@@ -376,11 +427,11 @@ export const BuyData = ({ networks }) => {
       {showOne && (
         <Box>
           <HStack
-            bg={"#EAECF0"}
-            justifyContent={"space-between"}
-            px={"26px"}
-            py={"14px"}
-            borderRadius={"12px 12px 0 0"}
+            bg="#EAECF0"
+            justifyContent="space-between"
+            px={{base: "14px", md: "26px"}}
+            py="14px"
+            borderRadius="12px 12px 0 0"
           >
             <Button
               h={"24px"}
@@ -391,42 +442,31 @@ export const BuyData = ({ networks }) => {
             >
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               Buy Data
             </Text>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               1/2
             </Text>
           </HStack>
           <Stack
-            spacing={"20px"}
-            alignItems={"center"}
-            border={"1px solid #EFECE9"}
-            bg={"#FFFFFF"}
-            borderRadius={"0 0 12px 12px"}
-            py={"16px"}
-            pb={"114px"}
+            spacing="20px"
+            alignItems="center"
+            border="1px solid #EFECE9"
+            bg="#FFFFFF"
+            borderRadius="0 0 12px 12px"
+            pt="16px"
+            pb="114px"
+            px="12px"
           >
-
-            <FormControl w={"75%"} isRequired>
-              <FormLabel fontSize="16px" fontWeight={400} color="#101828">
-                Select Account to Debit
-              </FormLabel>
-              <Select
-                h={"48px"}
-                bg={"#F7F7F7"}
-                border={"1px solid #EAECF0"}
-                placeholder="Select account"
-                _placeholder={{ fontSize: "16px", color: "#667085" }}
-              ></Select>
-            </FormControl>
-
-            
-            <Text w={"75%"} fontSize={"16px"} color={"#101828"} textAlign={"left"}>
+            <Text fontSize={{base: "14px", md: "16px"}} color={"#667085"} textAlign={"center"}>
               Select Preferred Network
             </Text>
 
-            <HStack w={"75%"}>
+            <Stack
+              w={{base: "100%", md: "60%"}}
+              flexDirection={{base: "column", md: "row"}}
+            >
               <Stack
                 cursor="pointer"
                 onClick={() => setSelected("MTN")}
@@ -511,10 +551,10 @@ export const BuyData = ({ networks }) => {
                   9mobile
                 </Text>
               </Stack>
-            </HStack>
+            </Stack>
 
-            <FormControl w={"75%"} isRequired>
-              <FormLabel fontSize={"16px"} fontWeight={400} color={"#101828"}>
+            <FormControl w={{base: "100%", md: "75%"}} isRequired>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
                 Phone Number
               </FormLabel>
               <Input
@@ -522,8 +562,9 @@ export const BuyData = ({ networks }) => {
                 h={"48px"}
                 bg={"#F7F7F7"}
                 border={"1px solid #EAECF0"}
+                fontSize={{base: "14px", md: "16px"}}
                 placeholder="Input Phone Number"
-                _placeholder={{ fontSize: "16px", color: "#667085" }}
+                _placeholder={{ color: "#667085" }}
                 defaultValue={phone}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 inputMode={"numeric"}
@@ -531,15 +572,15 @@ export const BuyData = ({ networks }) => {
               ></Input>
             </FormControl>
 
-            <HStack w={"75%"}>
+            <HStack w={{base: "100%", md: "75%"}}>
               <img src={getImageUrl("icons/nav/profileGrey.png")} alt="" />
-              <Text fontSize={"14px"} fontWeight={500} color={"#A41857"}>
+              <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color={"#A41857"}>
                 Select from favorites
               </Text>
             </HStack>
 
-            <FormControl w={"75%"} isRequired>
-              <FormLabel fontSize={"16px"} fontWeight={400} color={"#101828"}>
+            <FormControl w={{base: "100%", md: "75%"}} isRequired>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
                 Data Bundle
               </FormLabel>
               <Select
@@ -547,14 +588,15 @@ export const BuyData = ({ networks }) => {
                 bg={"#F7F7F7"}
                 border={"1px solid #EAECF0"}
                 placeholder="Select Bundle"
-                _placeholder={{ fontSize: "16px", color: "#667085" }}
+                fontSize={{base: "14px", md: "16px"}}
+                _placeholder={{ color: "#667085" }}
                 onChange={(e) => setDataPlan(JSON.parse(e.target.value))}
               >
                 {selected &&
                   networks
                     .filter((option) => option.usesPreset)
                     .filter((option) => option.name === selected)[0]
-                    .presetAmountList?.map((network, i) => (
+                    ?.presetAmountList?.map((network, i) => (
                       <option value={JSON.stringify(network)} key={i}>
                         {" "}
                         {network.description}{" "}
@@ -563,8 +605,8 @@ export const BuyData = ({ networks }) => {
               </Select>
             </FormControl>
 
-            <HStack w={"75%"} justifyContent={"space-between"}>
-              <Text fontSize={"14px"} fontWeight={500} color={"#667085"}>
+            <HStack w={{base: "100%", md: "75%"}} justifyContent={"space-between"}>
+              <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color={"#667085"}>
                 Save as Favorite
               </Text>
               <Switch
@@ -582,7 +624,7 @@ export const BuyData = ({ networks }) => {
             <Button
               onClick={onOpenConfirm}
               mt={"16px"}
-              w={"75%"}
+              w={{base: "100%", md: "75%"}}
               h={"48px"}
               bg={"#A41856"}
               color={"#FFFFFF"}
@@ -600,11 +642,11 @@ export const BuyData = ({ networks }) => {
       {showTwo && (
         <Box>
           <HStack
-            bg={"#EAECF0"}
-            justifyContent={"space-between"}
-            px={"26px"}
-            py={"14px"}
-            borderRadius={"12px 12px 0 0"}
+            bg="#EAECF0"
+            justifyContent="space-between"
+            px={{base: "14px", md: "26px"}}
+            py="14px"
+            borderRadius="12px 12px 0 0"
           >
             <Button
               h={"24px"}
@@ -615,25 +657,31 @@ export const BuyData = ({ networks }) => {
             >
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               Complete Purchase
             </Text>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               2/2
             </Text>
           </HStack>
 
           <CompleteTransaction
             type="data"
-            amount="15"
-            phoneNumber="08083698233"
+            amount={dataplan.amoun}
+            phoneNumber={phoneNumber}
+            handleSubmit={handleSubmit}
+            loading={loading}
+            isSuccess={isSuccess}
+            isFailed={isFailed}
+            enterPin={enterPin}
+            backToSaving={backToSaving}
           />
         </Box>
       )}
 
       <Modal
         isCentered
-        size="xl"
+        size="lg"
         closeOnOverlayClick={true}
         isOpen={isOpenConfirm}
         onClose={onCloseConfirm}
@@ -647,35 +695,19 @@ export const BuyData = ({ networks }) => {
               fontWeight={600}
               color="#101828"
             >
-              Confirm Purchase
+              Confirm Data Payment Details
             </Text>
           </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             <div style={{ overflow: "auto", maxHeight: "60vh" }}>
-
-              <HStack w='100%' mb='16px' backgroundColor='#000000' backgroundImage={getImageUrl('backgroundGrey.png')} bgSize='100% 100%' borderRadius='12px' p='14px' pt='24px' justifyContent='space-between'>
-                <Box>
-                  <Text fontSize='14px' fontWeight={400} color='#FFFFFF'>Total Available Balance</Text>
-                  <HStack ml="-1px" spacing={0}>
-                    <Box fontSize="22px" color="#FFFFFF"><TbCurrencyNaira /></Box>
-                    <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${formatNumberDecimals(40618898300)}` : hideBalance()}</Text>
-                    <Box pl={3} cursor="pointer">
-                        {totalBalanceVisible && <BiShow fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} />}
-                        {!totalBalanceVisible && <BiHide fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} />}
-                    </Box>
-                  </HStack>
-                </Box>
-
-                <Box alignSelf='start' borderRadius='36px' px='12px' py='8px' bg='#2C323A' color='#FFFFFF' fontSize='10px' fontWeight={500}>Tier 3 Savings Account</Box>
-              </HStack>
               <Stack w="100%" spacing="16px">
                 <HStack spacing="8px" alignItems="center">
                   <img src={getImageUrl("icons/greyBank.png")} />
                   <Stack spacing={0}>
                     <Text fontSize="14px" fontWeight={450} color="#667085">
-                      NETWORK
+                      DATA BUNDLE
                     </Text>
                     <Text fontSize="18px" fontWeight={500} color="#A41856">
                       {dataplan.description}
@@ -687,22 +719,10 @@ export const BuyData = ({ networks }) => {
                   <img src={getImageUrl("icons/nav/profileGrey.png")} />
                   <Stack spacing={0}>
                     <Text fontSize="14px" fontWeight={450} color="#667085">
-                      PHONE NUMBER
+                      BENEFICIARY NAME
                     </Text>
                     <Text fontSize="18px" fontWeight={500} color="#A41856">
-                      {phoneNumber}
-                    </Text>
-                  </Stack>
-                </HStack>
-
-                <HStack spacing="8px" alignItems="center">
-                  <img src={getImageUrl("icons/nav/profileGrey.png")} />
-                  <Stack spacing={0}>
-                    <Text fontSize="14px" fontWeight={450} color="#667085">
-                      DATA BUNDLE
-                    </Text>
-                    <Text fontSize="18px" fontWeight={500} color="#A41856">
-                     Monthly 6GB - #3000
+                      {fullname} -{phoneNumber}
                     </Text>
                   </Stack>
                 </HStack>

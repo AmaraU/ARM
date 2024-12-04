@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from "react";
 import {
   Stack,
@@ -18,28 +19,26 @@ import {
   ModalContent,
   ModalOverlay,
   ModalFooter,
-  Select,
 } from "@chakra-ui/react";
 import Switch from "react-switch";
 import { getImageUrl } from "../../../utils";
 import styles from "./AirtimeBills.module.css";
 import { CompleteTransaction } from "../../Components/CompleteTrans";
 import { useSelector } from "react-redux";
-import { TbCurrencyNaira } from "react-icons/tb";
-import { BiHide, BiShow } from "react-icons/bi";
-
-
-export const BuyAirtime = () => {
+import { encrypt } from "../../utils/billsEncrypt";
+import billsService from "../../services/billsService";
+export const BuyAirtime = ({ networks }) => {
   const [actionsOpen, setActionsOpen] = useState({});
   const [showOptions, setShowOptions] = useState(true);
   const [showOne, setShowOne] = useState(false);
   const [showTwo, setShowTwo] = useState(false);
   const [selected, setSelected] = useState("");
   const [addFavorite, setAddFavorite] = useState(false);
-  const { fullname, phoneNumber } = useSelector((state) => state.user);
+  const { fullname, phoneNumber, username, casaAccountBalances } = useSelector(
+    (state) => state.user
+  );
   const [amount, setAmount] = useState("");
   const [phone, setPhone] = useState(phoneNumber);
-  const [ totalBalanceVisible, setTotalBalanceVisible ] = useState(true);
   const {
     isOpen: isOpenDelete,
     onOpen: onOpenDelete,
@@ -50,34 +49,11 @@ export const BuyAirtime = () => {
     onOpen: onOpenConfirm,
     onClose: onCloseConfirm,
   } = useDisclosure();
+  const [loading, setLoading] = useState(false);
   const popupRef = useRef(null);
-
-  const savedAirtime = [
-    // {
-    //     name: "My Baby",
-    //     number: "08101790957",
-    //     amount: "300",
-    //     network: "MTN"
-    // },
-    // {
-    //     name: "My Baby",
-    //     number: "08101790957",
-    //     amount: "300",
-    //     network: "Glo"
-    // },
-    // {
-    //     name: "My Baby",
-    //     number: "08101790957",
-    //     amount: "300",
-    //     network: "9Mobile"
-    // },
-    // {
-    //     name: "My Baby",
-    //     number: "08101790957",
-    //     amount: "300",
-    //     network: "Airtel"
-    // }
-  ];
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
+  const [enterPin, setEnterPin] = useState(true);
 
   const toggleAction = (index) => {
     setActionsOpen((prevState) => ({
@@ -86,20 +62,32 @@ export const BuyAirtime = () => {
     }));
   };
 
-  const handleToggleVisibility = () => {
-    setTotalBalanceVisible(!totalBalanceVisible);
-  };
-  const hideBalance = () => {
-    return "****************";
-  };
-
-  const formatNumberDecimals = (number) => {
-    return new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(number);
-  };
-
+  const savedAirtime = [
+    // {
+    //     name: "My Baby",
+    //     number: "08101790957",
+    //     amount: "6GB Weekly",
+    //     network: "MTN"
+    // },
+    // {
+    //     name: "My Baby",
+    //     number: "08101790957",
+    //     amount: "6GB Weekly",
+    //     network: "Glo"
+    // },
+    // {
+    //     name: "My Baby",
+    //     number: "08101790957",
+    //     amount: "6GB Weekly",
+    //     network: "9Mobile"
+    // },
+    // {
+    //     name: "My Baby",
+    //     number: "08101790957",
+    //     amount: "6GB Weekly",
+    //     network: "Airtel"
+    // }
+  ];
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setActionsOpen(false);
@@ -134,6 +122,53 @@ export const BuyAirtime = () => {
     window.scrollTo({ top: 0 });
   };
 
+  const handleSubmit = async ({ pin }) => {
+    const { usesPreset, vendCode } = networks.filter(
+      (network) => network.name === selected && !network.usesPreset
+    )[0];
+    const payload = await encrypt({
+      amount,
+      s_C: "Vending",
+      a_N: casaAccountBalances[0]?.accountnumber,
+      a_P: amount,
+      n_P: selected,
+      p_N: phone,
+      u_P: usesPreset,
+      v_C: vendCode,
+      t_P: pin,
+      username,
+    });
+
+    console.log(payload);
+    try {
+      setLoading(true);
+      const response = await billsService.vend({
+        encRequest: payload.encRequest,
+        detailsRequest: payload.detailsRequest,
+      });
+      console.log(response);
+      setLoading(false);
+      if (response) {
+        setEnterPin(false);
+        setIsSuccess(true);
+      } else {
+        setIsFailed(true);
+        setEnterPin(false);
+      }
+    } catch {
+      setLoading(false);
+      setIsFailed(true);
+      setEnterPin(false);
+    }
+  };
+
+  const backToSaving = () => {
+    setEnterPin(true);
+    setIsFailed(false);
+    setIsSuccess(false);
+    moveToOptions();
+  };
+
   return (
     <>
       {showOptions && (
@@ -141,10 +176,10 @@ export const BuyAirtime = () => {
           {savedAirtime.length === 0 ? (
             <Box>
               <HStack
-                bg={"#EAECF0"}
-                px={"26px"}
-                py={"14px"}
-                borderRadius={"12px 12px 0 0"}
+                bg="#EAECF0"
+                px={{base: "14px", md: "26px"}}
+                py="14px"
+                borderRadius="12px 12px 0 0"
               >
                 <Button
                   h={"24px"}
@@ -158,24 +193,24 @@ export const BuyAirtime = () => {
                   />
                 </Button>
                 <Text
-                  width={"90%"}
-                  textAlign={"center"}
-                  fontSize={"18px"}
+                  width="100%"
+                  textAlign="center"
+                  fontSize={{base: "16px", md: "18px"}}
                   fontWeight={600}
-                  color={"#101828"}
+                  color="#101828"
                 >
                   Buy Airtime
                 </Text>
               </HStack>
               <Stack
-                spacing={"16px"}
-                alignItems={"center"}
-                border={"1px solid #EFECE9"}
-                bg={"#FFFFFF"}
-                borderRadius={"0 0 12px 12px"}
-                py={"16px"}
-                pb={"114px"}
-                pt={"48px"}
+                spacing="16px"
+                alignItems="center"
+                border="1px solid #EFECE9"
+                bg="#FFFFFF"
+                borderRadius="0 0 12px 12px"
+                px="14px"
+                pb="114px"
+                pt="48px"
               >
                 <img
                   style={{ width: "40px", height: "40px" }}
@@ -183,16 +218,16 @@ export const BuyAirtime = () => {
                   alt=""
                 />
                 <Text
-                  w={"50%"}
-                  textAlign={"center"}
-                  fontSize={"16px"}
-                  color={"#667085"}
+                  w={{base: "100%", md: "50%"}}
+                  textAlign="center"
+                  fontSize="16px"
+                  color="#667085"
                 >
                   You do not have any saved airtime purchase
                 </Text>
                 <Button
                   mt={"16px"}
-                  w={"50%"}
+                  w={{base: "100%", md: "50%"}}
                   h={"48px"}
                   bg={"#A41856"}
                   _hover={{ bg: "#90164D" }}
@@ -208,14 +243,14 @@ export const BuyAirtime = () => {
           ) : (
             <Box>
               <HStack
-                bg={"#EAECF0"}
-                px={"26px"}
-                py={"14px"}
-                borderRadius={"12px 12px 0 0"}
+                bg="#EAECF0"
+                px={{base: "14px", md: "26px"}}
+                py="14px"
+                borderRadius="12px 12px 0 0"
               >
                 <Button
-                  h={"24px"}
-                  bg={"#EAECF0"}
+                  h="24px"
+                  bg="#EAECF0"
                   p={0}
                   _hover={{ bg: "#EAECF0" }}
                 >
@@ -225,32 +260,32 @@ export const BuyAirtime = () => {
                   />
                 </Button>
                 <Text
-                  width={"90%"}
-                  textAlign={"center"}
-                  fontSize={"18px"}
+                  width="100%"
+                  textAlign="center"
+                  fontSize={{base: "16px", md: "18px"}}
                   fontWeight={600}
-                  color={"#101828"}
+                  color="#101828"
                 >
                   Buy Airtime
                 </Text>
               </HStack>
               <Stack
-                spacing={"16px"}
-                alignItems={"center"}
-                border={"1px solid #EFECE9"}
-                bg={"#FFFFFF"}
-                borderRadius={"0 0 12px 12px"}
-                py={"16px"}
-                pb={"114px"}
-                pt={"48px"}
+                spacing="16px"
+                alignItems="center"
+                border="1px solid #EFECE9"
+                bg="#FFFFFF"
+                borderRadius="0 0 12px 12px"
+                px="14px"
+                pb="114px"
+                pt="48px"
               >
                 <Stack
-                  w={"60%"}
+                  w={{base: "100%", md: "90%", lg: "60%"}}
                   display={"grid"}
-                  gridTemplateColumns={"repeat(2, auto)"}
+                  gridTemplateColumns={{base: "1fr", md: "1fr 1fr"}}
                 >
                   {savedAirtime.map((air, index) => (
-                    <HStack
+                    <Stack
                       key={index}
                       border={"1px solid #EAECF0"}
                       borderRadius={"8px"}
@@ -258,6 +293,8 @@ export const BuyAirtime = () => {
                       py={"20px"}
                       px={"10px"}
                       spacing={"16px"}
+                      direction={{base: "column", lg: "row"}}
+                      alignItems="center"
                     >
                       <Box>
                         {air.network.toLowerCase() === "mtn" ? (
@@ -265,64 +302,64 @@ export const BuyAirtime = () => {
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/mtn.png")}
                           />
-                        ) : (
-                          <></>
-                        )}
-                        {air.network.toLowerCase() === "glo" ? (
+                        )
+                        :
+                        air.network.toLowerCase() === "glo" ? (
                           <img
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/glo.png")}
                           />
-                        ) : (
-                          <></>
-                        )}
-                        {air.network.toLowerCase() === "9mobile" ? (
+                        )
+                        :
+                        air.network.toLowerCase() === "9mobile" ? (
                           <img
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/9mobile.png")}
                           />
-                        ) : (
-                          <></>
-                        )}
-                        {air.network.toLowerCase() === "airtel" ? (
+                        )
+                        :
+                        air.network.toLowerCase() === "airtel" ? (
                           <img
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/airtel.png")}
                           />
                         ) : (
-                          <></>
+                          <Text>{air.network.slice(0,2)}</Text>
                         )}
                       </Box>
                       <Box w={"90%"}>
-                        <HStack
+                        <Stack
                           w={"100%"}
                           justifyContent={"space-between"}
                           alignItems={"center"}
+                          direction={{base: "column", md: "row", lg: "row"}}
                         >
                           <Text
-                            fontSize={"16px"}
+                            fontSize={"15px"}
                             fontWeight={"450"}
                             color={"#101828"}
                           >
                             {air.name}
                           </Text>
                           <Text
-                            fontSize={"16px"}
+                            fontSize={"15px"}
                             fontWeight={"450"}
                             color={"#101828"}
                           >
                             N{air.amount}
                           </Text>
-                        </HStack>
+                        </Stack>
                         <HStack
                           w={"100%"}
                           justifyContent={"space-between"}
                           alignItems={"center"}
                         >
                           <Text
-                            fontSize={"16px"}
+                            fontSize="15px"
                             fontWeight={"450"}
                             color={"#101828"}
+                            overflow={"hidden"}
+                            textOverflow={"ellipsis"}
                           >
                             {air.number}
                           </Text>
@@ -339,7 +376,7 @@ export const BuyAirtime = () => {
                               }`}
                               ref={popupRef}
                             >
-                              <button style={{ alignSelf: "end" }}>
+                              <button style={{ alignSelf: "end" }} onClick={() => toggleAction(index)}>
                                 <img
                                   style={{ width: "14px", height: "14px" }}
                                   src={getImageUrl("icons/blackX.png")}
@@ -381,7 +418,7 @@ export const BuyAirtime = () => {
                           </div>
                         </HStack>
                       </Box>
-                    </HStack>
+                    </Stack>
                   ))}
                 </Stack>
               </Stack>
@@ -393,11 +430,11 @@ export const BuyAirtime = () => {
       {showOne && (
         <Box>
           <HStack
-            bg={"#EAECF0"}
-            justifyContent={"space-between"}
-            px={"26px"}
-            py={"14px"}
-            borderRadius={"12px 12px 0 0"}
+            bg="#EAECF0"
+            justifyContent="space-between"
+            px={{base: "14px", md: "26px"}}
+            py="14px"
+            borderRadius="12px 12px 0 0"
           >
             <Button
               h={"24px"}
@@ -408,46 +445,36 @@ export const BuyAirtime = () => {
             >
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               Buy Airtime
             </Text>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               1/2
             </Text>
           </HStack>
           <Stack
-            spacing={"20px"}
-            alignItems={"center"}
-            border={"1px solid #EFECE9"}
-            bg={"#FFFFFF"}
-            borderRadius={"0 0 12px 12px"}
-            py={"16px"}
-            pb={"114px"}
+            spacing="20px"
+            alignItems="center"
+            border="1px solid #EFECE9"
+            bg="#FFFFFF"
+            borderRadius="0 0 12px 12px"
+            pt="16px"
+            pb="114px"
+            px="12px"
           >
-            <FormControl w={"75%"} isRequired>
-              <FormLabel fontSize="16px" fontWeight={400} color="#101828">
-                Select Account to Debit
-              </FormLabel>
-              <Select
-                h={"48px"}
-                bg={"#F7F7F7"}
-                border={"1px solid #EAECF0"}
-                placeholder="Select account"
-                _placeholder={{ fontSize: "16px", color: "#667085" }}
-              ></Select>
-            </FormControl>
-
-            
-            <Text w={"75%"} fontSize={"16px"} color={"#101828"} textAlign={"left"}>
+            <Text fontSize={{base: "14px", md: "16px"}} color={"#667085"} textAlign={"center"}>
               Select Preferred Network
             </Text>
 
-            <HStack w={"75%"}>
+            <Stack
+              w={{base: "100%", md: "60%"}}
+              flexDirection={{base: "column", md: "row"}}
+            >
               <Stack
                 cursor="pointer"
-                onClick={() => setSelected("mtn")}
+                onClick={() => setSelected("MTN")}
                 border={
-                  selected === "mtn" ? "2px solid #A41857" : "1px solid #EAECF0"
+                  selected === "MTN" ? "2px solid #A41857" : "1px solid #EAECF0"
                 }
                 alignItems={"center"}
                 borderRadius={"8px"}
@@ -457,7 +484,7 @@ export const BuyAirtime = () => {
                 <img
                   src={getImageUrl("logos/mtn.png")}
                   style={{ width: "58px", height: "58px" }}
-                  alt="mtn"
+                  alt="MTN"
                 />
                 <Text fontSize={"14px"} fontWeight={500} color={"#101828"}>
                   MTN
@@ -465,9 +492,9 @@ export const BuyAirtime = () => {
               </Stack>
               <Stack
                 cursor="pointer"
-                onClick={() => setSelected("glo")}
+                onClick={() => setSelected("GLO")}
                 border={
-                  selected === "glo" ? "2px solid #A41857" : "1px solid #EAECF0"
+                  selected === "GLO" ? "2px solid #A41857" : "1px solid #EAECF0"
                 }
                 alignItems={"center"}
                 borderRadius={"8px"}
@@ -507,9 +534,9 @@ export const BuyAirtime = () => {
               </Stack>
               <Stack
                 cursor="pointer"
-                onClick={() => setSelected("9mobile")}
+                onClick={() => setSelected("9 Mobile")}
                 border={
-                  selected === "9mobile"
+                  selected === "9 Mobile"
                     ? "2px solid #A41857"
                     : "1px solid #EAECF0"
                 }
@@ -527,10 +554,10 @@ export const BuyAirtime = () => {
                   9mobile
                 </Text>
               </Stack>
-            </HStack>
+            </Stack>
 
-            <FormControl w={"75%"} isRequired>
-              <FormLabel fontSize={"16px"} fontWeight={400} color={"#101828"}>
+            <FormControl w={{base: "100%", md: "75%"}} isRequired>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
                 Phone Number
               </FormLabel>
               <Input
@@ -539,31 +566,32 @@ export const BuyAirtime = () => {
                 h={"48px"}
                 bg={"#F7F7F7"}
                 border={"1px solid #EAECF0"}
+                fontSize={{base: "14px", md: "16px"}}
                 placeholder="Input Phone Number"
-                _placeholder={{ fontSize: "16px", color: "#667085" }}
+                _placeholder={{ color: "#667085" }}
                 value={phone}
                 inputMode={"numeric"}
                 type={"number"}
               ></Input>
             </FormControl>
 
-            <HStack w={"75%"}>
+            <HStack w={{base: "100%", md: "75%"}}>
               <img src={getImageUrl("icons/nav/profileGrey.png")} alt="" />
-              <Text fontSize={"14px"} fontWeight={500} color={"#A41857"}>
+              <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color={"#A41857"}>
                 Select from favorites
               </Text>
             </HStack>
 
-            <FormControl w={"75%"} isRequired>
-              <FormLabel fontSize={"16px"} fontWeight={400} color={"#101828"}>
+            <FormControl w={{base: "100%", md: "75%"}} isRequired>
+              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
                 Amount
               </FormLabel>
               <InputGroup>
                 <InputLeftElement
-                  h={"48px"}
+                  h="48px"
                   pointerEvents="none"
                   color="#667085"
-                  fontSize="16px"
+                  fontSize={{base: "14px", md: "16px"}}
                 >
                   ₦
                 </InputLeftElement>
@@ -578,8 +606,8 @@ export const BuyAirtime = () => {
               </InputGroup>
             </FormControl>
 
-            <HStack w={"75%"} justifyContent={"space-between"}>
-              <Text fontSize={"14px"} fontWeight={500} color={"#667085"}>
+            <HStack w={{base: "100%", md: "75%"}} justifyContent={"space-between"}>
+              <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color={"#667085"}>
                 Save as Favorite
               </Text>
               <Switch
@@ -597,13 +625,14 @@ export const BuyAirtime = () => {
             <Button
               onClick={onOpenConfirm}
               mt={"16px"}
-              w={"75%"}
+              w={{base: "100%", md: "75%"}}
               h={"48px"}
               bg={"#A41856"}
               color={"#FFFFFF"}
               fontSize={"14px"}
               fontWeight={600}
               _hover={{ bg: "#90164D" }}
+              isDisabled={!selected || !amount}
             >
               Continue
             </Button>
@@ -614,11 +643,11 @@ export const BuyAirtime = () => {
       {showTwo && (
         <Box>
           <HStack
-            bg={"#EAECF0"}
-            justifyContent={"space-between"}
-            px={"26px"}
-            py={"14px"}
-            borderRadius={"12px 12px 0 0"}
+            bg="#EAECF0"
+            justifyContent="space-between"
+            px={{base: "14px", md: "26px"}}
+            py="14px"
+            borderRadius="12px 12px 0 0"
           >
             <Button
               h={"24px"}
@@ -629,18 +658,24 @@ export const BuyAirtime = () => {
             >
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               Complete Purchase
             </Text>
-            <Text fontSize={"18px"} fontWeight={600} color={"#101828"}>
+            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
               2/2
             </Text>
           </HStack>
 
           <CompleteTransaction
             type="airtime"
-            phoneNumber="081018790857"
-            amount="3000"
+            phoneNumber={phone}
+            amount={amount}
+            handleSubmit={handleSubmit}
+            loading={loading}
+            isSuccess={isSuccess}
+            isFailed={isFailed}
+            enterPin={enterPin}
+            backToSaving={backToSaving}
           />
         </Box>
       )}
@@ -708,7 +743,7 @@ export const BuyAirtime = () => {
 
       <Modal
         isCentered
-        size="xl"
+        size="lg"
         closeOnOverlayClick={true}
         isOpen={isOpenConfirm}
         onClose={onCloseConfirm}
@@ -722,36 +757,19 @@ export const BuyAirtime = () => {
               fontWeight={600}
               color="#101828"
             >
-              Confirm Purchase
+              Confirm Airtime Payment Details
             </Text>
           </ModalHeader>
           <ModalCloseButton />
 
           <ModalBody>
             <div style={{ overflow: "auto", maxHeight: "60vh" }}>
-
-            <HStack w='100%' mb='16px' backgroundColor='#000000' backgroundImage={getImageUrl('backgroundGrey.png')} bgSize='100% 100%' borderRadius='12px' p='14px' pt='24px' justifyContent='space-between'>
-                <Box>
-                  <Text fontSize='14px' fontWeight={400} color='#FFFFFF'>Total Available Balance</Text>
-                  <HStack ml="-1px" spacing={0}>
-                    <Box fontSize="22px" color="#FFFFFF"><TbCurrencyNaira /></Box>
-                    <Text fontSize="18px" fontWeight={600} color="#FFFFFF">{totalBalanceVisible ? `${formatNumberDecimals(40618898300)}` : hideBalance()}</Text>
-                    <Box pl={3} cursor="pointer">
-                        {totalBalanceVisible && <BiShow fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} />}
-                        {!totalBalanceVisible && <BiHide fontSize="lg" color="#FFFFFF" onClick={handleToggleVisibility} />}
-                    </Box>
-                  </HStack>
-                </Box>
-
-                <Box alignSelf='start' borderRadius='36px' px='12px' py='8px' bg='#2C323A' color='#FFFFFF' fontSize='10px' fontWeight={500}>Tier 3 Savings Account</Box>
-              </HStack>
-
               <Stack w="100%" spacing="16px">
                 <HStack spacing="8px" alignItems="center">
                   <img src={getImageUrl("icons/greyBank.png")} />
                   <Stack spacing={0}>
                     <Text fontSize="14px" fontWeight={450} color="#667085">
-                      NETWORK
+                      NETWORK PROVIDER
                     </Text>
                     <Text fontSize="18px" fontWeight={500} color="#A41856">
                       MTN
@@ -763,10 +781,10 @@ export const BuyAirtime = () => {
                   <img src={getImageUrl("icons/nav/profileGrey.png")} />
                   <Stack spacing={0}>
                     <Text fontSize="14px" fontWeight={450} color="#667085">
-                      PHONE NUMBER
+                      BENEFICIARY NAME
                     </Text>
                     <Text fontSize="18px" fontWeight={500} color="#A41856">
-                      {phone}
+                      {fullname} - {phone}
                     </Text>
                   </Stack>
                 </HStack>

@@ -1,7 +1,7 @@
 .whole {
     padding: 38px 44px;
     margin-top: 70px;
-    margin-left: 272px;
+    margin-left: 250px;
 }
 
 img {
@@ -26,5 +26,21 @@ img {
     z-index: 5;
     width: 230px;
     margin-left: -110px;
-    /* margin-top: 10px; */
+}
+
+
+
+@media screen and (max-width: 48em) {
+    .whole {
+        padding: 32px 15px;
+    }
+    .theActions {
+        right: 0px;
+    }
+}
+
+@media screen and (max-width: 30em) {
+    .whole {
+        margin-left: 0;
+    }
 }

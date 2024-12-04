@@ -26,14 +26,20 @@ export const AirtimeBills = () => {
   
   return (
     <div className={styles.whole}>
-      <Text fontSize={"24px"} fontWeight={700} color={"#101828"} mb={"16px"}>
+      <Text fontSize={{base: "22px", md: "24px"}} fontWeight={700} color={"#101828"} mb={"16px"}>
         Airtime and Bills
       </Text>
       <Tabs>
-        <TabList borderBottom={"none"} gap={"5px"} mb={"24px"}>
+        <TabList
+          display="grid"
+          gridTemplateColumns={{base: "1fr", md: "auto auto auto"}}
+          borderBottom="none"
+          gap={{base: "10px", md: "5px"}}
+          mb="24px"
+        >
           <Tab
             rounded={"50px"}
-            fontSize={"13px"}
+            fontSize={{base: "11px", md: "13px"}}
             color={"#667085"}
             fontWeight={500}
             border={"1px solid #EAECF0"}
@@ -50,7 +56,7 @@ export const AirtimeBills = () => {
           </Tab>
           <Tab
             rounded={"50px"}
-            fontSize={"13px"}
+            fontSize={{base: "11px", md: "13px"}}
             color={"#667085"}
             fontWeight={500}
             border={"1px solid #EAECF0"}
@@ -67,7 +73,7 @@ export const AirtimeBills = () => {
           </Tab>
           <Tab
             rounded={"50px"}
-            fontSize={"13px"}
+            fontSize={{base: "11px", md: "13px"}}
             color={"#667085"}
             fontWeight={500}
             border={"1px solid #EAECF0"}
@@ -85,15 +91,15 @@ export const AirtimeBills = () => {
         </TabList>
 
         <TabPanels maxWidth={"1000px"}>
-          <TabPanel ml={-4}>
-            <BuyAirtime />
+          <TabPanel mx={{base: -2, md: -4}}>
+            <BuyAirtime networks={networks}/>
           </TabPanel>
 
-          <TabPanel ml={-4}>
+          <TabPanel mx={{base: -2, md: -4}}>
             <BuyData networks={networks} />
           </TabPanel>
 
-          <TabPanel ml={-4}>
+          <TabPanel mx={{base: -2, md: -4}}>
             <BillsPayment />
           </TabPanel>
         </TabPanels>
