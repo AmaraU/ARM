@@ -3,6 +3,7 @@
 import { handleErrors } from "../utils/handleResponse";
 import api from "../api/api";
 import kycApi from "../api/kyc.api";
+import smileIdApi from "../api/smileId.api";
 
 const authService = {
   checkBVNorNIN: async (number) => {
@@ -10,7 +11,7 @@ const authService = {
       const response = await api.get(
         "/validate/IsExistBvnOrNIN?number=" + number
       );
-      return response
+      return response;
     } catch (error) {
       handleErrors(error);
       throw error;
@@ -18,7 +19,9 @@ const authService = {
   },
   verifyBVN: async (kycData) => {
     try {
-      const response = await kycApi.post("/QoreId/BVN", kycData);
+      const response = await smileIdApi.get(
+        "/Validation/ValidateBvn?bvn=" + kycData.number.trim()
+      );
       return response;
     } catch (error) {
       handleErrors(error);
@@ -28,7 +31,9 @@ const authService = {
 
   verifyNIN: async (kycData) => {
     try {
-      const response = await kycApi.post("/QoreId/NIN", kycData);
+      const response = await smileIdApi.get(
+        "/Validation/ValidateNin_V2?Nin_V2=" + kycData.number.trim()
+      );
       return response;
     } catch (error) {
       handleErrors(error);
@@ -62,7 +67,7 @@ const authService = {
     try {
       const response = await api.post("/account/send-otp", otpData);
       // handleSuccess(response.data.mes)
-      console.log(response)
+      console.log(response);
       return response;
     } catch (error) {
       handleErrors(error);

@@ -1,4 +1,5 @@
 import api from "../api/api";
+import outboundApi from "../api/outbound.api";
 import { USER } from "../constants";
 import { handleErrors, handleSuccess } from "../utils/handleResponse";
 
@@ -62,7 +63,7 @@ const transactionService = {
 
   banks: async () => {
     try {
-      const response = await api.get("/transaction/banks");
+      const response = await outboundApi.get("/Outbound/BankCodes");
       return response;
     } catch (error) {
       handleErrors(error);

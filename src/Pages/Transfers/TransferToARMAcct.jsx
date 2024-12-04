@@ -248,7 +248,7 @@ export const TransferToARMAcct = ({
 
                 <FormControl w={{base: "100%", md: "75%"}} isRequired>
                   <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
-                    Account Number {accountName?.alias}
+                    Account Number
                   </FormLabel>
                   <InputGroup>
                     <Input
@@ -261,6 +261,7 @@ export const TransferToARMAcct = ({
                       placeholder="Input account number"
                       _placeholder={{ color: "#667085" }}
                       autoComplete="off"
+                      onWheel={ event => event.currentTarget.blur() }
                     />
 
                     {checkingAccount && (
@@ -323,7 +324,7 @@ export const TransferToARMAcct = ({
                       height={24}
                       width={40}
                       handleDiameter={16}
-                      onChange={(e) => console.log(e)}
+                      onChange={saveBeneficiary}
                     />
                   </HStack>
                 )}
@@ -405,6 +406,7 @@ export const TransferToARMAcct = ({
                       _placeholder={{ color: "#667085" }}
                       autoComplete="off"
                       defaultValue={accountName?.beneficiaryAccount}
+                      onWheel={ event => event.currentTarget.blur() }
                     />
                     {checkingAccount && (
                       <InputRightElement>
@@ -652,7 +654,7 @@ export const TransferToARMAcct = ({
               </InputGroup>
             </FormControl>
 
-            <HStack w={{base: "100%", md: "75%"}} justifyContent="space-between">
+            <Stack w={{base: "100%", md: "75%"}} justifyContent="space-between" direction={{base: "column", md: "row"}}>
               <HStack>
                 <img
                   src={getImageUrl("icons/warning.png")}
@@ -670,7 +672,7 @@ export const TransferToARMAcct = ({
               >
                 Increase your transfer limit
               </Text>
-            </HStack>
+            </Stack>
 
             <FormControl w={{base: "100%", md: "75%"}}>
               <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>

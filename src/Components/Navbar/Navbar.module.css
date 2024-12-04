@@ -2,7 +2,7 @@
 .hiddenWhole {
     background-color: #FFFFFF;
     border-right: 1px solid #EAECF0;
-    width: 272px;
+    width: 250px;
     height: 100%;
     position: fixed;
     overflow: hidden;
@@ -36,8 +36,11 @@
     width: 50%;
     height: auto;
 }
+.logoTwo {
+    display: none;
+}
 
-.logo2 {
+.showNav {
     display: none;
     height: 70px;
     width: auto;
@@ -46,7 +49,7 @@
     justify-content: center;
     margin-left: 14px;
 }
-.logo2 img {
+.showNav img {
     width: auto;
     height: 60%;
 }
@@ -119,11 +122,30 @@
     .theWhole {
         display: none;
     }
-    .logo2 {
+    .logo {
+        height: 70px;
+    }
+    .logo a {
+        display: none;
+    }
+    .showNav {
         display: flex;
         position: fixed;
     }
     .hiddenWhole {
         display: block;
+        width: 100%;
+        max-width: 240px;
+    }
+    .logoTwo {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        padding: 0 14px;
+        align-items: center;
+    }
+    .logoTwo img {
+        width: auto;
+        height: 60%;
     }
 }

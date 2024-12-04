@@ -82,7 +82,7 @@ const transactionSlice = createSlice({
       })
       .addCase(getBanks.fulfilled, (state, action) => {
         state.bankloading = false;
-        state.banks = action.payload.data.result.data;
+        state.banks = action.payload.data;
       })
       .addCase(getBanks.rejected, (state) => {
         state.bankloading = false;
@@ -104,7 +104,7 @@ const transactionSlice = createSlice({
       })
       .addCase(getTransactionLimit.fulfilled, (state, action) => {
         state.loading = false;
-        console.log("limitss",action.payload)
+        console.log("limitss", action.payload);
         state.limit = action.payload.data.result.data;
       })
       .addCase(getTransactionLimit.rejected, (state) => {

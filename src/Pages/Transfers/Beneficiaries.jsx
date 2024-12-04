@@ -215,15 +215,15 @@ export const Beneficiaries = ({ goToTransfer, transactions }) => {
                     />
                     <Stack flex="90%">
                       <Flex justifyContent={"space-between"}>
-                        <Text fontSize="18px" fontWeight={500} color="#101828">
+                        <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#101828">
                           {ben?.beneficiaryFullName}
                         </Text>
-                        <Text fontSize="18px" fontWeight={500} color="#101828">
+                        <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#101828">
                           {ben?.beneficiaryBank}
                         </Text>
                       </Flex>
                       <Flex justifyContent="space-between">
-                        <Text fontSize="18px" fontWeight={500} color="#101828">
+                        <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#101828">
                           {ben?.beneficiaryAccount}
                         </Text>
                         <div>
@@ -258,7 +258,7 @@ export const Beneficiaries = ({ goToTransfer, transactions }) => {
                                 src={getImageUrl("icons/nav/transfersGrey.png")}
                               />
                               <Text
-                                fontSize="14px"
+                                fontSize={{base: "12px", md: "14px"}}
                                 fontWeight={500}
                                 color="#667085"
                               >
@@ -273,7 +273,7 @@ export const Beneficiaries = ({ goToTransfer, transactions }) => {
                             >
                               <img src={getImageUrl("icons/view.png")} />
                               <Text
-                                fontSize="14px"
+                                fontSize={{base: "12px", md: "14px"}}
                                 fontWeight={500}
                                 color="#667085"
                               >
@@ -288,7 +288,7 @@ export const Beneficiaries = ({ goToTransfer, transactions }) => {
                             >
                               <img src={getImageUrl("icons/redDelete.png")} />
                               <Text
-                                fontSize="14px"
+                                fontSize={{base: "12px", md: "14px"}}
                                 fontWeight={500}
                                 color="#667085"
                               >

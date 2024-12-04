@@ -1,10 +1,21 @@
 import api from "../api/api";
+import outboundApi from "../api/outbound.api";
 import { handleErrors, handleSuccess } from "../utils/handleResponse";
 
 const transferService = {
   transferFunds: async (payload) => {
     try {
       const response = await api.post("/transaction/funds-transfer", payload);
+      return response;
+    } catch (error) {
+      handleErrors(error);
+      throw error;
+    }
+  },
+
+  transferOutboundFunds: async (payload) => {
+    try {
+      const response = await outboundApi.post("/Outbound/FundTransfer", payload);
       return response;
     } catch (error) {
       handleErrors(error);
@@ -47,8 +58,8 @@ const transferService = {
   accountInquiry: async (payload) => {
     const { AccountNumber, BankCode } = payload;
     try {
-      const response = await api.get(
-        `/transaction/account-enquiry?AccountNumber=${AccountNumber}%26BankCode=${BankCode}`
+      const response = await outboundApi.get(
+        `/Outbound/NameEnquiry/${BankCode}/${AccountNumber}`
       );
       return response.data;
     } catch (error) {

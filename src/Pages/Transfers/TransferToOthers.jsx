@@ -32,8 +32,15 @@ import Switch from "react-switch";
 import { useDispatch, useSelector } from "react-redux";
 import { getBanks } from "../../store/transactions.slice";
 import transferService from "../../services/transferService";
+import { getBeneficiaries } from "../../store/transfer.slice";
+import { encrypt } from "../../utils/encrypt";
+import { getAccountBalance } from "../../store/auth/user.slice";
 
-export const TransferToOthers = ({ accounts }) => {
+export const TransferToOthers = ({
+  accounts,
+  selectedBeneficiary,
+  selectBeneficiary,
+}) => {
   const {
     isOpen: isOpenConfirm,
     onOpen: onOpenConfirm,
@@ -45,11 +52,22 @@ export const TransferToOthers = ({ accounts }) => {
   const [showThree, setShowThree] = useState(false);
   const [checkingAccount, setCheckingAccount] = useState(false);
   const [accountNumber, setAccountNumber] = useState("");
+  const [recipient, setRecipient] = useState(null);
   const [bank, setBank] = useState("");
   const [showName, setShowName] = useState(false);
+  const [savebeneficiary, setSaveBeneficiary] = useState(false);
+  const [loading, setLoading] = useState(false);
   const noOfAccounts = 2;
   const dispatch = useDispatch();
   const { banks } = useSelector((state) => state.transactions);
+  const [accountToDebit, setAccountToDebit] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [amount, setAmount] = useState("");
+  const [note, setNote] = useState("");
+  const { username, casaAccountBalances } = useSelector((state) => state.user);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
+  const [enterPin, setEnterPin] = useState(true);
 
   useEffect(() => {
     dispatch(getBanks());
@@ -76,6 +94,7 @@ export const TransferToOthers = ({ accounts }) => {
     window.scrollTo({ top: 0 });
   };
   const moveToTwo = () => {
+    setBankName(banks.filter((b) => b.bankCode == bank)[0].bankName);
     setShowOne(false);
     setShowTwo(true);
     setShowThree(false);
@@ -90,8 +109,10 @@ export const TransferToOthers = ({ accounts }) => {
   };
 
   const checkAccount = async (e) => {
+    console.log(e.target.value);
     setAccountNumber(e.target.value);
-    if (e.target.value.length !== 10) {
+    setSaveBeneficiary(false);
+    if (e.target.value.length !== 9) {
       return;
     }
     try {
@@ -100,13 +121,79 @@ export const TransferToOthers = ({ accounts }) => {
         AccountNumber: accountNumber,
         BankCode: bank,
       });
-      console.log(response);
       setShowName(true);
+      setRecipient(response);
       setCheckingAccount(false);
     } catch (error) {
       console.log(error);
       setCheckingAccount(false);
     }
+  };
+
+  const saveBeneficiary = async (e) => {
+    setSaveBeneficiary(e);
+    if (!e) {
+      return;
+    }
+    try {
+      await transferService.saveBeneficiary({
+        beneficiaryBankcode: String(bank),
+        beneficiaryBankname: banks.filter((b) => b.bankCode == bank)[0]
+          .bankName,
+        beneficiaryFullName: recipient.accountName,
+        beneficiaryAccoutNumber: accountNumber,
+        alias: recipient.accountName,
+      });
+
+      dispatch(getBeneficiaries());
+    } catch {
+      setLoading(false);
+    }
+  };
+
+  const completeTransaction = async (e) => {
+    const { pin } = e;
+    console.log(accountNumber);
+
+    const payload = await encrypt({
+      amount,
+      acct_number: casaAccountBalances[0]?.accountnumber,
+      recipient_account: accountNumber
+        ? accountNumber
+        : selectedBeneficiary?.beneficiaryAccount,
+      recipient_name: recipient?.acctName
+        ? recipient?.acctName
+        : selectedBeneficiary.beneficiaryFullName,
+      bank_name: recipient?.bankName,
+      pin,
+      username,
+    });
+
+    try {
+      setLoading(true);
+      const response = await transferService.transferFunds({
+        encRequest: payload.encRequest,
+        detailsRequest: payload.detailsRequest,
+      });
+      console.log(response);
+      setIsSuccess(true);
+      setEnterPin(false);
+      setLoading(false);
+    } catch {
+      setEnterPin(false);
+      setIsFailed(true);
+      setLoading(false);
+    }
+  };
+
+  const backToSaving = async () => {
+    await dispatch(getAccountBalance());
+    setIsSuccess(false);
+    setEnterPin(true);
+    setIsFailed(false);
+    setRecipient({});
+    setNote("");
+    moveToOne();
   };
 
   return (
@@ -157,6 +244,7 @@ export const TransferToOthers = ({ accounts }) => {
                     fontSize={{base: "14px", md: "16px"}}
                     placeholder="Select account"
                     _placeholder={{ color: "#667085" }}
+                    onChange={(e) => setAccountToDebit(e.target.value)}
                   >
                     {accounts &&
                       accounts.map((account, i) => (
@@ -170,11 +258,26 @@ export const TransferToOthers = ({ accounts }) => {
 
                 <FormControl w={{base: "100%", md: "75%"}} isRequired>
                   <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                    Bank Name
+                  </FormLabel>
+                  <Select
+                    h={"48px"}
+                    bg={"#F7F7F7"}
+                    border={"1px solid #EAECF0"}
+                    placeholder="Select bank"
+                    _placeholder={{ fontSize: "16px", color: "#667085" }}
+                    onChange={(e) => setBank(e.target.value)}
+                  >
+                  </Select>
+                </FormControl>
+
+                <FormControl w={{base: "100%", md: "75%"}} isRequired>
+                  <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
                     Account Number
                   </FormLabel>
                   <InputGroup>
                     <Input
-                      onChange={checkAccount}
+                      onKeyUp={checkAccount}
                       type="number"
                       h="48px"
                       bg="#F7F7F7"
@@ -193,7 +296,7 @@ export const TransferToOthers = ({ accounts }) => {
                 </FormControl>
 
                 {!showName && (
-                  <HStack w={{base: "100%", md: "75%"}}>
+                  <HStack w={{base: "100%", md: "75%"}} onClick={selectBeneficiary}>
                     <img src={getImageUrl("icons/nav/profileGrey.png")} />
                     <Text
                       cursor="pointer"
@@ -206,28 +309,6 @@ export const TransferToOthers = ({ accounts }) => {
                   </HStack>
                 )}
 
-                <FormControl w={{base: "100%", md: "75%"}} isRequired>
-                  <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
-                    Bank Name
-                  </FormLabel>
-                  <Select
-                    h={"48px"}
-                    bg={"#F7F7F7"}
-                    border={"1px solid #EAECF0"}
-                    placeholder="Select bank"
-                    fontSize={{base: "14px", md: "16px"}}
-                    _placeholder={{ color: "#667085" }}
-                    onChange={(e) => setBank(e.target.value)}
-                  >
-                    {banks &&
-                      banks.map((bank, i) => (
-                        <option key={i} value={bank.bankCode}>
-                          {" "}
-                          {bank.bankName}{" "}
-                        </option>
-                      ))}
-                  </Select>
-                </FormControl>
 
                 {showName && (
                   <HStack
@@ -246,7 +327,7 @@ export const TransferToOthers = ({ accounts }) => {
                         BENEFICIARY NAME
                       </Text>
                       <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#101828">
-                        Adeola Obasanjo
+                        {recipient?.accountName}
                       </Text>
                     </Stack>
                   </HStack>
@@ -257,13 +338,16 @@ export const TransferToOthers = ({ accounts }) => {
                     <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#667085">
                       Save as Beneficiary
                     </Text>
+
                     <Switch
+                      checked={savebeneficiary}
                       onColor="#A41857"
                       checkedIcon={false}
                       uncheckedIcon={false}
                       height={24}
                       width={40}
                       handleDiameter={16}
+                      onChange={saveBeneficiary}
                     />
                   </HStack>
                 )}
@@ -327,11 +411,26 @@ export const TransferToOthers = ({ accounts }) => {
 
                 <FormControl w={{base: "100%", md: "75%"}} isRequired>
                   <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                    Bank Name
+                  </FormLabel>
+                  <Select
+                    h={"48px"}
+                    bg={"#F7F7F7"}
+                    border={"1px solid #EAECF0"}
+                    placeholder="Select bank"
+                    _placeholder={{ fontSize: "16px", color: "#667085" }}
+                    onChange={(e) => setBank(e.target.value)}
+                  >
+                  </Select>
+                </FormControl>
+
+                <FormControl w={{base: "100%", md: "75%"}} isRequired>
+                  <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
                     Account Number
                   </FormLabel>
                   <InputGroup>
                     <Input
-                      onChange={checkAccount}
+                      onKeyPress={checkAccount}
                       type="number"
                       h="48px"
                       bg="#F7F7F7"
@@ -366,14 +465,14 @@ export const TransferToOthers = ({ accounts }) => {
                         BENEFICIARY NAME
                       </Text>
                       <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#101828">
-                        Adeola Obasanjo
+                        {recipient?.accountName}
                       </Text>
                     </Stack>
                   </HStack>
                 )}
 
                 {!showName && (
-                  <HStack w={{base: "100%", md: "75%"}}>
+                  <HStack w={{base: "100%", md: "75%"}} onClick={selectBeneficiary}>
                     <img src={getImageUrl("icons/nav/profileGrey.png")} />
                     <Text
                       cursor="pointer"
@@ -414,6 +513,7 @@ export const TransferToOthers = ({ accounts }) => {
               fontSize={"14px"}
               fontWeight={600}
               onClick={moveToTwo}
+              isDisabled={!accountNumber || !bank || !accountToDebit}
             >
               Continue
             </Button>
@@ -480,7 +580,9 @@ export const TransferToOthers = ({ accounts }) => {
                   </Box>
                   <Text fontSize={{base: "14px", md: "18px"}} fontWeight={600} color="#FFFFFF">
                     {totalBalanceVisible
-                      ? `${formatNumberDec(1234568)}`
+                      ? `${formatNumberDec(
+                          accounts[0] && accounts[0].bookBalance
+                        )}`
                       : hideBalance()}
                   </Text>
                   <Box pl={3} cursor="pointer">
@@ -533,7 +635,7 @@ export const TransferToOthers = ({ accounts }) => {
                     BENEFICIARY ACCOUNT NUMBER
                   </Text>
                   <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#101828">
-                    Guaranty Trust Bank - 0122458754
+                    {bankName} - {recipient?.accountNumber}
                   </Text>
                 </Stack>
               </HStack>
@@ -547,7 +649,7 @@ export const TransferToOthers = ({ accounts }) => {
                     BENEFICIARY NAME
                   </Text>
                   <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#101828">
-                    Adeola Obasanjo
+                    {recipient?.accountName}
                   </Text>
                 </Stack>
               </HStack>
@@ -570,11 +672,12 @@ export const TransferToOthers = ({ accounts }) => {
                   placeholder="Enter amount"
                   _placeholder={{ color: "#667085" }}
                   autoComplete="off"
+                  onChange={(e) => setAmount(e.target.value)}
                 />
               </InputGroup>
             </FormControl>
 
-            <HStack w={{base: "100%", md: "75%"}} justifyContent="space-between">
+            <Stack w={{base: "100%", md: "75%"}} justifyContent="space-between" direction={{base: "column", md: "row"}}>
               <HStack>
                 <img src={getImageUrl("icons/warning.png")} alt="" />
                 <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#667085">
@@ -589,7 +692,7 @@ export const TransferToOthers = ({ accounts }) => {
               >
                 Increase your transfer limit
               </Text>
-            </HStack>
+            </Stack>
 
             <FormControl w={{base: "100%", md: "75%"}}>
               <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
@@ -601,6 +704,9 @@ export const TransferToOthers = ({ accounts }) => {
                 border="1px solid #EAECF0"
                 fontSize={{base: "14px", md: "16px"}}
                 autoComplete="off"
+                onChange={(e) => {
+                  setNote(e.target.value);
+                }}
               />
             </FormControl>
 
@@ -647,7 +753,15 @@ export const TransferToOthers = ({ accounts }) => {
             </Text>
           </HStack>
 
-          <CompleteTransaction type="transaction" />
+          <CompleteTransaction
+            type="transaction"
+            handleSubmit={completeTransaction}
+            loading={loading}
+            isSuccess={isSuccess}
+            isFailed={isFailed}
+            enterPin={enterPin}
+            backToSaving={backToSaving}
+          />
         </Box>
       )}
 
@@ -682,7 +796,7 @@ export const TransferToOthers = ({ accounts }) => {
                       BENEFICIARY ACCOUNT NUMBER
                     </Text>
                     <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#A41856">
-                      Guaranty Trust Bank - 0122458754
+                      {bankName} - {recipient?.accountNumber}
                     </Text>
                   </Stack>
                 </HStack>
@@ -694,7 +808,7 @@ export const TransferToOthers = ({ accounts }) => {
                       BENEFICIARY NAME
                     </Text>
                     <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#A41856">
-                      Adeola Obasanjo
+                      {recipient?.accountName}
                     </Text>
                   </Stack>
                 </HStack>
@@ -706,7 +820,7 @@ export const TransferToOthers = ({ accounts }) => {
                       AMOUNT
                     </Text>
                     <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#A41856">
-                      ₦200,000
+                      ₦ {amount}
                     </Text>
                   </Stack>
                 </HStack>
@@ -730,7 +844,7 @@ export const TransferToOthers = ({ accounts }) => {
                       NOTES
                     </Text>
                     <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#A41856">
-                      Weekend chillz
+                      {note}
                     </Text>
                   </Stack>
                 </HStack>

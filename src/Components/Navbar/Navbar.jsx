@@ -33,7 +33,7 @@ export const Navbar = () => {
 
   return (
     <>
-    <button className={styles.logo2} onClick={()=>setShowNav(!showNav)}>
+    <button className={styles.showNav} onClick={()=>setShowNav(!showNav)}>
       <img src={getImageUrl("logos/arm_a.png")} alt="ARM" />
     </button>
     <div className={`${styles.theWhole} ${showNav ? styles.hiddenWhole : ''}`} ref={navRef}>
@@ -41,6 +41,9 @@ export const Navbar = () => {
         <a href="/overview">
           <img src={getImageUrl("logos/arm_logo.png")} alt="ARM" />
         </a>
+        <button className={styles.logoTwo} onClick={()=>setShowNav(!showNav)}>
+          <img src={getImageUrl("logos/arm_a.png")} alt="ARM" />
+        </button>
       </div>
 
       <div className={styles.linkList}>

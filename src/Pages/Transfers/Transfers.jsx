@@ -141,6 +141,8 @@ export const Transfers = () => {
               accounts={accounts}
               fullname={fullname}
               casaAccountBalances={casaAccountBalances}
+              selectedBeneficiary={selectedBeneficiary}
+              selectBeneficiary={selectBeneficiary}
             />
           </TabPanel>
 

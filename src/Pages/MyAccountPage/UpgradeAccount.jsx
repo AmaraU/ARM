@@ -20,6 +20,7 @@ import {
   ModalFooter,
   Image,
   InputRightElement,
+  Flex,
 } from "@chakra-ui/react";
 import { getImageUrl } from "../../../utils";
 import styles from "./MyAccountPage.module.css";
@@ -35,6 +36,8 @@ export const UpgradeAccount = () => {
     onOpen: onOpenSample,
     onClose: onCloseSample,
   } = useDisclosure();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentIndex] = useState(0);
   const [step, setStep] = useState(1);
   const [BVNAndNINFilled, setBVNAndNINFilled] = useState(false);
@@ -64,6 +67,7 @@ export const UpgradeAccount = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    onOpen();
     dispatch(getAccountBalance());
     dispatch(getSetupStatus());
   }, [dispatch]);
@@ -93,7 +97,6 @@ export const UpgradeAccount = () => {
           nin: nin,
         });
       }
-
 
       setStep(3);
       window.scrollTo({ top: 0 });
@@ -149,7 +152,7 @@ export const UpgradeAccount = () => {
 
       console.log(response);
       setStep(5);
-      setSignatureFilled(true)
+      setSignatureFilled(true);
       setLoading(false);
       window.scrollTo({ top: 0 });
     } catch (error) {
@@ -160,7 +163,7 @@ export const UpgradeAccount = () => {
 
   const moveToSuccess = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await userService.uploadDocument({
         documentType: 3,
         idNumber: "123456789",
@@ -170,11 +173,11 @@ export const UpgradeAccount = () => {
       console.log(response);
 
       setStep(6);
-      setAddressFilled(true)
+      setAddressFilled(true);
       window.scrollTo({ top: 0 });
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       console.log(error);
     }
   };
@@ -511,9 +514,14 @@ export const UpgradeAccount = () => {
                     disabled={bvnStatus}
                     _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
                   />
-                  {bvnStatus && <InputRightElement h="100%" mr="12px">
-                    <img src={getImageUrl("icons/greenCheck.png")} style={{}} />
-                  </InputRightElement>}
+                  {bvnStatus && (
+                    <InputRightElement h="100%" mr="12px">
+                      <img
+                        src={getImageUrl("icons/greenCheck.png")}
+                        style={{}}
+                      />
+                    </InputRightElement>
+                  )}
                 </InputGroup>
               </FormControl>
 
@@ -524,7 +532,6 @@ export const UpgradeAccount = () => {
                 <InputGroup>
                   <Input
                     h="48px"
-                    type="number"
                     pattern="\d"
                     bg="#F7F7F7"
                     border="1px solid #EAECF0"
@@ -533,6 +540,7 @@ export const UpgradeAccount = () => {
                     inputMode="numeric"
                     _placeholder={{ color: "#667085" }}
                     maxLength={11}
+                    value={ninStatus ? "***********" : ""}
                     onInput={(e) =>
                       (e.target.value = e.target.value.slice(0, 11))
                     }
@@ -540,9 +548,14 @@ export const UpgradeAccount = () => {
                     disabled={ninStatus}
                     _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
                   />
-                  {ninStatus && <InputRightElement h="100%" mr="12px">
-                    <img src={getImageUrl("icons/greenCheck.png")} style={{}} />
-                  </InputRightElement>}
+                  {ninStatus && (
+                    <InputRightElement h="100%" mr="12px">
+                      <img
+                        src={getImageUrl("icons/greenCheck.png")}
+                        style={{}}
+                      />
+                    </InputRightElement>
+                  )}
                 </InputGroup>
               </FormControl>
 
@@ -1092,13 +1105,57 @@ export const UpgradeAccount = () => {
 
         <Modal
           isCentered
+          size={"3xl"}
+          closeOnOverlayClick={false}
+          isOpen={isOpen}
+          onClose={onClose}
+        >
+          <ModalOverlay />
+          <ModalContent rounded={"lg"} bg="white" boxShadow="none">
+            <ModalHeader>
+              <Text
+                textAlign="center"
+                fontSize="21px"
+                fontWeight={500}
+                color="#000000"
+              >
+                Upgrade Your Account
+              </Text>
+            </ModalHeader>
+            <ModalCloseButton color="#00000" />
+
+            <Text align={"center"}>
+              Below are the documents needed for upgrade
+            </Text>
+            <ModalBody maxW={"550px"} margin={"auto"} my={2}>
+              <Flex justifyContent={"center"} gap={"0px"}>
+                <Image
+                  src={getImageUrl("tier2_upgrade.png")}
+                  style={{ width: "auto", height: "166px" }}
+                />
+                <Image
+                  src={getImageUrl("tier3_upgrade.png")}
+                  style={{ width: "auto", height: "194px" }}
+                />
+              </Flex>
+            </ModalBody>
+            <ModalFooter justifyContent="center">
+              <Text fontSize="14px" fontWeight={600} color="#FFFFFF">
+                We won&apos;t share your information with anyone
+              </Text>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
+        <Modal
+          isCentered
           size={"lg"}
           closeOnOverlayClick={false}
           isOpen={isOpenSample}
           onClose={onCloseSample}
         >
           <ModalOverlay />
-          <ModalContent bg="transparent" boxShadow="none">
+          <ModalContent bg="white" boxShadow="none">
             <ModalHeader>
               <Text
                 textAlign="center"

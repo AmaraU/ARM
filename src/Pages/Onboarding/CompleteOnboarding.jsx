@@ -70,7 +70,9 @@ export const CompleteOnboarding = () => {
     try {
       setTimeLeft(30);
       const response = await authService.sendOtp({
-        phoneOrAccountnumber: auth?.phoneNumber,
+        phoneOrAccountnumber: auth?.altPhoneNumber
+          ? auth?.altPhoneNumber
+          : auth?.phoneNumber,
         email: auth?.email,
       });
 

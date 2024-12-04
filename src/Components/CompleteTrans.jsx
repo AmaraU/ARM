@@ -44,6 +44,7 @@ export const CompleteTransaction = ({
           borderRadius={"0 0 12px 12px"}
           py={"16px"}
           pb={"114px"}
+          px="12px"
         >
           <Text fontSize={"16px"} color={"#667085"} textAlign={"center"}>
             Enter your 4-digit PIN to complete your transaction

@@ -93,7 +93,7 @@ const authSlice = createSlice({
       }
       if (altEmail) {
         state.altEmail = altEmail !== undefined ? altEmail : state.altEmail;
-        state.email = altEmail !== undefined ? altEmail: state.email 
+        state.email = email === undefined ? altEmail: state.email 
       }
       if (altPhoneNumber) {
         state.altPhoneNumber =

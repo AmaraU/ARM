@@ -7,6 +7,7 @@
     align-items: center;
     position: fixed;
     background: #FFF;
+    border-bottom: 1px solid #EAECF0;
     z-index: 10;
 }
 
@@ -18,9 +19,9 @@
     width: 100%;
     padding: 18px 40px;
     align-items: center;
-    border-bottom: 1px solid #EAECF0;
+    /* border-bottom: 1px solid #EAECF0; */
     justify-content: right;
-    margin-left: 272px;
+    margin-left: 250px;
 }
 
 .whole .buttons {
@@ -40,6 +41,8 @@
     gap: 8px;
     border-left: 1px solid #EAECF0;
     padding-left: 28px;
+}
+.profile h4 {
     color: #101828;
     font-size: 14px;
 }
@@ -68,7 +71,7 @@
     position: fixed;
     box-shadow: 0px 4px 12px 0px #9CA3AF33;
     width: 15%;
-    min-width: 400px;
+    min-width: 300px;
     padding: 0 20px;
     right: 5%;
     border-radius: 8px;
@@ -177,6 +180,20 @@
 @media screen and (max-width: 30em) {
     .whole {
         margin-left: 25px;
+        padding: 18px 14px;
     }
-    
+    .notifPop {
+        width: 15%;
+        min-width: 300px;
+        padding: 0 20px;
+        right: 0;
+    }
+    .whole .profile {
+        gap: 8px;
+        border-left: 1px solid #EAECF0;
+        padding-left: 14px;
+    }
+    .profile h4 {
+        display: none;
+    }
 }

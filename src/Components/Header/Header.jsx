@@ -90,7 +90,7 @@ export const Header = () => {
 
         <div className={styles.profile}>
           <img src={getImageUrl("icons/header/avatar.png")} alt="" />
-          {fullname}
+          <h4>{fullname}</h4>
         </div>
       </div>
     </div>
