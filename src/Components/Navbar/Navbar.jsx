@@ -30,6 +30,10 @@ export const Navbar = () => {
         document.removeEventListener('click', handleClickOutside, true);
     };
   }, []);
+  
+  console.log(currentPath);
+  console.log(window.location.pathname);
+
 
   return (
     <>
@@ -50,7 +54,7 @@ export const Navbar = () => {
         <a
           href="/overview/dashboard"
           className={
-            currentPath.includes("/overview/dashboard") ? styles.active : ""
+            (currentPath.includes("/overview/dashboard/") || currentPath === "/overview") ? styles.active : ""
           }
         >
           <img

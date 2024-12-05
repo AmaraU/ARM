@@ -46,7 +46,7 @@ export const CompleteTransaction = ({
           pb={"114px"}
           px="12px"
         >
-          <Text fontSize={"16px"} color={"#667085"} textAlign={"center"}>
+          <Text fontSize={{base: "14px", md: "16px"}} color={"#667085"} textAlign={"center"}>
             Enter your 4-digit PIN to complete your transaction
           </Text>
 
@@ -59,7 +59,7 @@ export const CompleteTransaction = ({
 
           <Text
             color={"#A41857"}
-            fontSize={"14px"}
+            fontSize={{base: "12px", md: "14px"}}
             fontWeight={500}
             cursor={"pointer"}
             _hover={{ textDecoration: "underline" }}
@@ -70,7 +70,7 @@ export const CompleteTransaction = ({
 
           <Button
             mt={"16px"}
-            w={"75%"}
+            w={{base: "100%", md: "75%"}}
             h={"fit-content"}
             py={"16px"}
             px={"20px"}
@@ -95,8 +95,9 @@ export const CompleteTransaction = ({
           border={"1px solid #EFECE9"}
           bg={"#FFFFFF"}
           borderRadius={"0 0 12px 12px"}
-          py={"16px"}
+          pt={"16px"}
           pb={"114px"}
+          px="12px"
         >
           <img
             style={{ width: "200px", height: "auto" }}
@@ -106,7 +107,7 @@ export const CompleteTransaction = ({
           <Stack>
             <Text
               mt={"12px"}
-              fontSize={"18px"}
+              fontSize={{base: "16px", md: "18px"}}
               fontWeight={700}
               color={"#000000"}
               textAlign={"center"}
@@ -115,7 +116,7 @@ export const CompleteTransaction = ({
             </Text>
             {type === "transaction" ? (
               <Text
-                fontSize="14px"
+                fontSize={{base: "12px", md: "14px"}}
                 fontWeight={500}
                 color="#667085"
                 textAlign="center"
@@ -124,7 +125,7 @@ export const CompleteTransaction = ({
               </Text>
             ) : type === "bills" ? (
               <Text
-                fontSize="14px"
+                fontSize={{base: "12px", md: "14px"}}
                 fontWeight={500}
                 color="#667085"
                 textAlign="center"
@@ -133,7 +134,7 @@ export const CompleteTransaction = ({
               </Text>
             ) : type === "airtime" ? (
               <Text
-                fontSize="14px"
+                fontSize={{base: "12px", md: "14px"}}
                 fontWeight={450}
                 color="#667085"
                 textAlign="center"
@@ -144,7 +145,7 @@ export const CompleteTransaction = ({
               </Text>
             ) : type === "data" ? (
               <Text
-                fontSize="14px"
+                fontSize={{base: "12px", md: "14px"}}
                 fontWeight={500}
                 color="#667085"
                 textAlign="center"
@@ -153,7 +154,7 @@ export const CompleteTransaction = ({
               </Text>
             ) : type === "savings" ? (
               <Text
-                fontSize="14px"
+                fontSize={{base: "12px", md: "14px"}}
                 fontWeight={450}
                 color="#667085"
                 textAlign="center"
@@ -166,8 +167,8 @@ export const CompleteTransaction = ({
           </Stack>
 
           {type === "bills" || type === "data" ? (
-            <HStack w="75%" justifyContent="space-between" alignItems="center">
-              <Text fontSize="14px" fontWeight={500} color="#667085">
+            <HStack w={{base: "100%", md: "75%"}} justifyContent="space-between" alignItems="center">
+              <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#667085">
                 Set as Auto-Renew
               </Text>
               <Switch
@@ -189,7 +190,7 @@ export const CompleteTransaction = ({
             <>
               <Button
                 mt="16px"
-                w="75%"
+                w={{base: "100%", md: "75%"}}
                 h="48px"
                 bg="#A41856"
                 _hover={{ bg: "#90164D" }}
@@ -201,7 +202,7 @@ export const CompleteTransaction = ({
                 Download Receipt
               </Button>
               <Button
-                w={"75%"}
+                w={{base: "100%", md: "75%"}}
                 h={"48px"}
                 bg={"#EFECE9"}
                 _hover={{ bg: "#E3E1DE" }}
@@ -217,7 +218,7 @@ export const CompleteTransaction = ({
 
           <Button
             mt="16px"
-            w="75%"
+            w={{base: "100%", md: "75%"}}
             h="48px"
             bg="#A41856"
             _hover={{ bg: "#90164D" }}
@@ -238,8 +239,9 @@ export const CompleteTransaction = ({
           border={"1px solid #EFECE9"}
           bg={"#FFFFFF"}
           borderRadius={"0 0 12px 12px"}
-          py={"16px"}
-          pb={"114px"}
+          py="16px"
+          pb="114px"
+          px="12px"
         >
           <img
             style={{ width: "70px", height: "auto" }}
@@ -249,7 +251,7 @@ export const CompleteTransaction = ({
           <Stack>
             <Text
               mt={"12px"}
-              fontSize={"18px"}
+              fontSize={{base: "16px", md: "18px"}}
               fontWeight={700}
               color={"#000000"}
               textAlign={"center"}
@@ -257,7 +259,7 @@ export const CompleteTransaction = ({
               Failed!
             </Text>
             <Text
-              fontSize={"14px"}
+              fontSize={{base: "12px", md: "14px"}}
               fontWeight={500}
               color={"#667085"}
               textAlign={"center"}
@@ -268,7 +270,7 @@ export const CompleteTransaction = ({
 
           <Button
             mt={"16px"}
-            w={"75%"}
+            w={{base: "100%", md: "75%"}}
             h={"48px"}
             bg={"#A41856"}
             _hover={{ bg: "#90164D" }}
@@ -280,7 +282,7 @@ export const CompleteTransaction = ({
             Try again
           </Button>
           <Button
-            w={"75%"}
+            w={{base: "100%", md: "75%"}}
             h={"48px"}
             bg={"#EFECE9"}
             _hover={{ bg: "#E3E1DE" }}
