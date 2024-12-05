@@ -611,11 +611,12 @@ export const BillsPayment = () => {
                     <TbCurrencyNaira />
                   </Box>
                   <Text fontSize={{base: "14px", md: "18px"}} fontWeight={600} color={"#FFFFFF"}>
-                    {/* {totalBalanceVisible
-                      ? `${casaAccountBalances[0]?.bookBalance.toLocaleString(
-                          "en"
-                        )}`
-                      : hideBalance()} */}
+                    {totalBalanceVisible
+                      // ? `${casaAccountBalances[0]?.bookBalance.toLocaleString(
+                      //     "en"
+                      //   )}`
+                      ? "12345678"
+                      : hideBalance()}
                   </Text>
                   <Box pl={3} cursor={"pointer"}>
                     {totalBalanceVisible && (

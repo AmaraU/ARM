@@ -118,6 +118,7 @@ export const Overview = () => {
               borderRadius="75px"
               bg="#2C323A"
               _hover={{ bg: "#2C323A" }}
+              display={{base: "none", md: "inline-flex"}}
             >
               <img
                 className={styles.arrow}
@@ -127,14 +128,14 @@ export const Overview = () => {
 
             <Stack direction={{base: "column-reverse", md: "row"}} justifyContent="space-between" w="100%" px="8px">
               <Box>
-                <Text fontSize={{base: "10px", md: "18px"}} fontWeight={400} color="#FFFFFF">
+                <Text fontSize={{base: "12px", md: "18px"}} fontWeight={400} color="#FFFFFF">
                   Total Available Balance
                 </Text>
                 <HStack ml="-5px" spacing={1} alignItems="center" mb="12px">
                   <Box fontSize={{base: "24px", md: "36px"}} fontWeight={500} color="#FFFFFF">
                     ₦
                   </Box>
-                  <Text fontSize={{base: "22px", md: "32px"}} fontWeight={700} color="#FFFFFF">
+                  <Text fontSize={{base: "26px", md: "32px"}} fontWeight={700} color="#FFFFFF">
                     {totalBalanceVisible
                       ? formatNumberDecimals(
                           currentItem && currentItem.bookBalance
@@ -165,11 +166,11 @@ export const Overview = () => {
                   </Box>
                 </HStack>
 
-                <Text fontSize={{base: "10px", md: "14px"}} fontWeight={400} color="#FFFFFF">
+                <Text fontSize={{base: "14px", md: "14px"}} fontWeight={400} color="#FFFFFF">
                   Account Number
                 </Text>
                 <HStack spacing={0} alignItems="center" mb="12px">
-                  <Text fontSize={{base: "12px", md: "20px"}} fontWeight={700} color="#FFFFFF">
+                  <Text fontSize={{base: "16px", md: "20px"}} fontWeight={700} color="#FFFFFF">
                     {currentItem && currentItem.accountnumber}
                   </Text>
                   <Box
@@ -260,6 +261,7 @@ export const Overview = () => {
               borderRadius="75px"
               bg="#2C323A"
               _hover={{ bg: "#2C323A" }}
+              display={{base: "none", md: "inline-flex"}}
             >
               <img
                 className={styles.arrow}

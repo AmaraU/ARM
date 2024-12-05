@@ -268,6 +268,13 @@ export const TransferToOthers = ({
                     _placeholder={{ fontSize: "16px", color: "#667085" }}
                     onChange={(e) => setBank(e.target.value)}
                   >
+                    {/* {banks &&
+                      banks.map((bank, i) => (
+                        <option key={i} value={bank.bankCode}>
+                          {" "}
+                          {bank.bankName}{" "}
+                        </option>
+                      ))} */}
                   </Select>
                 </FormControl>
 
@@ -421,6 +428,13 @@ export const TransferToOthers = ({
                     _placeholder={{ fontSize: "16px", color: "#667085" }}
                     onChange={(e) => setBank(e.target.value)}
                   >
+                    {/* {banks &&
+                      banks.map((bank, i) => (
+                        <option key={i} value={bank.bankCode}>
+                          {" "}
+                          {bank.bankName}{" "}
+                        </option>
+                      ))} */}
                   </Select>
                 </FormControl>
 
