@@ -455,11 +455,11 @@ export const BillsPayment = () => {
                 _placeholder={{ color: "#667085" }}
                 onChange={selectBillType}
               >
-                {bills.map((option, i) => (
+                {/* {bills.map((option, i) => (
                   <option value={option.id} key={i}>
                     {option.name}
                   </option>
-                ))}
+                ))} */}
               </Select>
             </FormControl>
 

@@ -59,7 +59,7 @@ export const TransferToOthers = ({
   const [loading, setLoading] = useState(false);
   const noOfAccounts = 2;
   const dispatch = useDispatch();
-  const { banks } = useSelector((state) => state.transactions);
+  // const { banks } = useSelector((state) => state.transactions);
   const [accountToDebit, setAccountToDebit] = useState("");
   const [bankName, setBankName] = useState("");
   const [amount, setAmount] = useState("");
@@ -94,7 +94,7 @@ export const TransferToOthers = ({
     window.scrollTo({ top: 0 });
   };
   const moveToTwo = () => {
-    setBankName(banks.filter((b) => b.bankCode == bank)[0].bankName);
+    // setBankName(banks.filter((b) => b.bankCode == bank)[0].bankName);
     setShowOne(false);
     setShowTwo(true);
     setShowThree(false);
@@ -138,8 +138,8 @@ export const TransferToOthers = ({
     try {
       await transferService.saveBeneficiary({
         beneficiaryBankcode: String(bank),
-        beneficiaryBankname: banks.filter((b) => b.bankCode == bank)[0]
-          .bankName,
+        // beneficiaryBankname: banks?.filter((b) => b.bankCode == bank)[0]
+          // .bankName,
         beneficiaryFullName: recipient.accountName,
         beneficiaryAccoutNumber: accountNumber,
         alias: recipient.accountName,
@@ -289,13 +289,13 @@ export const TransferToOthers = ({
                     _placeholder={{ fontSize: "16px", color: "#667085" }}
                     onChange={(e) => setBank(e.target.value)}
                   >
-                    {banks &&
+                    {/* {banks &&
                       banks.map((bank, i) => (
                         <option key={i} value={bank.bankCode}>
                           {" "}
                           {bank.bankName}{" "}
                         </option>
-                      ))}
+                      ))} */}
                   </Select>
                 </FormControl>
 
@@ -485,13 +485,13 @@ export const TransferToOthers = ({
                     _placeholder={{ fontSize: "16px", color: "#667085" }}
                     onChange={(e) => setBank(e.target.value)}
                   >
-                    {banks &&
+                    {/* {banks &&
                       banks.map((bank, i) => (
                         <option key={i} value={bank.bankCode}>
                           {" "}
                           {bank.bankName}{" "}
                         </option>
-                      ))}
+                      ))} */}
                   </Select>
                 </FormControl>
 
