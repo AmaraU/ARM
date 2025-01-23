@@ -4,17 +4,30 @@ import { handleErrors } from "../utils/handleResponse";
 import api from "../api/api";
 import kycApi from "../api/kyc.api";
 import smileIdApi from "../api/smileId.api";
+import {
+  decryptResponse,
+  encryptRequest,
+  generateRequestHmac,
+} from "../utils/encrypt";
+import { CURRENT_DATE } from "../constants";
 
 const authService = {
   checkBVNorNIN: async (number) => {
     try {
-      const response = await api.get(
-        "/validate/IsExistBvnOrNIN?number=" + number
+      console.log(typeof parseInt(number));
+      const encryptedRequest = await encryptRequest(
+        `number=${parseInt(number)}`
       );
-      return response;
+      const response = await api.encget(
+        "/validate/IsExistBvnOrNIN?" + encryptedRequest
+      );
+      const decryptedData = await decryptResponse(response.data);
+      console.log(decryptedData);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
-      throw error;
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
+      throw decryptedData;
     }
   },
   verifyBVN: async (kycData) => {
@@ -24,8 +37,10 @@ const authService = {
       );
       return response;
     } catch (error) {
-      handleErrors(error);
-      throw error;
+      console.log(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
+      throw decryptedData;
     }
   },
 
@@ -36,8 +51,9 @@ const authService = {
       );
       return response;
     } catch (error) {
-      handleErrors(error);
-      throw error;
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
+      throw decryptedData;
     }
   },
 
@@ -57,33 +73,45 @@ const authService = {
   signup: async (signupData) => {
     try {
       const response = await api.post("/account/register-new-user", signupData);
-      return response;
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      console.log(error);
-      throw error;
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
+      throw decryptedData;
     }
   },
   sendOtp: async (otpData) => {
     try {
-      const response = await api.post("/account/send-otp", otpData);
-      // handleSuccess(response.data.mes)
-      console.log(response);
-      return response;
+      const { phoneOrAccountnumber, email } = otpData;
+      const emailVal = email ? email : "test@gmail.com";
+      const query = `PhoneOrAccountnumber=${phoneOrAccountnumber}&Email=${emailVal}`;
+      const encryptedRequest = await encryptRequest(query);
+      const response = await api.encget(
+        `/account/send-otp?${encryptedRequest}`
+      );
+      const decryptedResponse = await decryptResponse(response.data);
+      return decryptedResponse;
     } catch (error) {
-      handleErrors(error);
-      throw error;
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
+      throw decryptedData;
     }
   },
 
   verifyOtp: async (otpData) => {
     const { phoneNumber, otp } = otpData;
     try {
-      const response = await api.get(
-        `/validate/OtpVerification?otpNumber=${otp}%26phoneNumber=${phoneNumber}`
+      const query = `otpNumber=${otp}&phoneNumber=${phoneNumber}`;
+      const encryptedRequest = await encryptRequest(query);
+      const response = await api.encget(
+        `/validate/OtpVerification?${encryptedRequest}`
       );
-      return response;
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
       throw error;
     }
   },
@@ -94,9 +122,11 @@ const authService = {
         "/account/register-existing-user",
         registrationData
       );
-      return response.data;
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
     }
   },
 
@@ -108,7 +138,8 @@ const authService = {
       );
       return response.data;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
     }
   },
   accountTierUpgrade: async (accountData) => {
@@ -119,15 +150,28 @@ const authService = {
       );
       return response.data;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
     }
   },
   login: async (loginData) => {
     try {
-      const response = await api.post("/account/login", loginData);
-      return response.data;
+      const hmac = generateRequestHmac(
+        loginData.clientId,
+        CURRENT_DATE,
+        loginData.requestID
+      );
+
+      const response = await api.post("/account/login", loginData, {
+        headers: {
+          "X-ARM-Api-HMAC": hmac,
+        },
+      });
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
       throw error;
     }
   },
@@ -138,9 +182,11 @@ const authService = {
         "/settings/forget-password",
         forgotPasswordData
       );
-      return response.data;
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
       throw error;
     }
   },
@@ -151,9 +197,11 @@ const authService = {
         "/settings/forget-password-otp",
         forgotPasswordData
       );
-      return response.data;
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
       throw error;
     }
   },
@@ -164,9 +212,11 @@ const authService = {
         "/settings/password-reset",
         resetPasswordData
       );
-      return response.data;
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
       throw error;
     }
   },
@@ -177,9 +227,26 @@ const authService = {
         "/settings/set-SecretQuestion-Answer",
         securityAnswers
       );
-      return response.data;
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
+      throw error;
+    }
+  },
+
+  logOut: async (logoutData) => {
+    try {
+      const { username, customerId } = logoutData;
+      const query = `username=${username}&customerId=${customerId}`;
+      const encryptedRequest = await encryptRequest(query);
+      const response = await api.encpost(`/account/logout?${encryptedRequest}`);
+      const decryptedResponse = await decryptResponse(response.data);
+      return decryptedResponse;
+    } catch (error) {
+      console.log(error);
+      handleErrors(error.response.data.Message);
       throw error;
     }
   },

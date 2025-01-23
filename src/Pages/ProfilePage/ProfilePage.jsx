@@ -192,7 +192,7 @@ export const ProfilePage = () => {
               isForget={isForget}
               moveToQuestions={() => handleTabsChange(3)}
               securityQuestions={securityQuestions}
-              // accountnumber={casaAccountBalances[0]?.accountnumber}
+              accountnumber={casaAccountBalances && casaAccountBalances[0]?.accountnumber}
               phoneNumber={phoneNumber}
               email={email}
             />

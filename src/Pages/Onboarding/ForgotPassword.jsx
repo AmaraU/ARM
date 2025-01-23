@@ -68,21 +68,26 @@ export default function ForgotPassword() {
 
   const changingText = [
     {
-      image: "signin1.png",
+      image: "slides1.jpg",
       header: "Bank smarter, live better with ARM MFB",
       subheading:
         "Managing your money is what we do and we are really good at it.",
     },
     {
-      image: "signin2.png",
+      image: "slides2.jpeg",
       header: "Manage your money anywhere, anytime",
       subheading: "Gain access to your account with a tap",
     },
     {
-      image: "signin3.png",
+      image: "slides3.jpeg",
       header: "Stay on top of your money",
       subheading:
         "ARM MFB provides you the ability to maintain control over your finances",
+    },
+    {
+      image: "slides4.jpeg",
+      header: "Manage your money anywhere, anytime",
+      subheading: "Gain access to your account with a tap",
     },
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -174,25 +179,6 @@ export default function ForgotPassword() {
                     />
                   ))}
                 </Flex>
-
-                <Flex
-                  mt="7vh"
-                  bottom={0}
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Text fontSize="14px" color="#EFECE9">
-                    © 2024 ARM MFB by ARM Group. All rights reserved.
-                  </Text>
-                  <Text
-                    fontSize="14px"
-                    color="#EFECE9"
-                    cursor="pointer"
-                    _hover={{ textDecoration: "underline" }}
-                  >
-                    Help Center
-                  </Text>
-                </Flex>
               </Flex>
             </Stack>
           </Box>
@@ -216,7 +202,8 @@ export default function ForgotPassword() {
           bg="white"
           display={"flex"}
           flexDirection={"column"}
-          p={{ base: "12px", md: "50px" }}
+          px={{ base: "12px", md: "50px" }}
+          pt={{ base: "12px", md: "50px" }}
           alignItems={{ base: "center", md: "start" }}
         >
           <Text
@@ -392,6 +379,26 @@ export default function ForgotPassword() {
                   </Stack>
                 </Stack>
               </TabPanel>
+              
+              <Flex
+                mt="36px"
+                bottom={0}
+                alignItems="center"
+                justifyContent="space-between"
+                flexDirection={{base: 'column', md: 'row'}}
+              >
+                <Text fontSize="14px" color="#344054">
+                  © 2024 ARM MFB by ARM Group. All rights reserved.
+                </Text>
+                <Text
+                  fontSize="14px"
+                  color="#344054"
+                  cursor="pointer"
+                  _hover={{ textDecoration: "underline" }}
+                >
+                  Help Center
+                </Text>
+              </Flex>
             </TabPanels>
           </Tabs>
         </Box>

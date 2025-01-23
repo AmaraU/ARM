@@ -29,7 +29,7 @@ const transfersSlice = createSlice({
       })
       .addCase(getBeneficiaries.fulfilled, (state, action) => {
         state.loading = false;
-        state.beneficiaries = action.payload.data.result.data;
+        state.beneficiaries = action.payload.result.data;
       })
       .addCase(getBeneficiaries.rejected, (state) => {
         state.loading = false;

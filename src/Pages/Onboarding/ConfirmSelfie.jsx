@@ -149,11 +149,6 @@ export const ConfirmSelfie = () => {
         bgImage={getImageUrl("onboardingBackground.png")}
         bgSize="100% 100%"
       >
-        <img
-          style={{ width: "140px", height: "auto" }}
-          src={getImageUrl("logos/arm_logo.png")}
-          alt="ARM"
-        />
         <Flex justifyContent={"space-between"} w={"100%"}>
           <a href="/capture">
             <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />

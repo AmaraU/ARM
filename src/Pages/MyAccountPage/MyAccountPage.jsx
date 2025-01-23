@@ -14,7 +14,10 @@ import { AccountLimit } from "./AccountLimit";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccountBalance, getSetupStatus } from "../../store/auth/user.slice";
-import { getDefaultTransactionLimit, getTransactionLimit } from "../../store/transactions.slice";
+import {
+  getDefaultTransactionLimit,
+  getTransactionLimit,
+} from "../../store/transactions.slice";
 
 export const MyAccountPage = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -27,13 +30,19 @@ export const MyAccountPage = () => {
     governmentIDCard,
     signature: signatureStatus,
     proofOfAddress: addressStatus,
-  } = useSelector((state) => state.user.setupStatus.identity);
+  } = useSelector((state) => state.user?.setupStatus?.identity) || {
+    bvn: false,
+    nin: false,
+    governmentIDCard: false,
+    signature: false,
+    proofOfAddress: false,
+  };
 
   useEffect(() => {
     dispatch(getSetupStatus());
     dispatch(getAccountBalance());
     dispatch(getDefaultTransactionLimit());
-    dispatch(getTransactionLimit())
+    dispatch(getTransactionLimit());
   }, [dispatch]);
 
   const handleTabsChange = (index) => {
@@ -43,21 +52,26 @@ export const MyAccountPage = () => {
 
   return (
     <div className={styles.whole}>
-      <Text fontSize={{base: "22px", md: "24px"}} fontWeight={700} color="#101828" mb="16px">
+      <Text
+        fontSize={{ base: "22px", md: "24px" }}
+        fontWeight={700}
+        color="#101828"
+        mb="16px"
+      >
         My Account
       </Text>
 
       <Tabs index={tabIndex} onChange={handleTabsChange}>
         <TabList
           display="grid"
-          gridTemplateColumns={{base: "1fr 1fr", md: "auto auto auto auto"}}
+          gridTemplateColumns={{ base: "1fr 1fr", md: "auto auto auto auto" }}
           borderBottom={"none"}
           gap={"5px"}
           mb={"24px"}
         >
           <Tab
             rounded="50px"
-            fontSize={{base: "11px", md: "13px"}}
+            fontSize={{ base: "11px", md: "13px" }}
             color="#667085"
             fontWeight={500}
             border="1px solid #EAECF0"
@@ -74,7 +88,7 @@ export const MyAccountPage = () => {
           </Tab>
           <Tab
             rounded="50px"
-            fontSize={{base: "11px", md: "13px"}}
+            fontSize={{ base: "11px", md: "13px" }}
             color="#667085"
             fontWeight={500}
             border="1px solid #EAECF0"
@@ -91,7 +105,7 @@ export const MyAccountPage = () => {
           </Tab>
           <Tab
             rounded="50px"
-            fontSize={{base: "11px", md: "13px"}}
+            fontSize={{ base: "11px", md: "13px" }}
             color="#667085"
             fontWeight={500}
             border="1px solid #EAECF0"
@@ -108,7 +122,7 @@ export const MyAccountPage = () => {
           </Tab>
           <Tab
             rounded="50px"
-            fontSize={{base: "11px", md: "13px"}}
+            fontSize={{ base: "11px", md: "13px" }}
             color="#667085"
             fontWeight={500}
             border="1px solid #EAECF0"
@@ -126,23 +140,34 @@ export const MyAccountPage = () => {
         </TabList>
 
         <TabPanels maxWidth={"1000px"}>
-          <TabPanel mx={{base: -3, md: -4}}>
-            <AccountInformation accounts={accounts} bvnStatus={bvnStatus} ninStatus={ninStatus} governmentIDcard={governmentIDCard} signatureStatus={signatureStatus} addressStatus={addressStatus} />
-          </TabPanel>
-
-          <TabPanel mx={{base: -3, md: -4}}>
-            <AccountHistory backHome={() => handleTabsChange(0)} />
-          </TabPanel>
-
-          <TabPanel mx={{base: -3, md: -4}}>
-            <AccountStatement
-              backHome={() => handleTabsChange(0)}
+          <TabPanel mx={{ base: -3, md: -4 }}>
+            <AccountInformation
               accounts={accounts}
-              bvnStatus={bvnStatus} ninStatus={ninStatus} governmentIDcard={governmentIDCard} signatureStatus={signatureStatus} addressStatus={addressStatus}
+              bvnStatus={bvnStatus}
+              ninStatus={ninStatus}
+              governmentIDcard={governmentIDCard}
+              signatureStatus={signatureStatus}
+              addressStatus={addressStatus}
             />
           </TabPanel>
 
-          <TabPanel mx={{base: -3, md: -4}}>
+          <TabPanel mx={{ base: -3, md: -4 }}>
+            <AccountHistory backHome={() => handleTabsChange(0)} />
+          </TabPanel>
+
+          <TabPanel mx={{ base: -3, md: -4 }}>
+            <AccountStatement
+              backHome={() => handleTabsChange(0)}
+              accounts={accounts}
+              bvnStatus={bvnStatus}
+              ninStatus={ninStatus}
+              governmentIDcard={governmentIDCard}
+              signatureStatus={signatureStatus}
+              addressStatus={addressStatus}
+            />
+          </TabPanel>
+
+          <TabPanel mx={{ base: -3, md: -4 }}>
             <AccountLimit
               backHome={() => handleTabsChange(0)}
               accounts={accounts}

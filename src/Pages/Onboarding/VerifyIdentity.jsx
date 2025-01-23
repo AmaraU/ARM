@@ -102,7 +102,7 @@ export const VerifyIdentity = ({ isOpen, onClose }) => {
                       alt={"clear-face"}
                     />
                     <Text py={"1"} fontSize={"13px"} fontWeight={"450"} textAlign="center">
-                      Good lightning
+                      Good lighting
                     </Text>
                   </Box>
 

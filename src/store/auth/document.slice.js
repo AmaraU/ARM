@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { handleErrors } from "../../utils/handleResponse";
+// import { handleErrors } from "../../utils/handleResponse";
 import utilsService from "../../services/utilsService";
 
 export const getDocumentTypes = createAsyncThunk(
@@ -9,7 +9,7 @@ export const getDocumentTypes = createAsyncThunk(
       const response = await utilsService.getDocumentTypes();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error)
       throw error;
     }
   }

@@ -9,7 +9,7 @@ export const getNetworkPlans = createAsyncThunk(
       const response = await billsService.getNetworkPlans();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error);
       throw error;
     }
   }
@@ -22,7 +22,7 @@ export const getBillerGroup = createAsyncThunk(
       const response = await billsService.getBillerGroup();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error);
       throw error;
     }
   }
@@ -74,7 +74,7 @@ const billsSlice = createSlice({
       .addCase(getNetworkPlans.fulfilled, (state, action) => {
         state.loading = false;
         state.networks =
-          action.payload.data.result.data.responseEntity.body.subscribedServices;
+          action.payload.result.data.responseEntity.body.subscribedServices;
       })
       .addCase(getNetworkPlans.rejected, (state) => {
         state.loading = false;

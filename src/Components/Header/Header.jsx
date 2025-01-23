@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 export const Header = () => {
-  const { fullname } = useSelector((state) => state.user);
+  // const { fullname } = useSelector((state) => state.user);
   const [ showNotif, setShowNotif ] = useState(false);
 
   const notifications = [
@@ -90,7 +90,7 @@ export const Header = () => {
 
         <div className={styles.profile}>
           <img src={getImageUrl("icons/header/avatar.png")} alt="" />
-          <h4>{fullname}</h4>
+          {/* <h4>{fullname}</h4> */}
         </div>
       </div>
     </div>

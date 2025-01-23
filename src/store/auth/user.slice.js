@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { handleErrors } from "../../utils/handleResponse";
 import userService from "../../services/userService";
 
 export const getDashboardSummary = createAsyncThunk(
@@ -9,7 +8,7 @@ export const getDashboardSummary = createAsyncThunk(
       const response = await userService.dashboardSummary();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error)
       throw error;
     }
   }
@@ -22,7 +21,7 @@ export const getAccountBalance = createAsyncThunk(
       const response = await userService.accountBalance();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error)
       throw error;
     }
   }
@@ -35,7 +34,7 @@ export const getCustomerDetails = createAsyncThunk(
       const response = await userService.getCustomerDetails();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error)
       throw error;
     }
   }
@@ -48,7 +47,7 @@ export const getContactDetails = createAsyncThunk(
       const response = await userService.getContactDetails();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error)
       throw error;
     }
   }
@@ -61,7 +60,7 @@ export const getSetupStatus = createAsyncThunk(
       const response = await userService.getSetupStatus();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error)
       throw error;
     }
   }
@@ -141,7 +140,7 @@ const userSlice = createSlice({
       .addCase(getDashboardSummary.fulfilled, (state, action) => {
         state.loading = false;
         state.value = action.payload;
-        saveToSessionStorage(action.payload.data.result.data);
+        saveToSessionStorage(action.payload.result.data);
       })
       .addCase(getDashboardSummary.rejected, (state) => {
         state.loading = false;
@@ -151,7 +150,7 @@ const userSlice = createSlice({
       })
       .addCase(getAccountBalance.fulfilled, (state, action) => {
         state.loading = false;
-        state.accountBalance = action.payload.data.result.accountInfo;
+        state.accountBalance = action.payload.result.accountInfo;
       })
       .addCase(getAccountBalance.rejected, (state) => {
         state.loading = false;
@@ -161,7 +160,7 @@ const userSlice = createSlice({
       })
       .addCase(getSetupStatus.fulfilled, (state, action) => {
         state.loading = false;
-        state.setupStatus = action.payload.data.result.data;
+        state.setupStatus = action.payload.result.data;
       })
       .addCase(getSetupStatus.rejected, (state) => {
         state.loading = false;

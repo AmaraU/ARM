@@ -71,7 +71,7 @@ const transactionSlice = createSlice({
       })
       .addCase(getTransactionHistory.fulfilled, (state, action) => {
         state.loading = false;
-        state.transactions = action.payload.data.result.data;
+        state.transactions = action.payload.result.data;
       })
       .addCase(getTransactionHistory.rejected, (state) => {
         state.loading = false;
@@ -93,7 +93,7 @@ const transactionSlice = createSlice({
       })
       .addCase(getDefaultTransactionLimit.fulfilled, (state, action) => {
         state.loading = false;
-        state.defaultLimits = action.payload.data.result.data;
+        state.defaultLimits = action.payload.result.data;
       })
       .addCase(getDefaultTransactionLimit.rejected, (state) => {
         state.loading = false;
@@ -105,7 +105,7 @@ const transactionSlice = createSlice({
       .addCase(getTransactionLimit.fulfilled, (state, action) => {
         state.loading = false;
         console.log("limitss", action.payload);
-        state.limit = action.payload.data.result.data;
+        state.limit = action.payload.result.data;
       })
       .addCase(getTransactionLimit.rejected, (state) => {
         state.loading = false;

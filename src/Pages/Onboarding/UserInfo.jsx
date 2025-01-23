@@ -26,6 +26,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDetails } from "../../store/auth/auth.slice";
 import { getNationalities, getSourceOfFunds } from "../../store/utils.slice";
+import { handleErrors } from "../../utils/handleResponse";
+import authService from "../../services/authService";
 
 export const UserInfo = () => {
   const {
@@ -39,15 +41,24 @@ export const UserInfo = () => {
     onClose: onCloseAlternate,
   } = useDisclosure();
   const navigate = useNavigate();
-  const { firstname, othername, surname, email, phoneNumber, altEmail: altEmailValue } = useSelector(
-    (state) => state.auth
-  );
+  const {
+    firstname,
+    othername,
+    surname,
+    email,
+    phoneNumber,
+    altEmail: altEmailValue,
+    altPhoneNumber,
+    password,
+  } = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth);
   const { nationalities, sourceOfFunds } = useSelector((state) => state.utils);
   const [altEmail, setAltEmail] = useState("");
   const [title, setTitle] = useState("Mr");
-  const [occupation, setOccupation] = useState("Banking");
-  const [sourceOfFund, setSourceOfFund] = useState(71);
-  const [countryOfBirth, setCountryOfBirth] = useState(153);
+  const [occupation, setOccupation] = useState("");
+  const [sourceOfFund, setSourceOfFund] = useState(0);
+  const [countryOfBirth, setCountryOfBirth] = useState(0);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -55,27 +66,45 @@ export const UserInfo = () => {
     dispatch(getSourceOfFunds());
   }, [dispatch]);
 
-  // const openVerifying = async () => {
-  //   await dispatch(
-  //     setDetails({
-  //       title,
-  //       firstname,
-  //       othername,
-  //       surname,
-  //       altEmail,
-  //       sourceOfFund,
-  //       occupation,
-  //       countryOfBirth,
-  //     })
-  //   );
-  //   onOpenVerifying();
-  //   setTimeout(() => onCloseVerifying(), 5000);
-  //   setTimeout(() => navigate("/create-profile"), 1000);
-  // };
-
-  const openVerifying = () => {
+  const openVerifying = async () => {
+    await dispatch(
+      setDetails({
+        title,
+        firstname,
+        othername,
+        surname,
+        altEmail,
+        sourceOfFund,
+        occupation,
+        countryOfBirth,
+      })
+    );
     onOpenVerifying();
     setTimeout(() => onCloseVerifying(), 5000);
+    if (password) {
+      onOpenVerifying();
+      setLoading(true);
+      try {
+        const payload = { ...auth };
+        delete payload["photo"];
+        const response = await authService.signup(payload);
+        if (response) {
+          await dispatch(
+            setDetails({
+              accountNo: response.data.result.data.accountNumber,
+            })
+          );
+          navigate("/welcome");
+        }
+        setLoading(false);
+        onCloseVerifying();
+      } catch (error) {
+        setLoading(false);
+        onCloseVerifying();
+        handleErrors(error);
+      }
+      return;
+    }
     setTimeout(() => navigate("/create-profile"), 1000);
   };
 
@@ -85,15 +114,10 @@ export const UserInfo = () => {
         alignItems="center"
         spacing={5}
         py={"38px"}
-        px={{base: "24px", md: "15%", lg: "25%"}}
+        px={{ base: "24px", md: "15%", lg: "25%" }}
         bgImage={getImageUrl("onboardingBackground.png")}
         bgSize="100% 100%"
       >
-        <img
-          style={{ width: "140px", height: "auto" }}
-          src={getImageUrl("logos/arm_logo.png")}
-          alt="ARM"
-        />
         <Flex justifyContent={"space-between"} w={"100%"}>
           <a href="/confirm-picture">
             <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
@@ -105,10 +129,18 @@ export const UserInfo = () => {
             </CircularProgressLabel>
           </CircularProgress>
         </Flex>
-        <Text fontSize={{base: "30px", md: "48px"}} fontWeight={700} color={"#14142A"}>
+        <Text
+          fontSize={{ base: "30px", md: "48px" }}
+          fontWeight={700}
+          color={"#14142A"}
+        >
           Your basic information
         </Text>
-        <Text fontSize={{base: "14px", md: "18px"}} fontWeight={400} color={"#667085"}>
+        <Text
+          fontSize={{ base: "14px", md: "18px" }}
+          fontWeight={400}
+          color={"#667085"}
+        >
           Review and confirm your details
         </Text>
 
@@ -137,7 +169,7 @@ export const UserInfo = () => {
             </Select>
           </FormControl>
 
-          <Stack direction={{base: "column", md: "row"}}>
+          <Stack direction={{ base: "column", md: "row" }}>
             <FormControl>
               <FormLabel
                 fontSize={"16px"}
@@ -181,7 +213,7 @@ export const UserInfo = () => {
             </FormControl>
           </Stack>
 
-          <Stack direction={{base: "column", md: "row"}}>
+          <Stack direction={{ base: "column", md: "row" }}>
             <FormControl>
               <FormLabel
                 fontSize={"16px"}
@@ -225,7 +257,7 @@ export const UserInfo = () => {
                 </Select>
                 <Input
                   readOnly
-                  value={phoneNumber}
+                  value={altPhoneNumber ? altPhoneNumber : phoneNumber}
                   h={"48px"}
                   type="tel"
                   border={"1px solid #EAECF0"}
@@ -237,7 +269,7 @@ export const UserInfo = () => {
             </FormControl>
           </Stack>
 
-          <Stack direction={{base: "column", md: "row"}} spacing={1}>
+          <Stack direction={{ base: "column", md: "row" }} spacing={1}>
             <HStack>
               <img
                 src={getImageUrl("icons/warning.png")}
@@ -254,7 +286,7 @@ export const UserInfo = () => {
               cursor="pointer"
               onClick={onOpenAlternate}
             >
-              Provide Altenate Email
+              Provide Alternate Email
             </Text>
           </Stack>
 
@@ -292,7 +324,7 @@ export const UserInfo = () => {
             <div style={{ width: "100%", border: "0.5px solid #E6E2DD" }}></div>
           </HStack>
 
-          <Stack direction={{base: "column", md: "row"}}>
+          <Stack direction={{ base: "column", md: "row" }}>
             <FormControl isRequired>
               <FormLabel
                 fontSize={"16px"}
@@ -310,13 +342,18 @@ export const UserInfo = () => {
                 fontSize={"16px"}
                 onChange={(e) => setOccupation(e.target.value)}
               >
+                <option selected value="" disabled></option>
+                <option value="Banking">Art</option>
                 <option value="Banking">Banking</option>
-                <option value="Tech.">Tech.</option>
+                <option value="Banking">Business</option>
+                <option value="Consultant">Consultant</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Consultant">Entrepreneurship</option>
                 <option value="Media & Entertainment">
                   Media & Entertainment
                 </option>
-                <option value="Engineering">Engineering</option>
-                <option value="Consultant">Consultant</option>
+                <option value="Tech.">Tech.</option>
+                <option value="Engineering">Politics</option>
               </Select>
             </FormControl>
             <FormControl isRequired>
@@ -336,6 +373,7 @@ export const UserInfo = () => {
                 fontSize={"16px"}
                 onChange={(e) => setSourceOfFund(parseFloat(e.target.value))}
               >
+                <option selected disabled defaultValue={""}></option>
                 {sourceOfFunds.map((option, i) => (
                   <option value={option.id} key={i}>
                     {option.name}
@@ -362,6 +400,7 @@ export const UserInfo = () => {
               fontSize={"16px"}
               onChange={(e) => setCountryOfBirth(parseFloat(e.target.value))}
             >
+              <option disabled value={0} selected></option>
               <option value={153} defaultValue={"Nigerian"}>
                 Nigerian
               </option>
@@ -384,7 +423,15 @@ export const UserInfo = () => {
           color={"#FFFFFF"}
           w={"100%"}
           h={"48px"}
-          // isDisabled={!firstname || !surname || (!email && !altEmail)}
+          isDisabled={
+            !firstname ||
+            !surname ||
+            (!email && !altEmail) ||
+            !countryOfBirth ||
+            !occupation ||
+            !sourceOfFund
+          }
+          isLoading={loading}
         >
           Continue
         </Button>

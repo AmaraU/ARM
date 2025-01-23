@@ -106,7 +106,7 @@ export const TransferToARMAcct = ({
     }
     setCheckingAccount(true);
     try {
-      const response = await transferService.accountInquiry({
+      const response = await transferService.armAccountInquiry({
         AccountNumber: e.target.value,
         BankCode: ARM_BANK_CODE,
       });
@@ -134,6 +134,7 @@ export const TransferToARMAcct = ({
       bank_name: "ARM",
       pin,
       username,
+      type: "1"
     });
 
     try {

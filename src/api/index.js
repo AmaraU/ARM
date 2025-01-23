@@ -7,7 +7,6 @@ const axiosClient = axios.create({
   timeout: 50000,
   headers: {
     "Content-Type": "application/json",
-    "X-ARM-Api-Key-P": import.meta.env.VITE_API_KEY,
   },
 });
 
@@ -27,8 +26,24 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.response?.status === 400) {
+      if (error.response.data.ResponseCode === "04") {
+        handleErrors({ message: "Access Denied" });
+        throw error;
+      }
+
+      if (error.response.data.ResponseCode === "08") {
+        sessionStorage.removeItem("user");
+        sessionStorage.removeItem("authToken");
+        sessionStorage.removeItem("document");
+        window.location.href = "/signin";
+      }
+    }
     if (error.response?.status === 401) {
-      handleErrors(error.response?.data.message);
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("authToken");
+      sessionStorage.removeItem("document");
+      window.location.href = "/signin";
     }
     if (error.response?.status === 500) {
       handleErrors(error.response?.data.message);

@@ -13,8 +13,8 @@ function LoanDetails({ moveToOne, title, moveNext }) {
     <>
     <CardContainer moveToOne={moveToOne} title={title}>
       <Text maxW={"630"} textAlign={"center"}>
-        Congratulations your loan has been granted, see details below See
-        details below and accept the terms to continue
+        Congratulations your loan has been granted, see details below.
+        See details below and accept the terms to continue
       </Text>
       <Stack maxW={632} w={"100%"}>
         <LoanCard />
@@ -22,11 +22,11 @@ function LoanDetails({ moveToOne, title, moveNext }) {
         <RepaymentAmount amount={"₦230,000"} />
 
         <Stack mt={"10"}>
-          <Button bg={"#A41856"} color={"white"} onClick={onOpenMandate}>
+          <Button bg={"#A41856"} color={"white"} onClick={onOpenMandate} _hover={{ bg: "#90164D" }}>
             {" "}
             Accept{" "}
           </Button>
-          <Button bg={"#EFECE9"} color={"#667085"}>
+          <Button bg={"#EFECE9"} color={"#667085"} _hover={{ bg: "#E3E1DE" }}>
             {" "}
             Reject{" "}
           </Button>

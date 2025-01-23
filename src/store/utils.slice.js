@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { handleErrors } from "../utils/handleResponse";
 import utilsService from "../services/utilsService";
 
 export const getNationalities = createAsyncThunk(
@@ -9,7 +8,7 @@ export const getNationalities = createAsyncThunk(
       const response = await utilsService.getNationaties();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error)
       throw error;
     }
   }
@@ -22,7 +21,7 @@ export const getSourceOfFunds = createAsyncThunk(
       const response = await utilsService.getSourceOfFunds();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error)
       throw error;
     }
   }
@@ -35,7 +34,7 @@ export const getSecurityQuestions = createAsyncThunk(
       const response = await utilsService.getSecurityQuestion();
       return response;
     } catch (error) {
-      handleErrors(error);
+      console.log(error)
       throw error;
     }
   }

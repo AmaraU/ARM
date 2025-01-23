@@ -31,7 +31,7 @@ function LoanPage() {
       <Text fontSize="24px" fontWeight={700} color="#101828" mb="16px">
         Loans
       </Text>
-      <Tabs index={tabIndex} onChange={handleTabsChange} maxWidth='1000px'>
+      <Tabs index={tabIndex} onChange={handleTabsChange}>
         <HStack justifyContent='space-between' alignItems='center' mb="24px">
           <TabList borderBottom="none" gap="5px">
             <Tab
@@ -74,11 +74,11 @@ function LoanPage() {
         </HStack>
 
         <TabPanels>
-          <TabPanel ml={-4} mr={-4}>
+          <TabPanel ml={-4}>
             <OngoingLoan showNewLoan={showNewLoanDiv} onLoanHandled={handleLoanHandled} />
           </TabPanel>
 
-          <TabPanel ml={-4} mr={-4}>
+          <TabPanel ml={-4}>
             <LoanHistory />
           </TabPanel>
         </TabPanels>

@@ -155,7 +155,11 @@ export const EditProfile = ({
         busStopLandMark: busStopLandMarkValue
           ? busStopLandMarkValue
           : busStopLandMark,
-        address: addressValue ? addressValue : address,
+        address: addressValue
+          ? addressValue
+          : address
+          ? address
+          : initialAddress,
         emailAddress: email,
         altEmailAddress: altEmailAddress ? altEmailAddress : email,
         phoneNumber: phoneNumber,
@@ -280,14 +284,19 @@ export const EditProfile = ({
     <>
       {showEditProfile && (
         <Box>
-          <HStack bg="#EAECF0" px={{base: "14px", md: "26px"}} py="14px" borderRadius="12px 12px 0 0">
+          <HStack
+            bg="#EAECF0"
+            px={{ base: "14px", md: "26px" }}
+            py="14px"
+            borderRadius="12px 12px 0 0"
+          >
             <Button h="24px" bg="#EAECF0" p={0} _hover={{ bg: "#EAECF0" }}>
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
             <Text
               width="100%"
               textAlign="center"
-              fontSize={{base: "16px", md: "18px"}}
+              fontSize={{ base: "16px", md: "18px" }}
               fontWeight={600}
               color="#101828"
             >
@@ -301,7 +310,7 @@ export const EditProfile = ({
             border="1px solid #EFECE9"
             bg="#FFFFFF"
             borderRadius="0 0 12px 12px"
-            px={{base: "14px", md: "20px", lg: "36px"}}
+            px={{ base: "14px", md: "20px", lg: "36px" }}
             pb="114px"
             pt="48px"
           >
@@ -321,10 +330,14 @@ export const EditProfile = ({
                   <img src={getImageUrl("icons/whiteEdit.png")} />
                 </button>
               </Box>
-              <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color="#101828">
+              <Text
+                fontSize={{ base: "16px", md: "18px" }}
+                fontWeight={600}
+                color="#101828"
+              >
                 {fullname}
               </Text>
-              <Text fontSize={{base: "16px", md: "18px"}} color="#667085">
+              <Text fontSize={{ base: "16px", md: "18px" }} color="#667085">
                 {email}
               </Text>
             </Stack>
@@ -334,7 +347,7 @@ export const EditProfile = ({
               alignItems="center"
               w="100%"
               gap="16px"
-              flexDirection={{base: "column-reverse", md: "row"}}
+              flexDirection={{ base: "column-reverse", md: "row" }}
             >
               <button
                 // onClick={moveToBVN}
@@ -393,7 +406,12 @@ export const EditProfile = ({
 
       {showPersonalDetails && (
         <Box>
-          <HStack bg="#EAECF0" px={{base: "14px", md: "26px"}} py="14px" borderRadius="12px 12px 0 0">
+          <HStack
+            bg="#EAECF0"
+            px={{ base: "14px", md: "26px" }}
+            py="14px"
+            borderRadius="12px 12px 0 0"
+          >
             <Button
               onClick={goBack}
               h="24px"
@@ -420,23 +438,27 @@ export const EditProfile = ({
             border="1px solid #EFECE9"
             bg="#FFFFFF"
             borderRadius="0 0 12px 12px"
-            px={{base: "14px", md: "36px"}}
+            px={{ base: "14px", md: "36px" }}
             pb="114px"
             pt="48px"
           >
             <Stack
-              w={{base: "100%", md: "80%"}}
-              direction={{base: "column", md: "row"}}
+              w={{ base: "100%", md: "80%" }}
+              direction={{ base: "column", md: "row" }}
             >
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Title
                 </FormLabel>
                 <Select
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   onChange={(e) => setTitle(e.target.value)}
@@ -448,14 +470,18 @@ export const EditProfile = ({
                 </Select>
               </FormControl>
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Marital Status
                 </FormLabel>
                 <Select
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   onChange={(e) => setMaritalStatus(e.target.value)}
@@ -471,11 +497,15 @@ export const EditProfile = ({
             </Stack>
 
             <Stack
-              w={{base: "100%", md: "80%"}}
-              direction={{base: "column", md: "row"}}
+              w={{ base: "100%", md: "80%" }}
+              direction={{ base: "column", md: "row" }}
             >
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   First Name
                 </FormLabel>
                 <Input
@@ -484,13 +514,17 @@ export const EditProfile = ({
                   h="48px"
                   bg="#EAECF0"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Last Name
                 </FormLabel>
                 <Input
@@ -499,22 +533,26 @@ export const EditProfile = ({
                   bg="#EAECF0"
                   value={lastName}
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                 />
               </FormControl>
             </Stack>
 
-            <FormControl w={{base: "100%", md: "80%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "80%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Other Names
               </FormLabel>
               <Input
                 h="48px"
                 bg="#EAECF0"
                 border="1px solid #EAECF0"
-                fontSize={{base: "14px", md: "16px"}}
+                fontSize={{ base: "14px", md: "16px" }}
                 color="#101828"
                 _placeholder={{ color: "#667085" }}
                 value={otherNameValue ? otherNameValue : otherName}
@@ -524,18 +562,22 @@ export const EditProfile = ({
             </FormControl>
 
             <Stack
-              w={{base: "100%", md: "80%"}}
-              direction={{base: "column", md: "row"}}
+              w={{ base: "100%", md: "80%" }}
+              direction={{ base: "column", md: "row" }}
             >
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Gender
                 </FormLabel>
                 <Select
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                 >
@@ -546,7 +588,11 @@ export const EditProfile = ({
                 </Select>
               </FormControl>
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Date of Birth
                 </FormLabel>
                 <Input
@@ -555,7 +601,7 @@ export const EditProfile = ({
                   type="date-local"
                   bg="#EAECF0"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   onChange={(e) => console.log(e.target.value)}
@@ -565,18 +611,22 @@ export const EditProfile = ({
             </Stack>
 
             <Stack
-              w={{base: "100%", md: "80%"}}
-              direction={{base: "column", md: "row"}}
+              w={{ base: "100%", md: "80%" }}
+              direction={{ base: "column", md: "row" }}
             >
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Nationality
                 </FormLabel>
                 <Select
                   h="48px"
                   bg="#EAECF0"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   readOnly
@@ -588,18 +638,22 @@ export const EditProfile = ({
             </Stack>
 
             <Stack
-              w={{base: "100%", md: "80%"}}
-              direction={{base: "column", md: "row"}}
+              w={{ base: "100%", md: "80%" }}
+              direction={{ base: "column", md: "row" }}
             >
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   LGA
                 </FormLabel>
                 <Input
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   value={lgaValue ? lgaValue : lga}
@@ -607,14 +661,18 @@ export const EditProfile = ({
                 ></Input>
               </FormControl>
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Place of Birth
                 </FormLabel>
                 <Input
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   defaultValue={placeOfBirth}
                   value={placeOfBirthValue}
@@ -625,18 +683,22 @@ export const EditProfile = ({
             </Stack>
 
             <Stack
-              w={{base: "100%", md: "80%"}}
-              direction={{base: "column", md: "row"}}
+              w={{ base: "100%", md: "80%" }}
+              direction={{ base: "column", md: "row" }}
             >
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Employment Status
                 </FormLabel>
                 <Select
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   onChange={(e) => setEmploymentStatus(e.target.value)}
@@ -652,14 +714,18 @@ export const EditProfile = ({
                 </Select>
               </FormControl>
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Employer&apos;s Name
                 </FormLabel>
                 <Input
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   defaultValue={employerName}
@@ -669,15 +735,19 @@ export const EditProfile = ({
               </FormControl>
             </Stack>
 
-            <FormControl w={{base: "100%", md: "80%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "80%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Employer&apos;s Address
               </FormLabel>
               <Input
                 h="48px"
                 bg="#F7F7F7"
                 border="1px solid #EAECF0"
-                fontSize={{base: "14px", md: "16px"}}
+                fontSize={{ base: "14px", md: "16px" }}
                 color="#101828"
                 _placeholder={{ color: "#667085" }}
                 defaultValue={
@@ -687,8 +757,12 @@ export const EditProfile = ({
               />
             </FormControl>
 
-            <FormControl w={{base: "100%", md: "80%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "80%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Employment Phone Number
               </FormLabel>
               <HStack spacing={2}>
@@ -697,7 +771,7 @@ export const EditProfile = ({
                   flex={"35%"}
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                 >
@@ -708,7 +782,7 @@ export const EditProfile = ({
                   maxLength={11}
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   value={
@@ -721,15 +795,19 @@ export const EditProfile = ({
               </HStack>
             </FormControl>
 
-            <FormControl w={{base: "100%", md: "80%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "80%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Sector
               </FormLabel>
               <Select
                 h="48px"
                 bg="#F7F7F7"
                 border="1px solid #EAECF0"
-                fontSize={{base: "14px", md: "16px"}}
+                fontSize={{ base: "14px", md: "16px" }}
                 color="#101828"
                 _placeholder={{ color: "#667085" }}
                 onChange={(e) => setEmploymentSector(e.target.value)}
@@ -747,7 +825,7 @@ export const EditProfile = ({
               fontSize="18px"
               fontWeight={600}
               color="#FFFFFF"
-              w={{base: "100%", md: "80%"}}
+              w={{ base: "100%", md: "80%" }}
               h="48px"
               isLoading={loading}
             >
@@ -759,7 +837,12 @@ export const EditProfile = ({
 
       {showContactDetails && (
         <Box>
-          <HStack bg="#EAECF0" px={{base: "14px", md: "26px"}} py="14px" borderRadius="12px 12px 0 0">
+          <HStack
+            bg="#EAECF0"
+            px={{ base: "14px", md: "26px" }}
+            py="14px"
+            borderRadius="12px 12px 0 0"
+          >
             <Button
               onClick={goBack}
               h="24px"
@@ -786,23 +869,27 @@ export const EditProfile = ({
             border="1px solid #EFECE9"
             bg="#FFFFFF"
             borderRadius="0 0 12px 12px"
-            px={{base: "14px", md: "36px"}}
+            px={{ base: "14px", md: "36px" }}
             pb="114px"
             pt="48px"
           >
             <Stack
-              w={{base: "100%", md: "80%"}}
-              direction={{base: "column", md: "row"}}
+              w={{ base: "100%", md: "80%" }}
+              direction={{ base: "column", md: "row" }}
             >
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   House Number
                 </FormLabel>
                 <Input
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   value={houseNoValue ? houseNoValue : houseNo}
@@ -810,14 +897,18 @@ export const EditProfile = ({
                 />
               </FormControl>
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Street Name
                 </FormLabel>
                 <Input
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   value={streetNameValue ? streetNameValue : streetName}
@@ -826,15 +917,19 @@ export const EditProfile = ({
               </FormControl>
             </Stack>
 
-            <FormControl w={{base: "100%", md: "80%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "80%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Nearest Bus Stop (Landmark)
               </FormLabel>
               <Input
                 h="48px"
                 bg="#F7F7F7"
                 border="1px solid #EAECF0"
-                fontSize={{base: "14px", md: "16px"}}
+                fontSize={{ base: "14px", md: "16px" }}
                 color="#101828"
                 _placeholder={{ color: "#667085" }}
                 value={
@@ -844,15 +939,19 @@ export const EditProfile = ({
               />
             </FormControl>
 
-            <FormControl w={{base: "100%", md: "80%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "80%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Address
               </FormLabel>
               <Input
                 h="48px"
                 bg="#F7F7F7"
                 border="1px solid #EAECF0"
-                fontSize={{base: "14px", md: "16px"}}
+                fontSize={{ base: "14px", md: "16px" }}
                 color="#101828"
                 _placeholder={{ color: "#667085" }}
                 value={
@@ -867,18 +966,22 @@ export const EditProfile = ({
             </FormControl>
 
             <Stack
-              w={{base: "100%", md: "80%"}}
-              direction={{base: "column", md: "row"}}
+              w={{ base: "100%", md: "80%" }}
+              direction={{ base: "column", md: "row" }}
             >
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   Country
                 </FormLabel>
                 <Select
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   value={countryValue ? countryValue : country}
@@ -897,14 +1000,18 @@ export const EditProfile = ({
               </FormControl>
 
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   State of Origin
                 </FormLabel>
                 <Input
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   value={stateValue ? stateValue : state}
@@ -914,18 +1021,22 @@ export const EditProfile = ({
             </Stack>
 
             <Stack
-              w={{base: "100%", md: "80%"}}
-              direction={{base: "column", md: "row"}}
+              w={{ base: "100%", md: "80%" }}
+              direction={{ base: "column", md: "row" }}
             >
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   LGA
                 </FormLabel>
                 <Input
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   value={lgaValue ? lgaValue : lga}
@@ -933,14 +1044,18 @@ export const EditProfile = ({
                 ></Input>
               </FormControl>
               <FormControl>
-                <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormLabel
+                  fontSize={{ base: "14px", md: "16px" }}
+                  fontWeight={400}
+                  color="#101828"
+                >
                   City
                 </FormLabel>
                 <Input
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   value={cityValue ? cityValue : city}
@@ -949,15 +1064,19 @@ export const EditProfile = ({
               </FormControl>
             </Stack>
 
-            <FormControl w={{base: "100%", md: "80%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "80%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Email Address
               </FormLabel>
               <Input
                 h="48px"
                 bg="#EAECF0"
                 border="1px solid #EAECF0"
-                fontSize={{base: "14px", md: "16px"}}
+                fontSize={{ base: "14px", md: "16px" }}
                 color="#101828"
                 _placeholder={{ color: "#667085" }}
                 value={email}
@@ -965,15 +1084,19 @@ export const EditProfile = ({
               />
             </FormControl>
 
-            <FormControl w={{base: "100%", md: "80%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "80%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Alternate Email Address
               </FormLabel>
               <Input
                 h="48px"
                 bg="#EAECF0"
                 border="1px solid #EAECF0"
-                fontSize={{base: "14px", md: "16px"}}
+                fontSize={{ base: "14px", md: "16px" }}
                 color="#101828"
                 _placeholder={{ color: "#667085" }}
                 value={altEmailAddress}
@@ -981,8 +1104,12 @@ export const EditProfile = ({
               />
             </FormControl>
 
-            <FormControl w={{base: "100%", md: "80%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "80%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Phone Number
               </FormLabel>
               <HStack spacing={2}>
@@ -991,7 +1118,7 @@ export const EditProfile = ({
                   flex={"30%"}
                   bg="#EAECF0"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                 >
@@ -1003,7 +1130,7 @@ export const EditProfile = ({
                   type="tel"
                   bg="#EAECF0"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   color="#101828"
                   _placeholder={{ color: "#667085" }}
                   value={phoneNumber}
@@ -1020,7 +1147,7 @@ export const EditProfile = ({
               fontSize="14px"
               fontWeight={600}
               color="#FFFFFF"
-              w={{base: "100%", md: "80%"}}
+              w={{ base: "100%", md: "80%" }}
               h="48px"
               isLoading={loading}
             >

@@ -115,7 +115,7 @@ export const CompleteOnboarding = () => {
           Verify your phone number
         </Text>
         <Text fontSize={{base: "13px", md: "18px"}} fontWeight={400} color={"#667085"}>
-          Kindly enter the 6-digits OTP we sent to{" "}
+          Kindly enter the 6-digit OTP we sent to{" "}
           <b>{formatNumberStar(auth?.phoneNumber)}</b>
         </Text>
 

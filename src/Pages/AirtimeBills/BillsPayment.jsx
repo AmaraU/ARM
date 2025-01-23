@@ -612,10 +612,9 @@ export const BillsPayment = () => {
                   </Box>
                   <Text fontSize={{base: "14px", md: "18px"}} fontWeight={600} color={"#FFFFFF"}>
                     {totalBalanceVisible
-                      // ? `${casaAccountBalances[0]?.bookBalance.toLocaleString(
-                      //     "en"
-                      //   )}`
-                      ? "12345678"
+                      ? `${casaAccountBalances[0]?.bookBalance.toLocaleString(
+                          "en"
+                        )}`
                       : hideBalance()}
                   </Text>
                   <Box pl={3} cursor={"pointer"}>

@@ -21,8 +21,6 @@ export const AirtimeBills = () => {
   useEffect(() => {
     dispatch(getNetworkPlans());
   }, [dispatch]);
-
-  console.log(networks)
   
   return (
     <div className={styles.whole}>

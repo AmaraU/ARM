@@ -123,6 +123,7 @@ export const BuyAirtime = ({ networks }) => {
   };
 
   const handleSubmit = async ({ pin }) => {
+    console.log(networks);
     const { usesPreset, vendCode } = networks.filter(
       (network) => network.name === selected && !network.usesPreset
     )[0];
@@ -146,7 +147,6 @@ export const BuyAirtime = ({ networks }) => {
         encRequest: payload.encRequest,
         detailsRequest: payload.detailsRequest,
       });
-      console.log(response);
       setLoading(false);
       if (response) {
         setEnterPin(false);
@@ -177,7 +177,7 @@ export const BuyAirtime = ({ networks }) => {
             <Box>
               <HStack
                 bg="#EAECF0"
-                px={{base: "14px", md: "26px"}}
+                px={{ base: "14px", md: "26px" }}
                 py="14px"
                 borderRadius="12px 12px 0 0"
               >
@@ -195,7 +195,7 @@ export const BuyAirtime = ({ networks }) => {
                 <Text
                   width="100%"
                   textAlign="center"
-                  fontSize={{base: "16px", md: "18px"}}
+                  fontSize={{ base: "16px", md: "18px" }}
                   fontWeight={600}
                   color="#101828"
                 >
@@ -218,7 +218,7 @@ export const BuyAirtime = ({ networks }) => {
                   alt=""
                 />
                 <Text
-                  w={{base: "100%", md: "50%"}}
+                  w={{ base: "100%", md: "50%" }}
                   textAlign="center"
                   fontSize="16px"
                   color="#667085"
@@ -227,7 +227,7 @@ export const BuyAirtime = ({ networks }) => {
                 </Text>
                 <Button
                   mt={"16px"}
-                  w={{base: "100%", md: "50%"}}
+                  w={{ base: "100%", md: "50%" }}
                   h={"48px"}
                   bg={"#A41856"}
                   _hover={{ bg: "#90164D" }}
@@ -244,16 +244,11 @@ export const BuyAirtime = ({ networks }) => {
             <Box>
               <HStack
                 bg="#EAECF0"
-                px={{base: "14px", md: "26px"}}
+                px={{ base: "14px", md: "26px" }}
                 py="14px"
                 borderRadius="12px 12px 0 0"
               >
-                <Button
-                  h="24px"
-                  bg="#EAECF0"
-                  p={0}
-                  _hover={{ bg: "#EAECF0" }}
-                >
+                <Button h="24px" bg="#EAECF0" p={0} _hover={{ bg: "#EAECF0" }}>
                   <img
                     src={getImageUrl("icons/blackLeftArrow.png")}
                     alt="back"
@@ -262,7 +257,7 @@ export const BuyAirtime = ({ networks }) => {
                 <Text
                   width="100%"
                   textAlign="center"
-                  fontSize={{base: "16px", md: "18px"}}
+                  fontSize={{ base: "16px", md: "18px" }}
                   fontWeight={600}
                   color="#101828"
                 >
@@ -280,9 +275,9 @@ export const BuyAirtime = ({ networks }) => {
                 pt="48px"
               >
                 <Stack
-                  w={{base: "100%", md: "90%", lg: "60%"}}
+                  w={{ base: "100%", md: "90%", lg: "60%" }}
                   display={"grid"}
-                  gridTemplateColumns={{base: "1fr", md: "1fr 1fr"}}
+                  gridTemplateColumns={{ base: "1fr", md: "1fr 1fr" }}
                 >
                   {savedAirtime.map((air, index) => (
                     <Stack
@@ -293,7 +288,7 @@ export const BuyAirtime = ({ networks }) => {
                       py={"20px"}
                       px={"10px"}
                       spacing={"16px"}
-                      direction={{base: "column", lg: "row"}}
+                      direction={{ base: "column", lg: "row" }}
                       alignItems="center"
                     >
                       <Box>
@@ -302,29 +297,23 @@ export const BuyAirtime = ({ networks }) => {
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/mtn.png")}
                           />
-                        )
-                        :
-                        air.network.toLowerCase() === "glo" ? (
+                        ) : air.network.toLowerCase() === "glo" ? (
                           <img
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/glo.png")}
                           />
-                        )
-                        :
-                        air.network.toLowerCase() === "9mobile" ? (
+                        ) : air.network.toLowerCase() === "9mobile" ? (
                           <img
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/9mobile.png")}
                           />
-                        )
-                        :
-                        air.network.toLowerCase() === "airtel" ? (
+                        ) : air.network.toLowerCase() === "airtel" ? (
                           <img
                             style={{ width: "32px", height: "32px" }}
                             src={getImageUrl("logos/airtel.png")}
                           />
                         ) : (
-                          <Text>{air.network.slice(0,2)}</Text>
+                          <Text>{air.network.slice(0, 2)}</Text>
                         )}
                       </Box>
                       <Box w={"90%"}>
@@ -332,7 +321,7 @@ export const BuyAirtime = ({ networks }) => {
                           w={"100%"}
                           justifyContent={"space-between"}
                           alignItems={"center"}
-                          direction={{base: "column", md: "row", lg: "row"}}
+                          direction={{ base: "column", md: "row", lg: "row" }}
                         >
                           <Text
                             fontSize={"15px"}
@@ -376,7 +365,10 @@ export const BuyAirtime = ({ networks }) => {
                               }`}
                               ref={popupRef}
                             >
-                              <button style={{ alignSelf: "end" }} onClick={() => toggleAction(index)}>
+                              <button
+                                style={{ alignSelf: "end" }}
+                                onClick={() => toggleAction(index)}
+                              >
                                 <img
                                   style={{ width: "14px", height: "14px" }}
                                   src={getImageUrl("icons/blackX.png")}
@@ -432,7 +424,7 @@ export const BuyAirtime = ({ networks }) => {
           <HStack
             bg="#EAECF0"
             justifyContent="space-between"
-            px={{base: "14px", md: "26px"}}
+            px={{ base: "14px", md: "26px" }}
             py="14px"
             borderRadius="12px 12px 0 0"
           >
@@ -445,10 +437,18 @@ export const BuyAirtime = ({ networks }) => {
             >
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
+            <Text
+              fontSize={{ base: "16px", md: "18px" }}
+              fontWeight={600}
+              color={"#101828"}
+            >
               Buy Airtime
             </Text>
-            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
+            <Text
+              fontSize={{ base: "16px", md: "18px" }}
+              fontWeight={600}
+              color={"#101828"}
+            >
               1/2
             </Text>
           </HStack>
@@ -462,13 +462,17 @@ export const BuyAirtime = ({ networks }) => {
             pb="114px"
             px="12px"
           >
-            <Text fontSize={{base: "14px", md: "16px"}} color={"#667085"} textAlign={"center"}>
+            <Text
+              fontSize={{ base: "14px", md: "16px" }}
+              color={"#667085"}
+              textAlign={"center"}
+            >
               Select Preferred Network
             </Text>
 
             <Stack
-              w={{base: "100%", md: "60%"}}
-              flexDirection={{base: "column", md: "row"}}
+              w={{ base: "100%", md: "60%" }}
+              flexDirection={{ base: "column", md: "row" }}
             >
               <Stack
                 cursor="pointer"
@@ -556,8 +560,12 @@ export const BuyAirtime = ({ networks }) => {
               </Stack>
             </Stack>
 
-            <FormControl w={{base: "100%", md: "75%"}} isRequired>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
+            <FormControl w={{ base: "100%", md: "75%" }} isRequired>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color={"#101828"}
+              >
                 Phone Number
               </FormLabel>
               <Input
@@ -566,7 +574,7 @@ export const BuyAirtime = ({ networks }) => {
                 h={"48px"}
                 bg={"#F7F7F7"}
                 border={"1px solid #EAECF0"}
-                fontSize={{base: "14px", md: "16px"}}
+                fontSize={{ base: "14px", md: "16px" }}
                 placeholder="Input Phone Number"
                 _placeholder={{ color: "#667085" }}
                 value={phone}
@@ -575,15 +583,23 @@ export const BuyAirtime = ({ networks }) => {
               ></Input>
             </FormControl>
 
-            <HStack w={{base: "100%", md: "75%"}}>
+            <HStack w={{ base: "100%", md: "75%" }}>
               <img src={getImageUrl("icons/nav/profileGrey.png")} alt="" />
-              <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color={"#A41857"}>
+              <Text
+                fontSize={{ base: "12px", md: "14px" }}
+                fontWeight={500}
+                color={"#A41857"}
+              >
                 Select from favorites
               </Text>
             </HStack>
 
-            <FormControl w={{base: "100%", md: "75%"}} isRequired>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color={"#101828"}>
+            <FormControl w={{ base: "100%", md: "75%" }} isRequired>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color={"#101828"}
+              >
                 Amount
               </FormLabel>
               <InputGroup>
@@ -591,7 +607,7 @@ export const BuyAirtime = ({ networks }) => {
                   h="48px"
                   pointerEvents="none"
                   color="#667085"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                 >
                   ₦
                 </InputLeftElement>
@@ -606,8 +622,15 @@ export const BuyAirtime = ({ networks }) => {
               </InputGroup>
             </FormControl>
 
-            <HStack w={{base: "100%", md: "75%"}} justifyContent={"space-between"}>
-              <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color={"#667085"}>
+            <HStack
+              w={{ base: "100%", md: "75%" }}
+              justifyContent={"space-between"}
+            >
+              <Text
+                fontSize={{ base: "12px", md: "14px" }}
+                fontWeight={500}
+                color={"#667085"}
+              >
                 Save as Favorite
               </Text>
               <Switch
@@ -625,7 +648,7 @@ export const BuyAirtime = ({ networks }) => {
             <Button
               onClick={onOpenConfirm}
               mt={"16px"}
-              w={{base: "100%", md: "75%"}}
+              w={{ base: "100%", md: "75%" }}
               h={"48px"}
               bg={"#A41856"}
               color={"#FFFFFF"}
@@ -645,7 +668,7 @@ export const BuyAirtime = ({ networks }) => {
           <HStack
             bg="#EAECF0"
             justifyContent="space-between"
-            px={{base: "14px", md: "26px"}}
+            px={{ base: "14px", md: "26px" }}
             py="14px"
             borderRadius="12px 12px 0 0"
           >
@@ -658,10 +681,18 @@ export const BuyAirtime = ({ networks }) => {
             >
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
+            <Text
+              fontSize={{ base: "16px", md: "18px" }}
+              fontWeight={600}
+              color={"#101828"}
+            >
               Complete Purchase
             </Text>
-            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
+            <Text
+              fontSize={{ base: "16px", md: "18px" }}
+              fontWeight={600}
+              color={"#101828"}
+            >
               2/2
             </Text>
           </HStack>
@@ -772,7 +803,7 @@ export const BuyAirtime = ({ networks }) => {
                       NETWORK PROVIDER
                     </Text>
                     <Text fontSize="18px" fontWeight={500} color="#A41856">
-                      MTN
+                      {selected}
                     </Text>
                   </Stack>
                 </HStack>

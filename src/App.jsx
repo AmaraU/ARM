@@ -4,28 +4,28 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
-import Signin from "./Pages/Onboarding/Signin.jsx";
-import Signup from "./Pages/Onboarding/Signup.jsx";
-import { VerifyNumber } from "./Pages/Onboarding/VerifyNumber.jsx";
-import { TakeSelfie } from "./Pages/Onboarding/TakeSelfie.jsx";
-import { ConfirmSelfie } from "./Pages/Onboarding/ConfirmSelfie.jsx";
-import { UserInfo } from "./Pages/Onboarding/UserInfo.jsx";
-import { CreateProfile } from "./Pages/Onboarding/CreateProfile.jsx";
-import { Welcome } from "./Pages/Onboarding/Welcome.jsx";
-import { Overview } from "./Pages/DashboardPage/Overview.jsx";
-import { Transfers } from "./Pages/Transfers/Transfers.jsx";
-import { TransactionReceipt } from "./Components/TransactionReciept.jsx";
-import { AirtimeBills } from "./Pages/AirtimeBills/AirtimeBills.jsx";
-import LoanPage from "./Pages/LoanPage/LoanPage.jsx";
-import { MyAccountPage } from "./Pages/MyAccountPage/MyAccountPage.jsx";
-import { ProfilePage } from "./Pages/ProfilePage/ProfilePage.jsx";
-import { DashboardLayout } from "./Pages/DashboardLayout.jsx";
-import { BlankPage } from "./Pages/BlankPage.jsx";
+import Signin from "./Pages/Onboarding/Signin";
+import Signup from "./Pages/Onboarding/Signup";
+import { VerifyNumber } from "./Pages/Onboarding/VerifyNumber";
+import { TakeSelfie } from "./Pages/Onboarding/TakeSelfie";
+import { ConfirmSelfie } from "./Pages/Onboarding/ConfirmSelfie";
+import { UserInfo } from "./Pages/Onboarding/UserInfo";
+import { CreateProfile } from "./Pages/Onboarding/CreateProfile";
+import { Welcome } from "./Pages/Onboarding/Welcome";
+import { Overview } from "./Pages/DashboardPage/Overview";
+import { Transfers } from "./Pages/Transfers/Transfers";
+import { TransactionReceipt } from "./Components/TransactionReciept";
+import { AirtimeBills } from "./Pages/AirtimeBills/AirtimeBills";
+import LoanPage from "./Pages/LoanPage/LoanPage";
+import { MyAccountPage } from "./Pages/MyAccountPage/MyAccountPage";
+import { ProfilePage } from "./Pages/ProfilePage/ProfilePage";
+import { DashboardLayout } from "./Pages/DashboardLayout";
+import { BlankPage } from "./Pages/BlankPage";
 import { AccountStatement } from "./Components/AccountStatement.jsx";
 import { CompleteOnboarding } from "./Pages/Onboarding/CompleteOnboarding.jsx";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
-import { store } from "./store/index.js";
+import { store } from "./store";
 import SavingsPage from "./Pages/SavingsPage/SavingsPage.jsx";
 import TargetSavings from "./Components/Savings/TargetSavings.jsx";
 import FixedSavings from "./Components/Savings/FixedSavings.jsx";
@@ -40,6 +40,7 @@ import ProtectedRoute from "./Pages/ProtectedRoute.jsx";
 import { UpgradeAccount } from "./Pages/MyAccountPage/UpgradeAccount.jsx";
 import { NotificationsPage } from "./Pages/DashboardPage/NotificationsPage.jsx";
 import { TransactionHistory } from "./Pages/DashboardPage/TransactionHistory.jsx";
+import { PrivacyPolicy } from "./Components/PrivacyPolicy/PrivacyPolicy.jsx";
 
 function App() {
   useSessionTimeout();
@@ -47,6 +48,7 @@ function App() {
   const router = createBrowserRouter([
     { path: "/", element: <Navigate to="signin" /> },
     { path: "/signin", element: <Signin /> },
+    { path: "/login", element: <Signin /> },
     { path: "/signup", element: <Signup /> },
     { path: "/forgot-password", element: <ForgotPassword /> },
     { path: "/verify-reset", element: <VerifyReset /> },
@@ -61,12 +63,13 @@ function App() {
     { path: "/welcome", element: <Welcome /> },
     { path: "/receipt", element: <TransactionReceipt /> },
     { path: "/statement", element: <AccountStatement /> },
+    { path: "/privacy-policy", element: <PrivacyPolicy /> },
     {
       path: "/overview",
       element: (
-        // <ProtectedRoute>
+        <ProtectedRoute>
           <DashboardLayout />
-        // </ProtectedRoute>
+        </ProtectedRoute>
       ),
       children: [
         { path: "/overview", element: <Navigate to="dashboard" /> },

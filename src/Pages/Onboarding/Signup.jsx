@@ -21,12 +21,31 @@ import { ConfirmNumber } from "./ConfirmPhone";
 import { useDispatch } from "react-redux";
 import { setDetails } from "../../store/auth/auth.slice";
 import authService from "../../services/authService";
+import { handleErrors } from "../../utils/handleResponse";
+import PrivacyPolicyModal from "../../elements/Modals/PrivacyPolicyModal";
+import CookiesModal from "../../elements/Modals/CookiesModal";
+import TermsAndConditionsModal from "../../elements/Modals/TermsAndConditionsModal";
 
 export default function Signup() {
   const {
     isOpen: isOpenConfirm,
     onOpen: onOpenConfirm,
     onClose: onCloseConfirm,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenCookies,
+    onOpen: onOpenCookies,
+    onClose: onCloseCookies,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenPP,
+    onOpen: onOpenPP,
+    onClose: onClosePP,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenTandC,
+    onOpen: onOpenTandC,
+    onClose: onCloseTandC,
   } = useDisclosure();
   const [isLoading, setLoading] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -51,44 +70,63 @@ export default function Signup() {
       if (isBVN) {
         response = await authService.verifyBVN({
           number: bvn,
-          firstName: "",
-          lastName: "",
         });
-        setPhoneNumber(response.data.data.bvn.phone);
-        setEmail(response.data.data.bvn.email);
+
+        const {
+          phoneNumber1: phoneNumber,
+          imageBase64,
+          gender,
+          middleName,
+          firstName,
+          lastName,
+          email,
+          residentialAddress,
+        } = response.data.fullData;
+
+        setPhoneNumber(phoneNumber);
+        setEmail(email);
 
         dispatch(
           setDetails({
             bvn,
-            phoneNumber: response.data.data.bvn.phone,
-            email: response.data.data.bvn.email,
-            firstname: response.data.data.bvn.firstname,
-            surname: response.data.data.bvn.lastname,
-            othername: response.data.data.bvn.middlename,
-            photo: response.data.data.bvn.photo,
-            gender: response.data.data.bvn.gender,
-            address: response.data.data.bvn.residential_address,
+            phoneNumber: phoneNumber,
+            email: email,
+            firstname: firstName,
+            surname: lastName,
+            othername: middleName,
+            photo: imageBase64,
+            gender: gender,
+            address: residentialAddress,
           })
         );
       } else {
         response = await authService.verifyNIN({
           number: nin,
-          firstName: "",
-          lastName: "",
         });
-        setPhoneNumber(response.data.data.nin.phone);
-        setEmail(response.data.data.nin.email);
+
+        const {
+          photo,
+          gender,
+          middlename,
+          firstname,
+          surname,
+          email,
+          address,
+        } = response.data.fullData;
+
+        setPhoneNumber(response.data.phoneNumber);
+        setEmail(email);
         dispatch(
           setDetails({
-            bvn,
-            phoneNumber: response.data.data.nin.phone,
-            email: response.data.data.nin.email,
-            firstname: response.data.data.nin.firstname,
-            surname: response.data.data.nin.lastname,
-            othername: response.data.data.nin.middlename,
-            photo: response.data.data.nin.photo,
-            gender: response.data.data.nin.gender,
-            address: response.data.data.nin.residential_address,
+            nin: nin,
+            phoneNumber: response.data.phoneNumber,
+            email: email,
+            firstname: firstname,
+            surname: surname,
+            othername: middlename,
+            photo: photo,
+            gender: gender,
+            address: address,
           })
         );
       }
@@ -96,24 +134,25 @@ export default function Signup() {
       onOpenConfirm();
     } catch (error) {
       console.log(error)
+      handleErrors({message: "Unable to validate ID - Result Not Found"})
       setLoading(false);
     }
   };
 
   const changingText = [
     {
-      image: "signin1.png",
+      image: "slides3.jpeg",
       header: "Bank smarter, live better with ARM MFB",
       subheading:
         "Managing your money is what we do and we are really good at it.",
     },
     {
-      image: "signin2.png",
+      image: "slides1.jpg",
       header: "Manage your money anywhere, anytime",
       subheading: "Gain access to your account with a tap",
     },
     {
-      image: "signin3.png",
+      image: "slides2.jpeg",
       header: "Stay on top of your money",
       subheading:
         "ARM MFB provides you the ability to maintain control over your finances",
@@ -131,23 +170,19 @@ export default function Signup() {
     return () => clearInterval(interval);
   }, []);
 
-  // const handleConfirmNumber = async () => {
-  //   try {
-  //     dispatch(
-  //       setDetails({
-  //         bvn,
-  //         nin,
-  //       })
-  //     );
-  //     await verifyKyc();
-  //   } catch (error) {
-  //     console.log(error);
-  //     setLoading(false);
-  //   }
-  // };
-
-  const handleConfirmNumber = () => {
-    onOpenConfirm();
+  const handleConfirmNumber = async () => {
+    try {
+      dispatch(
+        setDetails({
+          bvn,
+          nin,
+        })
+      );
+      await verifyKyc();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   const changeOverN = () => {
@@ -174,14 +209,11 @@ export default function Signup() {
             width="45%"
             maxW="670px"
             height="100vh"
-            bgGradient={
-              "linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #000000 100%)"
-            }
             zIndex="1"
             borderRadius="0 56px 56px 0"
             p="2.5%"
           >
-            <Stack spacing={10} zIndex={2} h="100%">
+            <Stack spacing={10} zIndex={2} h="100%" gap={0}>
               <Box p={8} as="button" onClick={() => navigate("/")}>
                 <Image
                   src={getImageUrl("logos/arm_logo.png")}
@@ -194,14 +226,14 @@ export default function Signup() {
                 flexDirection="column"
                 gap="12px"
                 h="100%"
-                justifyContent="end"
+                justifyContent="start"
                 mb="24px"
               >
                 <Text
                   className={`${styles.changing} ${
                     visible ? styles.visible : ""
                   }`}
-                  fontSize="6vh"
+                  fontSize="5vh"
                   fontWeight={700}
                   color="white"
                   w="90%"
@@ -233,25 +265,6 @@ export default function Signup() {
                       transition={"width 1s ease-in-out"}
                     />
                   ))}
-                </Flex>
-
-                <Flex
-                  mt="6vh"
-                  bottom={0}
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Text fontSize="14px" color="#EFECE9">
-                    © 2024 ARM MFB by ARM Group. All rights reserved.
-                  </Text>
-                  <Text
-                    fontSize="14px"
-                    color="#EFECE9"
-                    cursor="pointer"
-                    _hover={{ textDecoration: "underline" }}
-                  >
-                    Help Center
-                  </Text>
                 </Flex>
               </Flex>
             </Stack>
@@ -291,7 +304,7 @@ export default function Signup() {
               fontWeight={700}
               color={"#14142A"}
             >
-              Let&apos;s have your {text}
+              Create your Account
             </Text>
             <Text
               fontSize={{ base: "14px", md: "18px" }}
@@ -320,7 +333,9 @@ export default function Signup() {
                   placeholder="Enter your BVN"
                   _placeholder={{ fontSize: "sm" }}
                   autoComplete="off"
-                  onInput={(e)=>e.target.value = e.target.value.slice(0,11)}
+                  onInput={(e) =>
+                    (e.target.value = e.target.value.slice(0, 11))
+                  }
                   maxLength={11}
                   onWheel={ event => event.currentTarget.blur() }
                 />
@@ -381,8 +396,11 @@ export default function Signup() {
                       safe.
                     </Text>
                     <Text fontSize="12px" fontWeight={400} color="#667085">
-                      Before continuing you can review our Privacy Policy and
+                      Before continuing you can review our <a className={styles.link} onClick={()=>onOpenPP()}>Privacy Policy</a> and
                       Terms of Service
+                    </Text>
+                    <Text fontSize="12px" fontWeight={400} color="#667085">
+                      Your BVN helps us validate the following information:
                     </Text>
                     <Box>
                       <Flex fontSize="12px" fontWeight={500} color="#0C111D">
@@ -398,14 +416,6 @@ export default function Signup() {
                         Date of birth
                       </Flex>
                     </Box>
-                    <Text fontSize="12px" fontWeight={500} color="#0C111D">
-                      Your {text} does not give us access to your bank account,
-                      transactions or any other information.
-                    </Text>
-                    <Text fontSize="12px" fontWeight={500} color="#0C111D">
-                      Your data is safe with us and we will not share your data
-                      with anyone
-                    </Text>
                   </Stack>
                 )}
               </Box>
@@ -430,35 +440,27 @@ export default function Signup() {
                 </Flex>
                 {questTwo && (
                   <Stack p="12px" spacing="12px">
-                    <Text fontSize="12px" fontWeight={400} color={"#667085"}>
-                      This will work only if you are making the request from the
-                      same phone number currently linked to your bank account.
-                    </Text>
                     <Box
                       bg={"#F2F4F7"}
                       border={"1px solid #EAECF0"}
                       borderRadius={"8px"}
                       p={"12px"}
                     >
-                      <Text
-                        fontSize={"16px"}
-                        fontWeight={700}
-                        color={"#0C111D"}
-                      >
-                        Just dial the USSD code below
-                      </Text>
-                      <Divider mt={"12px"} mb={"12px"} />
                       <Flex justifyContent={"space-between"}>
                         <Text
                           fontSize={"16px"}
                           fontWeight={700}
                           color={"#0C111D"}
                         >
-                          *565*0#
+                          Dial *565*0#
                         </Text>
                         <img src={getImageUrl("icons/blackCall.png")} />
                       </Flex>
                     </Box>
+                    <Text fontSize="12px" fontWeight={400} color={"#667085"}>
+                      This will work only if you are making the request from the
+                      same phone number currently linked to your bank account.
+                    </Text>
                     <Text fontSize={"12px"} fontWeight={400} color={"#F79009"}>
                       <b>Note:</b> A service fee of ₦20 is charged by your
                       network provider.
@@ -473,26 +475,26 @@ export default function Signup() {
                 <Text
                   w={"fit-content"}
                   fontSize={"14px"}
-                  fontWeight={500}
+                  fontWeight={600}
                   color={"#A41857"}
                   cursor={"pointer"}
                   onClick={() => changeOverN()}
                   _hover={{ textDecoration: "underline" }}
                 >
-                  Don&apos;t have a BVN?
+                  No BVN? Use your NIN instead.
                 </Text>
               )}
               {!isBVN && (
                 <Text
                   w={"fit-content"}
                   fontSize={"14px"}
-                  fontWeight={500}
+                  fontWeight={600}
                   color={"#A41857"}
                   cursor={"pointer"}
                   onClick={() => changeOverB()}
                   _hover={{ textDecoration: "underline" }}
                 >
-                  Don&apos;t have a NIN?
+                  No NIN? Use your BVN instead.
                 </Text>
               )}
             </Box>
@@ -516,7 +518,7 @@ export default function Signup() {
                     I accept the terms and conditions
                   </Text>
                   <Text fontSize={"14px"} fontWeight={400} color={"#475467"}>
-                    You acknowledge that you have read this Terms & Conditions
+                    You acknowledge that you have read this <a className={styles.link} onClick={()=>onOpenTandC()}>Terms & Conditions </a>
                     and agree to all its term.
                   </Text>
                 </Stack>
@@ -524,7 +526,7 @@ export default function Signup() {
             </FormControl>
             <Stack pt={4}>
               <Button
-                // isDisabled={!checked || (!bvn && !nin)}
+                isDisabled={!checked || (bvn.length <= 10 && nin.length <= 10) || !(bvn || nin)}
                 isLoading={isLoading}
                 rounded={"8px"}
                 py={"26px"}
@@ -546,6 +548,26 @@ export default function Signup() {
               Already have an account? <a href="/signin">Sign in</a>
               <div className={styles.line} />
             </div>
+
+            <Flex
+              mt="24px"
+              pb='12px'
+              alignItems="center"
+              justifyContent="space-between"
+              flexDirection={{base: 'column', md: 'row'}}
+            >
+              <Text fontSize="14px" color="#344054">
+                © 2024 ARM MFB by ARM Group. All rights reserved.
+              </Text>
+              <Text
+                fontSize="14px"
+                color="#344054"
+                cursor="pointer"
+                _hover={{ textDecoration: "underline" }}
+              >
+                Help Center
+              </Text>
+            </Flex>
           </Stack>
         </Box>
       </Box>
@@ -555,6 +577,21 @@ export default function Signup() {
         email={email}
         isOpen={isOpenConfirm}
         onClose={onCloseConfirm}
+      />
+
+      <CookiesModal
+        isOpen={isOpenCookies}
+        close={onCloseCookies}
+      />
+
+      <PrivacyPolicyModal
+        isOpen={isOpenPP}
+        close={onClosePP}
+      />
+
+      <TermsAndConditionsModal
+        isOpen={isOpenTandC}
+        close={onCloseTandC}
       />
     </>
   );

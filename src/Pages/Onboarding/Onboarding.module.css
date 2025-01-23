@@ -14,9 +14,11 @@
     margin-top: 16px;
     gap: 8px;
 }
-.signUp a {
+.signUp a,
+.link {
     color: #A41857;
     font-weight: 500;
+    cursor: pointer;
 }
 .signUp a:hover {
     text-decoration: underline;

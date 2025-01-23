@@ -11,7 +11,7 @@ export const TransactionPIN = ({ proceed, moveToSetup }) => {
   const [stepOne, setStepOne] = useState(true);
   const [stepTwo, setStepTwo] = useState(false);
   const [pin, setPin] = useState("");
-  const { accountBalance } = useSelector((state) => state.user);
+  const { casaAccountBalances } = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
 
   const moveToOne = () => {
@@ -28,13 +28,13 @@ export const TransactionPIN = ({ proceed, moveToSetup }) => {
 
   const createPin = async (e) => {
     setLoading(true);
+    console.log("pin", pin);
     try {
-      const response = await userService.setTransactionPin({
-        accountnumber: accountBalance[0].accountnumber,
+      await userService.setTransactionPin({
+        accountnumber: casaAccountBalances[0]?.accountnumber,
         transactionpin: pin,
         renter_Transactionpin: e,
       });
-      console.log(response);
       setLoading(false);
       proceed();
     } catch (error) {
@@ -67,7 +67,7 @@ export const TransactionPIN = ({ proceed, moveToSetup }) => {
             <Text
               flex="95%"
               textAlign="center"
-              fontSize={{base: "14px", md: "18px"}}
+              fontSize={{ base: "14px", md: "18px" }}
               fontWeight={600}
               color="#101828"
             >
@@ -75,7 +75,7 @@ export const TransactionPIN = ({ proceed, moveToSetup }) => {
             </Text>
             <Text
               flex="5%"
-              fontSize={{base: "14px", md: "18px"}}
+              fontSize={{ base: "14px", md: "18px" }}
               fontWeight={600}
               color="#101828"
               textAlign="right"
@@ -93,11 +93,19 @@ export const TransactionPIN = ({ proceed, moveToSetup }) => {
             py="16px"
             pb="114px"
           >
-            <Text fontSize={{base: "12px", md: "16px"}} color="#667085" textAlign="center">
+            <Text
+              fontSize={{ base: "12px", md: "16px" }}
+              color="#667085"
+              textAlign="center"
+            >
               Secure your account with 4 digits PIN
             </Text>
 
-            <Stack w={{base: "90%", md: "50%"}} spacing="12px" alignItems="center">
+            <Stack
+              w={{ base: "90%", md: "50%" }}
+              spacing="12px"
+              alignItems="center"
+            >
               <Text
                 alignSelf="start"
                 fontSize="14px"
@@ -110,7 +118,7 @@ export const TransactionPIN = ({ proceed, moveToSetup }) => {
               <OtpInput
                 size={"lg"}
                 length={4}
-                width={{base: "100%", md: 110}}
+                width={{ base: "100%", md: 110 }}
                 height={"75px"}
                 setOtp={(e) => setPin(e)}
               />
@@ -118,7 +126,7 @@ export const TransactionPIN = ({ proceed, moveToSetup }) => {
 
             <Button
               mt="16px"
-              w={{base: "90%", md: "75%"}}
+              w={{ base: "90%", md: "75%" }}
               h="48px"
               bg="#A41856"
               _hover={{ bg: "#90164D" }}

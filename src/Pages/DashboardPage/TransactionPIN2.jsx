@@ -13,7 +13,7 @@ export const TransactionPIN2 = ({ moveToOne, moveToSecurity, loading }) => {
         <HStack
           bg={"#EAECF0"}
           justifyContent={"space-between"}
-          px={{base: "14px", md: "26px"}}
+          px={{ base: "14px", md: "26px" }}
           py={"14px"}
           borderRadius={"12px 12px 0 0"}
           gap={0}
@@ -27,10 +27,19 @@ export const TransactionPIN2 = ({ moveToOne, moveToSecurity, loading }) => {
           >
             <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
           </Button>
-          <Text textAlign="center" fontSize={{base: "14px", md: "18px"}} fontWeight={600} color={"#101828"}>
+          <Text
+            textAlign="center"
+            fontSize={{ base: "14px", md: "18px" }}
+            fontWeight={600}
+            color={"#101828"}
+          >
             Repeat Transaction PIN
           </Text>
-          <Text fontSize={{base: "14px", md: "18px"}} fontWeight={600} color={"#101828"}>
+          <Text
+            fontSize={{ base: "14px", md: "18px" }}
+            fontWeight={600}
+            color={"#101828"}
+          >
             2/3
           </Text>
         </HStack>
@@ -44,28 +53,47 @@ export const TransactionPIN2 = ({ moveToOne, moveToSecurity, loading }) => {
           py={"16px"}
           pb={"114px"}
         >
-          <Text fontSize={{base: "14px", md: "16px"}} color={"#667085"} textAlign={"center"}>
+          <Text
+            fontSize={{ base: "14px", md: "16px" }}
+            color={"#667085"}
+            textAlign={"center"}
+          >
             Enter 4 digits PIN again
           </Text>
 
-          <OtpInput
-            size={"lg"}
-            length={4}
-            width={{base: "100%", md: 110}}
-            height={"75px"}
-            setOtp={(e) => setPin(e)}
-          />
+          <Stack
+            w={{ base: "90%", md: "50%" }}
+            spacing="12px"
+            alignItems="center"
+          >
+            <Text
+              alignSelf="start"
+              fontSize="14px"
+              fontWeight={500}
+              color="#394455"
+            >
+              Re-enter PIN
+            </Text>
+
+            <OtpInput
+              size={"lg"}
+              length={4}
+              width={{ base: "100%", md: 110 }}
+              height={"75px"}
+              setOtp={(e) => setPin(e)}
+            />
+          </Stack>
 
           <Button
             mt="16px"
-            w={{base: "90%", md: "75%"}}
+            w={{ base: "90%", md: "75%" }}
             h="48px"
             bg="#A41856"
             _hover={{ bg: "#90164D" }}
             color="#FFFFFF"
             fontSize="14px"
             fontWeight={600}
-            onClick={()=>moveToSecurity(pin)}
+            onClick={() => moveToSecurity(pin)}
             isDisabled={pin.length != 4}
             isLoading={loading}
           >

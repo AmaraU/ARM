@@ -45,31 +45,31 @@ export const VerifyNumber = () => {
     }
   }, [timeLeft]);
 
-  // const handleVerifyPopup = async () => {
-  //   setLoading(true);
-  //   try {
-  //     await authService.verifyOtp({
-  //       otp: otp,
-  //       phoneNumber: auth?.phoneNumber,
-  //     });
+  const handleVerifyPopup = async () => {
+    setLoading(true);
+    try {
+      await authService.verifyOtp({
+        otp: otp,
+        phoneNumber: auth?.altPhoneNumber
+          ? auth?.altPhoneNumber
+          : auth?.phoneNumber,
+      });
 
-  //     onOpenConfirm();
-  //     setLoading(true);
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.log(error);
-  //   }
-  // };
-
-  const handleVerifyPopup = () => {
-    onOpenConfirm();
+      onOpenConfirm();
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
 
   const resendOtp = async () => {
     try {
       setTimeLeft(30);
       await authService.sendOtp({
-        phoneOrAccountnumber: auth?.phoneNumber,
+        phoneOrAccountnumber: auth?.altPhoneNumber
+          ? auth?.altPhoneNumber
+          : auth?.phoneNumber,
         email: auth?.email,
       });
       handleSuccess("Otp resent successfully");
@@ -109,7 +109,7 @@ export const VerifyNumber = () => {
           Verify your phone number
         </Text>
         <Text fontSize={{base: "14px", md: "18px"}} fontWeight={400} color={"#667085"}>
-          Kindly enter the 6-digits OTP we sent to{" "}
+          Kindly enter the 6-digit OTP we sent to{" "}
           <b>
             {formatNumberStar(
               auth?.altPhoneNumber ? auth?.altPhoneNumber : auth?.phoneNumber

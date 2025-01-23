@@ -10,21 +10,28 @@ function OnboardingScreens() {
     const navigate = useNavigate()
 
     const changingText = [
-        {
-            image: 'signin1.png',
-            header: "Bank smarter, live better with ARM MFB",
-            subheading: "Managing your money is what we do and we are really good at it."
-        },
-        {
-            image: 'signin2.png',
-            header: "Manage your money anywhere, anytime",
-            subheading: "Gain access to your account with a tap"
-        },
-        {
-            image: 'signin3.png',
-            header: "Stay on top of your money",
-            subheading: "ARM MFB provides you the ability to maintain control over your finances"
-        }
+      {
+        image: "slides1.jpg",
+        header: "Bank smarter, live better with ARM MFB",
+        subheading:
+          "Managing your money is what we do and we are really good at it.",
+      },
+      {
+        image: "slides2.jpeg",
+        header: "Manage your money anywhere, anytime",
+        subheading: "Gain access to your account with a tap",
+      },
+      {
+        image: "slides3.jpeg",
+        header: "Stay on top of your money",
+        subheading:
+          "ARM MFB provides you the ability to maintain control over your finances",
+      },
+      {
+        image: "slides4.jpeg",
+        header: "Manage your money anywhere, anytime",
+        subheading: "Gain access to your account with a tap",
+      },
     ];
 
     useEffect(() => {
@@ -104,25 +111,6 @@ function OnboardingScreens() {
                   transition={"width 1s ease-in-out"}
                 />
               ))}
-            </Flex>
-
-            <Flex
-              mt={24}
-              bottom={"20%"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
-            >
-              <Text fontSize={"14px"} color={"#EFECE9"}>
-                © 2024 ARM MFB by ARM Group. All rights reserved.
-              </Text>
-              <Text
-                fontSize={"14px"}
-                color={"#EFECE9"}
-                cursor={"pointer"}
-                _hover={{ textDecoration: "underline" }}
-              >
-                Help Center
-              </Text>
             </Flex>
           </Flex>
         </Stack>

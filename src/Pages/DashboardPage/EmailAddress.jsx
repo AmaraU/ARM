@@ -13,6 +13,7 @@ import { getImageUrl } from "../../../utils";
 import { useState } from "react";
 import OtpInput from "../../elements/PinInput";
 import userService from "../../services/userService";
+import SuccessScreen from "../../elements/SuccessScreen";
 
 export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
   const [step, setStep] = useState(1);
@@ -41,7 +42,7 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
         otpNumber: otp,
         EmailAddress: email,
       });
-      moveToSetup();
+      setStep(3);
     } catch (error) {
       console.log(error);
     } finally {
@@ -75,10 +76,19 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
           >
             <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
           </Button>
-          <Text textAlign="center" fontSize={{base: "14px", md: "18px"}} fontWeight={600} color={"#101828"}>
-            Email Address
+          <Text
+            textAlign="center"
+            fontSize={{ base: "14px", md: "18px" }}
+            fontWeight={600}
+            color={"#101828"}
+          >
+            {step !== 3 ? "Email Address" : "Account Setup Complete"}
           </Text>
-          <Text fontSize={{base: "14px", md: "18px"}} fontWeight={600} color={"#101828"}>
+          <Text
+            fontSize={{ base: "14px", md: "18px" }}
+            fontWeight={600}
+            color={"#101828"}
+          >
             3/3
           </Text>
         </HStack>
@@ -93,12 +103,20 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
             py={"16px"}
             pb={"114px"}
           >
-            <Text fontSize={{base: "14px", md: "16px"}} color={"#667085"} textAlign={"center"}>
+            <Text
+              fontSize={{ base: "14px", md: "16px" }}
+              color={"#667085"}
+              textAlign={"center"}
+            >
               A 6-digit code will be sent to your email to validate it
             </Text>
 
-            <FormControl w={{base: "100%", md: "80%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "80%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Email Address
               </FormLabel>
               <Input
@@ -106,7 +124,7 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
                 h="48px"
                 bg="#F7F7F7"
                 border="1px solid #EAECF0"
-                fontSize={{base: "14px", md: "16px"}}
+                fontSize={{ base: "14px", md: "16px" }}
                 color="#101828"
                 value={email}
                 disabled
@@ -116,7 +134,7 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
 
             <Button
               mt="16px"
-              w={{base: "100%", md: "80%"}}
+              w={{ base: "100%", md: "80%" }}
               h="48px"
               bg="#A41856"
               _hover={{ bg: "#90164D" }}
@@ -139,7 +157,7 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
               </Text>
               <OtpInput
                 length={6}
-                width={{base: "100%", md: 110}}
+                width={{ base: "100%", md: 110 }}
                 height={"75px"}
                 setOtp={setOtp}
               />
@@ -147,7 +165,7 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
               <Button
                 mt="16px"
                 h="48px"
-                w={{base: "100%", md: "80%"}}
+                w={{ base: "100%", md: "80%" }}
                 bg="#A41856"
                 _hover={{ bg: "#90164D" }}
                 color="#FFFFFF"
@@ -158,11 +176,22 @@ export const EmailAddress = ({ moveToSetup, email, phoneNumber }) => {
                 alignContent={"center"}
                 justifyContent={"center"}
                 textAlign={"center"}
-                isDisabled = {otp.length !== 6 }
+                isDisabled={otp.length !== 6}
               >
                 Complete
               </Button>
             </Stack>
+          </Stack>
+        )}
+
+        {step == 3 && (
+          <Stack py={"5"} px={"5"} display={"flex"} justifyContent={"center"}>
+            <SuccessScreen
+              title={"Success"}
+              description={"You have successfully completed your account setup"}
+              buttonTitle={"Proceed"}
+              handleClick={() => (window.location.href = "/overview/dashboard")}
+            />
           </Stack>
         )}
       </Box>

@@ -112,13 +112,13 @@ export const TransferToOthers = ({
     console.log(e.target.value);
     setAccountNumber(e.target.value);
     setSaveBeneficiary(false);
-    if (e.target.value.length !== 9) {
+    if (e.target.value.length < 9) {
       return;
     }
     try {
       setCheckingAccount(true);
       const response = await transferService.accountInquiry({
-        AccountNumber: accountNumber,
+        AccountNumber: e.target.value,
         BankCode: bank,
       });
       setShowName(true);
@@ -153,20 +153,20 @@ export const TransferToOthers = ({
 
   const completeTransaction = async (e) => {
     const { pin } = e;
-    console.log(accountNumber);
-
+   
     const payload = await encrypt({
       amount,
       acct_number: casaAccountBalances[0]?.accountnumber,
       recipient_account: accountNumber
         ? accountNumber
         : selectedBeneficiary?.beneficiaryAccount,
-      recipient_name: recipient?.acctName
-        ? recipient?.acctName
+      recipient_name: recipient?.accountName
+        ? recipient?.accountName
         : selectedBeneficiary.beneficiaryFullName,
       bank_name: recipient?.bankName,
       pin,
       username,
+      type:"1"
     });
 
     try {
@@ -203,17 +203,26 @@ export const TransferToOthers = ({
           <HStack
             bg={"#EAECF0"}
             justifyContent={"space-between"}
-            px={{base: "14px", md: "26px"}}
+            px={{ base: "14px", md: "26px" }}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
             <Button h={"24px"} bg={"#EAECF0"} p={0} _hover={{ bg: "#EAECF0" }}>
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text textAlign="center" fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
+            <Text
+              textAlign="center"
+              fontSize={{ base: "16px", md: "18px" }}
+              fontWeight={600}
+              color={"#101828"}
+            >
               Transfer to Others
             </Text>
-            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
+            <Text
+              fontSize={{ base: "16px", md: "18px" }}
+              fontWeight={600}
+              color={"#101828"}
+            >
               1/3
             </Text>
           </HStack>
@@ -227,21 +236,29 @@ export const TransferToOthers = ({
             pb={"114px"}
             px="12px"
           >
-            <Text fontSize={{base: "14px", md: "16px"}} color={"#667085"} textAlign={"center"}>
+            <Text
+              fontSize={{ base: "14px", md: "16px" }}
+              color={"#667085"}
+              textAlign={"center"}
+            >
               Input the transaction details below
             </Text>
 
             {noOfAccounts > 1 ? (
               <>
-                <FormControl w={{base: "100%", md: "75%"}} isRequired>
-                  <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormControl w={{ base: "100%", md: "75%" }} isRequired>
+                  <FormLabel
+                    fontSize={{ base: "14px", md: "16px" }}
+                    fontWeight={400}
+                    color="#101828"
+                  >
                     Account to Debit
                   </FormLabel>
                   <Select
                     h={"48px"}
                     bg={"#F7F7F7"}
                     border={"1px solid #EAECF0"}
-                    fontSize={{base: "14px", md: "16px"}}
+                    fontSize={{ base: "14px", md: "16px" }}
                     placeholder="Select account"
                     _placeholder={{ color: "#667085" }}
                     onChange={(e) => setAccountToDebit(e.target.value)}
@@ -256,8 +273,12 @@ export const TransferToOthers = ({
                   </Select>
                 </FormControl>
 
-                <FormControl w={{base: "100%", md: "75%"}} isRequired>
-                  <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormControl w={{ base: "100%", md: "75%" }} isRequired>
+                  <FormLabel
+                    fontSize={{ base: "14px", md: "16px" }}
+                    fontWeight={400}
+                    color="#101828"
+                  >
                     Bank Name
                   </FormLabel>
                   <Select
@@ -268,18 +289,22 @@ export const TransferToOthers = ({
                     _placeholder={{ fontSize: "16px", color: "#667085" }}
                     onChange={(e) => setBank(e.target.value)}
                   >
-                    {/* {banks &&
+                    {banks &&
                       banks.map((bank, i) => (
                         <option key={i} value={bank.bankCode}>
                           {" "}
                           {bank.bankName}{" "}
                         </option>
-                      ))} */}
+                      ))}
                   </Select>
                 </FormControl>
 
-                <FormControl w={{base: "100%", md: "75%"}} isRequired>
-                  <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormControl w={{ base: "100%", md: "75%" }} isRequired>
+                  <FormLabel
+                    fontSize={{ base: "14px", md: "16px" }}
+                    fontWeight={400}
+                    color="#101828"
+                  >
                     Account Number
                   </FormLabel>
                   <InputGroup>
@@ -289,7 +314,7 @@ export const TransferToOthers = ({
                       h="48px"
                       bg="#F7F7F7"
                       border="1px solid #EAECF0"
-                      fontSize={{base: "14px", md: "16px"}}
+                      fontSize={{ base: "14px", md: "16px" }}
                       placeholder="Input acount number"
                       _placeholder={{ color: "#667085" }}
                       autoComplete="off"
@@ -303,11 +328,14 @@ export const TransferToOthers = ({
                 </FormControl>
 
                 {!showName && (
-                  <HStack w={{base: "100%", md: "75%"}} onClick={selectBeneficiary}>
+                  <HStack
+                    w={{ base: "100%", md: "75%" }}
+                    onClick={selectBeneficiary}
+                  >
                     <img src={getImageUrl("icons/nav/profileGrey.png")} />
                     <Text
                       cursor="pointer"
-                      fontSize={{base: "12px", md: "14px"}}
+                      fontSize={{ base: "12px", md: "14px" }}
                       fontWeight={500}
                       color="#A41857"
                     >
@@ -316,10 +344,9 @@ export const TransferToOthers = ({
                   </HStack>
                 )}
 
-
                 {showName && (
                   <HStack
-                    w={{base: "100%", md: "75%"}}
+                    w={{ base: "100%", md: "75%" }}
                     p="12px"
                     bg="#EFECE9"
                     border="1px solid #EAECF0"
@@ -330,10 +357,18 @@ export const TransferToOthers = ({
                       src={getImageUrl("icons/nav/profileGrey.png")}
                     />
                     <Stack gap={0}>
-                      <Text fontSize={{base: "8px", md: "10px"}} fontWeight={500} color="#667085">
+                      <Text
+                        fontSize={{ base: "8px", md: "10px" }}
+                        fontWeight={500}
+                        color="#667085"
+                      >
                         BENEFICIARY NAME
                       </Text>
-                      <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#101828">
+                      <Text
+                        fontSize={{ base: "12px", md: "14px" }}
+                        fontWeight={500}
+                        color="#101828"
+                      >
                         {recipient?.accountName}
                       </Text>
                     </Stack>
@@ -341,8 +376,15 @@ export const TransferToOthers = ({
                 )}
 
                 {showName && (
-                  <HStack w={{base: "100%", md: "75%"}} justifyContent="space-between">
-                    <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#667085">
+                  <HStack
+                    w={{ base: "100%", md: "75%" }}
+                    justifyContent="space-between"
+                  >
+                    <Text
+                      fontSize={{ base: "12px", md: "14px" }}
+                      fontWeight={500}
+                      color="#667085"
+                    >
                       Save as Beneficiary
                     </Text>
 
@@ -362,7 +404,7 @@ export const TransferToOthers = ({
             ) : (
               <>
                 <Stack
-                  w={{base: "100%", md: "75%"}}
+                  w={{ base: "100%", md: "75%" }}
                   backgroundColor="#000000"
                   backgroundImage={getImageUrl("backgroundGrey.png")}
                   bgSize="100% 100%"
@@ -370,17 +412,28 @@ export const TransferToOthers = ({
                   p="14px"
                   pt="24px"
                   justifyContent="space-between"
-                  flexDirection={{base: "column-reverse", md: "row"}}
+                  flexDirection={{ base: "column-reverse", md: "row" }}
                 >
                   <Box>
-                    <Text fontSize={{base: "12px", md: "14px"}} fontWeight={400} color="#FFFFFF">
+                    <Text
+                      fontSize={{ base: "12px", md: "14px" }}
+                      fontWeight={400}
+                      color="#FFFFFF"
+                    >
                       Total Available Balance
                     </Text>
                     <HStack ml="-1px" spacing={0}>
-                      <Box fontSize={{base: "20px", md: "22px"}} color="#FFFFFF">
+                      <Box
+                        fontSize={{ base: "20px", md: "22px" }}
+                        color="#FFFFFF"
+                      >
                         <TbCurrencyNaira />
                       </Box>
-                      <Text fontSize={{base: "14px", md: "18px"}} fontWeight={600} color="#FFFFFF">
+                      <Text
+                        fontSize={{ base: "14px", md: "18px" }}
+                        fontWeight={600}
+                        color="#FFFFFF"
+                      >
                         {totalBalanceVisible ? `${1234568}` : hideBalance()}
                       </Text>
                       <Box pl={3} cursor="pointer">
@@ -409,15 +462,19 @@ export const TransferToOthers = ({
                     py="8px"
                     bg="#2C323A"
                     color="#FFFFFF"
-                    fontSize={{base: "8px", md: "10px"}}
+                    fontSize={{ base: "8px", md: "10px" }}
                     fontWeight={500}
                   >
                     Tier 1 Savings Account
                   </Box>
                 </Stack>
 
-                <FormControl w={{base: "100%", md: "75%"}} isRequired>
-                  <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormControl w={{ base: "100%", md: "75%" }} isRequired>
+                  <FormLabel
+                    fontSize={{ base: "14px", md: "16px" }}
+                    fontWeight={400}
+                    color="#101828"
+                  >
                     Bank Name
                   </FormLabel>
                   <Select
@@ -428,28 +485,32 @@ export const TransferToOthers = ({
                     _placeholder={{ fontSize: "16px", color: "#667085" }}
                     onChange={(e) => setBank(e.target.value)}
                   >
-                    {/* {banks &&
+                    {banks &&
                       banks.map((bank, i) => (
                         <option key={i} value={bank.bankCode}>
                           {" "}
                           {bank.bankName}{" "}
                         </option>
-                      ))} */}
+                      ))}
                   </Select>
                 </FormControl>
 
-                <FormControl w={{base: "100%", md: "75%"}} isRequired>
-                  <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+                <FormControl w={{ base: "100%", md: "75%" }} isRequired>
+                  <FormLabel
+                    fontSize={{ base: "14px", md: "16px" }}
+                    fontWeight={400}
+                    color="#101828"
+                  >
                     Account Number
                   </FormLabel>
                   <InputGroup>
                     <Input
-                      onKeyPress={checkAccount}
+                      onInput={checkAccount}
                       type="number"
                       h="48px"
                       bg="#F7F7F7"
                       border="1px solid #EAECF0"
-                      fontSize={{base: "14px", md: "16px"}}
+                      fontSize={{ base: "14px", md: "16px" }}
                       placeholder="Input acount number"
                       _placeholder={{ color: "#667085" }}
                       autoComplete="off"
@@ -464,7 +525,7 @@ export const TransferToOthers = ({
 
                 {showName && (
                   <HStack
-                    w={{base: "100%", md: "75%"}}
+                    w={{ base: "100%", md: "75%" }}
                     p="12px"
                     bg="#EFECE9"
                     border="1px solid #EAECF0"
@@ -475,10 +536,18 @@ export const TransferToOthers = ({
                       src={getImageUrl("icons/nav/profileGrey.png")}
                     />
                     <Stack gap={0}>
-                      <Text fontSize={{base: "8px", md: "10px"}} fontWeight={500} color="#667085">
+                      <Text
+                        fontSize={{ base: "8px", md: "10px" }}
+                        fontWeight={500}
+                        color="#667085"
+                      >
                         BENEFICIARY NAME
                       </Text>
-                      <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#101828">
+                      <Text
+                        fontSize={{ base: "12px", md: "14px" }}
+                        fontWeight={500}
+                        color="#101828"
+                      >
                         {recipient?.accountName}
                       </Text>
                     </Stack>
@@ -486,11 +555,14 @@ export const TransferToOthers = ({
                 )}
 
                 {!showName && (
-                  <HStack w={{base: "100%", md: "75%"}} onClick={selectBeneficiary}>
+                  <HStack
+                    w={{ base: "100%", md: "75%" }}
+                    onClick={selectBeneficiary}
+                  >
                     <img src={getImageUrl("icons/nav/profileGrey.png")} />
                     <Text
                       cursor="pointer"
-                      fontSize={{base: "12px", md: "14px"}}
+                      fontSize={{ base: "12px", md: "14px" }}
                       fontWeight={500}
                       color="#A41857"
                     >
@@ -500,8 +572,15 @@ export const TransferToOthers = ({
                 )}
 
                 {showName && (
-                  <HStack w={{base: "100%", md: "75%"}} justifyContent="space-between">
-                    <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#667085">
+                  <HStack
+                    w={{ base: "100%", md: "75%" }}
+                    justifyContent="space-between"
+                  >
+                    <Text
+                      fontSize={{ base: "12px", md: "14px" }}
+                      fontWeight={500}
+                      color="#667085"
+                    >
                       Save as Beneficiary
                     </Text>
                     <Switch
@@ -519,7 +598,7 @@ export const TransferToOthers = ({
 
             <Button
               mt={"16px"}
-              w={{base: "100%", md: "75%"}}
+              w={{ base: "100%", md: "75%" }}
               h={"48px"}
               bg={"#A41856"}
               _hover={{ bg: "#90164D" }}
@@ -527,7 +606,7 @@ export const TransferToOthers = ({
               fontSize={"14px"}
               fontWeight={600}
               onClick={moveToTwo}
-              isDisabled={!accountNumber || !bank || !accountToDebit}
+              isDisabled={!recipient || !bank || !accountToDebit}
             >
               Continue
             </Button>
@@ -540,7 +619,7 @@ export const TransferToOthers = ({
           <HStack
             bg={"#EAECF0"}
             justifyContent={"space-between"}
-            px={{base: "14px", md: "26px"}}
+            px={{ base: "14px", md: "26px" }}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
@@ -553,10 +632,19 @@ export const TransferToOthers = ({
             >
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text textAlign="center" fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
+            <Text
+              textAlign="center"
+              fontSize={{ base: "16px", md: "18px" }}
+              fontWeight={600}
+              color={"#101828"}
+            >
               Transfer to Others
             </Text>
-            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
+            <Text
+              fontSize={{ base: "16px", md: "18px" }}
+              fontWeight={600}
+              color={"#101828"}
+            >
               2/3
             </Text>
           </HStack>
@@ -570,11 +658,15 @@ export const TransferToOthers = ({
             pb={"114px"}
             px="12px"
           >
-            <Text fontSize={{base: "14px", md: "16px"}} color={"#667085"} textAlign={"center"}>
+            <Text
+              fontSize={{ base: "14px", md: "16px" }}
+              color={"#667085"}
+              textAlign={"center"}
+            >
               Input the transaction details below
             </Text>
             <HStack
-              w={{base: "100%", md: "75%"}}
+              w={{ base: "100%", md: "75%" }}
               backgroundColor={"#000000"}
               backgroundImage={getImageUrl("backgroundGrey.png")}
               bgSize={"100% 100%"}
@@ -582,17 +674,25 @@ export const TransferToOthers = ({
               p={"14px"}
               pt={"24px"}
               justifyContent={"space-between"}
-              flexDirection={{base: "column-reverse", md: "row"}}
+              flexDirection={{ base: "column-reverse", md: "row" }}
             >
               <Box>
-                <Text fontSize={{base: "12px", md: "14px"}} fontWeight={400} color={"#FFFFFF"}>
+                <Text
+                  fontSize={{ base: "12px", md: "14px" }}
+                  fontWeight={400}
+                  color={"#FFFFFF"}
+                >
                   Total Available Balance
                 </Text>
                 <HStack ml={"-1px"} spacing={0}>
-                  <Box fontSize={{base: "18px", md: "20px"}} color="#FFFFFF">
+                  <Box fontSize={{ base: "18px", md: "20px" }} color="#FFFFFF">
                     <TbCurrencyNaira />
                   </Box>
-                  <Text fontSize={{base: "14px", md: "18px"}} fontWeight={600} color="#FFFFFF">
+                  <Text
+                    fontSize={{ base: "14px", md: "18px" }}
+                    fontWeight={600}
+                    color="#FFFFFF"
+                  >
                     {totalBalanceVisible
                       ? `${formatNumberDec(
                           accounts[0] && accounts[0].bookBalance
@@ -625,7 +725,7 @@ export const TransferToOthers = ({
                 py="8px"
                 bg="#2C323A"
                 color="#FFFFFF"
-                fontSize={{base: "8px", md: "10px"}}
+                fontSize={{ base: "8px", md: "10px" }}
                 fontWeight={500}
               >
                 Tier 1 Savings Account
@@ -633,7 +733,7 @@ export const TransferToOthers = ({
             </HStack>
 
             <Box
-              w={{base: "100%", md: "75%"}}
+              w={{ base: "100%", md: "75%" }}
               p="12px"
               bg="#F7F7F7"
               border="1px solid #EAECF0"
@@ -645,10 +745,18 @@ export const TransferToOthers = ({
                   src={getImageUrl("icons/greyBank.png")}
                 />
                 <Stack gap={0}>
-                  <Text fontSize={{base: "8px", md: "10px"}} fontWeight={500} color="#667085">
+                  <Text
+                    fontSize={{ base: "8px", md: "10px" }}
+                    fontWeight={500}
+                    color="#667085"
+                  >
                     BENEFICIARY ACCOUNT NUMBER
                   </Text>
-                  <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#101828">
+                  <Text
+                    fontSize={{ base: "12px", md: "14px" }}
+                    fontWeight={500}
+                    color="#101828"
+                  >
                     {bankName} - {recipient?.accountNumber}
                   </Text>
                 </Stack>
@@ -659,18 +767,30 @@ export const TransferToOthers = ({
               <HStack>
                 <img src={getImageUrl("icons/nav/profileGrey.png")} />
                 <Stack gap={0}>
-                  <Text fontSize={{base: "8px", md: "10px"}} fontWeight={500} color="#667085">
+                  <Text
+                    fontSize={{ base: "8px", md: "10px" }}
+                    fontWeight={500}
+                    color="#667085"
+                  >
                     BENEFICIARY NAME
                   </Text>
-                  <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#101828">
+                  <Text
+                    fontSize={{ base: "12px", md: "14px" }}
+                    fontWeight={500}
+                    color="#101828"
+                  >
                     {recipient?.accountName}
                   </Text>
                 </Stack>
               </HStack>
             </Box>
 
-            <FormControl w={{base: "100%", md: "75%"}} isRequired>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "75%" }} isRequired>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Amount
               </FormLabel>
               <InputGroup>
@@ -682,7 +802,7 @@ export const TransferToOthers = ({
                   h="48px"
                   bg="#F7F7F7"
                   border="1px solid #EAECF0"
-                  fontSize={{base: "14px", md: "16px"}}
+                  fontSize={{ base: "14px", md: "16px" }}
                   placeholder="Enter amount"
                   _placeholder={{ color: "#667085" }}
                   autoComplete="off"
@@ -691,16 +811,24 @@ export const TransferToOthers = ({
               </InputGroup>
             </FormControl>
 
-            <Stack w={{base: "100%", md: "75%"}} justifyContent="space-between" direction={{base: "column", md: "row"}}>
+            <Stack
+              w={{ base: "100%", md: "75%" }}
+              justifyContent="space-between"
+              direction={{ base: "column", md: "row" }}
+            >
               <HStack>
                 <img src={getImageUrl("icons/warning.png")} alt="" />
-                <Text fontSize={{base: "12px", md: "14px"}} fontWeight={500} color="#667085">
+                <Text
+                  fontSize={{ base: "12px", md: "14px" }}
+                  fontWeight={500}
+                  color="#667085"
+                >
                   Your daily transfer limit is N200,000
                 </Text>
               </HStack>
               <Text
                 cursor="pointer"
-                fontSize={{base: "12px", md: "14px"}}
+                fontSize={{ base: "12px", md: "14px" }}
                 fontWeight={500}
                 color="#A41857"
               >
@@ -708,15 +836,19 @@ export const TransferToOthers = ({
               </Text>
             </Stack>
 
-            <FormControl w={{base: "100%", md: "75%"}}>
-              <FormLabel fontSize={{base: "14px", md: "16px"}} fontWeight={400} color="#101828">
+            <FormControl w={{ base: "100%", md: "75%" }}>
+              <FormLabel
+                fontSize={{ base: "14px", md: "16px" }}
+                fontWeight={400}
+                color="#101828"
+              >
                 Note (Optional)
               </FormLabel>
               <Input
                 h="48px"
                 bg="#F7F7F7"
                 border="1px solid #EAECF0"
-                fontSize={{base: "14px", md: "16px"}}
+                fontSize={{ base: "14px", md: "16px" }}
                 autoComplete="off"
                 onChange={(e) => {
                   setNote(e.target.value);
@@ -726,7 +858,7 @@ export const TransferToOthers = ({
 
             <Button
               mt="16px"
-              w={{base: "100%", md: "75%"}}
+              w={{ base: "100%", md: "75%" }}
               h="48px"
               bg="#A41856"
               _hover={{ bg: "#90164D" }}
@@ -746,7 +878,7 @@ export const TransferToOthers = ({
           <HStack
             bg={"#EAECF0"}
             justifyContent={"space-between"}
-            px={{base: "14px", md: "26px"}}
+            px={{ base: "14px", md: "26px" }}
             py={"14px"}
             borderRadius={"12px 12px 0 0"}
           >
@@ -759,10 +891,19 @@ export const TransferToOthers = ({
             >
               <img src={getImageUrl("icons/blackLeftArrow.png")} alt="back" />
             </Button>
-            <Text textAlign="center" fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
+            <Text
+              textAlign="center"
+              fontSize={{ base: "16px", md: "18px" }}
+              fontWeight={600}
+              color={"#101828"}
+            >
               Complete Transaction
             </Text>
-            <Text fontSize={{base: "16px", md: "18px"}} fontWeight={600} color={"#101828"}>
+            <Text
+              fontSize={{ base: "16px", md: "18px" }}
+              fontWeight={600}
+              color={"#101828"}
+            >
               3/3
             </Text>
           </HStack>
@@ -781,7 +922,7 @@ export const TransferToOthers = ({
 
       <Modal
         isCentered
-        size={{base: "sm", md: "lg"}}
+        size={{ base: "sm", md: "lg" }}
         closeOnOverlayClick={true}
         isOpen={isOpenConfirm}
         onClose={onCloseConfirm}
@@ -791,7 +932,7 @@ export const TransferToOthers = ({
           <ModalHeader>
             <Text
               textAlign="center"
-              fontSize={{base: "16px", md: "18px"}}
+              fontSize={{ base: "16px", md: "18px" }}
               fontWeight={600}
               color="#101828"
             >
@@ -806,10 +947,18 @@ export const TransferToOthers = ({
                 <HStack spacing="8px" alignItems="center">
                   <img src={getImageUrl("icons/greyBank.png")} />
                   <Stack spacing={0}>
-                    <Text fontSize={{base: "12px", md: "14px"}} fontWeight={450} color="#667085">
+                    <Text
+                      fontSize={{ base: "12px", md: "14px" }}
+                      fontWeight={450}
+                      color="#667085"
+                    >
                       BENEFICIARY ACCOUNT NUMBER
                     </Text>
-                    <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#A41856">
+                    <Text
+                      fontSize={{ base: "16px", md: "18px" }}
+                      fontWeight={500}
+                      color="#A41856"
+                    >
                       {bankName} - {recipient?.accountNumber}
                     </Text>
                   </Stack>
@@ -818,10 +967,18 @@ export const TransferToOthers = ({
                 <HStack spacing="8px" alignItems="center">
                   <img src={getImageUrl("icons/nav/profileGrey.png")} />
                   <Stack spacing={0}>
-                    <Text fontSize={{base: "12px", md: "14px"}} fontWeight={450} color="#667085">
+                    <Text
+                      fontSize={{ base: "12px", md: "14px" }}
+                      fontWeight={450}
+                      color="#667085"
+                    >
                       BENEFICIARY NAME
                     </Text>
-                    <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#A41856">
+                    <Text
+                      fontSize={{ base: "16px", md: "18px" }}
+                      fontWeight={500}
+                      color="#A41856"
+                    >
                       {recipient?.accountName}
                     </Text>
                   </Stack>
@@ -830,10 +987,18 @@ export const TransferToOthers = ({
                 <HStack spacing="8px" alignItems="center">
                   <img src={getImageUrl("icons/greyCash.png")} />
                   <Stack spacing={0}>
-                    <Text fontSize={{base: "12px", md: "14px"}} fontWeight={450} color="#667085">
+                    <Text
+                      fontSize={{ base: "12px", md: "14px" }}
+                      fontWeight={450}
+                      color="#667085"
+                    >
                       AMOUNT
                     </Text>
-                    <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#A41856">
+                    <Text
+                      fontSize={{ base: "16px", md: "18px" }}
+                      fontWeight={500}
+                      color="#A41856"
+                    >
                       ₦ {amount}
                     </Text>
                   </Stack>
@@ -842,10 +1007,18 @@ export const TransferToOthers = ({
                 <HStack spacing="8px" alignItems="center">
                   <img src={getImageUrl("icons/greyFees.png")} />
                   <Stack spacing={0}>
-                    <Text fontSize={{base: "12px", md: "14px"}} fontWeight={450} color="#667085">
+                    <Text
+                      fontSize={{ base: "12px", md: "14px" }}
+                      fontWeight={450}
+                      color="#667085"
+                    >
                       FEES
                     </Text>
-                    <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#A41856">
+                    <Text
+                      fontSize={{ base: "16px", md: "18px" }}
+                      fontWeight={500}
+                      color="#A41856"
+                    >
                       ₦10.25
                     </Text>
                   </Stack>
@@ -854,10 +1027,18 @@ export const TransferToOthers = ({
                 <HStack spacing="8px" alignItems="center">
                   <img src={getImageUrl("icons/greyNotes.png")} />
                   <Stack spacing={0}>
-                    <Text fontSize={{base: "12px", md: "14px"}} fontWeight={450} color="#667085">
+                    <Text
+                      fontSize={{ base: "12px", md: "14px" }}
+                      fontWeight={450}
+                      color="#667085"
+                    >
                       NOTES
                     </Text>
-                    <Text fontSize={{base: "16px", md: "18px"}} fontWeight={500} color="#A41856">
+                    <Text
+                      fontSize={{ base: "16px", md: "18px" }}
+                      fontWeight={500}
+                      color="#A41856"
+                    >
                       {note}
                     </Text>
                   </Stack>

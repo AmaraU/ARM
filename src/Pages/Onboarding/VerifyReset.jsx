@@ -103,7 +103,7 @@ export const VerifyReset = () => {
           Verify your Phone Number
         </Text>
         <Text fontSize={{base: "12px", md: "18px"}} fontWeight={400} color={"#667085"}>
-          Kindly enter the 6-digits OTP we sent to{" "}
+          Kindly enter the 6-digit OTP we sent to{" "}
           <b>
             {formatNumberStar(
               auth?.altPhoneNumber ? auth?.altPhoneNumber : auth?.phoneNumber

@@ -1,14 +1,17 @@
 import { handleErrors } from "../utils/handleResponse";
 import api from "../api/api";
 import coralApi from "../api/coral.api";
+import { decryptResponse } from "../utils/encrypt";
 
 const billsService = {
   getNetworkPlans: async () => {
     try {
       const response = await api.get("/bills/network-plans");
-      return response;
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
     }
   },
 
@@ -42,18 +45,22 @@ const billsService = {
   makePayment: async (data) => {
     try {
       const response = await api.post("/bills/make-payment", data);
-      return response;
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
     }
   },
 
   vend: async (data) => {
     try {
       const response = await api.post("/bills/vend", data);
-      return response;
+      const decryptedData = await decryptResponse(response.data);
+      return decryptedData;
     } catch (error) {
-      handleErrors(error);
+      const decryptedData = await decryptResponse(error.response.data);
+      handleErrors(decryptedData);
     }
   },
 };

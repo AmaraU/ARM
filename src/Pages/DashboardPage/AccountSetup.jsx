@@ -17,7 +17,7 @@ export const AccountSetup = () => {
 
   const [transPINFilled, setTransPINFilled] = useState(false);
   const [securityQuestionsFilled, setSecurityQuestionsFilled] = useState(false);
-  const [emailAddressFilled, setEmailAddressFilled] = useState(false);
+  const [emailAddressFilled] = useState(false);
 
   const { emailAddressVerification, secretQuestion, transactionPIN } =
     useSelector((state) => state.user.setupStatus) || {
@@ -33,13 +33,28 @@ export const AccountSetup = () => {
     setShowEmailAddress(false);
   };
 
+  const proceedTransactionPin = () => {
+    setAccountSetup(true);
+    setShowTransPIN(false);
+    setShowSecurityQuestion(false);
+    setShowEmailAddress(false);
+    setTransPINFilled(true);
+  };
+
+  const proceedSecurityQuestion = () => {
+    setAccountSetup(true);
+    setShowTransPIN(false);
+    setShowSecurityQuestion(false);
+    setShowEmailAddress(false);
+    setSecurityQuestionsFilled(true);
+  };
+
   const moveToTransPIN = () => {
     if (!transactionPIN) {
       setAccountSetup(false);
       setShowTransPIN(true);
       setShowSecurityQuestion(false);
       setShowEmailAddress(false);
-      setTransPINFilled(true);
     }
   };
   const moveToSecurityQuestions = () => {
@@ -48,16 +63,14 @@ export const AccountSetup = () => {
       setShowTransPIN(false);
       setShowSecurityQuestion(true);
       setShowEmailAddress(false);
-      setSecurityQuestionsFilled(true);
     }
   };
   const moveToEmailAddress = () => {
     // if (!emailAddressVerification) {
-      setAccountSetup(false);
-      setShowTransPIN(false);
-      setShowSecurityQuestion(false);
-      setShowEmailAddress(true);
-      setEmailAddressFilled(true);
+    setAccountSetup(false);
+    setShowTransPIN(false);
+    setShowSecurityQuestion(false);
+    setShowEmailAddress(true);
     // }
   };
 
@@ -95,13 +108,21 @@ export const AccountSetup = () => {
 
   const goBack = () => {
     window.location.href = "/overview/dashboard";
-  }
+  };
 
   return (
     <div className={styles.whole}>
       <HStack mb="40px" spacing="12px">
-        {accountSetup && <button onClick={goBack}><img src={getImageUrl("icons/blackLeftArrow.png")} /></button>}
-        <Text fontSize={{base: "18px", md: "24px"}} fontWeight={700} color="#101828">
+        {accountSetup && (
+          <button onClick={goBack}>
+            <img src={getImageUrl("icons/blackLeftArrow.png")} />
+          </button>
+        )}
+        <Text
+          fontSize={{ base: "18px", md: "24px" }}
+          fontWeight={700}
+          color="#101828"
+        >
           Complete Account Setup
         </Text>
       </HStack>
@@ -118,7 +139,7 @@ export const AccountSetup = () => {
             <Text
               flex="95%"
               textAlign="center"
-              fontSize={{base: "14px", md: "18px"}}
+              fontSize={{ base: "14px", md: "18px" }}
               fontWeight={600}
               color="#101828"
             >
@@ -134,20 +155,31 @@ export const AccountSetup = () => {
             py="16px"
             pb="114px"
           >
-            <Text w={{base: "90%", md: "75%"}} fontSize={{base: "12px", md: "16px"}} color="#667085" textAlign="center">
-              You're almost there! Please follow the steps below
+            <Text
+              w={{ base: "90%", md: "75%" }}
+              fontSize={{ base: "12px", md: "16px" }}
+              color="#667085"
+              textAlign="center"
+            >
+              You&apos;re almost there! Please follow the steps below
             </Text>
 
-            <Stack w={{base: "90%", md: "75%"}} bg="#F2F4F7" py="18px" px="16px" borderRadius="8px">
+            <Stack
+              w={{ base: "90%", md: "75%" }}
+              bg="#F2F4F7"
+              py="18px"
+              px="16px"
+              borderRadius="8px"
+            >
               <HStack
-                spacing="12px"
+                spacing="10px"
                 onClick={moveToTransPIN}
                 cursor="pointer"
                 w="fit-content"
-                alignItems='start'
+                alignItems="start"
               >
                 <Box
-                  p={{base: "6px", md: "8px"}}
+                  p={{ base: "6px", md: "8px" }}
                   borderRadius="38px"
                   border={
                     transactionPIN || transPINFilled
@@ -169,7 +201,12 @@ export const AccountSetup = () => {
                     />
                   </Box>
                 </Box>
-                <Text fontSize={{base: "12px", md: "16px"}} fontWeight={600} color="#0C111D">
+                <Text
+                  mt={1}
+                  fontSize={{ base: "12px", md: "16px" }}
+                  fontWeight={600}
+                  color="#0C111D"
+                >
                   Create transaction PIN
                 </Text>
               </HStack>
@@ -207,7 +244,11 @@ export const AccountSetup = () => {
                     />
                   </Box>
                 </Box>
-                <Text fontSize={{base: "12px", md: "16px"}} fontWeight={600} color="#0C111D">
+                <Text
+                  fontSize={{ base: "12px", md: "16px" }}
+                  fontWeight={600}
+                  color="#0C111D"
+                >
                   Add security question
                 </Text>
               </HStack>
@@ -245,7 +286,11 @@ export const AccountSetup = () => {
                     />
                   </Box>
                 </Box>
-                <Text fontSize={{base: "12px", md: "16px"}} fontWeight={600} color="#0C111D">
+                <Text
+                  fontSize={{ base: "12px", md: "16px" }}
+                  fontWeight={600}
+                  color="#0C111D"
+                >
                   Validate email address
                 </Text>
               </HStack>
@@ -253,7 +298,7 @@ export const AccountSetup = () => {
 
             <Button
               mt="16px"
-              w={{base: "90%", md: "75%"}}
+              w={{ base: "90%", md: "75%" }}
               h="48px"
               bg="#A41856"
               _hover={{ bg: "#90164D" }}
@@ -271,13 +316,13 @@ export const AccountSetup = () => {
       {showTransPIN && (
         <TransactionPIN
           moveToSetup={moveToSetup}
-          proceed={moveToSetup}
+          proceed={proceedTransactionPin}
           moveToSecurity={moveToSecurityQuestions}
         />
       )}
       {showSecurityQuestion && (
         <SecurityQuestions
-          proceed={moveToSetup}
+          proceed={proceedSecurityQuestion}
           moveToSetup={moveToSetup}
           moveToEmailAddress={moveToEmailAddress}
         />

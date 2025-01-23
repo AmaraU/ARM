@@ -55,7 +55,13 @@ export const UpgradeAccount = () => {
     governmentIDCard,
     signature: signatureStatus,
     proofOfAddress: addressStatus,
-  } = useSelector((state) => state.user.setupStatus.identity);
+  } = useSelector((state) => state.user?.setupStatus?.identity) || {
+    bvn: false,
+    nin: false,
+    governmentIDCard: false,
+    signature: false,
+    proofOfAddress: false,
+  };
   const [frontDocument, setFrontDocument] = useState("");
   const [backDocument, setBackDocument] = useState("");
   const [signature, setSignature] = useState("");
@@ -510,7 +516,7 @@ export const UpgradeAccount = () => {
                     border={"1px solid #EAECF0"}
                     bg={"#F7F7F7"}
                     onChange={(e) => setBVN(e.target.value)}
-                    value={bvnStatus ? "***********" : ""}
+                    defaultValue={bvnStatus ? "***********" : ""}
                     disabled={bvnStatus}
                     _disabled={{ bg: "#EAECF0", color: "#8D9DA8" }}
                   />
@@ -540,7 +546,7 @@ export const UpgradeAccount = () => {
                     inputMode="numeric"
                     _placeholder={{ color: "#667085" }}
                     maxLength={11}
-                    value={ninStatus ? "***********" : ""}
+                    defaultValue={ninStatus ? "***********" : ""}
                     onInput={(e) =>
                       (e.target.value = e.target.value.slice(0, 11))
                     }
@@ -791,6 +797,9 @@ export const UpgradeAccount = () => {
                 w="80%"
                 h="48px"
                 isLoading={loading}
+                isDisabled={
+                  idNumber.length < 10 || !frontDocument || !backDocument
+                }
               >
                 Save and Continue
               </Button>

@@ -26,12 +26,12 @@ function SetupModal({ isOpen, close }) {
       <ModalOverlay />
       <ModalContent>
         <ModalBody rounded={"xl"}>
-          <Stack py={"10"}>
+          <Stack px={"3"} py={"6"}>
             <Text fontWeight={"600"} fontSize={"28"} textAlign={"start"}>
               Complete your account setup
             </Text>
 
-            <Text>
+            <Text pb={"2"} color={"#667085"}>
               You need to complete your account setup to ensure the security and
               integrity of your transactions conducted on ARM MFB.
             </Text>
@@ -43,7 +43,7 @@ function SetupModal({ isOpen, close }) {
               bg={"#A41856"}
               py={"4"}
               color={"white"}
-              mt={"2"}
+              mt={"12"}
               width={"100%"}
               _hover={{ bg: "#90164D" }}
             >

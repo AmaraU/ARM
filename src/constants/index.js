@@ -23,3 +23,7 @@ export const MONTHS = [
   "Nov",
   "Dec",
 ];
+
+export const CURRENT_DATE = new Date()
+  .toLocaleDateString("en-GB")
+  .replace(/\//g, "-"); // dd-MM-yyyy

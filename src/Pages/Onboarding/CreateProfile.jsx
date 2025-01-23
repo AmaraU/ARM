@@ -24,7 +24,6 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import styles from "./Onboarding.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setDetails } from "../../store/auth/auth.slice";
-import { handleErrors } from "../../utils/handleResponse";
 import authService from "../../services/authService";
 
 export const CreateProfile = () => {
@@ -126,31 +125,25 @@ export const CreateProfile = () => {
     }
   };
 
-  // const openVerifying = async () => {
-  //   try {
-  //     onOpenVerifying();
-  //     const payload = { ...auth };
-  //     delete payload["photo"];
-  //     const response = await authService.signup(payload);
-  //     console.log(response);
-  //     onCloseVerifying();
-  //     if (response) {
-  //       await dispatch(
-  //         setDetails({
-  //           accountNo: response.data.result.data.accountNumber,
-  //         })
-  //       );
-  //       navigate("/welcome");
-  //     }
-  //   } catch (error) {
-  //     onCloseVerifying();
-  //     handleErrors(error);
-  //   }
-  // };
-
-  const openVerifying = () => {
-    onCloseVerifying();
-    navigate("/welcome");
+  const openVerifying = async () => {
+    try {
+      onOpenVerifying();
+      const payload = { ...auth };
+      delete payload["photo"];
+      const response = await authService.signup(payload);
+      console.log(response);
+      onCloseVerifying();
+      if (response) {
+        await dispatch(
+          setDetails({
+            accountNo: response.data.result.data.accountNumber,
+          })
+        );
+        navigate("/welcome");
+      }
+    } catch {
+      onCloseVerifying();
+    }
   };
 
   return (
@@ -159,7 +152,7 @@ export const CreateProfile = () => {
         alignItems="center"
         spacing={5}
         py={"38px"}
-        px={{base: "24px", md: "15%", lg: "25%"}}
+        px={{ base: "24px", md: "15%", lg: "25%" }}
         bgImage={getImageUrl("onboardingBackground.png")}
         bgSize="100% 100%"
       >
@@ -179,11 +172,19 @@ export const CreateProfile = () => {
             </CircularProgressLabel>
           </CircularProgress>
         </Flex>
-        <Text fontSize={{base: "30px", md: "48px"}} fontWeight={700} color="#14142A">
-          Create your profile
+        <Text
+          fontSize={{ base: "30px", md: "48px" }}
+          fontWeight={700}
+          color="#14142A"
+        >
+          Create your password
         </Text>
-        <Text fontSize={{base: "14px", md: "18px"}} fontWeight={400} color="#667085">
-          Enter your details to setup your profile
+        <Text
+          fontSize={{ base: "14px", md: "18px" }}
+          fontWeight={400}
+          color="#667085"
+        >
+          Secure your account with a strong password
         </Text>
 
         <Stack w="100%" spacing="16px">
@@ -235,9 +236,9 @@ export const CreateProfile = () => {
             </Box>
             <Box
               display="flex"
-              flexDirection={{base: "column", md: "row"}}
+              flexDirection={{ base: "column", md: "row" }}
               gap="16px"
-              alignItems={{base: "start", md: "center"}}
+              alignItems={{ base: "start", md: "center" }}
               justifyContent="space-between"
             >
               <div
@@ -280,7 +281,7 @@ export const CreateProfile = () => {
                 <div className={styles.checkbox}>
                   <img src={getImageUrl("icons/whiteCheck.png")} />
                 </div>
-                One special symbol {"(@!><|.?*&%$)"}
+                One special character {"(@!><|.?*&%$)"}
               </div>
             </Box>
           </Stack>

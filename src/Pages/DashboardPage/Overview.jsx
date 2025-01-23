@@ -39,7 +39,11 @@ export const Overview = () => {
   const { transactions, loading } = useSelector((state) => state.transactions);
   const accounts = useSelector((state) => state.user.accountBalance) || [];
   const { emailAddressVerification, secretQuestion, transactionPIN } =
-    useSelector((state) => state.user.setupStatus);
+    useSelector((state) => state.user.setupStatus) || {
+      emailAddressVerification: false,
+      secretQuestion: false,
+      transactionPIN: false,
+    };
 
   const dispatch = useDispatch();
 
@@ -56,11 +60,9 @@ export const Overview = () => {
     setInfoPopup(false);
   }
 
-  const hideBalance = () => {
-    return "****************";
-  };
+
   const hideBalanceShort = () => {
-    return "******";
+    return "****************"
   };
 
   const formatNumber = (number) => {

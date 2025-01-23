@@ -119,7 +119,7 @@ function LoanOffer({ title, moveToOne, moveNext }) {
           py={"15px"}
           px={"20px"}
           bg={"#EFECE9"}
-          _hover={{ bg: "#90164D" }}
+          _hover={{ bg: "#E3E1DE" }}
           fontSize={"14px"}
           fontWeight={600}
         >

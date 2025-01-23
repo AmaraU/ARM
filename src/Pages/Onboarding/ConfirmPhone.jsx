@@ -27,7 +27,7 @@ import { useDispatch } from "react-redux";
 import { setDetails } from "../../store/auth/auth.slice";
 
 export const ConfirmNumber = ({ isOpen, onClose, phoneNumber, email }) => {
-  const [title, setTitle] = useState("Confirm Phone Number");
+  const [title] = useState("Confirm Phone Number");
   const [isAlternate, setIsAlternate] = useState(false);
   const [loading, setLoading] = useState(false);
   const [altPhoneNumber, setAltPhoneNumber] = useState("");
@@ -39,37 +39,33 @@ export const ConfirmNumber = ({ isOpen, onClose, phoneNumber, email }) => {
     onClose();
   };
 
-  const alternate = () => {
-    setTitle("Provide Alternate Number");
-    setIsAlternate(true);
-  };
-
-  // const confirmNumber = async () => {
-  //   setLoading(true);
-  //   if (altPhoneNumber) {
-  //     dispatch(
-  //       setDetails({
-  //         altPhoneNumber,
-  //       })
-  //     );
-  //   }
-
-  //   try {
-  //     setLoading(true);
-  //     await authService.sendOtp({
-  //       phoneOrAccountnumber: altPhoneNumber ? altPhoneNumber : phoneNumber,
-  //       email: email,
-  //     });
-  //     navigate("/verify-number");
-  //     setLoading(false);
-  //   } catch (error) {
-  //     handleErrors(error.message);
-  //     setLoading(false);
-  //   }
+  // const alternate = () => {
+  //   setTitle("Provide Alternate Number");
+  //   setIsAlternate(true);
   // };
 
-  const confirmNumber = () => {
-    navigate("/verify-number");
+  const confirmNumber = async () => {
+    setLoading(true);
+    if (altPhoneNumber) {
+      dispatch(
+        setDetails({
+          altPhoneNumber,
+        })
+      );
+    }
+
+    try {
+      setLoading(true);
+      await authService.sendOtp({
+        phoneOrAccountnumber: altPhoneNumber ? altPhoneNumber : phoneNumber,
+        email: email,
+      });
+      navigate("/verify-number");
+      setLoading(false);
+    } catch (error) {
+      handleErrors(error.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -120,7 +116,7 @@ export const ConfirmNumber = ({ isOpen, onClose, phoneNumber, email }) => {
               {isAlternate && (
                 <Stack spacing={4} alignItems={"center"}>
                   <Text fontSize={"14px"} fontWeight={400} color={"#000000"}>
-                    Kindly note that OTP would be sent to number you provide
+                    Kindly note that an OTP would be sent to the number you provided
                   </Text>
                   <FormControl isRequired>
                     <FormLabel
@@ -168,7 +164,7 @@ export const ConfirmNumber = ({ isOpen, onClose, phoneNumber, email }) => {
               >
                 Continue
               </Button>
-              {!isAlternate && (
+              {/* {!isAlternate && (
                 <Button
                   onClick={alternate}
                   bg={"#EFECE9"}
@@ -180,7 +176,7 @@ export const ConfirmNumber = ({ isOpen, onClose, phoneNumber, email }) => {
                 >
                   Edit phone number
                 </Button>
-              )}
+              )} */}
             </Stack>
           </ModalFooter>
         </ModalContent>

@@ -251,7 +251,7 @@ export const OngoingLoan = ({ showNewLoan=false, onLoanHandled }) => {
     <>
       {showOptions && currentLoans.length > 0 ? (
         <CurrentLoans currentLoans={currentLoans} />
-      ) : (!showOne && !showTwo && !showThree && !showFour && !showFive && !showSix && !showStaff && !showInvestment && !showSuccess && !showInvestmentBacked) ? (
+      ) : (!showOne && !showTwo && !showThree && !showFour && !showFive && !showSix && !showStaff && !showInvestment && !showSuccess && !showInvestmentBacked && !showVerifyEmail) ? (
         <EmptyLoan moveToOne={moveToOne} />
       ) : null}
 
